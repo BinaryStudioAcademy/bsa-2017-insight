@@ -1,0 +1,5 @@
+@import './frontend/src/common/styles/variables.scss';
+
+:local(.project-name) {
+    color: $mainColor;
+}

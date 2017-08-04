@@ -6,7 +6,18 @@ var userSchema = new Schema({
     login: String,
     userName: String,
     userSurname: String,
-    avatar: String
+    userEmail: String,
+    userPhone: Number,
+    userCompany: String,
+    userAge: Number,
+    userGender: Boolean,
+    userCity: String,
+    userCountry: String,
+    userLanguage: String,
+    avatar: String,
+    totalNumberOfSessions: Number,
+    firstEnterDate: Date,
+    lastEnterDate: Date, 
 });
 
 module.exports = mongoose.model('User', userSchema); 

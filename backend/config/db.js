@@ -1,6 +1,6 @@
 module.exports = {
-	dbname: 'intercom',
-	uri: 'mongodb://localhost/intercom',
+	dbname: 'insight',
+	uri: 'mongodb://localhost/insight',
 	mocked_db: false,
 	opts: {
 		server: {

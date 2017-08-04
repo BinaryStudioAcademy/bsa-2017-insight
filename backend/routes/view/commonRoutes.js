@@ -6,10 +6,4 @@ module.exports = function(app) {
 		res.header = ('Content-Type', 'text/html');
 		res.sendFile(path.resolve(__dirname + '/../../../index.html'));
 	});
-
-	app.get('/test/', function(req, res, next) {
-		res.data = {message: 'WORKS!'};
-		res.err = null;
-		next();
-	}, apiResponse);
 };

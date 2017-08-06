@@ -3,10 +3,10 @@ var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
     globalId: Schema.Types.ObjectId,
-    login: String,
-    userName: String,
+    login: { type: String, unique: true, required: true },
+    userName: { type: String, required: true }, 
     userSurname: String,
-    userEmail: String,
+    userEmail: { type: String, unique: true, required: true },
     userPhone: Number,
     userCompany: String,
     userAge: Number,
@@ -14,10 +14,13 @@ var userSchema = new Schema({
     userCity: String,
     userCountry: String,
     userLanguage: String,
+    created: { type: Date, default: Date.now()},
     avatar: String,
     totalNumberOfSessions: Number,
-    firstEnterDate: Date,
+    //firstEnterDate: Date,
     lastEnterDate: Date, 
 });
+
+//userSchema.method.hello = function(){}
 
 module.exports = mongoose.model('User', userSchema); 

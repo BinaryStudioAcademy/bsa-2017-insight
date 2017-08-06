@@ -7,6 +7,7 @@ module.exports = {
 			auto_reconnect: true,
 			poolSize: 40
 		},
-		user: 'root'
+		user: 'root',
+		message:'root'
 	},
 };

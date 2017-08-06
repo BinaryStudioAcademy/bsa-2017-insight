@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const widgetSchema = new Schema({
-  user: { type: Schema.Types.Object, ref: 'Visitor' },
+  user: { type: Schema.Types.Object, ref: 'User' },
   options: {
     // думаю можно будет создать несколько наиболее потимальных пресетов по позиции и использовать по ключевому слову
     // соответствующий

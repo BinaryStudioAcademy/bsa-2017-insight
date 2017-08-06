@@ -1,20 +1,9 @@
-const userRepository = require('../../repositories/userRepository');
+const widgetRepository = require('../../repositories/widgetRepository');
 
 module.exports = (app) => {
-  app.get('/api/users/', (req, res) => {
-    userRepository.getAll((err, data) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(400);
-      } else {
-        res.status(200).json(data);
-      }
-    });
-  });
-
-  app.get('/api/users/:id', (req, res) => {
+  app.get('/api/widgets/:id', (req, res) => {
     const id = req.params.id;
-    userRepository.findOneAndPopulate(id, (err, data) => {
+    widgetRepository.findOneAndPopulate(id, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -24,8 +13,8 @@ module.exports = (app) => {
     });
   });
 
-  app.post('/api/users/', (req, res) => {
-    userRepository.add(req.body, (err, data) => {
+  app.post('/api/widgets/', (req, res) => {
+    widgetRepository.add(req.body, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -35,9 +24,9 @@ module.exports = (app) => {
     });
   });
 
-  app.put('/api/users/:id', (req, res) => {
+  app.put('/api/widgets/:id', (req, res) => {
     const id = req.params.id;
-    userRepository.update(id, req.body, (err, data) => {
+    widgetRepository.update(id, req.body.path, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -47,9 +36,9 @@ module.exports = (app) => {
     });
   });
 
-  app.delete('/api/users/:id', (req, res) => {
+  app.delete('/api/widgets/:id', (req, res) => {
     const id = req.params.id;
-    userRepository.delete(id, (err, data) => {
+    widgetRepository.delete(id, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -58,4 +47,5 @@ module.exports = (app) => {
       }
     });
   });
+
 };

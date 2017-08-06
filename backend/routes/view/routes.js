@@ -1,5 +1,3 @@
-module.exports = function(app) {
-	return {
-		commonRoutes: require('./commonRoutes')(app)
-	};
-};
+const commonRoutes = require('./commonRoutes');
+
+module.exports = app => ({ commonRoutes: commonRoutes(app) });

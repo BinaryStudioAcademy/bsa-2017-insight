@@ -11,6 +11,7 @@ const bodyParser = require('body-parser'),
     webpackConfig = require('../webpack.config.js'),
     webpackDevMiddleware = require('webpack-dev-middleware'),
     webpackHotMiddleware = require('webpack-hot-middleware'),
+    cookieParser = require('cookie-parser'),
     port = 3000;
 
 const app = express();
@@ -24,8 +25,23 @@ app.use(session({
     })
 }));
 
+
+app.use(cookieParser('my secret password here'));
+
+app.use(function (req, res, next) {//TODO: add check if admin ONLY then set cookie
+    const EXPIRES = 86400000; // one day
+    res.cookie('admin','isTrue', { 
+        expires: new Date(Date.now() + EXPIRES), 
+        httpOnly: true,
+        path: '/admin',
+        signed: true,
+    })
+    next();
+})
+
+
 context.mongoStore = new MongoStore({
-    mongooseConnection: mongooseConnection
+  mongooseConnection: mongooseConnection,
 });
 
 const compiler = webpack(webpackConfig);

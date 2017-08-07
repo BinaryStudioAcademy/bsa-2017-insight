@@ -15,7 +15,7 @@ var userSchema = new Schema({
     telNumber: String,
     counrty: String,
     userStatInfo:{type: Schema.Types.ObjectId,ref:"userstat"},
-    chats:[ChatSchema],
+    chats:[{type: Schema.Types.ObjectId,ref:"Chat"}],
     userType:{
         admin: Boolean,
         loginnedUser: Boolean,

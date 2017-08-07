@@ -13,11 +13,13 @@ ChatRepository.prototype = new Repository();
 
 ChatRepository.prototype.createChat = function(data, callback) {
    var model = this.model;
-    console.log(data,"body++++++")
-   var sender = data.users[0]
-   var reciever = data.users[1]
-  var newitem = new model(data);
-     newitem.save( UserRepository.model.update({"_id":sender,"_id":reciever},{$push:{"chats":newitem._id}},callback))
+    
+   var first = data.users[0]
+   var second = data.users[1]
+   var newitem = new model(data);
+     newitem.save( UserRepository.model.update({"_id":first},{$push:{"chats":newitem._id}},function(){
+         UserRepository.model.update({"_id":second},{$push:{"chats":newitem._id}},callback)
+     }))
   
 
     

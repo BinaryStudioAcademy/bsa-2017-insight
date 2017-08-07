@@ -36,6 +36,7 @@ const staticPath = path.resolve(__dirname + '/../dist/');
 app.use(express.static(staticPath));
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
     //console.log(req.session.user);
     next();

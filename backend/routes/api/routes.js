@@ -1,7 +1,9 @@
-const userRoutes = require('./userRoutes');
+// const userRoutes = require('./userRoutes');
+const appRoutes = require('./appRoutes');
 
-module.exports = function (app) {
+module.exports = function(app) {
     return {
-        userRoutes: userRoutes(app)
+        // userRoutes: userRoutes(app),
+        appRoutes: appRoutes(app)
     };
 };

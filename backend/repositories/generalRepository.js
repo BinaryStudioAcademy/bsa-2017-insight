@@ -3,6 +3,7 @@ var Repository = function(){
 };
 
 Repository.prototype.add = function(data, callback){
+	console.log(data)
 	var model = this.model;
 	var newitem = new model(data);
 	newitem.save(callback);

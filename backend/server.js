@@ -35,7 +35,9 @@ app.use(webpackHotMiddleware(compiler));
 const staticPath = path.resolve(__dirname + '/../dist/');
 app.use(express.static(staticPath));
 
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
+
 app.use(function (req, res, next) {
     //console.log(req.session.user);
     next();

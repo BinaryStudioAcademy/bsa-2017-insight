@@ -38,6 +38,7 @@ module.exports = function(app) {
 
 	app.get('/api/users/',function (req,res,next) {
 		userRepository.getAll(function (err,data) {
+			console.log("++++")
 			res.data = data;
 			res.err = err;
 			next();

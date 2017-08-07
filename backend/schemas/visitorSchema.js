@@ -24,7 +24,6 @@ const visitorSchema = new Schema({
   },
   conversations: [{ type: Schema.Types.ObjectId, ref: 'Conversation' }], // массив, состоящий из айди всех чатов юзера
   activeConversation: { type: Schema.Types.ObjectId, ref: 'Conversation' }, // по идее активный чат должен всегда быть только один
-  widget: { type: Schema.Types.ObjectId, ref: 'Widget' }, // виджет с индивидуальными настройками данного пользователя
 });
 
 module.exports = mongoose.model('Visitor', visitorSchema);

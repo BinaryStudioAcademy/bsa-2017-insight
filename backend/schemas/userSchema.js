@@ -1,12 +1,32 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const conversationSchema = require('./conversationSchema');
+const Schema = mongoose.Schema;
 
-var userSchema = new Schema({
+const userSchema = new Schema({
     globalId: Schema.Types.ObjectId,
-    login: String,
-    userName: String,
-    userSurname: String,
-    avatar: String
+    name: {
+    	first: String,
+    	last: String
+    },
+    age: Number,
+    sex: String,
+	location: {
+    	country: String,
+    	city: String
+    },
+    timezoneOffset: Number,
+    contacts: {
+    	email: String,
+    	phone: String
+    },
+    avatar: String,
+    company: String,
+    language: String,
+    signUpDate: Date,
+    lastSeenDate: Date,
+    accountType: String,
+    conversations: [conversationSchema],
+    status: String
 });
 
-module.exports = mongoose.model('User', userSchema); 
+module.exports = mongoose.model('User', userSchema);

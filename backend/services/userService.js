@@ -1,5 +1,5 @@
 var async = require('async');
-var userRepository = require('../repositories/userRepository');
+var userRepository = require('../repositories/visitorRepository');
 
 module.exports = function (id, onResult) {
     let resData = {};

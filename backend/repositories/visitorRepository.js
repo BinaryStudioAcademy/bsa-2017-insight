@@ -10,8 +10,8 @@ visitorRepository.oneMoreFunction = function (userId, obj, callback) {
     $push: {
       property: {
         nestedProperty: value,
-      }
-    }
+      },
+    },
   }, {});
   query.exec(callback);
 };

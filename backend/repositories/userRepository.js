@@ -1,4 +1,4 @@
-var connection = require('../db/dbconnect');
+var connection = require('../db/dbConnect');
 var Repository = require('./generalRepository');
 var User = require('../schemas/userSchema');
 

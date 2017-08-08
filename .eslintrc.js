@@ -1,3 +1,9 @@
+/*{
+  "extends": ["airbnb-standard"]
+}*/
+
+
+
 module.exports = {
   extends: "airbnb",
   env: {

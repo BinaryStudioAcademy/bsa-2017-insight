@@ -1,26 +1,38 @@
+const registeredUserId = localStorage.getItem('user').id;
+const statisticId = localStorage.getItem('user').statisticId;
 const globalId = localStorage.getItem('globalId');
+
+if (registeredUserId) {
+  userStatistic.visitorId = registeredUserId;
+} else if (globalId) {
+  userStatistic.visitorId = globalId;
+  // send put userStatistic object
+  // на сервере проверять не _id, а visitorId
+} else {
+  const newGlobalId = setId();
+  serStatistic.visitorId = newGlobalId;
+  localStorage.set
+  // sending post userStatistic object
+}
+
 let geolocationWatcherId;
 
 const userStatistic = {
-  // globalId,
-  name: null,
-  email: null,
-  online: navigator.onLine, // не уверен что нужно
-  avatar: null,
-  statistics: {
-    viewedUrls: JSON.parse(localStorage.getItem('urlHistory')),
-    currentUrl: location.href,
-    browserLanguage: navigator.language,
-    geoLocation: null,
-    // country: определять по координатам или по ip? не знаю как лушче, но кажется это стоит делать на стороне сервера
-    // city: та же история
-    screenInfo: screen,
-    // эту строку на сервере распарсить и получить и браузер, и версию браузера, и ОС; или лучше парсить тут? но тогда
-    // нужна мини-библиотечка с регекспами походу
-    userAgent: navigator.userAgent,
-    timeZone: -((new Date()).getTimezoneOffset() / 60),
-    ipInfo: null, // тут сразу город, страна, ip, координаты, регион; КОНФЛИКТУЕТ С GEOLOCATION - что выбирать?
-  },
+  visitorId: globalId, // or registeredId
+  viewedUrls: JSON.parse(localStorage.getItem('urlHistory')),
+  currentUrl: location.href,
+  browserLanguage: navigator.language,
+  geoLocation: null,
+  online: navigator.onLine,
+  // country: определять по координатам или по ip? не знаю как лушче, но кажется это стоит делать на стороне сервера
+  // city: та же история
+  screenInfo: screen,
+  // эту строку на сервере распарсить и получить и браузер, и версию браузера, и ОС; или лучше парсить тут? но тогда
+  // нужна мини-библиотечка с регекспами походу
+  userAgent: navigator.userAgent,
+  timeZone: -((new Date()).getTimezoneOffset() / 60),
+  ipInfo: null, // тут сразу город, страна, ip, координаты, регион; КОНФЛИКТУЕТ С GEOLOCATION - что выбирать?
+  // city: брать из IpInfo
 };
 
 function fillUserInfo() {
@@ -59,7 +71,7 @@ function getGeolocation() {
   }
 }
 
-function getUserIp() {
+function getUserIp(id) {
   fetch('https://ipinfo.io/json')
     .then(response => response.json()
       .then((data) => {
@@ -75,7 +87,7 @@ function sendData() {
     body: JSON.stringify(userStatistic),
     method: 'POST', // вообще это всегда PUT, просто пут нужно настраивать различать id, сейчас нет времени
   };
-  fetch('http://localhost:3000/api/visitors', requestOptions)
+  fetch('http://localhost:3000/api/statistics', requestOptions)
     .then(response => response.json())
     .then(data => console.log(data));
 }
@@ -103,7 +115,6 @@ window.onload = () => {
   userStatistic.statistics.currentUrl = location.href;
   fillUserInfo();
   getUserIp();
-  getGeolocation();
   saveUrlHistory();
   sendData();
 };

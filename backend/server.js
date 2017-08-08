@@ -11,10 +11,13 @@ const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+const cors = require('cors');
 
 const port = 3000;
 
 const app = express();
+
+app.use(cors());
 
 app.use(session({
   secret: sessionSecret,

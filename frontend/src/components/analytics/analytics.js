@@ -1,24 +1,5 @@
-const registeredUserId = localStorage.getItem('user').id;
-const statisticId = localStorage.getItem('user').statisticId;
-const globalId = localStorage.getItem('globalId');
-
-if (registeredUserId) {
-  userStatistic.visitorId = registeredUserId;
-} else if (globalId) {
-  userStatistic.visitorId = globalId;
-  // send put userStatistic object
-  // на сервере проверять не _id, а visitorId
-} else {
-  const newGlobalId = setId();
-  serStatistic.visitorId = newGlobalId;
-  localStorage.set
-  // sending post userStatistic object
-}
-
-let geolocationWatcherId;
-
 const userStatistic = {
-  visitorId: globalId, // or registeredId
+  visitorId: null, // or registeredId
   viewedUrls: JSON.parse(localStorage.getItem('urlHistory')),
   currentUrl: location.href,
   browserLanguage: navigator.language,
@@ -34,6 +15,32 @@ const userStatistic = {
   ipInfo: null, // тут сразу город, страна, ip, координаты, регион; КОНФЛИКТУЕТ С GEOLOCATION - что выбирать?
   // city: брать из IpInfo
 };
+
+const registeredUserId = localStorage.getItem('user').id;  // при логине, пусть компонент берет айди с локалстораджа
+// при регистрации,создается не только объект юзера, но также и объект статистики этого юзера, обязательно с
+// указанным айди!!!!!!!!!!!!!!!!!!!!!!!!1111111111111111111111111111один
+const statisticId = localStorage.getItem('user').statisticId; // не понятно зачем нужна переменная
+const globalId = localStorage.getItem('globalId');
+
+let geolocationWatcherId;
+
+if (registeredUserId) {
+  userStatistic.visitorId = registeredUserId;
+  collectAllData();
+  sendStatistics(registeredUserId, 'PUT');
+} else if (globalId) {
+  userStatistic.visitorId = globalId;
+  collectAllData();
+  sendStatistics(globalId, 'PUT');
+  // на сервере проверять не _id, а visitorId
+} else {
+  const newGlobalId = setId(); // функция которая херачит айди
+  userStatistic.visitorId = newGlobalId;
+  localStorage.setItem('globalId', newGlobalId);
+  collectAllData();
+  sendUser(newGlobalId);
+  sendStatistics(null, 'POST');
+}
 
 function fillUserInfo() {
   if (globalId) {
@@ -79,15 +86,37 @@ function getUserIp(id) {
       }));
 }
 
-function sendData() {
+function sendStatistics(id, method) {
+  let url;
+  if (method === 'POST') {
+    url = 'http://localhost:3000/api/statistics';
+  } else {
+    url = `http://localhost:3000/api/statistics/${id}`;
+  }
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(userStatistic),
+    method, // вообще это всегда PUT, просто пут нужно настраивать различать id, сейчас нет времени
+  };
+  fetch(url, requestOptions)
+    .then(response => response.json())
+    .then(data => console.log(data));
+}
+
+function sendUser(id) {
+  const userObject = {
+    globalId: id,
+  };
+  const requestOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userObject),
     method: 'POST', // вообще это всегда PUT, просто пут нужно настраивать различать id, сейчас нет времени
   };
-  fetch('http://localhost:3000/api/statistics', requestOptions)
+  fetch('http://localhost:3000/api/visitors', requestOptions)
     .then(response => response.json())
     .then(data => console.log(data));
 }
@@ -109,15 +138,19 @@ function saveUrlHistory() {
   localStorage.setItem('urlHistory', JSON.stringify(newHistory));
 }
 
-window.onload = () => {
-  // это по идее работать не будет, ведь скрипт обновляется после каждого перехода на новый юрл?
-  // userStatistic.viewedUrls.push(location.href);
-  userStatistic.statistics.currentUrl = location.href;
+function collectAllData() {
+  userStatistic.currentUrl = location.href;
   fillUserInfo();
   getUserIp();
   saveUrlHistory();
   sendData();
-};
+}
+
+// window.onload = () => {
+//   // это по идее работать не будет, ведь скрипт обновляется после каждого перехода на новый юрл?
+//   // userStatistic.viewedUrls.push(location.href);
+//   collectAllData();
+// };
 
 window.onclick = () => {
   sendData();

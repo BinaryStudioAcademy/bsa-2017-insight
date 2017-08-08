@@ -23,12 +23,12 @@ adminSchema.methods.encryptPassword = function (password) {
 adminSchema.virtual("password")
     .set(function(password) {
         this._plainPassword = password;
-        this.salt = `${Math.random()}`;
+        this.salt = Math.random() + '';
         this.hashedPassword = this.encryptPassword(password);
 })
-    .get(() => { return this._plainPassword})
+    .get(function() { return this._plainPassword})
 
-adminSchema.methods.checkPassword = (password) => {
+adminSchema.methods.checkPassword = function(password) {
     return this.encryptPassword(password) === this.hashedPassword;
 }
 module.exports = mongoose.model("Admin" , adminSchema); 

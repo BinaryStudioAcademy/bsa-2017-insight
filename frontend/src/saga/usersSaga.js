@@ -1,4 +1,4 @@
-import { take, put, call } from 'redux-saga/effects';
+import { take, put } from 'redux-saga/effects';
 
 function* usersSaga() {
   yield take('GET_ALL_USERS');

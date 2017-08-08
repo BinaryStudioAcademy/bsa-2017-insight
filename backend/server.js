@@ -6,43 +6,18 @@ const bodyParser = require('body-parser'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session),
     sessionSecret = require('./config/session').secret,
-    mongoose = require('mongoose')
-    webpack = require('webpack');
+    mongoose = require('mongoose'),
+    webpack = require('webpack'),
     webpackConfig = require('../webpack.config.js'),
     webpackDevMiddleware = require('webpack-dev-middleware'),
     webpackHotMiddleware = require('webpack-hot-middleware'),
     cookieParser = require('cookie-parser'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy,
+    flash = require('connect-flash'),
     port = 3000;
 
 const app = express();
-
-app.use(session({
-    secret: sessionSecret,
-    resave: true,
-    saveUninitialized: true,
-    store: new MongoStore({
-        mongooseConnection: mongooseConnection
-    })
-}));
-
-
-app.use(cookieParser('my secret password here'));
-
-app.use(function (req, res, next) {//TODO: add check if admin ONLY then set cookie
-    const EXPIRES = 86400000; // one day
-    res.cookie('admin','isTrue', { 
-        expires: new Date(Date.now() + EXPIRES), 
-        httpOnly: true,
-        path: '/admin',
-        signed: true,
-    })
-    next();
-})
-
-
-context.mongoStore = new MongoStore({
-  mongooseConnection: mongooseConnection,
-});
 
 const compiler = webpack(webpackConfig);
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
@@ -52,6 +27,34 @@ const staticPath = path.resolve(__dirname + '/../dist/');
 app.use(express.static(staticPath));
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+app.use(session({
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({
+        mongooseConnection: mongooseConnection
+    })
+}));
+
+app.use(passport.initialize());
+app.use(flash());
+app.use(passport.session());
+
+const Admin = require('./schemas/adminSchema');
+passport.use(new LocalStrategy(Admin.authenticate()));
+passport.serializeUser(Admin.serializeUser());
+passport.deserializeUser(Admin.deserializeUser());
+app.set('views', path.join(__dirname, 'static'));
+app.set('view engine', 'jade');
+
+context.mongoStore = new MongoStore({
+    mongooseConnection: mongooseConnection
+});
+
+
 app.use(function (req, res, next) {
     //console.log(req.session.user);
     next();

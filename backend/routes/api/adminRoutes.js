@@ -4,19 +4,46 @@ let adminRepository = require('../../repositories/adminRepository');
 var async = require('async');
 var Admin = require('../../schemas/adminSchema');
 
-module.exports = function(app) {
-    app.get('/api/admin/login', function(req, res, next) {
-            res.render("login"); //fronted page with login form
-            res.err = err;
-            next();
-    }, apiResponse);
-    
-    app.post('/api/admin/login', function(req, res, next) {
-        let login = req.body.login;
+module.exports = function(app) { 
+    //этот запрос должен быть перенесен куда-то потом
+    // app.get('/api/admin/login', function(req, res, next) {
+    //         res.render("login"); //fronted page with login form
+    //         res.err = err;
+    //         next();
+    // }, apiResponse);
+    app.post('/api/admin/registration', function(req, res, next) {
+        let email = req.body.email;
         let password = req.body.password;
         async.waterfall([
             function (callback) {
-                Admin.findOne({ "login": login }, callback); 
+                Admin.findOne({ "email": email }, callback); 
+            }, 
+            function(admin, callback) {
+                if(!admin) {
+                    adminRepository.add(req.body, function(err, admin) {
+                        res.admin = admin;
+                        console.log("Admin successfully pass the registration");
+                        callback(null, admin);
+                    });
+                } else {
+                    console.log("This admin have already been registered");
+                    res.redirect("/api/admin/login");
+                }
+            }
+        ], function (err, admin) {
+            res.admin = admin;
+            res.err = err;
+            res.redirect("/api/admin/login");
+            next();
+        });
+    }, apiResponse);
+    
+    app.post('/api/admin/login', function(req, res, next) {
+        let email = req.body.email;
+        let password = req.body.password;
+        async.waterfall([
+            function (callback) {
+                Admin.findOne({ "email": email }, callback); 
             }, 
             function(admin, callback) {
                 if(admin) {
@@ -24,18 +51,16 @@ module.exports = function(app) {
                         console.log("You are authorized successfully");
                         callback(null, admin);
                     } else {
+                        console.log("password is invalid");
                         if (err) return next (err);
                     }
                 } else {
-                    adminRepository.add(req.body, function(err, admin) {
-                        if (err) return next (err);
-                        res.admin = admin;
-                        callback(null, admin);
-                    });
+                        console.log("No such admin was found");
+                        res.redirect("/api/admin/registration");
+                        next();
                 }
             }
         ], function (err, admin) {
-            if (err) return next (err);
             req.session.admin = admin.globalId;
             res.admin = admin;
             res.err = err;

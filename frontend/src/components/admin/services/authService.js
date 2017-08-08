@@ -1,14 +1,17 @@
-class AuthService{
-  logIn(){
-    return fetch('./test.json', { method: 'get' })
-      .then((response) =>{
-         return response.json().catch((ex) => {
-      console.log('parsing failed', ex);
-    })
-  })}
-  logOut(){}
-  changePassword(){}
-}
+let AuthService = {
+    login: function (email, password) {
+
+        dataHelper.fetchPost('session', {email: email, password: password})
+            .then(resp => {
+                let {token,expires,user} = resp;
+                LoginActions.loginUser(token, expires,user);
+                console.log(token);
+            })
+            .catch(err => {
+                console.log(`Fetch post failed with error: ${err}`);
+            });
+    }
+};
 
 const authService = new AuthService();
 

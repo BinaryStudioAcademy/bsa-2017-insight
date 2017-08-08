@@ -6,6 +6,7 @@ class LogIn extends React.Component {
   
   login() {
     authService.logIn().then((data) => {
+      debugger;
       console.log(data);
     });
   }

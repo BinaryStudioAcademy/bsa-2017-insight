@@ -6,10 +6,10 @@ const Schema = mongoose.Schema;
 let adminSchema = new Schema({
     globalId: Schema.Types.ObjectId,
     isSuperUser: Boolean,
-    login: {type: String, required: true, unique: true}, 
+    email: {type: String, required: true, unique: true},
     hashedPassword: {type: String, required: true},
     salt: {type: String, required: true},
-    email: String,
+    login: String, 
     adminName: String,
     adminSurname: String,
     avatar: String, 

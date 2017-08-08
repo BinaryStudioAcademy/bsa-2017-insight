@@ -12,6 +12,8 @@ module.exports = {
       ignoreRegExpLiterals: true,
       ignoreStrings: true,
       ignoreTemplateLiterals: true,
-    }]
+    }],
+    "comma-dangle": ["error", "never"],
+    "react/prefer-stateless-function": 0
   }
 };

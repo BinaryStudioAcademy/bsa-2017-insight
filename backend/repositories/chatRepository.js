@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
 var connection = require('../db/dbconnect');
 var Repository = require('./generalRepository');
-var App = require('../schemas/appSchema');
+var Chat = require('../schemas/chatSchema');
 
-function AppRepository() {
+function ChatRepository() {
 	Repository.prototype.constructor.call(this);
-	this.model = App;
+	this.model = Chat;
 }
 
-AppRepository.prototype = new Repository();
+ChatRepository.prototype = new Repository();
 
-module.exports = new AppRepository();
+module.exports = new ChatRepository();

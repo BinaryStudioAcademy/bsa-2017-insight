@@ -2,6 +2,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
+    appId: {
+        type: Schema.ObjectId,
+        required: true
+    },
+    tariff: String,
     name: String,
     surname: String,
     nickname: {
@@ -22,11 +27,7 @@ var userSchema = new Schema({
     email: String,
     phone: String,
     gender: String,
-    age: String,
-    chatNum: {
-        type: Number,
-        default: 0
-    },
+    birstday: Date,
     registered: Date,
     firstVisit: Date,
     lastVisit: Date,
@@ -56,4 +57,4 @@ var userSchema = new Schema({
     }
 });
 
-module.exports = userSchema;
+module.exports = mongoose.model('User', userSchema);

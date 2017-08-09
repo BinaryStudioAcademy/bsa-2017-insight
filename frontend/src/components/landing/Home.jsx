@@ -15,7 +15,7 @@ WebFont.load({
 class Home extends React.Component {
   render() {
     return (
-      <div className={styles['container']}>
+      <div className={styles.container}>
         <Header />
         <Switch>
           <Route exact path={'/'} component={HomeContent} />

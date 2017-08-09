@@ -1,15 +1,22 @@
 import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import Hello from './components/hello/hello';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { store, sagaMiddleware } from './store';
+import rootSaga from './saga/rootSaga';
 
 render(
+  <Provider store={store}>
     <BrowserRouter>
-        <Switch>
-            <Route exact path='/' component={Hello}/>
-            <Route exact path='/hello' component={Hello}/>
-        </Switch>
+      <Switch>
+        <Route exact path={'/'} component={Hello} />
+        <Route exact path={'/hello'} component={Hello} />
+      </Switch>
     </BrowserRouter>
-    , document.getElementById('root')
-)
+  </Provider>
+  , document.getElementById('root'),
+);
+
+sagaMiddleware.run(rootSaga);

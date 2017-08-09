@@ -4,11 +4,10 @@ module.exports = {
   devtool: 'eval-source-map',
   entry: './src/main.jsx',
   output: {
-    path: __dirname + '/dist',
+    path: `${__dirname}/dist`,
     filename: 'bundle.js',
   },
-
-  context: __dirname + '/frontend',
+  context: `${__dirname}/frontend`,
   devServer: {
     contentBase: 'public',
   },

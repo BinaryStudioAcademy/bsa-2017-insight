@@ -7,7 +7,7 @@ let adminSchema = new Schema({
     globalId: Schema.Types.ObjectId,
     isSuperUser: Boolean,
     username: {type: String, required: true, unique: true},
-    password: {type: String, required: true},
+    password: String,
     email: String,
     adminName: String,
     adminSurname: String,

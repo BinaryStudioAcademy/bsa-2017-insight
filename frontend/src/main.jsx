@@ -2,17 +2,21 @@ import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { Provider } from 'react-redux';
 import Hello from './components/hello/hello';
-import './common/styles/main.scss';
+import { store, sagaMiddleware } from './store';
+import rootSaga from './saga/rootSaga';
 
 render(
-  <MuiThemeProvider>
+  <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={Hello} />
-        <Route exact path="/hello" component={Hello} />
+        <Route exact path={'/'} component={Hello} />
+        <Route exact path={'/hello'} component={Hello} />
       </Switch>
     </BrowserRouter>
-  </MuiThemeProvider>
-  , document.getElementById('root'));
+  </Provider>
+  , document.getElementById('root'),
+);
+
+sagaMiddleware.run(rootSaga);

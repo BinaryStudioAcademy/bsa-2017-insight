@@ -1,5 +1,6 @@
 const apiResponse = require('express-api-response');
 const visitorRepository = require('../../repositories/visitorRepository');
+const mongoose = require('mongoose');
 
 // почему бы не использовать express.router? есть ли разница?
 
@@ -27,7 +28,9 @@ module.exports = (app) => {
   }, apiResponse);
 
   app.post('/api/visitors/', (req, res, next) => {
-    visitorRepository.add(req.body, (err, data) => {
+    const id = mongoose.Types.ObjectId(req.body.globalId);
+    const newData = Object.assign({}, req.body, { globalId: id });
+    visitorRepository.add(newData, (err, data) => {
       res.data = data;
       res.err = err;
       next();

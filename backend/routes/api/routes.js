@@ -3,6 +3,7 @@ const messageRoutes = require('./messageRoutes');
 const userRoutes = require('./userRoutes');
 const conversationRoutes = require('./conversationRoutes');
 const widgetRoutes = require('./widgetRoutes');
+const statisticsRoutes = require('./statisticsRoutes');
 
 module.exports = app => ({
   visitorRoutes: visitorRoutes(app),
@@ -10,4 +11,5 @@ module.exports = app => ({
   userRoutes: userRoutes(app),
   conversationRoutes: conversationRoutes(app),
   widgetRoutes: widgetRoutes(app),
+  statisticsRoutes: statisticsRoutes(app),
 });

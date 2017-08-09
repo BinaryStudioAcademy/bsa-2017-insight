@@ -13,7 +13,7 @@ $smallTextFont: 16px;
 	border-style: solid;
 	border-radius: 20px;
 	margin: 60px auto;
-	padding: 20px;
+	padding: 40px;
 	padding-top: 0px;
 	width: $formWidth;
 	height: $formHeight;
@@ -25,7 +25,7 @@ $smallTextFont: 16px;
 
 	label{
 		font-size: $smallTextFont;
-		line-height: $checkboxSize +7px;
+		line-height: $checkboxSize;
 		vertical-align: top;
 	}
 

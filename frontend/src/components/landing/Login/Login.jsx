@@ -26,8 +26,10 @@ class Login extends React.Component {
           <p>Enter your password</p>
           <input />
         </div>
+        <div className={styles['remember-me']}>
         <input type="checkbox" id="rememberMe" />
-        <label htmlFor="rememberMe">Remember me</label><br />
+          <label htmlFor="rememberMe">Remember me</label><br />
+        </div>
         <button onClick={this.handleLogIn}>Sign in</button>
       </div>
     );

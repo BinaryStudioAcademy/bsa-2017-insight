@@ -5,7 +5,7 @@ class Hello extends React.Component {
   render() {
     return (
       <div className={styles['project-name']}>Insight</div>
-    )
+    );
   }
 }
 

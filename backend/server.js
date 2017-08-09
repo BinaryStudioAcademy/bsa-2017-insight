@@ -1,21 +1,21 @@
 const bodyParser = require('body-parser'),
-    context = require('./units/context'),
-    express = require('express'),
-    mongooseConnection = require('./db/dbConnect').connection,
-    path = require('path'),
-    session = require('express-session'),
-    MongoStore = require('connect-mongo')(session),
-    sessionSecret = require('./config/session').secret,
-    mongoose = require('mongoose'),
-    webpack = require('webpack'),
-    webpackConfig = require('../webpack.config.js'),
-    webpackDevMiddleware = require('webpack-dev-middleware'),
-    webpackHotMiddleware = require('webpack-hot-middleware'),
-    cookieParser = require('cookie-parser'),
-    passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
-    flash = require('connect-flash'),
-    port = 3000;
+  context = require('./units/context'),
+  express = require('express'),
+  mongooseConnection = require('./db/dbConnect').connection,
+  path = require('path'),
+  session = require('express-session'),
+  MongoStore = require('connect-mongo')(session),
+  sessionSecret = require('./config/session').secret,
+  mongoose = require('mongoose'),
+  webpack = require('webpack'),
+  webpackConfig = require('../webpack.config.js'),
+  webpackDevMiddleware = require('webpack-dev-middleware'),
+  webpackHotMiddleware = require('webpack-hot-middleware'),
+  cookieParser = require('cookie-parser'),
+  passport = require('passport'),
+  LocalStrategy = require('passport-local').Strategy,
+  flash = require('connect-flash'),
+  port = 3000;
 
 const app = express();
 
@@ -31,12 +31,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(session({
-    secret: sessionSecret,
-    resave: false,
-    saveUninitialized: false,
-    store: new MongoStore({
-        mongooseConnection: mongooseConnection
-    })
+  secret: sessionSecret,
+  resave: true,
+  saveUninitialized: true,
+  store: new MongoStore({
+    mongooseConnection,
+  }),
 }));
 
 app.use(passport.initialize());
@@ -51,17 +51,17 @@ app.set('views', path.join(__dirname, 'static'));
 app.set('view engine', 'jade');
 
 context.mongoStore = new MongoStore({
-    mongooseConnection: mongooseConnection
+  mongooseConnection,
 });
 
 
 app.use(function (req, res, next) {
-    //console.log(req.session.user);
-    next();
+  //console.log(req.session.user);
+  next();
 });
 
 const apiRoutes = require('./routes/api/routes')(app),
-    viewRoutes = require('./routes/view/routes')(app);
+  viewRoutes = require('./routes/view/routes')(app);
 
 console.log(`app runs on port: ${port}`);
 const server = app.listen(port);

@@ -5,6 +5,9 @@ import styles from './styles.scss';
 import Header from './Header/Header';
 import HomeContent from './HomeContent/HomeContent';
 import Footer from './Footer/Footer';
+import Login from './Login/Login';
+import Pricing from './Pricing/Pricing';
+import Product from './Product/Product';
 
 WebFont.load({
   google: {
@@ -19,13 +22,13 @@ class Home extends React.Component {
         <Header />
         <Switch>
           <Route exact path={'/'} component={HomeContent} />
-          <Route path={'/engage'} component={HomeContent} />
-          <Route path={'/respond'} component={HomeContent} />
+          <Route path={'/engage'} component={Product} />
+          <Route path={'/respond'} component={Product} />
           <Route path={'/customers'} component={HomeContent} />
           <Route path={'/help'} component={HomeContent} />
           <Route path={'/about'} component={HomeContent} />
-          <Route path={'/pricing'} component={HomeContent} />
-          <Route path={'/login'} component={HomeContent} />
+          <Route path={'/pricing'} component={Pricing} />
+          <Route path={'/login'} component={Login} />
         </Switch>
         <Footer />
       </div>

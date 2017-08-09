@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import styles from './styles.scss';
 
 class FooterColumn extends React.Component {
@@ -33,5 +34,11 @@ class FooterColumn extends React.Component {
     );
   }
 }
+
+FooterColumn.propTypes = {
+  heading: PropTypes.string,
+  textItems: PropTypes.arrayOf(PropTypes.object),
+  imageItems: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default FooterColumn;

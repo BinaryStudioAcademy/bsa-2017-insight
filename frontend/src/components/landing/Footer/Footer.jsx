@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles.scss';
-import FooterColumn from './FooterColumn'
+import FooterColumn from './FooterColumn';
 
 class Footer extends React.Component {
   render() {

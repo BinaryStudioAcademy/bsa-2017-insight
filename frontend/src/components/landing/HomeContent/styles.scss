@@ -1,0 +1,84 @@
+@import './frontend/src/common/styles/variables.scss';
+
+:local(.home-content) {
+    padding: 10px 55px;
+}
+
+:local(.slogan) {
+    font-size: 36px;
+    font-weight: normal;
+    color: $landing-red;
+    width: 50%;
+    display: inline-block;
+    margin: 45px 0;
+
+    span {
+        font-weight: bold;
+    }
+}
+
+:local(.home-content-image) {
+    width: 300px;
+    margin: 45px 0;
+    float: right;
+    box-shadow: 0 0 5px #000;
+    transform: rotate(5deg);
+
+    img {
+        width: 100%;
+    }
+}
+
+:local(.home-content-products) {
+    margin: 20px 0 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+:local(.home-content-product) {
+    width: 300px;
+    padding-top: 10px;
+    text-align: center;
+    position: relative;
+
+    img {
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 0;
+        max-width: 100px;
+        max-height: 100px;
+    }
+
+    h3 {
+        color: $landing-orange;
+        font-size: 28px;
+        font-weight: 200;
+        margin-bottom: 15px;
+    }
+
+    span {
+        line-height: 1.4em;
+        width: 80%;
+        display: inline-block;
+    }
+
+    a {
+        margin-top: 25px;
+        display: inline-block;
+        padding: 12px 22px;
+        border: 1px solid $landing-lightgrey;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: all .3s ease;
+
+        &:visited {
+            color: $landing-darkgrey;
+        }
+
+        &:hover {
+            border-color: $landing-violet;
+        }
+    }
+}

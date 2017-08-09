@@ -1,0 +1,42 @@
+@import './frontend/src/common/styles/variables.scss';
+
+:local(.footer) {
+    border-top: 1px solid $landing-darkgrey;
+    display: flex;
+    padding: 0 10px 30px;
+}
+
+:local(.footer-column) {
+    flex-basis: 25%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+
+    h3 {
+        margin-top: 30px;
+        font-size: 24px;
+        font-weight: 300;
+        color: $landing-orange;
+    }
+
+    ul {
+        list-style-type: none;
+        margin: 10px 0 0 20px;
+    }
+
+    :local(.picture-list) {
+        display: inline-block;
+        width: 40px;
+        margin: 0 10px;
+        opacity: .8;
+    }
+
+    a {
+        color: $landing-middlegrey;
+        line-height: 1.85em;
+
+        &:hover {
+            color: $landing-violet;
+        }
+    }
+}

@@ -1,30 +1,35 @@
 import React from 'react';
 import styles from './styles.scss';
 
-class Login extends React.Component { 
-	constructor(){
-        super();
-        this.handleLogIn = this.handleLogIn.bind(this);
-    }
+class Login extends React.Component {
+  constructor() {
+    super();
+    this.handleLogIn = this.handleLogIn.bind(this);
+  }
 
-    handleLogIn(event){
-    	console.log("Button was clicked");
-    }
+  handleLogIn() {
+    console.log('Button was clicked');
+  }
 
-    render() {
-        return (
-        	<div>
-        		<p>Sing into your account</p>
-        		<p>Enter your email</p>
-        		<input placeholder="Email" ref="theInput"/>
-        		<p>Enter your password</p>
-        		<input placeholder="Password" ref="theInput"/><br/>
-        		<input type="checkbox" id="rememberMe"/>
-        		<label htmlFor="rememberMe">Remember me</label><br/>
-        		<button onClick={this.handleLogIn}>Remove User</button>
-        	</div>
-        )
-    }
+  render() {
+    return (
+      <div className={styles['login-form']}>
+        <h3>Sign into your account</h3>
+        <hr />
+        <div className={styles['get-data']}>
+          <p>Enter your email</p>
+          <input />
+        </div>
+        <div className={styles['get-data']}>
+          <p>Enter your password</p>
+          <input />
+        </div>
+        <input type="checkbox" id="rememberMe" />
+        <label htmlFor="rememberMe">Remember me</label><br />
+        <button onClick={this.handleLogIn}>Sign in</button>
+      </div>
+    );
+  }
 }
 
 export default Login;

@@ -1,1 +1,66 @@
 @import './frontend/src/common/styles/variables.scss';
+
+$formWidth: 400px;
+$formHeight: 280px;
+$checkboxSize: 20px;
+
+$headerFont: 24px;
+$textFont: 20px;
+$smallTextFont: 16px;
+
+:local(.login-form) {
+    border-width: 1px;
+	border-style: solid;
+	border-radius: 20px;
+	margin: auto;
+	padding: 20px;
+	padding-top: 0px;
+	width: $formWidth;
+	height: $formHeight;
+	text-align: center;
+
+	h3{
+		font-size: $headerFont;
+	}
+
+	label{
+		font-size: $smallTextFont;
+		line-height: $checkboxSize +7px;
+		vertical-align: top;
+	}
+
+	button{
+		border-radius: 10px;
+		width: 130px;
+		height: 35px;
+		font-size: $textFont;
+		margin: 10px;
+		background: linear-gradient(to bottom, white, $landing-lightgrey);
+		border-width: 1px;
+	}
+
+
+	#rememberMe{
+		border-radius: 4px;
+		width: $checkboxSize;
+		height: $checkboxSize;
+	}
+}
+
+:local(.get-data) {
+	margin: 5px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	p{
+		display: inline-block;
+		color: $landing-middlegrey;
+		font-size: $textFont;	
+	}
+
+	input{
+		border-radius: 10px;
+		height: 22px;
+	}
+}

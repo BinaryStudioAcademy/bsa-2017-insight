@@ -39,6 +39,7 @@ app.use(webpackHotMiddleware(compiler));
 
 const staticPath = path.resolve(`${__dirname}/../dist/`);
 app.use(express.static(staticPath));
+app.use('/uploads', express.static(path.join(__dirname, '/../uploads')));
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {

@@ -40,7 +40,6 @@ app.use(session({
   }),
 }));
 
-// app.use(expressSession({secret: 'mySecretKey'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -48,12 +47,7 @@ app.use(flash());
 const initPassport = require('./passport/init');
 initPassport(passport);
 
-/*const Admin = require('./schemas/adminSchema');
-passport.use(new LocalStrategy(Admin.authenticate()));
-passport.serializeUser(Admin.serializeUser());
-passport.deserializeUser(Admin.deserializeUser());*/
-// app.set('views', path.join(__dirname, 'static'));
-app.set('view engine', 'jade');// to remove!
+// app.set('view engine', 'jade');// to remove!
 
 context.mongoStore = new MongoStore({
   mongooseConnection,

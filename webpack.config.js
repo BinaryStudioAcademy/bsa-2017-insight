@@ -7,7 +7,6 @@ module.exports = {
     path: `${__dirname}/dist`,
     filename: 'bundle.js',
   },
-
   context: `${__dirname}/frontend`,
   devServer: {
     contentBase: 'public',

@@ -1,24 +1,11 @@
-var connection = require('../db/dbConnect');
-var Repository = require('./generalRepository');
-var User = require('../schemas/userSchema');
+const Repository = require('./generalRepository');
+const User = require('../schemas/userSchema');
 
-function UserRepository() {
-	Repository.prototype.constructor.call(this);
-	this.model = User;
-}
+const userRepository = Object.create(Repository.prototype);
+userRepository.model = User;
 
-UserRepository.prototype = new Repository();
-
-UserRepository.prototype.oneMoreFunction = function(userId, obj, callback) {
-	var model = this.model;
-	var query = model.findByIdAndUpdate(userId, {
-		$push: {
-			property:{
-				nestedProperty: value,
-			}
-		}
-	}, {});
-	query.exec(callback);
+userRepository.findOneAndPopulate = function (id, callback) {
+  this.model.findById({ _id: id }).populate('conversations').exec(callback);
 };
 
-module.exports = new UserRepository();
+module.exports = userRepository;

@@ -1,8 +1,8 @@
-const userRepository = require('../../repositories/userRepository');
+const messageRepository = require('../../repositories/messageRepository');
 
 module.exports = (app) => {
-  app.get('/api/users/', (req, res) => {
-    userRepository.getAll((err, data) => {
+  app.get('/api/messages/', (req, res) => {
+    messageRepository.getAll((err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -12,9 +12,9 @@ module.exports = (app) => {
     });
   });
 
-  app.get('/api/users/:id', (req, res) => {
+  app.get('/api/messages/:id', (req, res) => {
     const id = req.params.id;
-    userRepository.findOneAndPopulate(id, (err, data) => {
+    messageRepository.findOneAndPopulate(id, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -24,8 +24,8 @@ module.exports = (app) => {
     });
   });
 
-  app.post('/api/users/', (req, res) => {
-    userRepository.add(req.body, (err, data) => {
+  app.post('/api/messages/', (req, res) => {
+    messageRepository.add(req.body, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -35,10 +35,10 @@ module.exports = (app) => {
     });
   });
 
-  app.put('/api/users/:id', (req, res) => {
+  app.put('/api/messages/:id', (req, res) => {
     const id = req.params.id;
-    userRepository.update(id, req.body, (err, data) => {
-      if (err) {
+    messageRepository.update(id, req.body.path, (err, data) => {
+      if (err || data.nModified === 0) {
         console.log(err);
         res.sendStatus(400);
       } else {
@@ -47,9 +47,9 @@ module.exports = (app) => {
     });
   });
 
-  app.delete('/api/users/:id', (req, res) => {
+  app.delete('/api/messages/:id', (req, res) => {
     const id = req.params.id;
-    userRepository.delete(id, (err, data) => {
+    messageRepository.delete(id, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -59,3 +59,4 @@ module.exports = (app) => {
     });
   });
 };
+

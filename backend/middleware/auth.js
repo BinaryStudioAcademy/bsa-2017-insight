@@ -1,7 +1,7 @@
 var jsonwebtoken = require('jsonwebtoken'),
     tokenSecret = require('../config/token').secret,
     Cookies = require('cookies'),
-    userRepository = require('../repositories/userRepository'),
+    userRepository = require('../repositories/visitorRepository'),
     userService = require('../services/userService');
 
 module.exports = function(req, res, next) {

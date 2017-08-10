@@ -17,7 +17,6 @@ const socketConnectionHandler = require('./socketConnection');
 
 const app = express();
 
-
 app.use(
   session({
     secret: sessionSecret,
@@ -42,18 +41,18 @@ app.use(
 
 app.use(webpackHotMiddleware(compiler));
 
-const staticPath = path.resolve(__dirname + '/../dist/');
+const staticPath = path.resolve(`${__dirname}/../dist/`);
 app.use(express.static(staticPath));
 app.use('/resources', express.static('./frontend/src/common/resources'));
 
 app.use(bodyParser.json());
-app.use(function (req, res, next) {
-  //console.log(req.session.user);
+app.use((req, res, next) => {
+  // console.log(req.session.user);
   next();
 });
 
-const apiRoutes = require('./routes/api/routes')(app),
-  viewRoutes = require('./routes/view/routes')(app);
+const apiRoutes = require('./routes/api/routes')(app);
+const viewRoutes = require('./routes/view/routes')(app);
 
 console.log(`app runs on port: ${port}`);
 

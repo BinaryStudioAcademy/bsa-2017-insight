@@ -33,7 +33,8 @@
     "redux-saga": "^0.15.6",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
-    "webfontloader": "^1.6.28"
+    "webfontloader": "^1.6.28",
+    "which-browser": "^0.2.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.5.3",

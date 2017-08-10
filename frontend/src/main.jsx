@@ -11,7 +11,7 @@ import AdminPage from './components/admin/AdminPage';
 
 WebFont.load({
   google: {
-    families: ['Ubuntu:300,400,700'],
+    families: ['Ubuntu:300,400,700', 'Roboto'],
   },
 });
 

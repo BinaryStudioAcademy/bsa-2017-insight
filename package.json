@@ -12,6 +12,7 @@
   "dependencies": {
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-es2016": "^6.24.1",
     "body-parser": "^1.17.2",
     "cnfg": "^1.2.0",
@@ -21,17 +22,18 @@
     "express-api-response": "^0.4.0",
     "express-session": "^1.15.5",
     "image-webpack-loader": "^3.3.1",
+    "material-ui": "^0.18.7",
     "mongoose": "^4.11.5",
     "path": "^0.12.7",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "webfontloader": "^1.6.28",
     "react-redux": "^5.0.5",
+    "react-router-dom": "^4.1.2",
+    "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.7.2",
     "redux-saga": "^0.15.6",
-    "babel-polyfill": "^6.23.0",
-    "react-router-dom": "^4.1.2",
-    "prop-types": "^15.5.10"
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "autoprefixer": "^6.5.3",

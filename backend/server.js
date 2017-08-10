@@ -13,6 +13,7 @@ const bodyParser = require('body-parser'),
   webpackHotMiddleware = require('webpack-hot-middleware'),
   cookieParser = require('cookie-parser'),
   passport = require('passport'),
+  expressSession = require('express-session'),
   LocalStrategy = require('passport-local').Strategy,
   flash = require('connect-flash'),
   port = 3000;
@@ -28,7 +29,7 @@ app.use(express.static(staticPath));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(sessionSecret));
 
 app.use(session({
   secret: sessionSecret,
@@ -39,16 +40,20 @@ app.use(session({
   }),
 }));
 
+// app.use(expressSession({secret: 'mySecretKey'}));
 app.use(passport.initialize());
-app.use(flash());
 app.use(passport.session());
+app.use(flash());
 
-const Admin = require('./schemas/adminSchema');
+const initPassport = require('./passport/init');
+initPassport(passport);
+
+/*const Admin = require('./schemas/adminSchema');
 passport.use(new LocalStrategy(Admin.authenticate()));
 passport.serializeUser(Admin.serializeUser());
-passport.deserializeUser(Admin.deserializeUser());
-app.set('views', path.join(__dirname, 'static'));
-app.set('view engine', 'jade');
+passport.deserializeUser(Admin.deserializeUser());*/
+// app.set('views', path.join(__dirname, 'static'));
+app.set('view engine', 'jade');// to remove!
 
 context.mongoStore = new MongoStore({
   mongooseConnection,

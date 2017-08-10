@@ -14,6 +14,7 @@
     "babel-loader": "^7.1.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2016": "^6.24.1",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
     "bootstrap": "^3.3.7",
     "cnfg": "^1.2.0",
@@ -32,14 +33,13 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^1.0.0",
     "path": "^0.12.7",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
-    "redux": "^3.7.2",
-    "redux-saga": "^0.15.6",
-    "babel-polyfill": "^6.23.0",
     "react-router-dom": "^4.1.2",
-    "prop-types": "^15.5.10"
+    "redux": "^3.7.2",
+    "redux-saga": "^0.15.6"
   },
   "devDependencies": {
     "autoprefixer": "^6.5.3",

@@ -1,0 +1,76 @@
+@import './frontend/src/common/styles/variables.scss';
+
+:local(.header) {
+    height: 100px;
+    padding: 0 10px;
+    border-bottom: 1px solid $landing-middlegrey;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+:local(.logo) {
+    color: $landing-orange;
+    display: block;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 40px;
+
+    span {
+        text-decoration: underline;
+    }
+
+    &:hover {
+        color: $landing-red;
+    }
+}
+
+:local(.top-menu) {
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+:local(.top-menu-item) {
+    display: inline-block;
+    padding: 20px 0;
+    font-size: 18px;
+
+    a {
+        text-decoration: none;
+        color: $landing-darkgrey;
+
+        &:visited {
+            color: $landing-darkgrey;
+        }
+
+        &:hover {
+            color: $landing-violet;
+        }
+    }
+
+    ul {
+        display: none;
+    }
+
+    &:hover ul {
+        display: block;
+        position: absolute;
+        margin-top: 20px;
+        z-index: 999;
+        background: #fff;
+        border: 1px solid $landing-lightgrey;
+        box-shadow: 0 0 2px #000;
+        list-style-type: none;
+        padding: 10px 20px;
+
+        &:empty {
+            display: none;
+        }
+
+        li {
+            line-height: 1.8em;
+        }
+    }
+}

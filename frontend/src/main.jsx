@@ -13,9 +13,9 @@ render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route path={'/'} component={Home} />
         <Route exact path={'/adminlogin'} component={AdminLogin} />
         <Route exact path={'/adminregister'} component={AdminRegister} />
+        <Route path={'/'} component={Home} />
       </Switch>
     </BrowserRouter>
   </Provider>,

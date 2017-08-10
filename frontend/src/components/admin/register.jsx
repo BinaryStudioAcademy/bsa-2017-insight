@@ -9,7 +9,7 @@ class Register extends React.Component {
     return (
       <div>
         <div className={styles['project-name']}>Insight</div>
-        <form action="/register" method="post">
+        <form action="/api/admin/register" method="post">
           <div>
             <label>Username:</label>
             <input type="text" name="username"/>

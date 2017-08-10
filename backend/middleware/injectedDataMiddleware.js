@@ -8,9 +8,9 @@ module.exports = function (req, res, obj, error) {
         obj = { //should be deleted after authorization
             text: 'injectedData'
         }
-        // if (req.session && req.session.user) {
+        if (req.user) {
             obj = req.user;
-        // }
+        }
         res.header = ('Content-Type', 'text/html');
         fs.createReadStream(__dirname + '/../../index.html')
             .pipe(replaceStream("[\"data_replace\"]", JSON.stringify(obj).replace(/'/g, "\\'").replace(/\\\"/g, "\\\\\"")))

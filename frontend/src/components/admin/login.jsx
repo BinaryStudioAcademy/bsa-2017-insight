@@ -9,7 +9,7 @@ class Login extends React.Component {
     return (
       <div>
         <div className={styles['project-name']}>Insight</div>
-        <form action="/login" method="post">
+        <form action="/api/admin/login/" method="post">
           <div>
             <label>Username:</label>
             <input type="text" name="username"/>

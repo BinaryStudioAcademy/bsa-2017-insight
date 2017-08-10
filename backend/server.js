@@ -26,6 +26,7 @@ app.use(webpackHotMiddleware(compiler));
 
 const staticPath = path.resolve(__dirname + '/../dist/');
 app.use(express.static(staticPath));
+app.use('/resources', express.static('./frontend/src/common/resources'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -46,8 +47,6 @@ app.use(flash());
 
 const initPassport = require('./passport/init');
 initPassport(passport);
-
-// app.set('view engine', 'jade');// to remove!
 
 context.mongoStore = new MongoStore({
   mongooseConnection,

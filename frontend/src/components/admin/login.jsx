@@ -9,17 +9,17 @@ class Login extends React.Component {
     return (
       <div>
         <div className={styles['project-name']}>Insight</div>
-        <form action="/login" method="post">
+        <form action="/api/admin/login/" method="post">
           <div>
-            <label>Username:</label>
-            <input type="text" name="username"/>
+            <label htmlFor="username">Username:</label>
+            <input type="text" name="username" id="username" />
           </div>
           <div>
-            <label>Password:</label>
-            <input type="password" name="password"/>
+            <label htmlFor="password">Password:</label>
+            <input type="password" name="password" id="password" />
           </div>
           <div>
-            <input type="submit" value="Log In"/>
+            <input type="submit" value="Log In" />
           </div>
         </form>
       </div>

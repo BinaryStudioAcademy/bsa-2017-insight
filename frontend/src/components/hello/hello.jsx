@@ -19,13 +19,13 @@ Hello.propTypes = {
   getAllUsers: PropTypes.func,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     users: state.users,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getAllUsers: () => {
       dispatch(usersActions.getAllUsers());

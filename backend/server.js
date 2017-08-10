@@ -11,33 +11,30 @@ const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+
 const port = 3000;
-const socketIo = require('socket.io');
 const socketConnectionHandler = require('./socketConnection');
 
 const app = express();
 
-app.use(
-  session({
-    secret: sessionSecret,
-    resave: true,
-    saveUninitialized: true,
-    store: new MongoStore({
-      mongooseConnection,
-    }),
-  })
-);
+app.use(session({
+  secret: sessionSecret,
+  resave: true,
+  saveUninitialized: true,
+  store: new MongoStore({
+    mongooseConnection,
+  }),
+}));
 
 context.mongoStore = new MongoStore({
   mongooseConnection,
 });
 
 const compiler = webpack(webpackConfig);
-app.use(
-  webpackDevMiddleware(compiler, {
-    noInfo: true,
-    publicPath: webpackConfig.output.publicPath,
-  }));
+app.use(webpackDevMiddleware(compiler, {
+  noInfo: true,
+  publicPath: webpackConfig.output.publicPath,
+}));
 
 app.use(webpackHotMiddleware(compiler));
 

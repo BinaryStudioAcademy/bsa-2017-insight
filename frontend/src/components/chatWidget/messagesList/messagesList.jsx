@@ -6,11 +6,11 @@ import styles from './styles.scss';
 const MessagesList = (props) => {
   return (
     <ul className={styles.messagesList}>
-      {/*{props.messages.map((message, i) => {*/}
-        {/*return (*/}
-          {/*<Message key={message.id} body={message.body} />*/}
-        {/*);*/}
-      {/*})}*/}
+      {props.messages && props.messages.map((message) => {
+        return (
+          <Message key={message._id} body={message.body} />
+        );
+      })}
     </ul>
   );
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import WebFont from 'webfontloader';
 import styles from './styles.scss';
 import Header from './Header/Header';
 import HomeContent from './HomeContent/HomeContent';
@@ -8,12 +7,6 @@ import Footer from './Footer/Footer';
 import Login from './Login/Login';
 import Pricing from './Pricing/Pricing';
 import Product from './Product/Product';
-
-WebFont.load({
-  google: {
-    families: ['Ubuntu:300,400,700'],
-  },
-});
 
 class Home extends React.Component {
   render() {

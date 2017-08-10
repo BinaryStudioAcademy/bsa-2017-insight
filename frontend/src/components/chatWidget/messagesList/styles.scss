@@ -1,0 +1,9 @@
+@import './frontend/src/common/styles/variables.scss';
+
+:local(.messagesList) {
+  padding: 0;
+  margin: 10px 0 15px;
+  width: 75%;
+  height: 85%;
+  background-color: white;
+}

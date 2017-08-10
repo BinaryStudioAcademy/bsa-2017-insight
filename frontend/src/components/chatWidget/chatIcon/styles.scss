@@ -1,0 +1,15 @@
+@import './frontend/src/common/styles/variables.scss';
+
+:local(.chatIcon) {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  width: 75px;
+  height: 75px;
+  background-color: deepskyblue;
+  border-radius: 50%;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

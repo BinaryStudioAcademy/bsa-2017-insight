@@ -19,6 +19,8 @@ module.exports = function (app) {
       password: req.body.password,
       isAdmin: true
     };
+    console.log('data username '+data.username);
+    console.log('data password '+data.password);
     adminRepository.add(data, () => {
       passport.authenticate('local')(req, res, function () {
         console.log('before redirect')

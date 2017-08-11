@@ -11,7 +11,7 @@ class Login extends React.Component {
         <div className={styles['project-name']}>Insight</div>
         <form action="/api/admin/login/" method="post">
           <div>
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="username">Adminname:</label>
             <input type="text" name="username" id="username" />
           </div>
           <div>
@@ -29,7 +29,7 @@ class Login extends React.Component {
 // <button onClick={() => { this.props.getAllUsers(); }}>GET USERS</button>
 
 Login.propTypes = {
-  getAllUsers: PropTypes.func,
+  // getAllUsers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {

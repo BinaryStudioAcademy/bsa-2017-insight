@@ -4,8 +4,8 @@ var Admin = require('../schemas/adminSchema');
 var bcrypt = require('bcrypt-nodejs');
 
 function AdminRepository() {
-    Repository.prototype.constructor.call(this);
-    this.model = Admin;
+  Repository.prototype.constructor.call(this);
+  this.model = Admin;
 }
 
 AdminRepository.prototype = new Repository();

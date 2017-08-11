@@ -7,40 +7,41 @@ const User = require('../repositories/userRepository');
 module.exports = function(passport){
 
   passport.use('admin', new LocalStrategy({
-    passReqToCallback : true
-  },
-  function(req, username, password, done) {
-    console.log('username '+username);
-    Admin.getAdminByName(username,
-      function(err, user) {
-        console.log('local strategy', err, user);
-        if (err)
-          return done(err);
-        if (!user) {
-          return done(null, false, req.flash('message', 'Admin not found.'));
+      passReqToCallback : true
+    },
+    function(req, username, password, done) {
+      console.log('username '+username);
+      Admin.getAdminByName(username,
+        function(err, user) {
+          console.log('local strategy', err, user);
+          if (err)
+            return done(err);
+          if (!user) {
+            return done(null, false, req.flash('message', 'Admin not found.'));
+          }
+          return done(null, user);
         }
-        return done(null, user);
-      }
-    );
-  }));
+      );
+    })
+  );
 
   passport.use('user', new LocalStrategy({
-    passReqToCallback : true
-  },
-  function(req, username, password, done) {
-    console.log('username '+username);
-    User.getUserByName(username,
-      function(err, user) {
-        console.log('local strategy', err, user);
-        if (err)
-          return done(err);
-        if (!user) {
-          return done(null, false, req.flash('message', 'User not found.'));
+      passReqToCallback : true
+    },
+    function(req, username, password, done) {
+      console.log('username '+username);
+      User.getUserByName(username,
+        function(err, user) {
+          console.log('local strategy', err, user);
+          if (err)
+            return done(err);
+          if (!user) {
+            return done(null, false, req.flash('message', 'User not found.'));
+          }
+          return done(null, user);
         }
-        return done(null, user);
-      }
-    );
-  })
+      );
+    })
   );
 
   passport.serializeUser(function(user, done) {

@@ -15,9 +15,11 @@ module.exports = function (app) {
   )
   app.post('/api/admin/registration', function(req, res) {
     var data = {
-      username: req.body.username,
+      adminName: req.body.adminName,
       password: req.body.password,
     };
+    console.log('data adminName '+data.adminName);
+    console.log('data password '+data.password);
     adminRepository.add(data, () => {
       passport.authenticate('local')(req, res, function () {
         console.log('before redirect')

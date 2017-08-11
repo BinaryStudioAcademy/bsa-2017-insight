@@ -7,10 +7,13 @@ const User = require('../repositories/userRepository');
 module.exports = function(passport){
 
   passport.use('admin', new LocalStrategy({
+    adminNameField: 'adminName',
+    passwordField: 'password',
     passReqToCallback : true
   },
-  function(req, username, password, done) {
-    Admin.getAdminByName(username,
+  function(req, adminName, password, done) {
+    console.log('adminName '+adminName);
+    Admin.getAdminByName(adminName,
       function(err, user) {
         if (err)
           return done(err);
@@ -24,7 +27,7 @@ module.exports = function(passport){
   );
 
 
-  passport.use('user', new LocalStrategy({
+/*  passport.use('user', new LocalStrategy({
     passReqToCallback : true
   },
   function(req, username, password, done) {
@@ -39,14 +42,16 @@ module.exports = function(passport){
       }
     );
   })
-  );
+  );*/
 
 
   passport.serializeUser(function(user, done) {
+    console.log('serializeUser ' + user);
     done(null, user.id);
   });
 
   passport.deserializeUser(function(id, done) {
+    console.log('deserializeUser ' + id);
     Admin.getById(id, function (err, user) {
       done(err, user);
     });

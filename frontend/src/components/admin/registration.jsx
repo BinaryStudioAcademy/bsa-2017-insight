@@ -11,8 +11,8 @@ class Register extends React.Component {
         <div className={styles['project-name']}>Insight</div>
         <form action="/api/admin/registration" method="post">
           <div>
-            <label htmlFor="username">Username:</label>
-            <input type="text" name="username" id="username" />
+            <label htmlFor="adminName">Adminname:</label>
+            <input type="text" name="adminName" id="adminName" />
           </div>
           <div>
             <label htmlFor="password">Password:</label>

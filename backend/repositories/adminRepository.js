@@ -4,15 +4,15 @@ var Admin = require('../schemas/adminSchema');
 var bcrypt = require('bcrypt-nodejs');
 
 function AdminRepository() {
-    Repository.prototype.constructor.call(this);
-    this.model = Admin;
+  Repository.prototype.constructor.call(this);
+  this.model = Admin;
 }
 
 AdminRepository.prototype = new Repository();
 
-AdminRepository.prototype.getAdminByName = function(username, callback) {
+AdminRepository.prototype.getAdminByName = function(adminName, callback) {
   var model = this.model;
-  var query = model.findOne({ 'username':  username });
+  var query = model.findOne({ 'adminName':  adminName });
   query.exec(callback);
 };
 

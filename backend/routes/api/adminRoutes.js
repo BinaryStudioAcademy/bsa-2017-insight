@@ -17,6 +17,7 @@ module.exports = function (app) {
     var data = {
       username: req.body.username,
       password: req.body.password,
+      isAdmin: true
     };
     adminRepository.add(data, () => {
       passport.authenticate('local')(req, res, function () {

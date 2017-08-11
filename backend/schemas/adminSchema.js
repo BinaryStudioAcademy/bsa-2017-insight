@@ -6,11 +6,12 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const adminSchema = new Schema({
   globalId: Schema.Types.ObjectId,
   isSuperUser: Boolean,
-  adminName: { type: String, required: true, unique: true },
+  username: { type: String, required: true, unique: true },
   password: String,
   email: String,
   adminSurname: String,
   avatar: String,
+  isAdmin: Boolean,
   conversations: [{ type: Schema.Types.ObjectId, ref: 'Conversation' }],
 });
 

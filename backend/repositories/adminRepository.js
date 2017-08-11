@@ -12,7 +12,7 @@ AdminRepository.prototype = new Repository();
 
 AdminRepository.prototype.getAdminByName = function(username, callback) {
   var model = this.model;
-  var query = model.findOne({ 'adminName':  username });
+  var query = model.findOne({ 'username':  username });
   query.exec(callback);
 };
 

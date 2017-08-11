@@ -7,7 +7,7 @@ const app = express();
 module.exports = function (app) {
   app.post('/api/user/login/',
     passport.authenticate('user', {
-      successRedirect: '/user',
+      successRedirect: '/',
       failureRedirect: '/userregistration',
       failureFlash: true,
       successFlash: 'Welcome!',

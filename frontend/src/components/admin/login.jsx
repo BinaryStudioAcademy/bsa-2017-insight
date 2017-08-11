@@ -11,8 +11,8 @@ class Login extends React.Component {
         <div className={styles['project-name']}>Insight</div>
         <form action="/api/admin/login/" method="post">
           <div>
-            <label htmlFor="adminName">Adminname:</label>
-            <input type="text" name="adminName" id="adminName" />
+            <label htmlFor="username">username:</label>
+            <input type="text" name="username" id="username" />
           </div>
           <div>
             <label htmlFor="password">Password:</label>

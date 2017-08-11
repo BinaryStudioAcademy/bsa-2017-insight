@@ -1,23 +1,19 @@
-var connection = require('../db/dbConnect');
-var Repository = require('./generalRepository');
-var User = require('../schemas/userSchema');
-var bcrypt = require('bcrypt-nodejs');
+const connection = require('../db/dbConnect');
+const bcrypt = require('bcrypt-nodejs');
+const Repository = require('./generalRepository');
+const User = require('../schemas/userSchema');
 
-function UserRepository() {
-  Repository.prototype.constructor.call(this);
-  this.model = User;
-}
+const userRepository = Object.create(Repository.prototype);
+userRepository.model = User;
 
-UserRepository.prototype = new Repository();
-
-UserRepository.prototype.getUserByName = function(username, callback) {
-  var model = this.model;
-  var query = model.findOne({ 'username':  username });
+userRepository.getUserByName = function(username, callback) {
+  const model = this.model;
+  const query = model.findOne({ 'username':  username });
   query.exec(callback);
 };
 
-UserRepository.prototype.add = function(data, callback) {
-  var self = this;
+userRepository.add = function(data, callback) {
+  const self = this;
   data.salt = bcrypt.genSaltSync(10);
   bcrypt.hash(data.password, data.salt, null, function(err, hash) {
     data.password = hash;
@@ -25,4 +21,4 @@ UserRepository.prototype.add = function(data, callback) {
   });
 };
 
-module.exports = new UserRepository();
+module.exports = userRepository;

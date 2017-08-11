@@ -1,9 +1,17 @@
+const visitorRoutes = require('./visitorRoutes');
+const messageRoutes = require('./messageRoutes');
 const userRoutes = require('./userRoutes');
 const adminRoutes = require('./adminRoutes');
+const conversationRoutes = require('./conversationRoutes');
+const widgetRoutes = require('./widgetRoutes');
+const statisticsRoutes = require('./statisticsRoutes');
 
-module.exports = function (app) {
-    return {
-        userRoutes: userRoutes(app),
-        adminRoutes: adminRoutes(app)
-    };
-};
+module.exports = app => ({
+  visitorRoutes: visitorRoutes(app),
+  messageRoutes: messageRoutes(app),
+  userRoutes: userRoutes(app),
+  conversationRoutes: conversationRoutes(app),
+  widgetRoutes: widgetRoutes(app),
+  statisticsRoutes: statisticsRoutes(app),
+  adminRoutes: adminRoutes(app)
+});

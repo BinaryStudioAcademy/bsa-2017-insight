@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import * as usersActions from '../../actions/usersActions';
 
-class Register extends React.Component {
+class Login extends React.Component {
   render() {
     return (
       <div>
         <div className={styles['project-name']}>Insight</div>
-        <form action="/api/admin/register" method="post">
+        <form action="/api/user/login/" method="post">
           <div>
             <label htmlFor="username">Username:</label>
             <input type="text" name="username" id="username" />
@@ -19,7 +19,7 @@ class Register extends React.Component {
             <input type="password" name="password" id="password" />
           </div>
           <div>
-            <input type="submit" value="Register" />
+            <input type="submit" value="Log In" />
           </div>
         </form>
       </div>
@@ -28,7 +28,7 @@ class Register extends React.Component {
 }
 // <button onClick={() => { this.props.getAllUsers(); }}>GET USERS</button>
 
-Register.propTypes = {
+Login.propTypes = {
   getAllUsers: PropTypes.func,
 };
 
@@ -46,4 +46,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

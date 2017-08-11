@@ -13,8 +13,6 @@ const bodyParser = require('body-parser'),
   webpackHotMiddleware = require('webpack-hot-middleware'),
   cookieParser = require('cookie-parser'),
   passport = require('passport'),
-  expressSession = require('express-session'),
-  LocalStrategy = require('passport-local').Strategy,
   flash = require('connect-flash'),
   port = 3000;
 
@@ -59,7 +57,7 @@ app.use(function (req, res, next) {
 });
 
 const apiRoutes = require('./routes/api/routes')(app),
-  viewRoutes = require('./routes/view/routes')(app);
+      viewRoutes = require('./routes/view/routes')(app);
 
 console.log(`app runs on port: ${port}`);
 const server = app.listen(port);

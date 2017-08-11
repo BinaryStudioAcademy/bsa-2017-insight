@@ -10,18 +10,11 @@ function UserRepository() {
 
 UserRepository.prototype = new Repository();
 
-UserRepository.prototype.oneMoreFunction = function(userId, obj, callback) {
+UserRepository.prototype.getUserByName = function(username, callback) {
   var model = this.model;
-  var query = model.findByIdAndUpdate(userId, {
-    $push: {
-      property:{
-        nestedProperty: value,
-      },
-    },
-  }, {});
+  var query = model.findOne({ 'username':  username });
   query.exec(callback);
 };
-
 
 UserRepository.prototype.add = function(data, callback) {
   var self = this;

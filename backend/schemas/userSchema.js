@@ -1,6 +1,6 @@
-mongoose = require('mongoose');
-
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const passportLocalMongoose = require('passport-local-mongoose');
 
 var userSchema = new Schema({
     globalId: Schema.Types.ObjectId,
@@ -10,4 +10,5 @@ var userSchema = new Schema({
     avatar: String
 });
 
+userSchema.plugin(passportLocalMongoose);
 module.exports = mongoose.model('User', userSchema);

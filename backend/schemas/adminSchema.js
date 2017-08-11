@@ -3,7 +3,7 @@ const Conversation = require('./conversationSchema');
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
-let adminSchema = new Schema({
+const adminSchema = new Schema({
   globalId: Schema.Types.ObjectId,
   isSuperUser: Boolean,
   username: { type: String, required: true, unique: true },

@@ -3,8 +3,10 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import UserLogin from './components/user/login';
+import UserRegistration from './components/user/registration';
 import AdminLogin from './components/admin/login';
-import AdminRegister from './components/admin/register';
+import AdminRegistration from './components/admin/registration';
 import { store, sagaMiddleware } from './store';
 import rootSaga from './saga/rootSaga';
 import Home from './components/landing/Home';
@@ -13,8 +15,10 @@ render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
+        <Route exact path={'/userlogin'} component={UserLogin} />
+        <Route exact path={'/userregistration'} component={UserRegistration} />
         <Route exact path={'/adminlogin'} component={AdminLogin} />
-        <Route exact path={'/adminregister'} component={AdminRegister} />
+        <Route exact path={'/adminregistration'} component={AdminRegistration} />
         <Route path={'/'} component={Home} />
       </Switch>
     </BrowserRouter>

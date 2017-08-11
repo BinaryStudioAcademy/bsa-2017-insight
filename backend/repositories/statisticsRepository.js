@@ -12,7 +12,7 @@ statisticsRepository.updateByVisitorId = function (id, data) {
   return this.model.update({ visitorId: id }, data);
 };
 
-statisticsRepository.parseAndCreate = function (data) {
+statisticsRepository.create = function (data) {
   return this.model.create(data);
 };
 

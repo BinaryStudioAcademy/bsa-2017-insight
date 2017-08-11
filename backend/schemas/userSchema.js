@@ -3,19 +3,12 @@ const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
 const userSchema = new Schema({
-  globalId: Schema.Types.ObjectId,
-  userName: String,
-  login: String,
-  password: String,
-  name: String,
-  surName: String,
-  type: String, // admin, operator
+  username: String,
+  userSurname: String,
   email: String,
-  billingPlan: String, // нужно ли
-  createdAt: Date,
   avatar: String,
-  // дополнительная инфа, которую мы должны знать о юзере
   conversations: [{ type: Schema.Types.ObjectId, ref: 'Conversation' }], // массив, состоящий из айди всех чатов юзера
+  activeConversation: { type: Schema.Types.ObjectId, ref: 'Conversation' }, // по идее активный чат должен всегда быть только один
 });
 
 userSchema.plugin(passportLocalMongoose);

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const statisticsSchema = new Schema({
-  visitorId: { type: Schema.Types.ObjectId, ref: 'Visitor' },
+  userId: { type: Schema.Types.ObjectId, ref: 'User' },
   currentUrl: String,
   viewedUrls: [String],
   browserLanguage: String,

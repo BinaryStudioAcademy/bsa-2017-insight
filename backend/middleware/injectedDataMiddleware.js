@@ -1,10 +1,10 @@
-const fs = require('fs'),
-  replaceStream = require('replacestream');
+const fs = require('fs');
+const replaceStream = require('replacestream');
 
 module.exports = function (req, res, obj, error) {
   error = error || false;
 
-  populateInjectData(req.user, function (data) {
+  populateInjectData(req.user, () => {
     obj = { // should be deleted after authorization
       text: 'injectedData',
     };
@@ -18,7 +18,7 @@ module.exports = function (req, res, obj, error) {
       .pipe(res);
   });
 
-  function populateInjectData(user, callback_main) {
-    callback_main(null, null);
+  function populateInjectData(user, mainCallback) {
+    mainCallback(null, null);
   }
 };

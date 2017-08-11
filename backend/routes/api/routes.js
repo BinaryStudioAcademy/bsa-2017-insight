@@ -13,5 +13,5 @@ module.exports = app => ({
   conversationRoutes: conversationRoutes(app),
   widgetRoutes: widgetRoutes(app),
   statisticsRoutes: statisticsRoutes(app),
-  adminRoutes: adminRoutes(app)
+  adminRoutes: adminRoutes(app),
 });

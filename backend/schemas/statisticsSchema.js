@@ -23,8 +23,6 @@ const statisticsSchema = new Schema({
   browserVersion: String,
   os: String,
   deviceType: String,
-  deviceVendor: String,
-  deviceModel: String,
 });
 
 module.exports = mongoose.model('Statistics', statisticsSchema);

@@ -1,29 +1,24 @@
-const apiResponse = require('express-api-response');
-const express = require('express');
 const passport = require('passport');
 const adminRepository = require('../../repositories/adminRepository');
-const app = express();
 
 module.exports = function (app) {
-  app.post('/api/admin/login/',
-    passport.authenticate('admin', {
-      successRedirect: '/admin',
-      failureRedirect: '/adminregistration',
-      failureFlash: true,
-      successFlash: 'Welcome!',
-    })
-  )
-  app.post('/api/admin/registration', function(req, res) {
-    var data = {
+  app.post('/api/admin/login/', passport.authenticate('admin', {
+    successRedirect: '/admin',
+    failureRedirect: '/adminregistration',
+    failureFlash: true,
+    successFlash: 'Welcome!',
+  }));
+  app.post('/api/admin/registration', (req, res) => {
+    const data = {
       username: req.body.username,
       password: req.body.password,
-      isAdmin: true
+      isAdmin: true,
     };
-    console.log('data username '+data.username);
-    console.log('data password '+data.password);
+    console.log(`data username ${data.username}`);
+    console.log(`data password ${data.password}`);
     adminRepository.add(data, () => {
-      passport.authenticate('local')(req, res, function () {
-        console.log('before redirect')
+      passport.authenticate('local')(req, res, () => {
+        console.log('before redirect');
         res.redirect('/adminlogin');
       });
     });

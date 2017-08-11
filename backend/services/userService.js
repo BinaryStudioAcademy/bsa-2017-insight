@@ -1,11 +1,12 @@
-var async = require('async');
-var userRepository = require('../repositories/visitorRepository');
+const async = require('async');
+const userRepository = require('../repositories/visitorRepository');
 
-module.exports = function (id, onResult) {
+module.exports = function(id, onResult) {
   let resData = {};
-  async.waterfall([
+  async.waterfall(
+    [
       function (callback) {
-        userRepository.add(id, function (err, data) {
+        userRepository.add(id, (err, data) => {
           if (err) {
             return callback(err, data);
           }
@@ -16,7 +17,7 @@ module.exports = function (id, onResult) {
         });
       },
       function (data, callback) {
-        userRepository.add(id, function (err, data) {
+        userRepository.add(id, (err, data) => {
           if (err) {
             return callback(err, data);
           }
@@ -25,9 +26,10 @@ module.exports = function (id, onResult) {
             callback(null, resData);
           }
         });
-      }
+      },
     ],
-    function (err, result) {
+    (err, result) => {
       onResult(err, result);
-    });
+    },
+  );
 };

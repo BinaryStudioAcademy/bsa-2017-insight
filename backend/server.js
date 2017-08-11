@@ -37,6 +37,7 @@ app.use(passport.session());
 app.use(flash());
 
 const initPassport = require('./passport/init');
+
 initPassport(passport);
 
 context.mongoStore = new MongoStore({

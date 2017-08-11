@@ -2,23 +2,20 @@ const passport = require('passport');
 const userRepository = require('../../repositories/userRepository');
 
 module.exports = (app) => {
+  app.post('/api/user/login/', passport.authenticate('user', {
+    successRedirect: '/',
+    failureRedirect: '/userregistration',
+    failureFlash: true,
+    successFlash: 'Welcome!',
+  }));
 
-  app.post('/api/user/login/',
-    passport.authenticate('user', {
-      successRedirect: '/',
-      failureRedirect: '/userregistration',
-      failureFlash: true,
-      successFlash: 'Welcome!',
-    })
-  );
-
-  app.post('/api/user/registration', function(req, res) {
+  app.post('/api/user/registration', (req, res) => {
     const data = {
       username: req.body.username,
       password: req.body.password,
     };
     userRepository.add(data, () => {
-      passport.authenticate('local')(req, res, function () {
+      passport.authenticate('local')(req, res, () => {
         console.log('before redirect');
         res.redirect('/userlogin');
       });

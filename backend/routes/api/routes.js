@@ -1,4 +1,3 @@
-const visitorRoutes = require('./visitorRoutes');
 const messageRoutes = require('./messageRoutes');
 const userRoutes = require('./userRoutes');
 const adminRoutes = require('./adminRoutes');
@@ -7,7 +6,6 @@ const widgetRoutes = require('./widgetRoutes');
 const statisticsRoutes = require('./statisticsRoutes');
 
 module.exports = app => ({
-  visitorRoutes: visitorRoutes(app),
   messageRoutes: messageRoutes(app),
   userRoutes: userRoutes(app),
   conversationRoutes: conversationRoutes(app),

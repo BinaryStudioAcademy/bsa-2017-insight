@@ -4,7 +4,7 @@ import styles from './styles.scss';
 
 const Message = (props) => {
   return (
-    <li className={styles.messageItem}>
+    <li className={styles['message-item']}>
       {props.body}
     </li>
   );

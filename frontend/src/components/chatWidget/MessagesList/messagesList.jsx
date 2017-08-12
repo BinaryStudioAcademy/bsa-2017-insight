@@ -5,7 +5,7 @@ import styles from './styles.scss';
 
 const MessagesList = (props) => {
   return (
-    <ul className={styles.messagesList}>
+    <ul className={styles['messages-list']}>
       {props.messages && props.messages.map((message) => {
         return (
           <Message key={message._id} body={message.body} />

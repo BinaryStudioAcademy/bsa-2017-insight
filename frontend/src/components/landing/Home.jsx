@@ -8,7 +8,7 @@ import Footer from './Footer/Footer';
 import Login from './Login/Login';
 import Pricing from './Pricing/Pricing';
 import Product from './Product/Product';
-import ChatWidget from './../chatWidget/chatWidget';
+import ChatWidget from '../chatWidget/ChatWidget';
 
 WebFont.load({
   google: {

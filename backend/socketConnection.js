@@ -1,25 +1,22 @@
 const MessageRepository = require('./repositories/messageRepository');
 const ConversationRepository = require('./repositories/conversationRepository');
-const VisitorsRepository = require('./repositories/visitorRepository');
+const UserRepository = require('./repositories/userRepository');
 const mongoose = require('mongoose');
 
 function connectionHandler(socket) {
   console.log('user connected');
   socket.emit('user connected');
   socket.on('userId', (id) => {
-    VisitorsRepository.model.findOne({ _id: id }).then((data) => {
-      socket.emit('userData', data);
-    });
-  });
-  socket.on('getConversation', (id) => {
-    ConversationRepository.model.findOne({ _id: id })
-      .populate('participants.user messages')
+    UserRepository.model.findOne({ _id: id })
+      .populate({
+        path: 'conversations',
+        populate: { path: 'messages' },
+      })
       .exec()
-      .then((conversation) => {
-        socket.emit('returnConversation', conversation);
+      .then((data) => {
+        socket.emit('userData', data);
       });
   });
-
   socket.on('newMessage', (message) => {
     MessageRepository.model.create(message)
       .then((data) => {

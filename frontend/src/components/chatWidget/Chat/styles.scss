@@ -13,7 +13,7 @@
   background-color: cornflowerblue;
 }
 
-:local(.closeButton) {
+:local(.close-button) {
   position: absolute;
   top: 0;
   right: 0;
@@ -22,19 +22,8 @@
   background: url("https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Media_Viewer_Icon_-_Close.svg/2000px-Media_Viewer_Icon_-_Close.svg.png") no-repeat center;
   background-size: cover;
   z-index: 2;
-}
 
-:local(.sendingForm) {
-  width: 75%;
-  display: flex;
-}
-
-:local(.messageInput) {
-  flex-basis: 80%;
-  padding: 10px;
-}
-
-:local(.submitButton) {
-  flex-basis: 20%;
-  padding: 10px;
+  &:hover {
+    cursor: pointer;
+  }
 }

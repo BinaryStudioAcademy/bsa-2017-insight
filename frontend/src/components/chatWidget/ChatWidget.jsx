@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import ChatIcon from './chatIcon/chatIcon';
-import ChatBody from './chatBody/chatBody';
+import ChatIcon from './ChatIcon/chatIcon';
+import ChatBody from './Chat/Chat';
 
 class ChatWidget extends Component {
   constructor(props) {

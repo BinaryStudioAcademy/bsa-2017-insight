@@ -7,7 +7,7 @@ const ChatWidget = (props) => {
     <div
       role="button"
       tabIndex="0"
-      className={styles.chatIcon}
+      className={styles['chat-icon']}
       onClick={props.onChatIconClick}
     />
   );

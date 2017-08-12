@@ -16,4 +16,9 @@ statisticsRepository.create = function (data) {
   return this.model.create(data);
 };
 
+statisticsRepository.getUserStatisticsAndPopulate = function (id, callback) {
+  const model = this.model;
+  model.findOne({ userId: id }).populate('userId').exec(callback);
+};
+
 module.exports = statisticsRepository;

@@ -3,6 +3,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const Admin = require('../repositories/adminRepository');
 const User = require('../repositories/userRepository');
+const Statistics = require('../repositories/statisticsRepository');
 
 module.exports = function (localPassport) {
   localPassport.use('admin', new LocalStrategy({ assReqToCallback: true }, (req, username, password, done) => {
@@ -50,7 +51,7 @@ module.exports = function (localPassport) {
           done(err, user);
         });
       } else {
-        User.getById(data.id, (err, user) => {
+        Statistics.getUserStatisticsAndPopulate(data.id, (err, user) => {
           done(err, user);
         });
       }

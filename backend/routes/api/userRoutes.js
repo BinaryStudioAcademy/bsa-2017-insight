@@ -1,6 +1,6 @@
 const passport = require('passport');
 const userRepository = require('../../repositories/userRepository');
-const createUser = require('./../../services/userService');
+const createUserAndEmptyStatistics = require('./../../services/userService');
 
 module.exports = (app) => {
   app.post('/api/user/login/', passport.authenticate('user', {
@@ -11,12 +11,11 @@ module.exports = (app) => {
   }));
 
   app.post('/api/user/registration', (req, res) => {
-    const id = req.body.id;
     const data = {
       username: req.body.username,
       password: req.body.password,
     };
-    createUser(id, data, () => { // TODO заменить на свою функцию
+    createUserAndEmptyStatistics(data, () => { // TODO заменить на свою функцию
       passport.authenticate('local')(req, res, () => {
         console.log('before redirect');
         res.redirect('/userlogin');

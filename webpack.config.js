@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   devtool: 'eval-source-map',
-  entry: './src/main.jsx',
+  entry: ['whatwg-fetch', './src/main.jsx'],
   output: {
     path: `${__dirname}/dist`,
     filename: 'bundle.js',

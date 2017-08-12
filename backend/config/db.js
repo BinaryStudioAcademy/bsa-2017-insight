@@ -5,9 +5,8 @@ module.exports = {
   opts: {
     server: {
       auto_reconnect: true,
-      poolSize: 40,
+      poolSize: 40
     },
-    user: 'root',
-    useMongoClient: true,
-  },
+    user: 'root'
+  }
 };

@@ -31,12 +31,12 @@ function get(stringToParse){
     if(indexes[indexes.length-1] !== lastChar){
         indexes.push(lastChar)
     }
-        console.log(indexes)
+      
     indexes.reduce((prev,curr)=>{
         itemsToRender.push(stringToParse.slice(prev,curr)) 
         return prev = curr
     })  
-        console.log(itemsToRender)
+       
     let newItemsToRender = itemsToRender.map((e)=>{
         let search = e.trim()  
         let firstCond  = /:\S+[^:]+:/g.test(search)
@@ -47,7 +47,7 @@ function get(stringToParse){
         } else return  search
             
     })
-        console.log(newItemsToRender)
+       
         return getParseString(newItemsToRender)
     }
 

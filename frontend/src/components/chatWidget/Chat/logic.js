@@ -1,4 +1,4 @@
-function findConversationById (id, conversations) {
+function findConversationById(id, conversations) {
   if (!id || !conversations) return null;
   const item = conversations.find((conversation) => {
     return conversation._id === id;

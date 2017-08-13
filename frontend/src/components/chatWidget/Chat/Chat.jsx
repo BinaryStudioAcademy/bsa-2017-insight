@@ -52,6 +52,7 @@ class Chat extends Component {
 
   handleMessageSubmit(event) {
     event.preventDefault();
+    const eventCopy = event;
     const message = event.target.messageInput.value;
     const messageObj = {
       conversationId: this.state.user.conversations[0],
@@ -63,7 +64,7 @@ class Chat extends Component {
       },
     };
     this.socket.emit('newMessage', messageObj);
-    event.target.messageInput.value = '';
+    eventCopy.target.messageInput.value = '';
   }
 
 

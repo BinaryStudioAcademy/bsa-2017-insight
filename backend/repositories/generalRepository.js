@@ -30,4 +30,10 @@ Repository.prototype.getById = function (id, callback) {
   query.exec(callback);
 };
 
+Repository.prototype.findByConditions = function (conditions, callback) {
+  const model = this.model;
+  const query = model.find(conditions);
+  query.exec(callback);
+};
+
 module.exports = Repository;

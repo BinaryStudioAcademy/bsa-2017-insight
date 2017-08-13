@@ -24,7 +24,6 @@ function getFilteredUsers(conditions, callback) {
   statisticsRepository.findByConditions(query, (err, stats) => {
     if (!err && stats) {
       const userIds = stats.map(stat => new mongoose.Types.ObjectId(stat.userId));
-      console.log(userIds);
       userRepository.findByConditions({ _id: { $in: userIds } }, (err, users) => {
         callback(err, users);
       });

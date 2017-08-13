@@ -7,6 +7,7 @@ import UserLogin from './components/user/login';
 import UserRegistration from './components/user/registration';
 import AdminLogin from './components/admin/login';
 import AdminRegistration from './components/admin/registration';
+import ChatAdmin from './components/chatAdmin/ChatAdmin';
 import { store, sagaMiddleware } from './store';
 import rootSaga from './saga/rootSaga';
 import Home from './components/landing/Home';
@@ -19,6 +20,7 @@ render(
         <Route exact path={'/userregistration'} component={UserRegistration} />
         <Route exact path={'/adminlogin'} component={AdminLogin} />
         <Route exact path={'/adminregistration'} component={AdminRegistration} />
+        <Route exact path={'/chatadmin'} component={ChatAdmin} />
         <Route path={'/'} component={Home} />
       </Switch>
     </BrowserRouter>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import * as usersActions from '../../actions/usersActions';
 
@@ -29,7 +29,7 @@ class Register extends React.Component {
 // <button onClick={() => { this.props.getAllUsers(); }}>GET USERS</button>
 
 Register.propTypes = {
-  getAllUsers: PropTypes.func,
+  // getAllUsers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {

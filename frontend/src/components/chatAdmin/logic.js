@@ -1,4 +1,5 @@
 import io from './../../../../node_modules/socket.io-client/dist/socket.io';
+import { fetchUser, fetchMessage } from './../../actions/usersActions';
 
 function findConversationById(id, conversations) {
   if (!id || !conversations) return null;
@@ -14,7 +15,7 @@ function findConversationById(id, conversations) {
   };
 }
 
-function startSocketConnection() {
+function startSocketConnection(dispatch) {
   this.socket = io('http://localhost:3000');
   this.socket.on('user connected', () => {
     console.log('connected to the server succesfully');
@@ -28,26 +29,14 @@ function startSocketConnection() {
     // и тут мы должны как-то знать айдишник разговора, который нам нужно отрендерить, и передать запрос дальше
     console.log(data);
     console.log(this);
-    this.setState({ admin: data });
+    dispatch(fetchUser(data));
   });
   this.socket.on('newMessage', (message) => {
-    this.setState((prevState) => {
-      const conversation = findConversationById(message.conversationId, prevState.admin.conversations);
-      console.log(conversation);
-      prevState.admin.conversations.splice(conversation.index, 1);
-      conversation.item.messages = [...conversation.item.messages, message];
-      const newConversations = [...prevState.admin.conversations, conversation.item];
-      console.log(newConversations);
-      const newUser = Object.assign({}, prevState.admin, { conversations: newConversations });
-      console.log(newUser);
-      return {
-        admin: newUser,
-      };
-    });
+    dispatch(fetchMessage(message));
   });
 }
 
 export {
-  findConversationById,
   startSocketConnection,
+  findConversationById,
 };

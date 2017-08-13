@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 import styles from './styles.scss';
 import MessagesList from './MessagesList/MessagesList';
 import { findConversationById, startSocketConnection } from './logic';
@@ -6,13 +8,12 @@ import { findConversationById, startSocketConnection } from './logic';
 class Chat extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
 
   componentDidMount() {
     //  const id = window._injectedData.globalId || window._injectedData.userId._id;
-    startSocketConnection.call(this);
+    startSocketConnection.call(this, this.props.dispatch);
   }
 
   handleMessageSubmit(event) {
@@ -20,12 +21,12 @@ class Chat extends Component {
     const eventCopy = event;
     const message = event.target.messageInput.value;
     const messageObj = {
-      conversationId: this.state.admin.conversations[0]._id,
+      conversationId: this.props.admin.conversations[0]._id,
       body: message,
       createdAt: Date.now(),
       author: {
         item: '598ef17257350736943d3c45',
-        userType: '598ef17257350736943d3c45',
+        userType: 'Admin',
       },
     };
     this.socket.emit('newMessage', messageObj);
@@ -33,8 +34,8 @@ class Chat extends Component {
   }
 
   render() {
-    const conversations = this.state.admin && this.state.admin.conversations;
-    const conversationId = this.state.admin && this.state.admin.conversations[0]._id;
+    const conversations = this.props.admin && this.props.admin.conversations;
+    const conversationId = this.props.admin && this.props.admin.conversations[0]._id;
     const conversationToRender = findConversationById(conversationId, conversations);
     const messages = conversationToRender ? conversationToRender.item.messages : null;
     return (
@@ -54,6 +55,14 @@ class Chat extends Component {
   }
 }
 
+Chat.propTypes = {
+  admin: propTypes.object,
+  dispatch: propTypes.func,
+};
+
+const mapStateToProps = state => ({
+  admin: state.admin,
+});
 
 
-export default Chat;
+export default connect(mapStateToProps)(Chat);

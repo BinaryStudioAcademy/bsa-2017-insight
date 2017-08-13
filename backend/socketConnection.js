@@ -27,6 +27,8 @@ function connectionHandler(socket) {
         })
         .exec()
         .then((data) => {
+          console.log('adminData:', data);
+          console.log('messages:', data.conversations[0].messages);
           socket.emit('adminData', data);
         });
     }

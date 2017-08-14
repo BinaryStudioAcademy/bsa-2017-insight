@@ -4,7 +4,7 @@ import styles from './styles.scss';
 import io from './../../../../../node_modules/socket.io-client/dist/socket.io';
 import ConversationsList from './../ConversationsList/ConversationsList';
 import ChatBody from './../ChatBody/ChatBody';
-import findConversationById from './logic';
+import { findConversationById, startSocketConnection } from './logic';
 
 class Chat extends Component {
   constructor(props) {
@@ -19,31 +19,11 @@ class Chat extends Component {
   componentDidMount() {
     //  const id = window._injectedData.globalId || window._injectedData.userId._id;
     this.socket = io('http://localhost:3000');
-    this.socket.on('user connected', () => {
-      console.log('connected to the server succesfully');
-    });
-    this.socket.emit('userId', '598ef12257350736943d3c44');
-    this.socket.on('userData', (data) => {
-      // и тут мы должны как-то знать айдишник разговора, который нам нужно отрендерить, и передать запрос дальше
-      console.log(data);
-      console.log(this);
-      this.setState({ user: data });
-    });
-    this.socket.on('newMessage', (message) => {
-      this.setState((prevState) => {
-        const conversation = findConversationById(message.conversationId, prevState.user.conversations);
-        console.log(conversation);
-        prevState.user.conversations.splice(conversation.index, 1);
-        conversation.item.messages = [...conversation.item.messages, message];
-        const newConversations = [...prevState.user.conversations, conversation.item];
-        console.log(newConversations);
-        const newUser = Object.assign({}, prevState.user, { conversations: newConversations });
-        console.log(newUser);
-        return {
-          user: newUser,
-        };
-      });
-    });
+    startSocketConnection.call(this, this.socket);
+    // запрос на разговры делать с популейтом партисипентов
+    // TODO разделить юзера и список разговоров
+    // TODO создать кнопку открытия нового чата, по клику создавать разговор с уже включенным участником
+    // (текущим юзером) и отдельно в объект юзера добавлять новый разговор
   }
 
   onConversationClick(id) {
@@ -55,7 +35,7 @@ class Chat extends Component {
     const eventCopy = event;
     const message = event.target.messageInput.value;
     const messageObj = {
-      conversationId: this.state.user.conversations[0],
+      conversationId: this.state.activeChatId, // должно быть activeChatId
       body: message,
       createdAt: Date.now(),
       author: {
@@ -67,11 +47,11 @@ class Chat extends Component {
     eventCopy.target.messageInput.value = '';
   }
 
-
+  // разговор отображать в виде "Разговор с "список участников не типа User""
   render() {
-    const conversations = this.state.user && this.state.user.conversations;
+    const conversations = this.state.conversations;
     const conversationToRender = findConversationById(this.state.activeChatId, conversations);
-    const messages = conversationToRender ? conversationToRender.item.messages : null;
+    const messages = conversationToRender ? conversationToRender.conversationItem.messages : null;
     return (
       <div className={styles.chat}>
         <div className={styles['close-button']} onClick={this.props.onChatClose} role="button" tabIndex="0" />

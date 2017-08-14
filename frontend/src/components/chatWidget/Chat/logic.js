@@ -13,6 +13,7 @@ function findConversationById(id, conversations) {
 }
 
 function startSocketConnection(socket) {
+  // const id = window._injectedData.globalId || window._injectedData.userId._id;
   socket.on('user connected', () => {
     console.log('connected to the server succesfully');
   });
@@ -40,6 +41,13 @@ function startSocketConnection(socket) {
       return {
         conversations: newConversations,
       };
+    });
+  });
+  socket.on('newConversationCreated', (conversation) => {
+    const newConversations = [...this.state.conversations, conversation];
+    this.setState({
+      conversations: newConversations,
+      activeChatId: conversation._id,
     });
   });
 }

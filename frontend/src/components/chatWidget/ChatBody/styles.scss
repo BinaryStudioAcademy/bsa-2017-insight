@@ -6,6 +6,20 @@
   height: 80%;
 }
 
+:local(.return-button) {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  background: url("http://www.te52.com/testtalk/wp-content/uploads/sites/4/2014/10/back.png") center no-repeat;
+  background-size: cover;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 :local(.sending-form) {
   width: 100%;
   display: flex;

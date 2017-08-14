@@ -12,6 +12,7 @@ class ChatBody extends Component {
   render() {
     return (
       <div className={styles.chat}>
+        <div className={styles['return-button']} onClick={this.props.onReturnButtonClick} role="button" tabIndex="0" />
         <MessagesList messages={this.props.messages} />
         <form className={styles['sending-form']} onSubmit={event => this.props.onMessageSubmit(event)}>
           <input
@@ -30,6 +31,7 @@ class ChatBody extends Component {
 ChatBody.propTypes = {
   messages: propTypes.array,
   onMessageSubmit: propTypes.func.isRequired,
+  onReturnButtonClick: propTypes.func.isRequired,
 };
 
 export default ChatBody;

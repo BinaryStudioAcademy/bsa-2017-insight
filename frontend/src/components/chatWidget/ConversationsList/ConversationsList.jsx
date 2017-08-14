@@ -2,6 +2,16 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import styles from './styles.scss';
 
+function createConversationName(participants) {
+  const nonUserParticipantsString = participants.filter(participant => participant.userType !== 'User')
+    .map((participant) => {
+      return participant.user.username;
+    })
+    .join(',');
+  if (nonUserParticipantsString === '') return 'Conversation hasn\'t been picked up yet';
+  return `Conversation with ${nonUserParticipantsString}`;
+}
+
 class ConversationsList extends Component {
   constructor(props) {
     super(props);
@@ -11,19 +21,28 @@ class ConversationsList extends Component {
   render() {
     const conversations = this.props.conversations;
     return (
-      <ul className={styles['conversations-list']}>
-        {conversations && conversations.map((conversation) => {
-          return (
-            <li
-              className={styles['conversation-item']}
-              key={conversation._id}
-              onClick={() => this.props.onConversationClick(conversation._id)}
-            >
-              Conversation {conversation._id}
-            </li>
-          );
-        })}
-      </ul>
+      <div className={styles.container}>
+        <h3 className={styles.title}>Your conversations</h3>
+        <ul className={styles['conversations-list']}>
+          {conversations && conversations.map((conversation) => {
+            return (
+              <li
+                className={styles['conversation-item']}
+                key={conversation._id}
+                onClick={() => this.props.onConversationClick(conversation._id)}
+              >
+                {createConversationName(conversation.participants)}
+              </li>
+            );
+          })}
+        </ul>
+        <button
+          className={styles['create-conversation-button']}
+          onClick={this.props.onCreateConversationButtonClick}
+        >
+          Create new conversation
+        </button>
+      </div>
     );
   }
 }
@@ -31,6 +50,7 @@ class ConversationsList extends Component {
 ConversationsList.propTypes = {
   conversations: propTypes.array,
   onConversationClick: propTypes.func.isRequired,
+  onCreateConversationButtonClick: propTypes.func.isRequired,
 };
 
 export default ConversationsList;

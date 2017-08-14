@@ -12,8 +12,10 @@ class Chat extends Component {
     this.state = {
       activeChatId: null,
     };
-    this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
+    this.onMessageSubmit = this.onMessageSubmit.bind(this);
     this.onConversationClick = this.onConversationClick.bind(this);
+    this.onReturnButtonClick = this.onReturnButtonClick.bind(this);
+    this.onCreateConversationButtonClick = this.onCreateConversationButtonClick.bind(this);
   }
 
   componentDidMount() {
@@ -26,11 +28,26 @@ class Chat extends Component {
     // (текущим юзером) и отдельно в объект юзера добавлять новый разговор
   }
 
+  onCreateConversationButtonClick() {
+    const userId = '598ef12257350736943d3c44'; // window._injectedData.globalId || window._injectedData.userId._id;
+    const conversation = {
+      participants: [{
+        userType: 'User',
+        user: userId,
+      }],
+      messages: [],
+      open: true,
+      createdAt: Date.now(),
+    };
+    this.socket.emit('createNewConversation', conversation, userId);
+  }
   onConversationClick(id) {
     this.setState({ activeChatId: id });
   }
-
-  handleMessageSubmit(event) {
+  onReturnButtonClick() {
+    this.setState({ activeChatId: null });
+  }
+  onMessageSubmit(event) {
     event.preventDefault();
     const eventCopy = event;
     const message = event.target.messageInput.value;
@@ -58,8 +75,14 @@ class Chat extends Component {
         {!this.state.activeChatId && <ConversationsList
           conversations={conversations}
           onConversationClick={this.onConversationClick}
+          onCreateConversationButtonClick={this.onCreateConversationButtonClick}
         />}
-        {this.state.activeChatId && <ChatBody messages={messages} onMessageSubmit={this.handleMessageSubmit} />}
+        {this.state.activeChatId &&
+        <ChatBody
+          messages={messages}
+          onMessageSubmit={this.onMessageSubmit}
+          onReturnButtonClick={this.onReturnButtonClick}
+        />}
       </div>
     );
   }

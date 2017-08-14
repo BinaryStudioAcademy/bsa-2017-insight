@@ -1,17 +1,51 @@
+:local(.container) {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 55px;
+  overflow: auto;
+}
+
 :local(.conversations-list) {
   list-style: none;
   padding: 0;
-  margin: 20px 0 0;
+  margin: 0;
   width: 80%;
 }
 
+:local(.title) {
+  color: #fff;
+}
+
 :local(.conversation-item) {
+  text-align: center;
   background-color: dodgerblue;
   border-radius: 20px;
   color: white;
   padding: 15px;
+  margin-bottom: 5px;
 
   &:hover {
     cursor: pointer;
+    background-color: blue;
+  }
+}
+
+:local(.create-conversation-button) {
+  position: absolute;
+  bottom: 15px;
+  width: 50%;
+  font-size: 18px;
+  border-radius: 15px;
+  padding: 8px;
+  background-color: #fff;
+  color: dodgerblue;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    background-color: dodgerblue;
+    color: #fff;
   }
 }

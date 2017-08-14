@@ -31,6 +31,7 @@ class Header extends React.Component {
                 </Chip>
                 <FlatButton
                   onTouchTap={() => alert('Imagine... that you just logged out')}
+                  style={{ color: 'black' }}
                   label={'Log out'}
                   icon={<Key />}
                   secondary

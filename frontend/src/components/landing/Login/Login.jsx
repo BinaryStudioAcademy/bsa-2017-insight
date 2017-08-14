@@ -27,7 +27,7 @@ class Login extends React.Component {
           <input />
         </div>
         <div className={styles['remember-me']}>
-        <input type="checkbox" id="rememberMe" />
+          <input type="checkbox" id="rememberMe" />
           <label htmlFor="rememberMe">Remember me</label><br />
         </div>
         <button onClick={this.handleLogIn}>Sign in</button>

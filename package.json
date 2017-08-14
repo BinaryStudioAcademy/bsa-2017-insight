@@ -28,14 +28,14 @@
     "path": "^0.12.7",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
-    "which-browser": "^0.2.2",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.2",
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.7.2",
     "redux-saga": "^0.15.6",
-    "webfontloader": "^1.6.28"
+    "webfontloader": "^1.6.28",
+    "which-browser": "^0.2.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.5.3",

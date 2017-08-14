@@ -15,7 +15,6 @@ function getStatistics() {
     console.log(user[0]);
   })
     .catch( alert );
-  console.log("blLlalalala")
 };
 
 getStatistics();

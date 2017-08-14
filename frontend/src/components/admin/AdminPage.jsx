@@ -5,7 +5,6 @@ import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
 import UserInfoTable from './Table/Table';
 import Filter from './Filter/Filter';
-// import '../analytics/getStatistics';
 
 injectTapEventPlugin();
 

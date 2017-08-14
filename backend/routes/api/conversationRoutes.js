@@ -1,7 +1,8 @@
 const conversationRepository = require('../../repositories/conversationRepository');
+const isAdmin = require('./../../middleware/isAdminMiddleware');
 
 module.exports = (app) => {
-  app.get('/api/conversations/', (req, res) => {
+  app.get('/api/conversations/', isAdmin, (req, res) => {
     conversationRepository.getAll((err, data) => {
       if (err) {
         console.log(err);
@@ -47,7 +48,7 @@ module.exports = (app) => {
     });
   });
 
-  app.delete('/api/conversations/:id', (req, res) => {
+  app.delete('/api/conversations/:id', isAdmin, (req, res) => {
     const id = req.params.id;
     conversationRepository.delete(id, (err, data) => {
       if (err) {

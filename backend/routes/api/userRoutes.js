@@ -1,6 +1,7 @@
 const passport = require('passport');
 const userRepository = require('../../repositories/userRepository');
 const createUserAndEmptyStatistics = require('./../../services/userService');
+const isAdmin = require('./../../middleware/isAdminMiddleware');
 
 module.exports = (app) => {
   app.post('/api/user/login/', passport.authenticate('user', {
@@ -23,7 +24,7 @@ module.exports = (app) => {
     });
   });
 
-  app.get('/api/users/', (req, res) => {
+  app.get('/api/users/', isAdmin, (req, res) => {
     userRepository.getAll((err, data) => {
       if (err) {
         console.log(err);
@@ -34,7 +35,7 @@ module.exports = (app) => {
     });
   });
 
-  app.get('/api/users/:id', (req, res) => {
+  app.get('/api/users/:id', isAdmin, (req, res) => {
     const id = req.params.id;
     userRepository.findOneAndPopulate(id, (err, data) => {
       if (err) {
@@ -69,7 +70,7 @@ module.exports = (app) => {
     });
   });
 
-  app.delete('/api/users/:id', (req, res) => {
+  app.delete('/api/users/:id', isAdmin, (req, res) => {
     const id = req.params.id;
     userRepository.delete(id, (err, data) => {
       if (err) {

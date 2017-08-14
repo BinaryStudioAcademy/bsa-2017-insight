@@ -1,8 +1,9 @@
 const statisticsRepository = require('../../repositories/statisticsRepository');
 const statisticsService = require('../../services/statisticsService');
+const isAdmin = require('./../../middleware/isAdminMiddleware');
 
 module.exports = (app) => {
-  app.get('/api/statistics/', (req, res) => {
+  app.get('/api/statistics/', isAdmin, (req, res) => {
     statisticsRepository.getAll((err, data) => {
       if (err) {
         console.log(err);
@@ -13,7 +14,7 @@ module.exports = (app) => {
     });
   });
 
-  app.get('/api/statistics/:id', (req, res) => {
+  app.get('/api/statistics/:id', isAdmin, (req, res) => {
     const id = req.params.id;
     statisticsRepository.findOneAndPopulate(id, (err, data) => {
       if (err) {
@@ -54,7 +55,7 @@ module.exports = (app) => {
   // });
 
 
-  app.delete('/api/statistics/:id', (req, res) => {
+  app.delete('/api/statistics/:id', isAdmin, (req, res) => {
     const id = req.params.id;
     statisticsRepository.delete(id, (err, data) => {
       if (err) {

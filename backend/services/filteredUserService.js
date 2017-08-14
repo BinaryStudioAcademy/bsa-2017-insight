@@ -6,8 +6,13 @@ function getFilteredUsers(conditions, callback) {
   const query = {};
   Object.keys(conditions).forEach((condition) => {
     const value = conditions[condition];
-    if (value.indexOf('*OR*') !== -1) {
-      query[condition] = { $in: value.split('*OR*') };
+    if (value.indexOf('*HAS*') !== -1) {
+      if (value.indexOf('*AND*') === -1) {
+        query[condition] = { $in: value.split('*HAS*')[1].split('*OR*') };
+      }
+      else {
+        query[condition] = { $all: value.split('*HAS*')[1].split('*AND*') };
+      }
     } else if (value.indexOf('*MIN*') !== -1 && value.indexOf('*MAX*') !== -1) {
       const boundaries = value.split(/(\*MIN\*|\*MAX\*)/);
       query[condition] = { $gte: boundaries[2], $lte: boundaries[4] };
@@ -17,6 +22,8 @@ function getFilteredUsers(conditions, callback) {
     } else if (value.indexOf('*MAX*') !== -1) {
       const boundaries = value.split(/(\*MAX\*)/);
       query[condition] = { $lte: boundaries[2] };
+    } else if (value.indexOf('*OR*') !== -1) {
+      query[condition] = { $in: value.split('*OR*') };
     } else {
       query[condition] = value;
     }

@@ -6,7 +6,7 @@ const User = require('../repositories/userRepository');
 const Statistics = require('../repositories/statisticsRepository');
 
 module.exports = function (localPassport) {
-  localPassport.use('admin', new LocalStrategy({ assReqToCallback: true }, (req, username, password, done) => {
+  localPassport.use('admin', new LocalStrategy({ passReqToCallback: true }, (req, username, password, done) => {
     console.log(`username ${username}`);
     Admin.getAdminByName(username, (err, user) => {
       console.log('local strategy', err, user);

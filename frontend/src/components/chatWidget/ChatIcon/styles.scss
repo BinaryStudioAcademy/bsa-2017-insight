@@ -1,4 +1,4 @@
-@import './frontend/src/common/styles/variables.scss';
+@import './../../../common/styles/variables';
 
 :local(.chat-icon) {
   position: absolute;
@@ -6,7 +6,7 @@
   right: 15px;
   width: 75px;
   height: 75px;
-  background-color: deepskyblue;
+  background-color: $landing-orange;
   border-radius: 50%;
 
   &:hover {

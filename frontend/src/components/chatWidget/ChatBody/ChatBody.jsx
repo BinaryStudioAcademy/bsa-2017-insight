@@ -29,7 +29,16 @@ class ChatBody extends Component {
 }
 
 ChatBody.propTypes = {
-  messages: propTypes.array,
+  messages: propTypes.arrayOf(propTypes.shape({
+    conversationId: propTypes.string.isRequired,
+    body: propTypes.string.isRequired,
+    author: propTypes.shape({
+      item: propTypes.any.isRequired,
+      userType: propTypes.string.isRequired,
+    }).isRequired,
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
+    editedAt: propTypes.number,
+  })),
   onMessageSubmit: propTypes.func.isRequired,
   onReturnButtonClick: propTypes.func.isRequired,
 };

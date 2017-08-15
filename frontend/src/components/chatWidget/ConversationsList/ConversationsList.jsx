@@ -48,7 +48,16 @@ class ConversationsList extends Component {
 }
 
 ConversationsList.propTypes = {
-  conversations: propTypes.array,
+  conversations: propTypes.arrayOf(propTypes.shape({
+    _id: propTypes.string.isRequired,
+    participants: propTypes.arrayOf(propTypes.shape({
+      userType: propTypes.string,
+      user: propTypes.any,
+    })).isRequired,
+    messages: propTypes.arrayOf(propTypes.any).isRequired,
+    open: propTypes.bool,
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
+  })),
   onConversationClick: propTypes.func.isRequired,
   onCreateConversationButtonClick: propTypes.func.isRequired,
 };

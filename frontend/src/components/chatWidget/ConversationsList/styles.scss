@@ -1,9 +1,10 @@
+@import './../../../common/styles/variables';
+
 :local(.container) {
   width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-bottom: 55px;
   overflow: auto;
 }
 
@@ -15,37 +16,41 @@
 }
 
 :local(.title) {
-  color: #fff;
+  font-size: 24px;
+  color: $landing-orange;
 }
 
 :local(.conversation-item) {
   text-align: center;
-  background-color: dodgerblue;
+  color: $landing-orange;
+  background-color: #fff;
+  border:2px solid $landing-orange;
+  font-weight: bold;
   border-radius: 20px;
-  color: white;
   padding: 15px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 
   &:hover {
     cursor: pointer;
-    background-color: blue;
+    background-color: $landing-red;
+    color: #fff;
   }
 }
 
 :local(.create-conversation-button) {
   position: absolute;
   bottom: 15px;
-  width: 50%;
+  width: 70%;
   font-size: 18px;
   border-radius: 15px;
-  padding: 8px;
-  background-color: #fff;
-  color: dodgerblue;
+  padding: 15px;
+  background-color: $landing-orange;
+  color: #fff;
+  font-weight: bold;
   cursor: pointer;
   border: none;
 
   &:hover {
-    background-color: dodgerblue;
-    color: #fff;
+    background-color: $landing-red;
   }
 }

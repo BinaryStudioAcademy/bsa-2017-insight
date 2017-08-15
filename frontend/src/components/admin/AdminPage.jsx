@@ -48,11 +48,11 @@ class AdminPage extends React.Component {
   render() {
     return (
       <MyThemeProvider>
-        <div style={{ minWidth: '700px'}}>
+        <div style={{ minWidth: '700px' }}>
           <LeftSideMenu
             width={this.leftMenuWidth}
           />
-          <div style={{ margin: '-8px -8px 0px 0px',paddingLeft: '67px' }}>
+          <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
             <Header />
             <Filter statisticOptions={statisticOptions} />
             <UserInfoTable statisticOptions={statisticOptions} />

@@ -5,15 +5,20 @@ const statisticsRepository = Object.create(Repository.prototype);
 statisticsRepository.model = Statistics;
 
 statisticsRepository.findOneAndPopulate = function (id, callback) {
-  this.model.find({ _id: id }).populate('visitorId').exec(callback);
+  this.model.find({ _id: id }).populate('userId').exec(callback);
 };
 
-statisticsRepository.updateByVisitorId = function (id, data) {
-  return this.model.update({ visitorId: id }, data);
+statisticsRepository.updateByUserId = function (id, data) {
+  return this.model.update({ userId: id }, data);
 };
 
-statisticsRepository.parseAndCreate = function (data) {
+statisticsRepository.create = function (data) {
   return this.model.create(data);
+};
+
+statisticsRepository.getUserStatisticsAndPopulate = function (id, callback) {
+  const model = this.model;
+  model.findOne({ userId: id }).populate('userId').exec(callback);
 };
 
 module.exports = statisticsRepository;

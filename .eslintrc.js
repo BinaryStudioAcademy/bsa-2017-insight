@@ -17,6 +17,7 @@ module.exports = {
     "arrow-body-style": ["error", "always"],
     "react/require-default-props": 0,
     "import/prefer-default-export": 0,
-    "arrow-body-style": 0
+    "arrow-body-style": 0,
+    "no-underscore-dangle": 0,
   }
 };

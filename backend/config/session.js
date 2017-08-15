@@ -1,3 +1,3 @@
 module.exports = {
-	secret: 'ultramegahypersupersecretsessiontoken'
+  secret: 'ultramegahypersupersecretsessiontoken',
 };

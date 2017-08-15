@@ -7,6 +7,7 @@ import Footer from './Footer/Footer';
 import Login from './Login/Login';
 import Pricing from './Pricing/Pricing';
 import Product from './Product/Product';
+import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 
 class Home extends React.Component {
   render() {
@@ -22,6 +23,7 @@ class Home extends React.Component {
           <Route path={'/about'} component={HomeContent} />
           <Route path={'/pricing'} component={Pricing} />
           <Route path={'/login'} component={Login} />
+          <Route component={IncorrectRoute}/>
         </Switch>
         <Footer />
       </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import MyThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
 import UserInfoTable from './Table/Table';
@@ -8,7 +8,7 @@ import Filter from './Filter/Filter';
 
 injectTapEventPlugin();
 
-//на этом месте будут поля данных из БД
+// На этом месте будут поля данных из БД
 const statisticOptions = {
   items: ['Name', 'Email', 'Last seen'],
   Name: [
@@ -47,7 +47,7 @@ class AdminPage extends React.Component {
 
   render() {
     return (
-      <MyThemeProvider>
+      <MuiThemeProvider>
         <div style={{ minWidth: '700px' }}>
           <LeftSideMenu
             width={this.leftMenuWidth}
@@ -58,7 +58,7 @@ class AdminPage extends React.Component {
             <UserInfoTable statisticOptions={statisticOptions} />
           </div>
         </div>
-      </MyThemeProvider>
+      </MuiThemeProvider>
     );
   }
 }

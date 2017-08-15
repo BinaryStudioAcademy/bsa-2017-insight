@@ -27,12 +27,12 @@ render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route path={/\/(?!admin|user)/} component={Home} />
         <Route path={'/admin'} component={AdminPage} />
         <Route exact path={'/userlogin'} component={UserLogin} />
         <Route exact path={'/userregistration'} component={UserRegistration} />
         <Route exact path={'/adminlogin'} component={AdminLogin} />
         <Route exact path={'/adminregistration'} component={AdminRegistration} />
+        <Route path={'*'} component={Home} />
       </Switch>
     </BrowserRouter>
   </Provider>,

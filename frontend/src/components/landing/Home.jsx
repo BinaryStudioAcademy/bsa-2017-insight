@@ -23,7 +23,7 @@ class Home extends React.Component {
           <Route path={'/about'} component={HomeContent} />
           <Route path={'/pricing'} component={Pricing} />
           <Route path={'/login'} component={Login} />
-          <Route component={IncorrectRoute}/>
+          <Route component={IncorrectRoute} />
         </Switch>
         <Footer />
       </div>

@@ -28,11 +28,14 @@ class Chat extends Component {
     };
     this.socket.emit('userId', userObj);
     this.socket.on('userData', (data) => {
-      // и тут мы должны как-то знать айдишник разговора, который нам нужно отрендерить, и передать запрос дальше
       console.log(data);
-      console.log(this);
       this.setState({ user: data });
     });
+    this.socket.emit('getUserConversations', '598ef12257350736943d3c44');
+    // запрос на разговры делать с популейтом партисипентов
+    // TODO разделить юзера и список разговоров
+    // TODO создать кнопку открытия нового чата, по клику создавать разговор с уже включенным участником
+    // (текущим юзером) и отдельно в объект юзера добавлять новый разговор
     this.socket.on('newMessage', (message) => {
       this.setState((prevState) => {
         const conversation = findConversationById(message.conversationId, prevState.user.conversations);
@@ -59,7 +62,7 @@ class Chat extends Component {
     const eventCopy = event;
     const message = event.target.messageInput.value;
     const messageObj = {
-      conversationId: this.state.user.conversations[0],
+      conversationId: this.state.user.conversations[0], // должно быть activeChatId
       body: message,
       createdAt: Date.now(),
       author: {
@@ -71,7 +74,7 @@ class Chat extends Component {
     eventCopy.target.messageInput.value = '';
   }
 
-
+  // разговор отображать в виде "Разговор с "список участников не типа User""
   render() {
     const conversations = this.state.user && this.state.user.conversations;
     const conversationToRender = findConversationById(this.state.activeChatId, conversations);

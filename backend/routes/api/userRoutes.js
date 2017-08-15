@@ -20,7 +20,7 @@ module.exports = function (app) {
     };
     userRepository.add(data, () => {
       passport.authenticate('local')(req, res, function () {
-        console.log('before redirect')
+        // console.log('before redirect')
         res.redirect('/userlogin');
       });
     });

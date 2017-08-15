@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Conversation = require('./conversationSchema');
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
@@ -12,7 +11,7 @@ const adminSchema = new Schema({
   adminSurname: String,
   avatar: String,
   isAdmin: Boolean,
-  conversations: [{ type: Schema.Types.ObjectId, ref: 'Conversation' }],
+  chats: [{ type: Schema.Types.ObjectId, ref: 'Chat' }],
 });
 
 adminSchema.plugin(passportLocalMongoose);

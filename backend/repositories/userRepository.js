@@ -12,7 +12,7 @@ UserRepository.prototype = new Repository();
 
 UserRepository.prototype.getUserByName = function(username, callback) {
   var model = this.model;
-  var query = model.findOne({ 'username':  username });
+  var query = model.findOne({ 'username': username });
   query.exec(callback);
 };
 

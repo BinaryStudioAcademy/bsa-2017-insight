@@ -6,11 +6,11 @@ const ConversationList = (props) =>{
 
    return (
 
-       props.conversations.map(()=>{
-            return <SingleConversation/>
-       })
+             <SingleConversation/>
+    
        
    ) 
 }
 
 
+export default ConversationList

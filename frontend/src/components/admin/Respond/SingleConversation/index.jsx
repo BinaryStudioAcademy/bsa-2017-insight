@@ -4,10 +4,12 @@ import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+import MyThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const SingleConversation = () =>{
    return (
        <div>
+           <MyThemeProvider>
         <List>
             <Subheader>Today</Subheader>
             <ListItem
@@ -23,6 +25,7 @@ const SingleConversation = () =>{
             />
             <Divider inset={true} />
         </List>
+        </MyThemeProvider>
        </div>
    )
 }

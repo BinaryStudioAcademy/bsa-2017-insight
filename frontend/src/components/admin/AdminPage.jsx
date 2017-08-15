@@ -1,14 +1,16 @@
 import React from 'react';
+import { Switch, Route } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import MyThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
 import UserInfoTable from './Table/Table';
 import Filter from './Filter/Filter';
+import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 
 injectTapEventPlugin();
 
-//на этом месте будут поля данных из БД
+// на этом месте будут поля данных из БД
 const statisticOptions = {
   items: ['Name', 'Email', 'Last seen'],
   Name: [
@@ -47,18 +49,40 @@ class AdminPage extends React.Component {
 
   render() {
     return (
-      <MyThemeProvider>
+      <MuiThemeProvider>
         <div style={{ minWidth: '700px' }}>
           <LeftSideMenu
             width={this.leftMenuWidth}
           />
+          {console.log(this.props.match)}
           <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
             <Header />
-            <Filter statisticOptions={statisticOptions} />
-            <UserInfoTable statisticOptions={statisticOptions} />
+            <Switch>
+              <Route
+                path={'/admin/'}
+                render={() => {
+                  return (
+                    <div>
+                      <Filter statisticOptions={statisticOptions} />
+                      <UserInfoTable statisticOptions={statisticOptions} />
+                    </div>
+                  );
+                }}
+              />
+              <Route
+                path={'/admin/respond'}
+                render={() => {
+                  return (
+                    <div>respond</div>
+                  );
+                }}
+              />
+              {/* <Route path={'/admin/engage'} render={() => 'Engage component: message sender'} /> */}
+              {/* <Route component={IncorrectRoute} /> */}
+            </Switch>
           </div>
         </div>
-      </MyThemeProvider>
+      </MuiThemeProvider>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 
@@ -11,18 +11,18 @@ class TopMenuItem extends React.Component {
         i += 1;
         return (
           <li key={i}>
-            <NavLink to={elem.link}>{elem.name}</NavLink>
+            <Link to={elem.link}>{elem.name}</Link>
           </li>
         );
       });
     }
     return (
       <li className={styles['top-menu-item']}>
-        <NavLink
+        <Link
           to={this.props.link}
         >
           {this.props.name}
-        </NavLink>
+        </Link>
         <ul>
           {this.submenu}
         </ul>

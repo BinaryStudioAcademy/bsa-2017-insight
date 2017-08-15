@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// import { NavLink } from 'react-router';
 import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
@@ -9,6 +10,7 @@ import EngageIcon from 'material-ui/svg-icons/editor/insert-chart';
 
 class LeftSideMenu extends React.Component {
   render() {
+    {console.log(this.props)}
     return (
       <div>
         <Drawer

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import styles from './styles.scss';
 import MessagesList from './MessagesList/MessagesList';
-import { findConversationById, startSocketConnection } from './logic';
+import { startSocketConnection } from './logic';
 
 class Chat extends Component {
   constructor(props) {
@@ -12,7 +11,6 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    //  const id = window._injectedData.globalId || window._injectedData.userId._id;
     startSocketConnection.call(this, this.props.dispatch);
   }
 
@@ -21,11 +19,11 @@ class Chat extends Component {
     const eventCopy = event;
     const message = event.target.messageInput.value;
     const messageObj = {
-      conversationId: this.props.admin.conversations[0]._id,
+      conversationId: this.props.conversationToRender._id,
       body: message,
       createdAt: Date.now(),
       author: {
-        item: '598ef17257350736943d3c45',
+        item: '598ef17257350736943d3c45', // window._injectedData.globalId || window._injectedData.userId._id;
         userType: 'Admin',
       },
     };
@@ -34,10 +32,8 @@ class Chat extends Component {
   }
 
   render() {
-    const conversations = this.props.admin && this.props.admin.conversations;
-    const conversationId = this.props.admin && this.props.admin.conversations[0]._id;
-    const conversationToRender = findConversationById(conversationId, conversations);
-    const messages = conversationToRender ? conversationToRender.item.messages : null;
+    const conversationToRender = this.props.conversationToRender;
+    const messages = conversationToRender ? conversationToRender.messages : null;
     return (
       <div className={styles.chat}>
         <MessagesList messages={messages} />
@@ -56,13 +52,8 @@ class Chat extends Component {
 }
 
 Chat.propTypes = {
-  admin: propTypes.object,
+  conversationToRender: propTypes.object,
   dispatch: propTypes.func,
 };
 
-const mapStateToProps = state => ({
-  admin: state.admin,
-});
-
-
-export default connect(mapStateToProps)(Chat);
+export default Chat;

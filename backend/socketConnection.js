@@ -5,18 +5,21 @@ const AdminRepository = require('./repositories/adminRepository');
 const mongoose = require('mongoose');
 
 function connectionHandler(socket) {
+  let user;
   socket.emit('user connected');
   socket.on('userId', (userObj) => {
     if (userObj.type === 'User') {
       UserRepository.model.findOne({ _id: userObj.id })
         .then((data) => {
+          user = data;
           socket.emit('userData', data);
         });
     }
     if (userObj.type === 'Admin') {
       AdminRepository.model.findOne({ _id: userObj.id })
         .then((data) => {
-          socket.emit('userData', data);
+          user = data;
+          socket.emit('adminData', data);
         });
     }
   });

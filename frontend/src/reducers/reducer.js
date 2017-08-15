@@ -3,6 +3,6 @@ import usersReducer from './usersReducer'
 import conversationsReducer from './conversationsReducer'
 
 export default combineReducers({
-  usersReducer,
-  conversationsReducer
+ userState: usersReducer,
+ conversationsState: conversationsReducer
 })

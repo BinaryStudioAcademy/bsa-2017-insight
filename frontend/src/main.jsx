@@ -8,9 +8,11 @@ import UserRegistration from './components/user/registration';
 import AdminLogin from './components/admin/login';
 import AdminRegistration from './components/admin/registration';
 import { store, sagaMiddleware } from './store';
-import rootSaga from './saga/conversationsSaga';
+import rootSaga from './saga/rootSaga';
 import Home from './components/landing/Home';
 import Respond from "./components/admin/Respond"
+
+sagaMiddleware.run(rootSaga);
 
 render(
   <Provider store={store}>
@@ -28,4 +30,4 @@ render(
   document.getElementById('root'),
 );
 
-sagaMiddleware.run(rootSaga);
+

@@ -4,7 +4,7 @@ import conversationsSaga from './conversationsSaga';
 
 function* rootSaga() {
    console.log("HELLO FROM rootSaga")
-  yield [conversationsSaga()];
+  yield [fork(usersSaga),fork(conversationsSaga)];
  
 }
 

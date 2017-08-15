@@ -10,7 +10,7 @@ import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 
 injectTapEventPlugin();
 
-// на этом месте будут поля данных из БД
+// На этом месте будут поля данных из БД
 const statisticOptions = {
   items: ['Name', 'Email', 'Last seen'],
   Name: [
@@ -54,12 +54,11 @@ class AdminPage extends React.Component {
           <LeftSideMenu
             width={this.leftMenuWidth}
           />
-          {console.log(this.props.match)}
           <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
             <Header />
             <Switch>
               <Route
-                path={'/admin/'}
+                exact path={'/admin'}
                 render={() => {
                   return (
                     <div>
@@ -77,8 +76,15 @@ class AdminPage extends React.Component {
                   );
                 }}
               />
-              {/* <Route path={'/admin/engage'} render={() => 'Engage component: message sender'} /> */}
-              {/* <Route component={IncorrectRoute} /> */}
+              <Route
+                path={'/admin/engage'}
+                render={() => {
+                  return (
+                    <div>engage</div>
+                  );
+                }}
+              />
+              <Route component={IncorrectRoute} />
             </Switch>
           </div>
         </div>

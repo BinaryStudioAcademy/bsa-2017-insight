@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { NavLink } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
@@ -21,7 +21,9 @@ class LeftSideMenu extends React.Component {
             tooltip={'Home'}
             tooltipPosition={'bottom-right'}
           >
-            <HomeAdminIcon />
+            <NavLink to={'/admin'}>
+              <HomeAdminIcon />
+            </NavLink>
           </IconButton>
           <Divider />
           <IconButton
@@ -29,7 +31,9 @@ class LeftSideMenu extends React.Component {
             tooltip={'Respond'}
             tooltipPosition={'bottom-right'}
           >
-            <RespondIcon />
+            <NavLink to={'/admin/respond'}>
+              <RespondIcon />
+            </NavLink>
           </IconButton>
           <Divider />
           <IconButton
@@ -37,7 +41,9 @@ class LeftSideMenu extends React.Component {
             tooltip={'Engage'}
             tooltipPosition={'bottom-right'}
           >
-            <EngageIcon />
+            <NavLink to={'/admin/engage'}>
+              <EngageIcon />
+            </NavLink>
           </IconButton>
           <Divider />
         </Drawer>

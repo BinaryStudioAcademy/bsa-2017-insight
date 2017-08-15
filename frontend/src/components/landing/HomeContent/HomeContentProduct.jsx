@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 
@@ -10,7 +10,7 @@ class HomeContentProduct extends React.Component {
         <img src={this.props.image} alt={''} />
         <h3>{this.props.name}</h3>
         <span>{this.props.description}</span>
-        <Link to={this.props.link}>Learn more...</Link>
+        <NavLink to={this.props.link}>Learn more...</NavLink>
       </div>
     );
   }

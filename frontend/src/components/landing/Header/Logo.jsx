@@ -1,13 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import styles from './styles.scss';
 
 class Logo extends React.Component {
   render() {
     return (
-      <Link to="/" className={styles.logo}>
+      <NavLink to="/" className={styles.logo}>
         <span>&nbsp;InSi</span>g<span>ht&nbsp;</span>
-      </Link>
+      </NavLink>
     );
   }
 }

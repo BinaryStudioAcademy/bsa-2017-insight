@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 
@@ -9,7 +9,7 @@ class FooterColumn extends React.Component {
       let i = 0;
       this.items = this.props.textItems.map((item) => {
         i += 1;
-        return (<li key={i}><Link to={item.link}>{item.name}</Link></li>);
+        return (<li key={i}><NavLink to={item.link}>{item.name}</NavLink></li>);
       });
     } else if (this.props.imageItems) {
       let i = 0;

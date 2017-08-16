@@ -49,11 +49,11 @@ class UserLogin extends React.Component {
         <h3>Sign into your account</h3>
         <hr />
         <div className={styles['get-data']}>
-          <p>Username: </p>
+          <span>Username</span>
           <input type="text"name="username" onChange={this.setInput} />
         </div>
         <div className={styles['get-data']}>
-          <p>Enter your password</p>
+          <span>Password</span>
           <input type="password" name="password" onChange={this.setInput} />
         </div>
         {/* <div className={styles['remember-me']}>

@@ -1,7 +1,7 @@
 @import './frontend/src/common/styles/variables.scss';
 
 $formWidth: 400px;
-$formHeight: 280px;
+// $formHeight: 280px;
 $checkboxSize: 20px;
 
 $headerFont: 24px;
@@ -16,7 +16,7 @@ $smallTextFont: 16px;
 	padding: 40px;
 	padding-top: 0px;
 	width: $formWidth;
-	height: $formHeight;
+	// height: $formHeight;
 	text-align: center;
 
 	h3{
@@ -53,18 +53,34 @@ $smallTextFont: 16px;
 	justify-content: space-between;
 	align-items: center;
 
-	p{
+	* {
+		// outline: 1px solid red;
+	}
+
+	span{
 		display: inline-block;
 		color: $landing-middlegrey;
 		font-size: $textFont;
 	}
 
 	input{
+		box-sizing: border-box;
 		border-radius: 10px;
-		height: 22px;
+		height: 32px;
+		padding: 10px;
 	}
-}
 
-:local(.remember-me) {
+	input[type="radio"] {
+		height: 24px;
+		width: 24px;
+		margin-left: 12px;
+	}
 
+	label {
+		line-height: 30px;
+	}
+
+	div, input {
+		width: 200px;
+	}
 }

@@ -6,16 +6,16 @@ import Footer from './Footer/Footer';
 import HomeContent from './HomeContent/HomeContent';
 import Product from './Product/Product';
 import Pricing from './Pricing/Pricing';
-import Login from './Login/Login';
+// import Login from './Login/Login';
 import IncorrectRoute from './../incorrectRoute/IncorrectRoute';
 import ChatWidget from '../chatWidget/ChatWidget';
 
 import Login1 from './UserAuthentication/UserLogin';
 import Registration from './UserAuthentication/UserRegistration';
 
-import Forgot from '../forgot/Forgot';
-import ResetPassword from '../reset/ResetPassword';
-import InvalidToken from '../invalidtoken/InvalidToken';
+import Forgot from './UserAuthentication/reset/Forgot';
+import ResetPassword from './UserAuthentication/reset/ResetPassword';
+import InvalidToken from './UserAuthentication/reset/InvalidToken';
 
 import '../../components/analytics/analytics';
 import '../../components/analytics/getStatistics';

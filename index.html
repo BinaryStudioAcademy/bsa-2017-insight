@@ -2,10 +2,14 @@
 <html>
 <head>
     <title>Insight</title>
-</head>
-<body>
-<div class="app" id="root">
-</div>
-<script src="./bundle.js"></script>
-</body>
+  </head>
+  <body>
+    <div class="app" id="root">
+    </div>
+    <base href="/">
+    <script src="./bundle.js"></script>
+    <script type="text/javascript">
+      window._injectedData = JSON.parse('["data_replace"]');
+    </script>
+  </body>
 </html>

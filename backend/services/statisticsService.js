@@ -12,13 +12,15 @@ function getUserAgentInfo(uaString) {
 }
 
 function parseStatisticsAndUpdate(statistics) {
+  console.log(statistics);
   const parsedStatistics = Object.assign({}, statistics, getUserAgentInfo(statistics.userAgent));
-  return statisticsRepository.updateByVisitorId(parsedStatistics.visitorId, parsedStatistics);
+  console.log(parsedStatistics);
+  return statisticsRepository.updateByUserId(parsedStatistics.userId, parsedStatistics);
 }
 
 function parseStatisticsAndCreate(statistics) {
   const parsedStatistics = Object.assign({}, statistics, getUserAgentInfo(statistics.userAgent));
-  return statisticsRepository.parseAndCreate(parsedStatistics);
+  return statisticsRepository.create(parsedStatistics);
 }
 
 module.exports = {

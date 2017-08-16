@@ -11,14 +11,17 @@ const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-// const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const passport = require('passport');
+const flash = require('connect-flash');
 
 const port = 3000;
 
 const app = express();
 
-// TODO delete CORS
-// app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser(sessionSecret));
 
 app.use(session({
   secret: sessionSecret,
@@ -29,19 +32,34 @@ app.use(session({
   }),
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+const initPassport = require('./passport/init');
+
+initPassport(passport);
+
 context.mongoStore = new MongoStore({
   mongooseConnection,
 });
 
 const compiler = webpack(webpackConfig);
-app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
+
+app.use(webpackDevMiddleware(compiler, {
+  noInfo: true,
+  publicPath: webpackConfig.output.publicPath,
+}));
+
+console.log(webpackConfig.output);
+
 app.use(webpackHotMiddleware(compiler));
 
 const staticPath = path.resolve(`${__dirname}/../dist/`);
 app.use(express.static(staticPath));
 app.use('/resources', express.static('./frontend/src/common/resources'));
+app.use('/uploads', express.static(path.join(__dirname, '/../uploads')));
 
-app.use(bodyParser.json());
 app.use((req, res, next) => {
   // console.log(req.session.user);
   next();

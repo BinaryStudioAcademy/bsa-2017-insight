@@ -1,8 +1,7 @@
-const path = require('path');
+const injectData = require('../../middleware/injectedDataMiddleware');
 
-module.exports = (app) => {
+module.exports = function (app) {
   app.get('*', (req, res) => {
-    res.header = ('Content-Type', 'text/html');
-    res.sendFile(path.resolve(`${__dirname}/../../../index.html`));
+    injectData(req, res, {}, false);
   });
 };

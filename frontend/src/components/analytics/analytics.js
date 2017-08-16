@@ -1,6 +1,6 @@
 (function () {
   const userStatistics = {
-    visitorId: null,
+    userId: null,
     viewedUrls: null,
     currentUrl: location.href,
     browserLanguage: navigator.language,
@@ -15,11 +15,6 @@
     userAgent: navigator.userAgent,
     timeZone: -((new Date()).getTimezoneOffset() / 60),
   };
-
-  const registeredUser = localStorage.getItem('user'); // при логине, пусть компонент берет айди с локалстораджа
-  // при регистрации,создается не только объект юзера, но также и объект статистики этого юзера, обязательно с
-  // указанным айди!!!!!!!!!!!!!!!!!!!!!!!!1111111111111111111111111111один
-  const globalId = localStorage.getItem('globalId');
 
   function getUserIp() {
     return fetch('https://ipinfo.io/json');
@@ -55,25 +50,25 @@
       body: JSON.stringify(userObject),
       method: 'POST', // вообще это всегда PUT, просто пут нужно настраивать различать id, сейчас нет времени
     };
-    return fetch('http://localhost:3000/api/visitors', requestOptions);
+    return fetch('http://localhost:3000/api/users', requestOptions);
   }
 
   function saveUrlHistory() {
-    const lastUrl = localStorage.getItem('lastUrl');
+    const lastUrl = window._injectedData.lastUrl;
     if (!lastUrl) {
-      localStorage.setItem('lastUrl', location.href);
+      window._injectedData.lastUrl = location.href;
     } else if (lastUrl === location.href) {
       return;
     } else {
-      localStorage.setItem('lastUrl', location.href);
+      window._injectedData.lastUrl = location.href;
     }
-    const oldHistory = JSON.parse(localStorage.getItem('urlHistory'));
+    const oldHistory = window._injectedData.urlHistory || window._injectedData.viewedUrls;
     let newHistory = [location.href];
     if (oldHistory) {
       newHistory = [...oldHistory, location.href];
     }
     userStatistics.viewedUrls = newHistory;
-    localStorage.setItem('urlHistory', JSON.stringify(newHistory));
+    window._injectedData.urlHistory = newHistory;
   }
 
   function collectAllData() {
@@ -95,23 +90,29 @@
     return (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24);
   }
 
-  if (registeredUser && registeredUser.id) {
-    userStatistics.visitorId = registeredUser.id;
-    collectAllData().then(() => sendStatistics(registeredUser.id, 'PUT'));
-  } else if (globalId) {
-    userStatistics.visitorId = globalId;
-    collectAllData().then(() => sendStatistics(globalId, 'PUT'));
-    // на сервере проверять не _id, а visitorId
-  } else {
-    const newGlobalId = generateId();
-    userStatistics.visitorId = newGlobalId;
-    localStorage.setItem('globalId', newGlobalId);
-    collectAllData().then(() => {
-      sendUser(newGlobalId)
-        .then(response => response.json())
-        .then(() => {
-          sendStatistics(null, 'POST');
-        });
-    });
-  }
+  window.addEventListener('click', () => {
+    const injectedData = window._injectedData;
+    const registeredUserId = injectedData.userId && injectedData.userId.username ? injectedData.userId._id : undefined;
+    const globalId = injectedData.globalId;
+
+    if (registeredUserId) {
+      userStatistics.userId = registeredUserId;
+      collectAllData().then(() => sendStatistics(registeredUserId, 'PUT'));
+    } else if (globalId) {
+      userStatistics.userId = globalId;
+      collectAllData().then(() => sendStatistics(globalId, 'PUT'));
+      // на сервере проверять не _id, а userId
+    } else {
+      const newGlobalId = generateId();
+      userStatistics.userId = newGlobalId;
+      injectedData.globalId = newGlobalId;
+      collectAllData().then(() => {
+        sendUser(newGlobalId)
+          .then(response => response.json())
+          .then(() => {
+            sendStatistics(null, 'POST');
+          });
+      });
+    }
+  });
 }());

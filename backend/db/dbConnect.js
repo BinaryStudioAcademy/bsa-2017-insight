@@ -1,10 +1,10 @@
-function dbConnectionHandler() {
-  const mongoose = require('mongoose');
-  const config = require('../config');
+const mongoose = require('mongoose');
+const config = require('../config');
+mongoose.Promise = Promise;
 
+function DBConnectionHandler() {
   mongoose.connect(config.db.uri, config.db.opts);
   mongoose.set('debug', true);
-  mongoose.Promise = Promise;
 
   this.connection = mongoose.connection;
 
@@ -20,7 +20,7 @@ function dbConnectionHandler() {
     this.state = 'disconnected';
   });
 
-  process.on('SIGINT', function () {
+  process.on('SIGINT', () => {
     mongoose.connection.close(function () {
       this.state = 'disconnected';
       process.exit(0);
@@ -28,4 +28,4 @@ function dbConnectionHandler() {
   });
 }
 
-module.exports = new dbConnectionHandler();
+module.exports = new DBConnectionHandler();

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
@@ -14,29 +15,35 @@ class LeftSideMenu extends React.Component {
         <Drawer
           width={this.props.width}
         >
-          <IconButton
-            style={{ width: this.props.width }}
-            tooltip={'Home'}
-            tooltipPosition={'bottom-right'}
-          >
-            <HomeAdminIcon />
-          </IconButton>
+          <NavLink to={'/admin'}>
+            <IconButton
+              style={{ width: this.props.width }}
+              tooltip={'Home'}
+              tooltipPosition={'bottom-right'}
+            >
+              <HomeAdminIcon />
+            </IconButton>
+          </NavLink>
           <Divider />
-          <IconButton
-            style={{ width: this.props.width }}
-            tooltip={'Respond'}
-            tooltipPosition={'bottom-right'}
-          >
-            <RespondIcon />
-          </IconButton>
+          <NavLink to={'/admin/respond'}>
+            <IconButton
+              style={{ width: this.props.width }}
+              tooltip={'Respond'}
+              tooltipPosition={'bottom-right'}
+            >
+              <RespondIcon />
+            </IconButton>
+          </NavLink>
           <Divider />
-          <IconButton
-            style={{ width: this.props.width }}
-            tooltip={'Engage'}
-            tooltipPosition={'bottom-right'}
-          >
-            <EngageIcon />
-          </IconButton>
+          <NavLink to={'/admin/engage'}>
+            <IconButton
+              style={{ width: this.props.width }}
+              tooltip={'Engage'}
+              tooltipPosition={'bottom-right'}
+            >
+              <EngageIcon />
+            </IconButton>
+          </NavLink>
           <Divider />
         </Drawer>
       </div>

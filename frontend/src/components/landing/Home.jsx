@@ -2,12 +2,12 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import styles from './styles.scss';
 import Header from './Header/Header';
-import HomeContent from './HomeContent/HomeContent';
 import Footer from './Footer/Footer';
-import Login from './Login/Login';
-import Pricing from './Pricing/Pricing';
+import HomeContent from './HomeContent/HomeContent';
 import Product from './Product/Product';
-import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
+import Pricing from './Pricing/Pricing';
+import Login from './Login/Login';
+import IncorrectRoute from './../incorrectRoute/IncorrectRoute';
 
 class Home extends React.Component {
   render() {
@@ -23,7 +23,7 @@ class Home extends React.Component {
           <Route path={'/about'} component={HomeContent} />
           <Route path={'/pricing'} component={Pricing} />
           <Route path={'/login'} component={Login} />
-          <Route component={IncorrectRoute}/>
+          <Route component={IncorrectRoute} />
         </Switch>
         <Footer />
       </div>

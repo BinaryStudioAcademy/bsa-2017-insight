@@ -64,4 +64,62 @@ module.exports = function (app) {
 
     });
   });
+
+  app.get('/api/admins/', (req, res) => {
+    adminRepository.getAll((err, data) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      } else {
+        res.status(200).json(data);
+      }
+    });
+  });
+
+  app.get('/api/admins/:id', (req, res) => {
+    const id = req.params.id;
+    adminRepository.findOneAndPopulate(id, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      } else {
+        res.status(200).json(data);
+      }
+    });
+  });
+
+  app.post('/api/admins/', (req, res) => {
+    adminRepository.add(req.body, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      } else {
+        res.status(201).json(data);
+      }
+    });
+  });
+
+  app.put('/api/admins/:id', (req, res) => {
+    const id = req.params.id;
+    adminRepository.update(id, req.body, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      } else {
+        res.status(200).json(data);
+      }
+    });
+  });
+
+  app.delete('/api/admins/:id', (req, res) => {
+    const id = req.params.id;
+    adminRepository.delete(id, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      } else {
+        res.status(200).json(data);
+      }
+    });
+  });
 };

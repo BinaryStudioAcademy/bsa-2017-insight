@@ -1,0 +1,54 @@
+@import './../../../common/styles/variables';
+
+:local(.chat) {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0 10% 0 8%;
+  height: 90%;
+}
+
+:local(.return-button) {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 30px;
+  height: 30px;
+  background: url("http://www.iconsdb.com/icons/preview/color/DE3F28/arrow-98-xxl.png") center no-repeat;
+  background-size: cover;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+:local(.sending-form) {
+  position: absolute;
+  width: 80%;
+  bottom: 15px;
+  display: flex;
+  left: 10%;
+}
+
+:local(.message-input) {
+  flex-basis: 74%;
+  padding: 10px;
+  margin-right: 1%;
+  border-radius: 5px;
+  border: 1px solid $landing-red;
+}
+
+:local(.submit-button) {
+  flex-basis: 25%;
+  background-color: #fff;
+  color: $landing-red;
+  border: 1px solid $landing-red;
+  border-radius: 5px;
+  padding: 10px;
+
+  &:hover {
+    background-color: $landing-red;
+    color: #fff;
+    cursor: pointer;
+  }
+}

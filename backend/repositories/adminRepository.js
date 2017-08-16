@@ -16,5 +16,10 @@ AdminRepository.add = function (data, callback) {
   });
 };
 
+AdminRepository.findOneAndPopulate = function (id, callback) {
+  const model = this.model;
+  model.findById({ _id: id }).populate('conversations').exec(callback);
+};
+
 module.exports = AdminRepository;
 

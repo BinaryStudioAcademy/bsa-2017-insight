@@ -5,4 +5,3 @@ module.exports = function (app) {
     injectData(req, res, {}, false);
   });
 };
-

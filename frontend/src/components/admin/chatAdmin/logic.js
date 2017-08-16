@@ -2,11 +2,11 @@ import io from './../../../../../node_modules/socket.io-client/dist/socket.io';
 import { fetchMessage } from './../../../actions/conversationsActions';
 
 function startSocketConnection(dispatch) {
-  //  const id = window._injectedData.globalId || window._injectedData.userId._id;
+  const id = window._injectedData.userId._id;
   this.socket = io('http://localhost:3000');
   const userObj = {
     type: 'Admin',
-    id: '598ef17257350736943d3c45',
+    id,
   };
   this.socket.emit('userId', userObj);
   this.socket.on('adminData', (data) => {

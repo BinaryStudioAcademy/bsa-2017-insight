@@ -23,7 +23,7 @@ class Chat extends Component {
       body: message,
       createdAt: Date.now(),
       author: {
-        item: '598ef17257350736943d3c45', // window._injectedData.globalId || window._injectedData.userId._id;
+        item: window._injectedData.userId._id,
         userType: 'Admin',
       },
     };
@@ -52,7 +52,16 @@ class Chat extends Component {
 }
 
 Chat.propTypes = {
-  conversationToRender: propTypes.object,
+  conversationToRender: propTypes.shape({
+    _id: propTypes.string.isRequired,
+    participants: propTypes.arrayOf(propTypes.shape({
+      userType: propTypes.string,
+      user: propTypes.any,
+    })).isRequired,
+    messages: propTypes.arrayOf(propTypes.any).isRequired,
+    open: propTypes.bool,
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
+  }),
   dispatch: propTypes.func,
 };
 

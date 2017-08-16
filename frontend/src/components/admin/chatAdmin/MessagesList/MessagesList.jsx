@@ -16,7 +16,16 @@ const MessagesList = (props) => {
 };
 
 MessagesList.propTypes = {
-  messages: propTypes.array,
+  messages: propTypes.arrayOf(propTypes.shape({
+    conversationId: propTypes.string.isRequired,
+    body: propTypes.string.isRequired,
+    author: propTypes.shape({
+      item: propTypes.any.isRequired,
+      userType: propTypes.string.isRequired,
+    }).isRequired,
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
+    editedAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
+  })),
 };
 
 export default MessagesList;

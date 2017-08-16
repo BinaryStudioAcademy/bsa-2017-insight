@@ -1,60 +1,50 @@
-// const login = require('./login');
-const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const Admin = require('../repositories/adminRepository');
 const User = require('../repositories/userRepository');
-const Statistics = require('../repositories/statisticsRepository');
 
 module.exports = function (localPassport) {
   localPassport.use('admin', new LocalStrategy({ passReqToCallback: true }, (req, username, password, done) => {
-    console.log(`username ${username}`);
-    Admin.getAdminByName(username, (err, user) => {
-      console.log('local strategy', err, user);
+    Admin.getByUsername(username, (err, admin) => {
       if (err) {
         return done(err);
       }
-      if (!user) {
-        return done(null, false, req.flash('message', 'Admin not found.'));
+      if (!admin || !admin.checkPassword(password)) {
+        return done(null, false, 'Admin not found');
       }
-      return done(null, user);
+      return done(null, admin);
     });
   }));
 
   localPassport.use('user', new LocalStrategy({ passReqToCallback: true }, (req, username, password, done) => {
-    console.log(`username ${username}`);
-    User.getUserByName(username, (err, user) => {
-      console.log('local strategy', err, user);
+    User.getByUsername(username, (err, user) => {
       if (err) {
         return done(err);
       }
-      if (!user) {
-        return done(null, false, req.flash('message', 'User not found.'));
+      if (!user || !user.checkPassword(password)) {
+        return done(null, false, 'User not found');
       }
-      return done(null, user);
+      done(null, user);
     });
   }));
 
   localPassport.serializeUser((user, done) => {
-    console.log(`serializeUser ${user}`);
     const data = {
       id: user._id,
-      isAdmin: user.isAdmin,
+      isAdmin: user.isAdmin || false,
     };
+
     done(null, data);
   });
 
-  localPassport.deserializeUser((data, done) => {
-    console.log(`deserializeUser ${data}`);
-    if (data) {
-      if (data.isAdmin) {
-        Admin.getById(data.id, (err, user) => {
-          done(err, user);
-        });
-      } else {
-        Statistics.getUserStatisticsAndPopulate(data.id, (err, user) => {
-          done(err, user);
-        });
-      }
+  localPassport.deserializeUser((user, done) => {
+    if(user.isAdmin) {
+      Admin.getById(user.id, function(err, user) {
+        done(err, user);
+      });
+    } else {
+      User.getById(user.id, function(err, user) {
+        done(err, user);
+      });
     }
   });
 };

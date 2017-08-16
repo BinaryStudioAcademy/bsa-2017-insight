@@ -8,8 +8,8 @@ import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
 import UserInfoTable from './Table/Table';
 import Filter from './Filter/Filter';
-import Login from './login';
-import Registration from './registration';
+import Login from './AdminAuthentication/AdminLogin';
+import Registration from './AdminAuthentication/AdminRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 import UserInfo from './UserInfo/UserInfo';
 

@@ -52,8 +52,6 @@ app.use(webpackDevMiddleware(compiler, {
   publicPath: webpackConfig.output.publicPath,
 }));
 
-console.log(webpackConfig.output);
-
 app.use(webpackHotMiddleware(compiler));
 
 const staticPath = path.resolve(`${__dirname}/../dist/`);

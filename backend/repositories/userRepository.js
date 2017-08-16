@@ -7,18 +7,13 @@ const mongoose = require('mongoose');
 const userRepository = Object.create(Repository.prototype);
 userRepository.model = User;
 
-userRepository.getUserByName = function (username, callback) {
-  const model = this.model;
-  const query = model.findOne({ username });
-  query.exec(callback);
-};
-
 userRepository.add = function (data, callback) {
-  const self = this;
   data.salt = bcrypt.genSaltSync(10);
   bcrypt.hash(data.password, data.salt, null, (err, hash) => {
+    if(err) return callback(err);
     data.password = hash;
-    Repository.prototype.add.call(self, data, callback);
+    const newUser = new User(data);
+    newUser.save(callback);
   });
 };
 

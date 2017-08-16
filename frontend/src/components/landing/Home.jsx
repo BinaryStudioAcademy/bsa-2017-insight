@@ -8,7 +8,6 @@ import Footer from './Footer/Footer';
 import Login from './Login/Login';
 import Pricing from './Pricing/Pricing';
 import Product from './Product/Product';
-import ChatWidget from '../chatWidget/ChatWidget';
 
 WebFont.load({
   google: {
@@ -33,7 +32,6 @@ class Home extends React.Component {
           <Route render={() => <div>404 ERROR</div>} />
         </Switch>
         <Footer />
-        <Route component={ChatWidget} />
       </div>
     );
   }

@@ -29,7 +29,7 @@ class Register extends React.Component {
 // <button onClick={() => { this.props.getAllUsers(); }}>GET USERS</button>
 
 Register.propTypes = {
-//  getAllUsers: PropTypes.func,
+  // getAllUsers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {

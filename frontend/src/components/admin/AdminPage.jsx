@@ -1,10 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MyThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
 import UserInfoTable from './Table/Table';
 import Filter from './Filter/Filter';
+// import getStatistics from '../analytics/getStatistics';
+import * as statisticActions from '../../actions/statisticActions';
 
 injectTapEventPlugin();
 
@@ -39,11 +42,24 @@ const statisticOptions = {
   ],
 };
 
+
 class AdminPage extends React.Component {
   constructor() {
     super();
     this.leftMenuWidth = 75;
+    this.state = {
+      data: {}
+    };
   }
+
+  componentWillMount() {
+    console.log("COMPONENT WILL MOUNT!!");
+    statisticActions.getStatistic();
+    console.log(this.state.data);
+  }
+
+
+
 
   render() {
     return (
@@ -56,6 +72,7 @@ class AdminPage extends React.Component {
             <Header />
             <Filter statisticOptions={statisticOptions} />
             <UserInfoTable statisticOptions={statisticOptions} />
+            <button onClick={() => statisticActions.getStatistic()}>Push me</button>
           </div>
         </div>
       </MyThemeProvider>
@@ -63,4 +80,21 @@ class AdminPage extends React.Component {
   }
 }
 
-export default AdminPage;
+
+const mapStateToProps = (state) => {
+  return {
+    data: state.data,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getStatistic: () => {
+      return dispatch(statisticActions.getStatistic());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminPage);
+
+// export default AdminPage;

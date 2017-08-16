@@ -75,8 +75,7 @@ class Filter extends React.Component {
   handleTap(groupName) {
     const newInitiallyOpen = this.state.initiallyOpen;
     newInitiallyOpen[groupName] = (!newInitiallyOpen[groupName]);
-    console.log();
-    // this.setState({initiallyOpen: newInitiallyOpen});
+    this.setState({initiallyOpen: newInitiallyOpen});
     // Тут происходит магия
     // С закоментированной строкой все работает как надо.Если раскоментировать, то невозможно будет поставить 
     // галочку в checkBox.
@@ -112,7 +111,7 @@ class Filter extends React.Component {
                     key={uniqueId++}
                     rightIcon={<EmptyPlace />}
                     initiallyOpen={this.state.initiallyOpen[elem]}
-                    onTouchTap={() => this.handleTap(elem)}
+                    onClick={() => this.handleTap(elem)}
                     primaryTogglesNestedList
                     nestedItems={this.getNestedItems(statisticOptions[elem], elem)}
                   />);

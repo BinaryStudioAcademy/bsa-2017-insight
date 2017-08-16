@@ -1,22 +1,21 @@
-function getStatistics() {
+export function fetchStatistic() {
+  console.log('fetch statistic function');
   const url = 'http://localhost:3000/api/statistics';
-  const requestOptions = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: null,
-    method: 'GET',
-  };
-  fetch(url, requestOptions)
+  // const requestOptions = {
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: null,
+  //   method: 'GET',
+  // };
+  return fetch(url)
     .then(function(response) {
       return response.json();
    })
-    .then(function(user) {
-    console.log(user[0]);
+    .then(function(info) {
+      // console.log(typeof(info[0]));
+      // console.log(info[0]);
+      return info;
   })
-    .catch( alert );
-};
-
-getStatistics();
-
-
+  // return data;
+}

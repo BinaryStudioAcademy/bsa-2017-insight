@@ -9,13 +9,14 @@ import rootSaga from './saga/rootSaga';
 import Home from './components/landing/Home';
 import AdminPage from './components/admin/AdminPage';
 import './components/analytics/analytics';
-import './components/analytics/getStatistics';
 
 WebFont.load({
   google: {
     families: ['Ubuntu:300,400,700', 'Roboto'],
   },
 });
+
+sagaMiddleware.run(rootSaga);
 
 render(
   <Provider store={store}>
@@ -28,5 +29,3 @@ render(
   </Provider>,
   document.getElementById('root'),
 );
-
-sagaMiddleware.run(rootSaga);

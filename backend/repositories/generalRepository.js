@@ -30,4 +30,10 @@ Repository.prototype.getById = function (id, callback) {
   query.exec(callback);
 };
 
+Repository.prototype.getByUsername = function(username, callback) {
+  const model = this.model;
+  const query = model.findOne({ username });
+  query.exec(callback);
+}
+
 module.exports = Repository;

@@ -3,6 +3,7 @@ const ConversationRepository = require('./repositories/conversationRepository');
 const UserRepository = require('./repositories/userRepository');
 const AdminRepository = require('./repositories/adminRepository');
 const createConversationAndUpdateUser = require('./services/conversationService');
+const checkIfAdminIsConversationParticipant = require('./services/conversationService');
 const mongoose = require('mongoose');
 
 function connectionHandler(socket) {
@@ -35,6 +36,9 @@ function connectionHandler(socket) {
       .then((data) => {
         console.log('message added succesfully');
         const messageToSend = data;
+        if (message.author.userType === 'Admin') {
+          checkIfAdminIsConversationParticipant(message.conversationId, message.author.item);
+        }
         if (messageToSend.author.item.toString() === user._id.toString()) {
           messageToSend._doc.author.item = user;
         }

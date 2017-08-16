@@ -9,4 +9,16 @@ function createConversationAndUpdateUser(conversation, userId, socket) {
   });
 }
 
-module.exports = createConversationAndUpdateUser;
+function checkIfAdminIsConversationParticipant(conversationId, adminId) {
+  ConversationRepository.model.findById(conversationId).then((conversationData) => {
+    const isAdminParticipant = conversationData.participants.find(participantId => participantId === adminId);
+    if (!isAdminParticipant) {
+      ConversationRepository.model.findByIdAndUpdate(conversationId, { $push: { participants: adminId } }).exec();
+    }
+  });
+}
+
+module.exports = {
+  createConversationAndUpdateUser,
+  checkIfAdminIsConversationParticipant,
+};

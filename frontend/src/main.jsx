@@ -6,10 +6,8 @@ import { Provider } from 'react-redux';
 import WebFont from 'webfontloader';
 import { store, sagaMiddleware } from './store';
 import rootSaga from './saga/rootSaga';
-
 import Home from './components/landing/Home';
 import AdminPage from './components/admin/AdminPage';
-
 import UserLogin from './components/user/login';
 import UserRegistration from './components/user/registration';
 import AdminLogin from './components/admin/login';

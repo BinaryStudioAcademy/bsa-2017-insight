@@ -2,11 +2,20 @@ import React from 'react';
 import { Switch, Route } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
 import UserInfoTable from './Table/Table';
 import Filter from './Filter/Filter';
+import Login from './login';
+import Registration from './registration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
+
+const muiTheme = getMuiTheme({
+  tooltip: {
+    rippleBackgroundColor: '#333333',
+  },
+});
 
 injectTapEventPlugin();
 
@@ -49,44 +58,54 @@ class AdminPage extends React.Component {
 
   render() {
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider muiTheme={muiTheme}>
         <div style={{ minWidth: '700px' }}>
-          <LeftSideMenu
-            width={this.leftMenuWidth}
-          />
-          <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
-            <Header />
-            <Switch>
-              <Route
-                exact path={'/admin'}
-                render={() => {
-                  return (
-                    <div>
-                      <Filter statisticOptions={statisticOptions} />
-                      <UserInfoTable statisticOptions={statisticOptions} />
-                    </div>
-                  );
-                }}
-              />
-              <Route
-                path={'/admin/respond'}
-                render={() => {
-                  return (
-                    <div>respond</div>
-                  );
-                }}
-              />
-              <Route
-                path={'/admin/engage'}
-                render={() => {
-                  return (
-                    <div>engage</div>
-                  );
-                }}
-              />
-              <Route component={IncorrectRoute} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route path={'/admin/login'} component={Login} />
+            <Route path={'/admin/registration'} component={Registration} />
+            <Route render={() => {
+              return (
+                <div>
+                  <LeftSideMenu
+                    width={this.leftMenuWidth}
+                  />
+                  <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
+                    <Header />
+                    <Switch>
+                      <Route
+                        exact path={'/admin'}
+                        render={() => {
+                          return (
+                            <div>
+                              <Filter statisticOptions={statisticOptions} />
+                              <UserInfoTable statisticOptions={statisticOptions} />
+                            </div>
+                          );
+                        }}
+                      />
+                      <Route
+                        path={'/admin/respond'}
+                        render={() => {
+                          return (
+                            <div>respond</div>
+                          );
+                        }}
+                      />
+                      <Route
+                        path={'/admin/engage'}
+                        render={() => {
+                          return (
+                            <div>engage</div>
+                          );
+                        }}
+                      />
+                      <Route component={IncorrectRoute} />
+                    </Switch>
+                  </div>
+                </div>
+              );
+            }} />
+          </Switch>
         </div>
       </MuiThemeProvider>
     );

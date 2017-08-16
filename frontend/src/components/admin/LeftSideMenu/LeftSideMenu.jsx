@@ -10,41 +10,40 @@ import EngageIcon from 'material-ui/svg-icons/editor/insert-chart';
 
 class LeftSideMenu extends React.Component {
   render() {
-    {console.log(this.props)}
     return (
       <div>
         <Drawer
           width={this.props.width}
         >
-          <IconButton
-            style={{ width: this.props.width }}
-            tooltip={'Home'}
-            tooltipPosition={'bottom-right'}
-          >
-            <NavLink to={'/admin'}>
+          <NavLink to={'/admin'}>
+            <IconButton
+              style={{ width: this.props.width }}
+              tooltip={'Home'}
+              tooltipPosition={'bottom-right'}
+            >
               <HomeAdminIcon />
-            </NavLink>
-          </IconButton>
+            </IconButton>
+          </NavLink>
           <Divider />
-          <IconButton
-            style={{ width: this.props.width }}
-            tooltip={'Respond'}
-            tooltipPosition={'bottom-right'}
-          >
-            <NavLink to={'/admin/respond'}>
+          <NavLink to={'/admin/respond'}>
+            <IconButton
+              style={{ width: this.props.width }}
+              tooltip={'Respond'}
+              tooltipPosition={'bottom-right'}
+            >
               <RespondIcon />
-            </NavLink>
-          </IconButton>
+            </IconButton>
+          </NavLink>
           <Divider />
-          <IconButton
-            style={{ width: this.props.width }}
-            tooltip={'Engage'}
-            tooltipPosition={'bottom-right'}
-          >
-            <NavLink to={'/admin/engage'}>
+          <NavLink to={'/admin/engage'}>
+            <IconButton
+              style={{ width: this.props.width }}
+              tooltip={'Engage'}
+              tooltipPosition={'bottom-right'}
+            >
               <EngageIcon />
-            </NavLink>
-          </IconButton>
+            </IconButton>
+          </NavLink>
           <Divider />
         </Drawer>
       </div>

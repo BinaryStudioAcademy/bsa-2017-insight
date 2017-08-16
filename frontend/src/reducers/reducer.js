@@ -6,5 +6,5 @@ import statisticReducer from "./statisticReducer"
 export default combineReducers({
  userState: usersReducer,
  conversationsState: conversationsReducer,
- statisticById : statisticReducer
+ statisticState : statisticReducer
 })

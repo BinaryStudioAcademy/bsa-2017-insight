@@ -6,7 +6,6 @@ const initialState = {
 const conversationsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'GET_CONVERSATIONS_SUCCESS':
-    
       return Object.assign({}, state, { conversations: action.payload })
     case 'SET_CONVERSATION':
     

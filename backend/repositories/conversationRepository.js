@@ -9,10 +9,10 @@ conversationRepository.findOneAndPopulate = function (id, callback) {
 };
 
 conversationRepository.getAllConversations = function(callback){
-  conversationRepository.find({}).populate('participants.user').populate({
+   this.model.find({}).populate('participants.user').populate({
   path: 'messages',
   populate: {path: 'author.item'}
-  })
+  }).exec(callback)
 }
 
 

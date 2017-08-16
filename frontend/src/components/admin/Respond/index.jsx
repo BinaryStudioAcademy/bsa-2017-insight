@@ -6,31 +6,52 @@ import * as ConversationActions from "../../../actions/conversationActions"
 
 
 class Respond extends React.Component {
+    constructor(){
+        super()
+        this.conversationToChat =  this.conversationToChat.bind(this)
+    }
     componentWillMount(){
-  
-     this.props.getAllConversations()
+        this.props.getAllConversations()
+    }
+
+    conversationToChat(id){
+       return this.props.conversations.find(e=>{
+            return e._id === id
+        })
     }
 
     render(){
-
+        console.log(this.props)
+        let idToRender = this.props.conversationIdToRender || null
+        let convToChat = idToRender ? this.conversationToChat(idToRender.id) : null
+        console.log(convToChat)
         return (
-            
-         <ConversationList conversations={this.props.conversations}/>
-    
-        )
+            <div>
+            {
+                !idToRender ? <div>
+                              <ConversationList 
+                                conversations={this.props.conversations} 
+                                setConversation={this.props.setConversation}/>
+                             </div> 
+                            : <div>
+                               <ConversationList 
+                                conversations={this.props.conversations} 
+                                setConversation={this.props.setConversation}/>
+                             <div>CHAT</div>
+                             </div>
+            }
+            </div>
+          )
   }
    
-}// if we have not conversationToRender >> render   ConversationList
-            // put into props conversations from state , and action that will get id for conversationToRender
+}
 
-        // if we have conversationToRender >>
-            // render ConversationList, Chat-component and UserInfo component 
-            // put into props  conversationToRender
-
+        
 const  mapStateToProps = (state) => {
+    
    return {
-    conversations : state.conversations,
-    conversationToRender : state.conversationToRender
+    conversations : state.conversationsState.conversations,
+    conversationIdToRender : state.conversationsState.conversationToRender
    } 
 }
 

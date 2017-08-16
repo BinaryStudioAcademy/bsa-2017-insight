@@ -1,0 +1,15 @@
+@import './../../../common/styles/variables';
+
+:local(.chat-icon) {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  width: 75px;
+  height: 75px;
+  background-color: $landing-orange;
+  border-radius: 50%;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

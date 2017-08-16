@@ -46,6 +46,7 @@ context.mongoStore = new MongoStore({
 });
 
 const compiler = webpack(webpackConfig);
+
 app.use(webpackDevMiddleware(compiler, {
   noInfo: true,
   publicPath: webpackConfig.output.publicPath,
@@ -56,6 +57,7 @@ app.use(webpackHotMiddleware(compiler));
 const staticPath = path.resolve(`${__dirname}/../dist/`);
 app.use(express.static(staticPath));
 app.use('/resources', express.static('./frontend/src/common/resources'));
+app.use('/uploads', express.static(path.join(__dirname, '/../uploads')));
 
 app.use((req, res, next) => {
   // console.log(req.session.user);

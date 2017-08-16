@@ -10,6 +10,12 @@ conversationRepository.findOneAndPopulate = function (id, callback) {
 
 conversationRepository.getConversationsByUserId = function (id) {
   const model = this.model;
-}
+  return model.find({ 'participants.user': id }) // query под вопросом
+    .populate('participants.user')
+    .populate({
+      path: 'messages',
+      populate: { path: 'author.item' },
+    }).exec();
+};
 
 module.exports = conversationRepository;

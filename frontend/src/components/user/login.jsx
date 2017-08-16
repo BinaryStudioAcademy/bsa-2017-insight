@@ -29,7 +29,7 @@ class Login extends React.Component {
 // <button onClick={() => { this.props.getAllUsers(); }}>GET USERS</button>
 
 Login.propTypes = {
-  // getAllUsers: PropTypes.func,
+//  getAllUsers: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {

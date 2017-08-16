@@ -13,6 +13,10 @@ import ChatWidget from '../chatWidget/ChatWidget';
 import Login1 from './UserAuthentication/UserLogin';
 import Registration from './UserAuthentication/UserRegistration';
 
+import Forgot from '../forgot/Forgot';
+import ResetPassword from '../reset/ResetPassword';
+import InvalidToken from '../invalidtoken/InvalidToken';
+
 import '../../components/analytics/analytics';
 import '../../components/analytics/getStatistics';
 
@@ -30,7 +34,11 @@ class Home extends React.Component {
           <Route path={'/about'} component={HomeContent} />
           <Route path={'/pricing'} component={Pricing} />
           <Route path={'/login'} component={Login} />
+          <Route path={'/login1'} component={Login1} />
           <Route path={'/registration'} component={Registration} />
+          <Route path={'/forgot'} component={Forgot} />
+          <Route path={'/reset'} component={ResetPassword} />
+          <Route path={'/invalidtoken'} component={InvalidToken} />
           <Route component={IncorrectRoute} />
         </Switch>
         <Footer />

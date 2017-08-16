@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './styles.scss';
 
 class UserLogin extends React.Component {
   constructor(props) {
@@ -44,16 +45,22 @@ class UserLogin extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>USER LOGIN</div>
-        Username:<br />
-        <input type="text"name="username" onChange={this.setInput} />
-        <br />
-        Password:<br />
-        <input type="password" name="password" onChange={this.setInput} />
-        <br />
-        <button type="button" onClick={this.login}>Login</button>
-        <br />
+      <div className={styles['login-form']}>
+        <h3>Sign into your account</h3>
+        <hr />
+        <div className={styles['get-data']}>
+          <p>Username: </p>
+          <input type="text"name="username" onChange={this.setInput} />
+        </div>
+        <div className={styles['get-data']}>
+          <p>Enter your password</p>
+          <input type="password" name="password" onChange={this.setInput} />
+        </div>
+        {/* <div className={styles['remember-me']}>
+          <input type="checkbox" id="rememberMe" />
+          <label htmlFor="rememberMe">Remember me</label><br />
+        </div> */}
+        <button type="button" onClick={this.login}>Log in</button><br />
         {this.state.info}
       </div>
     );

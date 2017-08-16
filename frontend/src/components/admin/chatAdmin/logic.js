@@ -1,5 +1,5 @@
-import io from './../../../../node_modules/socket.io-client/dist/socket.io';
-import { fetchMessage } from './../../actions/conversationsActions';
+import io from './../../../../../node_modules/socket.io-client/dist/socket.io';
+import { fetchMessage } from './../../../actions/conversationsActions';
 
 function startSocketConnection(dispatch) {
   //  const id = window._injectedData.globalId || window._injectedData.userId._id;

@@ -7,7 +7,7 @@ import UserLogin from './components/user/login';
 import UserRegistration from './components/user/registration';
 import AdminLogin from './components/admin/login';
 import AdminRegistration from './components/admin/registration';
-import ChatAdmin from './components/chatAdmin/ChatAdmin';
+import ChatAdmin from './components/admin/chatAdmin/ChatAdmin';
 import { store, sagaMiddleware } from './store';
 import rootSaga from './saga/rootSaga';
 import Home from './components/landing/Home';

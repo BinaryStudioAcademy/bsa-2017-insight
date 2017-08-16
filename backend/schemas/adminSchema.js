@@ -9,8 +9,6 @@ const adminSchema = new Schema({
   username: { type: String, required: true, unique: true },
   password: String,
   email: String,
-  adminSurname: String,
-  avatar: String,
   isAdmin: Boolean,
   firstName: String,
   lastName: String,

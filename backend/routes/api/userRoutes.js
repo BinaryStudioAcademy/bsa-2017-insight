@@ -6,7 +6,7 @@ const mime = require('mime');
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, __dirname + '/../../uploads');
+    cb(null, __dirname + '/../../../uploads/avatars');
   },
   filename: function(req, file, cb) {
   	const extension = mime.extension(file.mimetype);

@@ -2,12 +2,14 @@ const async = require('async');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt-nodejs');
 const userRepository = require('../../repositories/userRepository');
+const adminRepository = require('../../repositories/adminRepository');
 const emailService = require('../../services/emailService');
 
 module.exports = function(app) {
   app.post('/api/forgot', function(req, res, next) {
     const email = req.body.email;
-    
+    const Repository = req.body.userType === 'admin' ? adminRepository : userRepository;
+
     if(!email) {
       return res.json({ text: 'Please, enter a valid email address' })
     };
@@ -20,7 +22,7 @@ module.exports = function(app) {
         });
       },
       function(token, done) {
-        userRepository.getByEmail(email, function(err, user) {
+        Repository.getByEmail(email, function(err, user) {
           if(err) return done(err);
           if(!user) {
             return res.json({ text: 'No account with that email address exists' });
@@ -36,13 +38,13 @@ module.exports = function(app) {
         });
       },
       function(token, user, done) {
-        console.log(user);
+        const userType = user.isAdmin ? 'admin' : 'user';
         const mailOptions = {
           to: user.email,
           subject: 'Reset Password',
           text: `
             To reset the password click on the following link:
-            http://localhost:3000/api/reset/${token} 
+            http://localhost:3000/api/reset/${userType}/${token} 
           `,
         };
 
@@ -52,38 +54,43 @@ module.exports = function(app) {
       }
     ], function(err) {
         if(err) return next(err);
-        res.json({ text: 'Instructions sent on your email'});
+        res.json({ text: 'ok' });
     });
   });
 
-  app.get('/api/reset/:token', function(req, res, next) {
-    userRepository.getByToken({ 
+  app.get('/api/reset/:userType/:token', function(req, res, next) {
+    const Repository = req.params.userType === 'admin' ? adminRepository : userRepository;
+    Repository.getByToken({ 
       resetPasswordToken: req.params.token, 
       resetPasswordExpires: { $gt: Date.now() } }, 
       function(err, user) { 
         if(!user) {
-          return res.redirect('/invalidtoken');
+          return res.redirect('/reset/invalidtoken');
         } else {
-          return res.redirect('/reset/' + req.params.token);
+          return res.redirect(`/reset/${req.params.userType}/${req.params.token}`);
         }
 
     });
   });
 
-  app.post('/api/reset/:token', function(req, res, next) {
+  app.post('/api/reset/:userType/:token', function(req, res, next) {
+    const Repository = req.params.userType === 'admin' ? adminRepository : userRepository;
     if(!req.body.password) return res.json({ text: 'Invalid password' });
     async.waterfall([
       function(done) {
-        userRepository.getByToken({
+        Repository.getByToken({
           resetPasswordToken: req.params.token,
           resetPasswordExpires: { $gt: Date.now() }
         }, function(err, user) {
           if(!user) {
-            return res.redirect('/invalidtoken');
+            return res.redirect('/reset/invalidtoken');
           };
 
-          bcrypt.hash(req.body.password, 10, function(err, hashed) {
+          const salt = bcrypt.genSaltSync(10);
+
+          bcrypt.hash(req.body.password, salt, null, function(err, hashed) {
             if(err) return done(err);
+            user.salt = salt;
             user.password = hashed;
             user.resetPasswordToken = undefined;
             user.resetPasswordExpires = undefined;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-class ResetPassword extends React.Component {
+class ResetForm extends React.Component {
   constructor(props) {
     super(props);
     this.confirmPassword = this.confirmPassword.bind(this);
@@ -27,16 +27,17 @@ class ResetPassword extends React.Component {
       redirect: 'follow',
     };
 
-    fetch(`/api/reset/${this.props.match.params.token}`, options)
+    fetch(`/api/reset/${this.props.match.params.userType}/${this.props.match.params.token}`, options)
       .then((response) => {
         return response.json();
       })
-      .then((response) => {
+      .then((response) => {     
         this.setState({ info: response.text });
       });
   }
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <span>New password:</span>
@@ -54,4 +55,4 @@ class ResetPassword extends React.Component {
   }
 }
 
-export default ResetPassword;
+export default ResetForm;

@@ -16,7 +16,11 @@ class UserInfoTable extends React.Component {
     return (
       <div className={styles.container}>
         <MuiThemeProvider>
-          <Table>
+          <Table onRowSelection={(rowIndex) => {
+            this.props.toggleDrawer();
+            console.log(`You clicked on user with the index of ${rowIndex}`);
+          }}
+          >
             <TableHeader adjustForCheckbox={false} displaySelectAll={false} >
               <TableRow>
                 {statisticOptions.items.map((elem) => {
@@ -25,7 +29,7 @@ class UserInfoTable extends React.Component {
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
-            //На этом месте будет нормальная таблица как только вытащу данные из БД
+              {/* На этом месте будет нормальная таблица как только вытащу данные из БД */}
               <TableRow>
                 <TableRowColumn>1</TableRowColumn>
                 <TableRowColumn>John Smith</TableRowColumn>

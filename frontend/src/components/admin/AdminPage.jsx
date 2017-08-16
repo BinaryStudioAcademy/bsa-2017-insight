@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import Drawer from 'material-ui/Drawer';
 import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
 import UserInfoTable from './Table/Table';
@@ -10,6 +11,7 @@ import Filter from './Filter/Filter';
 import Login from './login';
 import Registration from './registration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
+import UserInfo from './UserInfo/UserInfo';
 
 const muiTheme = getMuiTheme({
   tooltip: {
@@ -50,10 +52,31 @@ const statisticOptions = {
   ],
 };
 
+const userStatisticsPlaceholder = {
+  visitorId: '598ed40c0a68ce58cd3d1cd3',
+  country: 'China',
+  city: 'Beijing',
+  online: false,
+  viewedUrls: ['/to', '/be-or-not', '/to-be'],
+  browser: 'Chrome',
+  browserVersion: 'v.33.33',
+  screenWidth: 1366,
+  screenHeight: 768,
+};
+
 class AdminPage extends React.Component {
   constructor() {
     super();
     this.leftMenuWidth = 75;
+    this.state = {
+      chosenUser: userStatisticsPlaceholder,
+      isDrawerOpened: false,
+    };
+    this.toggleDrawer = this.toggleDrawer.bind(this);
+  }
+
+  toggleDrawer() {
+    this.setState({ isDrawerOpened: !this.state.isDrawerOpened });
   }
 
   render() {
@@ -73,12 +96,16 @@ class AdminPage extends React.Component {
                     <Header />
                     <Switch>
                       <Route
-                        exact path={'/admin'}
+                        exact
+                        path={'/admin'}
                         render={() => {
                           return (
                             <div>
                               <Filter statisticOptions={statisticOptions} />
-                              <UserInfoTable statisticOptions={statisticOptions} />
+                              <UserInfoTable statisticOptions={statisticOptions} toggleDrawer={this.toggleDrawer} />
+                              <Drawer width={215} open={this.state.isDrawerOpened} openSecondary>
+                                <UserInfo statistic={this.state.chosenUser} />
+                              </Drawer>
                             </div>
                           );
                         }}
@@ -104,7 +131,8 @@ class AdminPage extends React.Component {
                   </div>
                 </div>
               );
-            }} />
+            }}
+            />
           </Switch>
         </div>
       </MuiThemeProvider>

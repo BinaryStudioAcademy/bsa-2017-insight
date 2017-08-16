@@ -9,6 +9,9 @@ import Pricing from './Pricing/Pricing';
 import Login from './Login/Login';
 import IncorrectRoute from './../incorrectRoute/IncorrectRoute';
 
+import '../../components/analytics/analytics';
+import '../../components/analytics/getStatistics';
+
 class Home extends React.Component {
   render() {
     return (

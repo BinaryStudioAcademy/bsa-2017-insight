@@ -4,7 +4,7 @@ const adminRepository = require('../../repositories/adminRepository');
 module.exports = function (app) {
   app.post('/api/admin/login/', passport.authenticate('admin', {
     successRedirect: '/admin',
-    failureRedirect: '/adminregistration',
+    failureRedirect: '/admin/registration',
     failureFlash: true,
     successFlash: 'Welcome!',
   }));
@@ -19,7 +19,7 @@ module.exports = function (app) {
     adminRepository.add(data, () => {
       passport.authenticate('local')(req, res, () => {
         console.log('before redirect');
-        res.redirect('/adminlogin');
+        res.redirect('/admin/login');
       });
     });
   });

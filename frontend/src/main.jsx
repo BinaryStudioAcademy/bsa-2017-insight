@@ -10,11 +10,6 @@ import Home from './components/landing/Home';
 import AdminPage from './components/admin/AdminPage';
 import UserLogin from './components/user/login';
 import UserRegistration from './components/user/registration';
-import AdminLogin from './components/admin/login';
-import AdminRegistration from './components/admin/registration';
-
-import './components/analytics/analytics';
-import './components/analytics/getStatistics';
 
 WebFont.load({
   google: {
@@ -29,8 +24,6 @@ render(
         <Route path={'/admin'} component={AdminPage} />
         <Route exact path={'/userlogin'} component={UserLogin} />
         <Route exact path={'/userregistration'} component={UserRegistration} />
-        <Route exact path={'/adminlogin'} component={AdminLogin} />
-        <Route exact path={'/adminregistration'} component={AdminRegistration} />
         <Route component={Home} />
       </Switch>
     </BrowserRouter>

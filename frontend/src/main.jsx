@@ -10,6 +10,9 @@ import AdminRegistration from './components/admin/registration';
 import { store, sagaMiddleware } from './store';
 import rootSaga from './saga/rootSaga';
 import Home from './components/landing/Home';
+import Respond from './components/admin/Respond';
+
+sagaMiddleware.run(rootSaga);
 
 render(
   <Provider store={store}>
@@ -19,6 +22,7 @@ render(
         <Route exact path={'/userregistration'} component={UserRegistration} />
         <Route exact path={'/adminlogin'} component={AdminLogin} />
         <Route exact path={'/adminregistration'} component={AdminRegistration} />
+        <Route exact path={'/respond'} component={Respond} />
         <Route path={'/'} component={Home} />
       </Switch>
     </BrowserRouter>
@@ -26,4 +30,4 @@ render(
   document.getElementById('root'),
 );
 
-sagaMiddleware.run(rootSaga);
+

@@ -2,6 +2,7 @@ const MessageRepository = require('./repositories/messageRepository');
 const ConversationRepository = require('./repositories/conversationRepository');
 const UserRepository = require('./repositories/userRepository');
 const AdminRepository = require('./repositories/adminRepository');
+const createConversationAndUpdateUser = require('./services/conversationService');
 const mongoose = require('mongoose');
 
 function connectionHandler(socket) {
@@ -44,6 +45,9 @@ function connectionHandler(socket) {
           .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) } })
           .then();
       });
+  });
+  socket.on('createNewConversation', (conversationData, creatorId) => {
+    createConversationAndUpdateUser(conversationData, creatorId, socket);
   });
 }
 

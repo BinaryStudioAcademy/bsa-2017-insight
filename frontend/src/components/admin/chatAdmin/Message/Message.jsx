@@ -16,3 +16,4 @@ Message.propTypes = {
 };
 
 export default Message;
+

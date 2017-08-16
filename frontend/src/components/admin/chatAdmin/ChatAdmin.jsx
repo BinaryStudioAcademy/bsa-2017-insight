@@ -66,3 +66,4 @@ Chat.propTypes = {
 };
 
 export default Chat;
+

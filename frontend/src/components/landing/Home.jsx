@@ -33,8 +33,8 @@ class Home extends React.Component {
           <Route path={'/help'} component={HomeContent} />
           <Route path={'/about'} component={HomeContent} />
           <Route path={'/pricing'} component={Pricing} />
-          <Route path={'/login'} component={Login} />
-          <Route path={'/login1'} component={Login1} />
+          {/* <Route path={'/login'} component={Login} /> */}
+          <Route path={'/login'} component={Login1} />
           <Route path={'/registration'} component={Registration} />
           <Route path={'/forgot'} component={Forgot} />
           <Route path={'/reset'} component={ResetPassword} />

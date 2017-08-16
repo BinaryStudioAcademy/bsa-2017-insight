@@ -1,6 +1,6 @@
 const initialState = {
-  users: [],
-  admin: null,
+  conversations : [],
+  conversationToRender: null
 };
 
 function findConversationById(id, conversations) {
@@ -27,6 +27,13 @@ const conversationsReducer = (state = initialState, action) => {
       const newConversations = [...oldConversations, conversationItem];
       return { ...state, conversations: newConversations };
     }
+    case 'GET_CONVERSATIONS_SUCCESS':
+      return Object.assign({}, state, { conversations: action.payload });
+    case 'SET_CONVERSATION': {
+      const newState = Object.assign({}, state);
+      newState.conversationToRender = action.payload;
+      return newState;
+    }
     default: {
       return state;
     }
@@ -34,3 +41,6 @@ const conversationsReducer = (state = initialState, action) => {
 };
 
 export default conversationsReducer;
+
+
+

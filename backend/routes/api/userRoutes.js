@@ -61,13 +61,13 @@ module.exports = (app) => {
 				if(err) return next(err);
 				res.redirect('/userlogin');
     	});
-      
+
     });
   });
 
   app.get('/api/users/', (req, res) => {
   	return res.json(req.user);
-    userRepository.getAll((err, data) => {
+    User.getAll((err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -79,7 +79,7 @@ module.exports = (app) => {
 
   app.get('/api/users/:id', (req, res) => {
     const id = req.params.id;
-    userRepository.findOneAndPopulate(id, (err, data) => {
+    User.findOneAndPopulate(id, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -90,7 +90,7 @@ module.exports = (app) => {
   });
 
   app.post('/api/users/', (req, res) => {
-    userRepository.add(req.body, (err, data) => {
+    User.add(req.body, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -102,7 +102,7 @@ module.exports = (app) => {
 
   app.put('/api/users/:id', (req, res) => {
     const id = req.params.id;
-    userRepository.update(id, req.body, (err, data) => {
+    User.update(id, req.body, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -114,7 +114,7 @@ module.exports = (app) => {
 
   app.delete('/api/users/:id', (req, res) => {
     const id = req.params.id;
-    userRepository.delete(id, (err, data) => {
+    User.delete(id, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);

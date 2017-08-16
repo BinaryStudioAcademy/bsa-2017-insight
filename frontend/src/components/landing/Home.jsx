@@ -10,6 +10,9 @@ import Login from './Login/Login';
 import IncorrectRoute from './../incorrectRoute/IncorrectRoute';
 import ChatWidget from '../chatWidget/ChatWidget';
 
+import Login1 from './UserAuthentication/UserLogin';
+import Registration from './UserAuthentication/UserRegistration';
+
 import '../../components/analytics/analytics';
 import '../../components/analytics/getStatistics';
 
@@ -27,6 +30,7 @@ class Home extends React.Component {
           <Route path={'/about'} component={HomeContent} />
           <Route path={'/pricing'} component={Pricing} />
           <Route path={'/login'} component={Login} />
+          <Route path={'/registration'} component={Registration} />
           <Route component={IncorrectRoute} />
         </Switch>
         <Footer />

@@ -19,17 +19,12 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    //  const id = window._injectedData.globalId || window._injectedData.userId._id;
     this.socket = io('http://localhost:3000');
     startSocketConnection.call(this, this.socket);
-    // запрос на разговры делать с популейтом партисипентов
-    // TODO разделить юзера и список разговоров
-    // TODO создать кнопку открытия нового чата, по клику создавать разговор с уже включенным участником
-    // (текущим юзером) и отдельно в объект юзера добавлять новый разговор
   }
 
   onCreateConversationButtonClick() {
-    const userId = '598ef12257350736943d3c44'; // window._injectedData.globalId || window._injectedData.userId._id;
+    const userId = window._injectedData.globalId || window._injectedData.userId._id;
     const conversation = {
       participants: [{
         userType: 'User',
@@ -56,15 +51,13 @@ class Chat extends Component {
       body: message,
       createdAt: Date.now(),
       author: {
-        item: '598ef12257350736943d3c44',
+        item: this.state.user._id,
         userType: 'User',
       },
     };
     this.socket.emit('newMessage', messageObj);
     eventCopy.target.messageInput.value = '';
   }
-
-  // разговор отображать в виде "Разговор с "список участников не типа User""
   render() {
     const conversations = this.state.conversations;
     const conversationToRender = findConversationById(this.state.activeChatId, conversations);

@@ -13,22 +13,20 @@ function findConversationById(id, conversations) {
 }
 
 function startSocketConnection(socket) {
-  // const id = window._injectedData.globalId || window._injectedData.userId._id;
+  const id = window._injectedData.globalId || window._injectedData.userId._id;
   socket.on('user connected', () => {
     console.log('connected to the server succesfully');
   });
   const userObj = {
     type: 'User',
-    id: '598ef12257350736943d3c44',
+    id,
   };
   socket.emit('userId', userObj);
-  socket.emit('getUserConversations', '598ef12257350736943d3c44');
+  socket.emit('getUserConversations', id);
   socket.on('userData', (data) => {
-    console.log('User:', data);
     this.setState({ user: data });
   });
   socket.on('returnUserConversations', (conversations) => {
-    console.log('conversations:', conversations);
     this.setState({ conversations });
   });
   socket.on('newMessage', (message) => {

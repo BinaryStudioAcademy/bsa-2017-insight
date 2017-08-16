@@ -19,7 +19,7 @@ function connectionHandler(socket) {
     if (userObj.type === 'Admin') {
       AdminRepository.model.findOne({ _id: userObj.id })
         .then((data) => {
-          socket.emit('userData', data);
+          socket.emit('adminData', data);
         });
     }
   });

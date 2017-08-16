@@ -1,30 +1,31 @@
 import React from 'react';
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import GpsFixed from 'material-ui/svg-icons/device/gps-fixed';
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import Time from 'material-ui/svg-icons/device/access-time';
 import Subheader from 'material-ui/Subheader';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import "./styles.scss"
 
 
 const UserInfo = (props) => {
-    const visitor = props.statistic.visitorId
-    const statistic = props.statistic
-    const userIsFrom = `${statistic.country} ${statistic.city}`
-    const isOnline = statistic.online ? "online" : "offline"
-    const lastUrl = statistic.viewedUrls.join(" , ")
-    const browser = `${statistic.browser} ${statistic.browserVersion}`
-    const screen = `${statistic.screenWidth} x ${statistic.screenHeight}`
-    return(
-    
+  const user = props.statistic.userId;
+  const statistic = props.statistic;
+  const userIsFrom = `${statistic.country} ${statistic.city}`;
+  const isOnline = statistic.online ? "online" : "offline";
+  const lastUrl = statistic.viewedUrls.join(" , ");
+  const browser = `${statistic.browser} ${statistic.browserVersion}`;
+  const screen = `${statistic.screenWidth} x ${statistic.screenHeight}`;
+  return (
+    <MuiThemeProvider>
       <div className="user-info">
         <List>
-          <ListItem primaryText={visitor.name}  secondaryText={isOnline} leftAvatar={<Avatar src={visitor.avatar}/>} />
+          <ListItem primaryText={user.username} secondaryText={isOnline} leftAvatar={<Avatar src={user.avatar} />} />
           <ListItem primaryText={statistic.country} secondaryText={statistic.city} leftIcon={<GpsFixed />} />
           <ListItem primaryText={statistic.timeZone} leftIcon={<Time />} />
         </List>
-        
+
         <Divider />
 
         <List>
@@ -46,10 +47,8 @@ const UserInfo = (props) => {
           <ListItem primaryText="Screen" secondaryText={screen} />
         </List>
       </div>
+    </MuiThemeProvider>
+  );
+};
 
-    )
-
-
-}
-
-export default UserInfo
+export default UserInfo;

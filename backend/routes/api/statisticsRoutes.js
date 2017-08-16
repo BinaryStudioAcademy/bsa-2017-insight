@@ -15,7 +15,7 @@ module.exports = (app) => {
 
   app.get('/api/statistics/:id', (req, res) => {
     const id = req.params.id;
-    statisticsRepository.findOneAndPopulate(id, (err, data) => {
+    statisticsRepository.getUserStatisticsAndPopulate(id, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);

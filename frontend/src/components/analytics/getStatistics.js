@@ -6,6 +6,6 @@ export function getStatisticById(id){
 //   .then(statistic=>{
 //     return statistic
 //   })
- console.log(id)
- return id
+//  console.log(id)
+//  return id
 }

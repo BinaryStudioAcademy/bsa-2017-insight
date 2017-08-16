@@ -1,9 +1,10 @@
-import React from "react"
-import ConversationList from "./ConversationList"
-import {connect} from "react-redux"
+import React from "react";
+import ConversationList from "./ConversationList";
+import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import * as ConversationActions from "../../../actions/conversationActions"
-import * as StatisticActions from "../../../actions/statisticActions"
+import * as ConversationActions from "../../../actions/conversationActions";
+import * as StatisticActions from "../../../actions/statisticActions";
+import Chat from '../chatAdmin/ChatAdmin.jsx'
 
 
 class Respond extends React.Component {
@@ -22,11 +23,11 @@ class Respond extends React.Component {
     }
 
     render(){
-        console.log(this.props)
+        console.log(this.props.conversationIdToRender)
         let idToRender = this.props.conversationIdToRender || null
         let convToChat = idToRender ? this.conversationToChat(idToRender.id) : null
         this.props.getStatisticById("1111")
-        console.log(this.propsoChat)
+        
         return (
             <div>
             {
@@ -39,7 +40,7 @@ class Respond extends React.Component {
                                <ConversationList 
                                 conversations={this.props.conversations} 
                                 setConversation={this.props.setConversation}/>
-                             <div>CHAT</div>
+                             <Chat conversationToRender={convToChat} dispatch={this.props.dispatch}></Chat>
                              </div>
             }
             </div>
@@ -63,8 +64,8 @@ const mapDispatchToProps = (dispatch) => {
     getAllConversations: () => {
       dispatch(ConversationActions.getAllConversations());
     },
-    setConversation: () => {
-       dispatch(ConversationActions.setConversation());
+    setConversation: (id) => {
+       dispatch(ConversationActions.setConversation(id));
     },
     getStatisticById: (id) => {
        dispatch(StatisticActions.getStatisticById(id));

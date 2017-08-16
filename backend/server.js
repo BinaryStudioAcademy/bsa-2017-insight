@@ -16,6 +16,7 @@ const passport = require('passport');
 const flash = require('connect-flash');
 
 const port = 3000;
+const socketConnectionHandler = require('./socketConnection');
 
 const app = express();
 
@@ -69,6 +70,10 @@ const apiRoutes = require('./routes/api/routes')(app);
 const viewRoutes = require('./routes/view/routes')(app);
 
 console.log(`app runs on port: ${port}`);
+
 const server = app.listen(port);
+const io = require('socket.io').listen(server);
+
+io.on('connection', socketConnectionHandler);
 
 module.exports = app;

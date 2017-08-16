@@ -8,6 +8,7 @@ import Product from './Product/Product';
 import Pricing from './Pricing/Pricing';
 import Login from './Login/Login';
 import IncorrectRoute from './../incorrectRoute/IncorrectRoute';
+import ChatWidget from '../chatWidget/ChatWidget';
 
 import '../../components/analytics/analytics';
 import '../../components/analytics/getStatistics';
@@ -29,6 +30,7 @@ class Home extends React.Component {
           <Route component={IncorrectRoute} />
         </Switch>
         <Footer />
+        <Route component={ChatWidget} />
       </div>
     );
   }

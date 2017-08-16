@@ -4,6 +4,7 @@ const adminRoutes = require('./adminRoutes');
 const conversationRoutes = require('./conversationRoutes');
 const widgetRoutes = require('./widgetRoutes');
 const statisticsRoutes = require('./statisticsRoutes');
+const passwordRoutes = require('./passwordRoutes');
 
 module.exports = app => ({
   messageRoutes: messageRoutes(app),
@@ -12,4 +13,5 @@ module.exports = app => ({
   widgetRoutes: widgetRoutes(app),
   statisticsRoutes: statisticsRoutes(app),
   adminRoutes: adminRoutes(app),
+  passwordRoutes: passwordRoutes(app)
 });

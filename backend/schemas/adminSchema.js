@@ -16,6 +16,8 @@ const adminSchema = new Schema({
   lastName: String,
   avatar: String,
   gender: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
   conversations: [{ type: Schema.Types.ObjectId, ref: 'Conversation' }],
 });
 

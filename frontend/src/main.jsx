@@ -10,15 +10,21 @@ import AdminRegistration from './components/admin/AdminRegistration';
 import { store, sagaMiddleware } from './store';
 import rootSaga from './saga/rootSaga';
 import Home from './components/landing/Home';
+import Forgot from './components/forgot/Forgot';
+import ResetPassword from './components/reset/ResetPassword';
+import InvalidToken from './components/invalidtoken/InvalidToken';
 
 render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route exact path={'/userlogin'} component={UserLogin} />
-        <Route exact path={'/userregistration'} component={UserRegistration} />
-        <Route exact path={'/adminlogin'} component={AdminLogin} />
-        <Route exact path={'/adminregistration'} component={AdminRegistration} />
+        <Route path={'/forgot'} component={Forgot} />
+        <Route path={'/reset'} component={ResetPassword} />
+        <Route path={'/invalidtoken'} component={InvalidToken} />
+        <Route path={'/userlogin'} component={UserLogin} />
+        <Route path={'/userregistration'} component={UserRegistration} />
+        <Route path={'/adminlogin'} component={AdminLogin} />
+        <Route path={'/adminregistration'} component={AdminRegistration} />
         <Route path={'/'} component={Home} />
       </Switch>
     </BrowserRouter>

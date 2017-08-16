@@ -36,4 +36,16 @@ Repository.prototype.getByUsername = function(username, callback) {
   query.exec(callback);
 }
 
+Repository.prototype.getByEmail = function(email, callback){
+  var model = this.model;
+  var query = model.findOne({email:email});
+  query.exec(callback);
+};
+
+Repository.prototype.getByToken = function(token, callback){
+  var model = this.model;
+  var query = model.findOne(token);
+  query.exec(callback);
+};
+
 module.exports = Repository;

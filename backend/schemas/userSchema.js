@@ -13,6 +13,8 @@ const userSchema = new Schema({
   avatar: String,
   username: String,
   gender: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
   conversations: [{ type: Schema.Types.ObjectId, ref: 'Conversation' }], // массив, состоящий из айди всех чатов юзера
   activeConversation: { type: Schema.Types.ObjectId, ref: 'Conversation' }, // по идее активный чат должен всегда быть только один
 });

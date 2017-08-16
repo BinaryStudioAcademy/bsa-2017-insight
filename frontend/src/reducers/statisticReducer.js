@@ -1,12 +1,11 @@
 const initialState = {
-   statisticById:null
-}
+  statisticById: null,
+};
 
 const statisticReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'GET_STATISTIC_BY_ID_SUCCESS':
-     console.log(action.payload,"________________")
-      return Object.assign({}, state, { statisticById: action.payload })
+      return Object.assign({}, state, { statisticById: action.payload });
     default:
       return state;
   }

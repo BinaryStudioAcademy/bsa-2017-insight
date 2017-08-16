@@ -20,10 +20,9 @@ conversationRepository.getConversationsByUserId = function (id) {
 
 conversationRepository.getAllConversations = function (callback) {
   this.model.find({}).populate('participants.user').populate({
-  path: 'messages',
-  populate: {path: 'author.item'}
-  }).exec(callback)
-}
-
+    path: 'messages',
+    populate: { path: 'author.item' },
+  }).exec(callback);
+};
 
 module.exports = conversationRepository;

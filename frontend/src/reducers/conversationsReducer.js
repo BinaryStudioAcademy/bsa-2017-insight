@@ -25,9 +25,7 @@ const conversationsReducer = (state = initialState, action) => {
       const oldConversations = [...state.conversations];
       oldConversations.splice(index, 1);
       const newConversations = [...oldConversations, conversationItem];
-      return {
-        conversations: newConversations,
-      };
+      return { ...state, conversations: newConversations };
     }
     default: {
       return state;

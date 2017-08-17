@@ -90,6 +90,7 @@ class AdminRegistration extends React.Component {
                 left: 0,
                 width: '100%',
                 opacity: 0,
+                zIndex: 10
               }}
             />
           </RaisedButton>

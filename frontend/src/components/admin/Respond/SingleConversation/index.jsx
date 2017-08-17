@@ -9,17 +9,20 @@ const SingleConversation = (props) => {
   const messages = props.conversation.messages;
   const userName = !!messages.length && messages[messages.length - 1].author.item.username;
   const userAvatar = !!messages.length && messages[messages.length - 1].author.item.avatar;
+ 
   const defaultAvatar = 'https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png';
   return (<div>
     <MyThemeProvider>
       <List>
         {!!messages.length ?
           <ListItem
-            onClick={props.handler}
+          
+            onClick={()=> {props.handler(); props.setStatistic(props.conversation)}}
             leftAvatar={<Avatar src={userAvatar || defaultAvatar} />}
             primaryText={messages[messages.length - 1].body}
             secondaryText={userName}
             secondaryTextLines={2}
+            
           />
           :
           <ListItem

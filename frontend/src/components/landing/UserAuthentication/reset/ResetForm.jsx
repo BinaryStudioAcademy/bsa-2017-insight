@@ -1,6 +1,7 @@
 import React from 'react';
+import styles from '../styles.scss';
 
-class ResetPassword extends React.Component {
+class ResetForm extends React.Component {
   constructor(props) {
     super(props);
     this.confirmPassword = this.confirmPassword.bind(this);
@@ -27,7 +28,7 @@ class ResetPassword extends React.Component {
       redirect: 'follow',
     };
 
-    fetch(`/api/reset/${this.props.match.params.token}`, options)
+    fetch(`/api/reset/${this.props.match.params.userType}/${this.props.match.params.token}`, options)
       .then((response) => {
         return response.json();
       })
@@ -37,16 +38,18 @@ class ResetPassword extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
-      <div>
-        <span>New password:</span>
-        <br />
-        <input type={'password'} name={'firstPassword'} onChange={this.setPassword} />
-        <br />
-        <span>Confirm password:</span>
-        <br />
-        <input type={'password'} name={'secondPassword'} onChange={this.setPassword} />
-        <br />
+      <div className={styles['login-form']}>
+        <h3>Enter a new password</h3>
+        <div className={styles['get-data']}>
+          <span>New password:</span>
+          <input type={'password'} name={'firstPassword'} onChange={this.setPassword} />
+        </div>
+        <div className={styles['get-data']}>
+          <span>Confirm password:</span>
+          <input type={'password'} name={'secondPassword'} onChange={this.setPassword} />
+        </div>
         <button onClick={this.confirmPassword}>Update</button>
         <div>{this.state.info}</div>
       </div>
@@ -54,4 +57,4 @@ class ResetPassword extends React.Component {
   }
 }
 
-export default ResetPassword;
+export default ResetForm;

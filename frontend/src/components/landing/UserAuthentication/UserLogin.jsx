@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import styles from './styles.scss';
 
 class UserLogin extends React.Component {
@@ -25,7 +26,7 @@ class UserLogin extends React.Component {
 
     if (!loginData.username || !loginData.password) {
       this.setState({
-        info: 'Wrong username/password'
+        info: 'Enter a username/password'
       });
       return;
     }
@@ -62,6 +63,10 @@ class UserLogin extends React.Component {
         </div> */}
         <button type="button" onClick={this.login}>Log in</button><br />
         {this.state.info}
+        <div className={styles['auth-links']}>
+          <NavLink to={'/registration'}>Registration</NavLink><br />
+          <NavLink to={'/forgot/user'}>Restore my password</NavLink><br />
+        </div>
       </div>
     );
   }

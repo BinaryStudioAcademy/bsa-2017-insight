@@ -82,7 +82,7 @@ class AdminPage extends React.Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div style={{ minWidth: '700px' }}>
+        <div style={{ minWidth: '700px', fontFamily: 'Roboto, sans-serif' }}>
           <Switch>
             <Route path={'/admin/login'} component={Login} />
             <Route path={'/admin/registration'} component={Registration} />

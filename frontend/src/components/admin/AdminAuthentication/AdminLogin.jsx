@@ -1,4 +1,7 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class AdminLogin extends React.Component {
   constructor(props) {
@@ -24,7 +27,7 @@ class AdminLogin extends React.Component {
 
     if (!loginData.username || !loginData.password) {
       this.setState({
-        info: 'Wrong username/password'
+        info: 'Enter your username/password'
       });
       return;
     }
@@ -44,17 +47,34 @@ class AdminLogin extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>ADMIN LOGIN</div>
-        Username:<br />
-        <input type="text"name="username" onChange={this.setInput} />
+      <div
+        style={{ width: '500px', margin: '50px auto', textAlign: 'center' }}
+      >
+        <h2>Admin login</h2>
+        <TextField
+          type="text"
+          name="username"
+          hintText={'Username'}
+          onChange={this.setInput}
+        />
         <br />
-        Password:<br />
-        <input type="password" name="password" onChange={this.setInput} />
-        <br />
-        <button type="button" onClick={this.login}>Login</button>
-        <br />
+        <TextField
+          type="password"
+          name="password"
+          hintText={'Password'}
+          onChange={this.setInput}
+        />
+        <br /><br />
+        <RaisedButton
+          primary
+          onClick={this.login}
+        >Login</RaisedButton>
+        <br /><br />
         {this.state.info}
+        <div style={{ margin: '10px 0', lineHeight: '1.6em' }}>
+          <NavLink to={'/admin/registration'}>Registration</NavLink><br />
+          <NavLink to={'/forgot/admin'}>Restore my password</NavLink><br />
+        </div>
       </div>
     );
   }

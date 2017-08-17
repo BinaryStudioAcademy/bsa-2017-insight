@@ -6,11 +6,10 @@ import Footer from './Footer/Footer';
 import HomeContent from './HomeContent/HomeContent';
 import Product from './Product/Product';
 import Pricing from './Pricing/Pricing';
-// import Login from './Login/Login';
 import IncorrectRoute from './../incorrectRoute/IncorrectRoute';
 import ChatWidget from '../chatWidget/ChatWidget';
 
-import Login1 from './UserAuthentication/UserLogin';
+import Login from './UserAuthentication/UserLogin';
 import Registration from './UserAuthentication/UserRegistration';
 
 import Forgot from './UserAuthentication/reset/Forgot';
@@ -33,8 +32,7 @@ class Home extends React.Component {
           <Route path={'/help'} component={HomeContent} />
           <Route path={'/about'} component={HomeContent} />
           <Route path={'/pricing'} component={Pricing} />
-          {/* <Route path={'/login'} component={Login} /> */}
-          <Route path={'/login'} component={Login1} />
+          <Route path={'/login'} component={Login} />
           <Route path={'/registration'} component={Registration} />
           <Route path={'/forgot'} component={Forgot} />
           <Route path={'/reset'} component={ResetPassword} />

@@ -70,7 +70,7 @@ class Chat extends Component {
       <div className={styles.chat}>
         <img
           alt="close-button"
-          src="http://www.iconsdb.com/icons/preview/color/DE3F28/x-mark-xxl.png"
+          src="https://cdn2.iconfinder.com/data/icons/color-svg-vector-icons-part-2/512/erase_delete_remove_wipe_out-512.png"
           className={styles['close-button']}
           onClick={this.props.onChatClose}
           role="button"

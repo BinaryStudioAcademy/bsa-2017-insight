@@ -14,7 +14,7 @@ class ChatBody extends Component {
       <div className={styles.chat}>
         <img
           alt="return-button"
-          src="http://www.iconsdb.com/icons/preview/color/DE3F28/arrow-98-xxl.png"
+          src="https://www.shareicon.net/data/512x512/2016/08/18/809860_arrows_512x512.png"
           className={styles['return-button']}
           onClick={this.props.onReturnButtonClick}
           role="button"

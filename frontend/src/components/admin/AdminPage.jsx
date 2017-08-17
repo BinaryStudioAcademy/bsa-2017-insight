@@ -52,24 +52,24 @@ const statisticOptions = {
   ],
 };
 
-const userStatisticsPlaceholder = {
-  visitorId: '598ed40c0a68ce58cd3d1cd3',
-  country: 'China',
-  city: 'Beijing',
-  online: false,
-  viewedUrls: ['/to', '/be-or-not', '/to-be'],
-  browser: 'Chrome',
-  browserVersion: 'v.33.33',
-  screenWidth: 1366,
-  screenHeight: 768,
-};
+// const userStatisticsPlaceholder = {
+//   visitorId: '598ed40c0a68ce58cd3d1cd3',
+//   country: 'China',
+//   city: 'Beijing',
+//   online: false,
+//   viewedUrls: ['/to', '/be-or-not', '/to-be'],
+//   browser: 'Chrome',
+//   browserVersion: 'v.33.33',
+//   screenWidth: 1366,
+//   screenHeight: 768,
+// };
 
 class AdminPage extends React.Component {
   constructor() {
     super();
     this.leftMenuWidth = 75;
     this.state = {
-      chosenUser: userStatisticsPlaceholder,
+      // chosenUser: userStatisticsPlaceholder,
       isDrawerOpened: false,
     };
     this.toggleDrawer = this.toggleDrawer.bind(this);
@@ -103,9 +103,9 @@ class AdminPage extends React.Component {
                             <div>
                               <Filter statisticOptions={statisticOptions} />
                               <UserInfoTable statisticOptions={statisticOptions} toggleDrawer={this.toggleDrawer} />
-                              <Drawer width={215} open={this.state.isDrawerOpened} openSecondary>
-                                <UserInfo statistic={this.state.chosenUser} />
-                              </Drawer>
+                              {/* <Drawer width={215} open={this.state.isDrawerOpened} openSecondary> */}
+                                {/* <UserInfo statistic={this.state.chosenUser} /> */}
+                              {/* </Drawer> */}
                             </div>
                           );
                         }}

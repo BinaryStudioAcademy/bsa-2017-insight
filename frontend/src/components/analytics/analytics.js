@@ -94,7 +94,6 @@
     const injectedData = window._injectedData;
     const registeredUserId = injectedData.userId && injectedData.userId.username ? injectedData.userId._id : undefined;
     const globalId = injectedData.globalId;
-
     if (registeredUserId) {
       userStatistics.userId = registeredUserId;
       collectAllData().then(() => sendStatistics(registeredUserId, 'PUT'));

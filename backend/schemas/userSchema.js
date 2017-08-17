@@ -12,7 +12,7 @@ const userSchema = new Schema({
   dateOfBirth: Date,
   company: String,
   avatar: String,
-  username: String,
+  username: { type: String, default: 'Anonymous' },
   gender: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
@@ -20,7 +20,7 @@ const userSchema = new Schema({
   activeConversation: { type: Schema.Types.ObjectId, ref: 'Conversation' }, // по идее активный чат должен всегда быть только один
 });
 
-userSchema.methods.checkPassword = function(plainPassword, callback) {
+userSchema.methods.checkPassword = function (plainPassword, callback) {
   return bcrypt.compareSync(plainPassword, this.password);
 };
 

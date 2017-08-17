@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
-  // тут еще не совсем понятно, должны ли мы будем указывать айди, или он присовится автоматом мунгусом, под вопросом?
-  //  _id: Schema.Types.ObjectId,
   conversationId: Schema.Types.ObjectId,
   body: String,
   author: {

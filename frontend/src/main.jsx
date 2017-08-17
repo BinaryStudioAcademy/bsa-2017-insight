@@ -15,6 +15,8 @@ WebFont.load({
   },
 });
 
+sagaMiddleware.run(rootSaga);
+
 render(
   <Provider store={store}>
     <BrowserRouter>
@@ -26,5 +28,3 @@ render(
   </Provider>,
   document.getElementById('root'),
 );
-
-sagaMiddleware.run(rootSaga);

@@ -3,6 +3,24 @@ const fetchMessage = messageData => ({
   payload: messageData,
 });
 
+const getAllConversations = () => ({ type: 'GET_ALL_CONVERSATIONS' });
+
+const setConversation = (id) => {
+  return {
+    type: 'SET_CONVERSATION',
+    payload: id,
+  };
+};
+
+const removeConversations = () => {
+  return {
+    type: 'REMOVE_CONVERSATION',
+  };
+};
+
 export {
+  getAllConversations,
+  setConversation,
   fetchMessage,
+  removeConversations,
 };

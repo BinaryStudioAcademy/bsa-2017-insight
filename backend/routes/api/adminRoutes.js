@@ -1,5 +1,5 @@
 const passport = require('passport');
-const Admin = require('../../repositories/adminRepository');
+const adminRepository = require('../../repositories/adminRepository');
 const multer = require('multer');
 const mime = require('mime');
 
@@ -65,11 +65,11 @@ module.exports = function (app) {
     //     console.log('before redirect');
     //     res.redirect('/admin/login');
 
-    Admin.getByUsername(data.username, function(err, user) {
+    adminRepository.getByUsername(data.username, function(err, user) {
       if(err) return next(err);
       if(user) return res.json({ text: 'User with this username exists' });
 
-      Admin.add(data, function(err) {
+      adminRepository.add(data, function(err) {
         if(err) return next(err);
         res.redirect('/adminlogin');
       });

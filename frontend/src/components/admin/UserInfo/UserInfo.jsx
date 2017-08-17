@@ -1,30 +1,30 @@
 import React from 'react';
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
+import propTypes from 'prop-types';
 import GpsFixed from 'material-ui/svg-icons/device/gps-fixed';
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import Time from 'material-ui/svg-icons/device/access-time';
 import Subheader from 'material-ui/Subheader';
-import "./styles.scss"
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import styles from './styles.scss';
 
 
 const UserInfo = (props) => {
-    const visitor = props.statistic.visitorId
-    const statistic = props.statistic
-    const userIsFrom = `${statistic.country} ${statistic.city}`
-    const isOnline = statistic.online ? "online" : "offline"
-    const lastUrl = statistic.viewedUrls.join(" , ")
-    const browser = `${statistic.browser} ${statistic.browserVersion}`
-    const screen = `${statistic.screenWidth} x ${statistic.screenHeight}`
-    return(
-    
-      <div className="user-info">
+  const statistic = props.statistic;
+  const user = statistic && props.statistic.userId;
+  const isOnline = statistic && statistic.online ? 'online' : 'offline';
+  const lastUrl = statistic && statistic.viewedUrls.join(' , ');
+  const screen = statistic && `${statistic.screenWidth} x ${statistic.screenHeight}`;
+  return (
+    <MuiThemeProvider>
+      {statistic && <div className={styles['user-info']}>
         <List>
-          <ListItem primaryText={visitor.name}  secondaryText={isOnline} leftAvatar={<Avatar src={visitor.avatar}/>} />
+          <ListItem primaryText={user.username} secondaryText={isOnline} leftAvatar={<Avatar src={user.avatar} />} />
           <ListItem primaryText={statistic.country} secondaryText={statistic.city} leftIcon={<GpsFixed />} />
           <ListItem primaryText={statistic.timeZone} leftIcon={<Time />} />
         </List>
-        
+
         <Divider />
 
         <List>
@@ -45,11 +45,30 @@ const UserInfo = (props) => {
           <ListItem primaryText="OS" secondaryText={statistic.os} />
           <ListItem primaryText="Screen" secondaryText={screen} />
         </List>
-      </div>
+      </div>}
+    </MuiThemeProvider>
+  );
+};
 
-    )
+UserInfo.propTypes = {
+  statistic: propTypes.shape({
+    userId: propTypes.any,
+    currentUrl: propTypes.string,
+    viewedUrls: propTypes.arrayOf(propTypes.string),
+    browserLanguage: propTypes.string,
+    geoLocation: propTypes.string,
+    online: propTypes.bool,
+    coordinates: propTypes.string,
+    userIpAddress: propTypes.string,
+    country: propTypes.string,
+    city: propTypes.string,
+    screenWidth: propTypes.number,
+    screenHeight: propTypes.number,
+    userAgent: propTypes.string,
+    timeZone: propTypes.string,
+    signedUpDate: propTypes.any,
+    sessionsCounts: propTypes.number,
+  }),
+};
 
-
-}
-
-export default UserInfo
+export default UserInfo;

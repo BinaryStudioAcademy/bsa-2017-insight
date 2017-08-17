@@ -2,7 +2,8 @@ const MessageRepository = require('./repositories/messageRepository');
 const ConversationRepository = require('./repositories/conversationRepository');
 const UserRepository = require('./repositories/userRepository');
 const AdminRepository = require('./repositories/adminRepository');
-const createConversationAndUpdateUser = require('./services/conversationService');
+const createConversationAndUpdateUser = require('./services/conversationService').createConversationAndUpdateUser;
+const checkIfAdminIsConversationParticipant = require('./services/conversationService').checkIfAdminIsConversationParticipant;
 const mongoose = require('mongoose');
 
 function connectionHandler(socket) {
@@ -19,6 +20,7 @@ function connectionHandler(socket) {
     if (userObj.type === 'Admin') {
       AdminRepository.model.findOne({ _id: userObj.id })
         .then((data) => {
+          user = data;
           socket.emit('adminData', data);
         });
     }
@@ -34,6 +36,9 @@ function connectionHandler(socket) {
       .then((data) => {
         console.log('message added succesfully');
         const messageToSend = data;
+        if (message.author.userType === 'Admin') {
+          checkIfAdminIsConversationParticipant(message.conversationId, message.author.item);
+        }
         if (messageToSend.author.item.toString() === user._id.toString()) {
           messageToSend._doc.author.item = user;
         }

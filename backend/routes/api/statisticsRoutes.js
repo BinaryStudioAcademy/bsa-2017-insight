@@ -25,6 +25,18 @@ module.exports = (app) => {
     });
   });
 
+  app.get('/api/statistics/by-user/:id', (req, res) => {
+    const id = req.params.id;
+    statisticsRepository.getUserStatisticsAndPopulate(id, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      } else {
+        res.status(200).json(data);
+      }
+    });
+  });
+
   app.post('/api/statistics/', (req, res) => {
     statisticsService.parseStatisticsAndCreate(req.body).then((data) => {
       console.log('created successfully');

@@ -16,8 +16,7 @@ import Forgot from './UserAuthentication/reset/Forgot';
 import ResetPassword from './UserAuthentication/reset/ResetPassword';
 import InvalidToken from './UserAuthentication/reset/InvalidToken';
 
-import '../../components/analytics/analytics';
-import '../../components/analytics/getStatistics';
+import '../../components/analytics/analytics'; // на обсуждение
 
 class Home extends React.Component {
   render() {

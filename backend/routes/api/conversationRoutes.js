@@ -2,7 +2,7 @@ const conversationRepository = require('../../repositories/conversationRepositor
 
 module.exports = (app) => {
   app.get('/api/conversations/', (req, res) => {
-    conversationRepository.getAll((err, data) => {
+    conversationRepository.getAllConversations((err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);

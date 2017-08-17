@@ -1,5 +1,5 @@
 // import { take, put } from 'redux-saga/effects';
-import * as fetchAPI from './../components/analytics/getStatistics';
+
 
 // function* statisticSaga() {
 //   const action = yield take('GET_STATISTIC_BY_ID');
@@ -10,6 +10,8 @@ import * as fetchAPI from './../components/analytics/getStatistics';
 
 
 import { takeEvery, put } from 'redux-saga/effects';
+import * as fetchAPI from './../components/analytics/getStatistics';
+
 
 function* fetchStatistic(action) {
   const result = yield fetchAPI.getStatisticById(action.payload.id);

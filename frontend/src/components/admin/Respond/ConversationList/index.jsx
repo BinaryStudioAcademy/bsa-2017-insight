@@ -18,6 +18,7 @@ const ConversationList = (props) => {
 
 
 ConversationList.propTypes = {
+  setStatistic: propTypes.func,
   conversations: propTypes.arrayOf(propTypes.shape({
     _id: propTypes.string.isRequired,
     participants: propTypes.arrayOf(propTypes.shape({

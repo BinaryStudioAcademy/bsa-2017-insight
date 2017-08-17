@@ -35,7 +35,6 @@ class Respond extends React.Component {
   render() {
     const idToRender = this.props.conversationToRenderId || null;
     const convToChat = idToRender ? this.conversationToChat(idToRender) : null;
-    // convToChat ? this.getIdForStatistic(convToChat) : null;
     return (
       <div>
         {!idToRender ? <div className={styles['big-conversation-list']}>

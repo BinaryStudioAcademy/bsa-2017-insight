@@ -36,12 +36,15 @@ class Chat extends Component {
     };
     this.socket.emit('createNewConversation', conversation, userId);
   }
+
   onConversationClick(id) {
     this.setState({ activeChatId: id });
   }
+
   onReturnButtonClick() {
     this.setState({ activeChatId: null });
   }
+
   onMessageSubmit(event) {
     event.preventDefault();
     const eventCopy = event;
@@ -58,13 +61,21 @@ class Chat extends Component {
     this.socket.emit('newMessage', messageObj);
     eventCopy.target.messageInput.value = '';
   }
+
   render() {
     const conversations = this.state.conversations;
     const conversationToRender = findConversationById(this.state.activeChatId, conversations);
     const messages = conversationToRender ? conversationToRender.conversationItem.messages : null;
     return (
       <div className={styles.chat}>
-        <div className={styles['close-button']} onClick={this.props.onChatClose} role="button" tabIndex="0" />
+        <img
+          alt="close-button"
+          src="https://cdn2.iconfinder.com/data/icons/color-svg-vector-icons-part-2/512/erase_delete_remove_wipe_out-512.png"
+          className={styles['close-button']}
+          onClick={this.props.onChatClose}
+          role="button"
+          tabIndex="0"
+        />
         {!this.state.activeChatId && <ConversationsList
           conversations={conversations}
           onConversationClick={this.onConversationClick}

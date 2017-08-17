@@ -12,7 +12,14 @@ class ChatBody extends Component {
   render() {
     return (
       <div className={styles.chat}>
-        <div className={styles['return-button']} onClick={this.props.onReturnButtonClick} role="button" tabIndex="0" />
+        <img
+          alt="return-button"
+          src="https://www.shareicon.net/data/512x512/2016/08/18/809860_arrows_512x512.png"
+          className={styles['return-button']}
+          onClick={this.props.onReturnButtonClick}
+          role="button"
+          tabIndex="0"
+        />
         <MessagesList messages={this.props.messages} />
         <form className={styles['sending-form']} onSubmit={event => this.props.onMessageSubmit(event)}>
           <input

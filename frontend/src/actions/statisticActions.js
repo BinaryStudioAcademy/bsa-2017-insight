@@ -3,6 +3,6 @@ export const getStatisticById = (id) => {
     type: 'GET_STATISTIC_BY_ID',
     payload: {
       id,
-    }
-  }
+    },
+  };
 };

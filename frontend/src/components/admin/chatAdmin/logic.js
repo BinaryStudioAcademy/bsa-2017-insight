@@ -9,10 +9,6 @@ function startSocketConnection(dispatch) {
     id,
   };
   this.socket.emit('userId', userObj);
-  this.socket.on('adminData', (data) => {
-    console.log(data);
-    // dispatch(fetchUser(data));
-  });
   this.socket.on('newMessage', (message) => {
     dispatch(fetchMessage(message));
   });

@@ -1,0 +1,21 @@
+:local(.big-conversation-list) {
+  display: block;
+  width: 100%;
+}
+
+:local(.small-conversation-list) {
+  display: flex;
+  width: 100%;
+}
+
+:local(.conversations) {
+  flex-basis: 25%
+}
+
+:local(.chat) {
+  flex-basis: 55%
+}
+
+:local(.info) {
+  flex-basis: 20%
+}

@@ -12,6 +12,7 @@ import Login from './AdminAuthentication/AdminLogin';
 import Registration from './AdminAuthentication/AdminRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 import UserInfo from './UserInfo/UserInfo';
+import Respond from './Respond/index';
 
 const muiTheme = getMuiTheme({
   tooltip: {
@@ -110,14 +111,7 @@ class AdminPage extends React.Component {
                           );
                         }}
                       />
-                      <Route
-                        path={'/admin/respond'}
-                        render={() => {
-                          return (
-                            <div>respond</div>
-                          );
-                        }}
-                      />
+                      <Route path="/admin/respond" component={Respond} />
                       <Route
                         path={'/admin/engage'}
                         render={() => {

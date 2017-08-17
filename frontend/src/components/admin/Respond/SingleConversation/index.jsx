@@ -7,19 +7,25 @@ import MyThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const SingleConversation = (props) => {
   const messages = props.conversation.messages;
-  const userName = messages[messages.length - 1].author.item.username;
-  const userAvatar = messages[messages.length - 1].author.item.avatar;
+  const userName = !!messages.length && messages[messages.length - 1].author.item.username;
+  const userAvatar = !!messages.length && messages[messages.length - 1].author.item.avatar;
   const defaultAvatar = 'https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png';
   return (<div>
     <MyThemeProvider>
       <List>
-        <ListItem
-          onClick={props.handler}
-          leftAvatar={<Avatar src={userAvatar || defaultAvatar} />}
-          primaryText={messages[messages.length - 1].body}
-          secondaryText={userName}
-          secondaryTextLines={2}
-        />
+        {!!messages.length ?
+          <ListItem
+            onClick={props.handler}
+            leftAvatar={<Avatar src={userAvatar || defaultAvatar} />}
+            primaryText={messages[messages.length - 1].body}
+            secondaryText={userName}
+            secondaryTextLines={2}
+          />
+          :
+          <ListItem
+            primaryText={'No messages in conversation'}
+            leftAvatar={<Avatar src={userAvatar || defaultAvatar} />}
+          />}
         <Divider inset={true} />
       </List>
     </MyThemeProvider>

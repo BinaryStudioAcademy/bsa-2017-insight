@@ -21,59 +21,59 @@ const muiTheme = getMuiTheme({
 
 injectTapEventPlugin();
 
-// На этом месте будут поля данных из БД
-const statisticOptions = {
-  items: ['Name', 'Email', 'Last seen'],
-  Name: [
-    {
-      'Name 1': 'name-option1',
-    },
-    {
-      'Name 2': 'name-option2',
-    }],
-  Email: [
-    {
-      'email 1': 'email-option1',
-    },
-    {
-      'email 2': 'email-option2',
-    },
-  ],
-  'Last seen': [
-    {
-      'more than': 'days ago',
-    },
-    {
-      exactly: 'days ago',
-    },
-    {
-      'less than': 'days ago',
-    },
-  ],
-};
+// const statisticOptions = {
+//   items: ['Name', 'Email', 'Last seen'],
+//   Name: [
+//     {
+//       'Name 1': 'name-option1',
+//     },
+//     {
+//       'Name 2': 'name-option2',
+//     }],
+//   Email: [
+//     {
+//       'email 1': 'email-option1',
+//     },
+//     {
+//       'email 2': 'email-option2',
+//     },
+//   ],
+//   'Last seen': [
+//     {
+//       'more than': 'days ago',
+//     },
+//     {
+//       exactly: 'days ago',
+//     },
+//     {
+//       'less than': 'days ago',
+//     },
+//   ],
+// };
 
 
 class AdminPage extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.leftMenuWidth = 75;
-    this.state = {
-      data: {}
-    };
   }
 
   componentWillMount() {
-    console.log("COMPONENT WILL MOUNT!!");
-    statisticActions.getStatistic();
-    console.log(this.state.data);
+    this.props.getStatistic();
   }
 
-
+  getStatisticOptions(arr) {
+    let options = [];
+    if (typeof (arr[0]) === 'object') {
+      options = Object.keys(arr[0]);
+    }
+    console.log(this);
+    return options;
+  }
 
 
   render() {
     return (
-
       <MuiThemeProvider muiTheme={muiTheme}>
         <div style={{ minWidth: '700px' }}>
           <Switch>
@@ -89,13 +89,15 @@ class AdminPage extends React.Component {
                     <Header />
                     <Switch>
                       <Route
-                        exact path={'/admin'}
+                        exact
+                        path={'/admin'}
                         render={() => {
+                          const statistics = this.props.allData;
+                          const options = this.getStatisticOptions(this.props.allData);
                           return (
                             <div>
-                              <Filter statisticOptions={statisticOptions} />
-                              <UserInfoTable statisticOptions={statisticOptions} />
-                              <button onClick={() => statisticActions.getStatistic()}>Push me</button>
+                              <Filter statisticOptions={options} />
+                              <UserInfoTable options={options} statistics={statistics} />
                             </div>
                           );
                         }}
@@ -121,7 +123,8 @@ class AdminPage extends React.Component {
                   </div>
                 </div>
               );
-            }} />
+            }}
+            />
           </Switch>
         </div>
       </MuiThemeProvider>
@@ -129,10 +132,15 @@ class AdminPage extends React.Component {
   }
 }
 
+AdminPage.propTypes = {
+  getStatistic: React.PropTypes.func,
+  allData: React.PropTypes.arrayOf(React.PropTypes.object),
+};
+
 
 const mapStateToProps = (state) => {
   return {
-    data: state.data,
+    allData: state.statisticState.allData,
   };
 };
 

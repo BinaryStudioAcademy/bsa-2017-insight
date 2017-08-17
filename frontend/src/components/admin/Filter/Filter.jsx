@@ -25,9 +25,25 @@ class Filter extends React.Component {
         'Last seen': false,
       },
       checkedCheckboxes: {
-        Email: false,
-        Name: false,
-        'Last seen': false,
+        browser: false,
+        browserLanguage: false,
+        browserVersion: false,
+        city: false,
+        coordinates: false,
+        country: false,
+        currentUrl: false,
+        deviceType: false,
+        geoLocation: false,
+        online: false,
+        os: false,
+        screenHeight: false,
+        screenWidth: false,
+        timeZone: false,
+        userAgent: false,
+        userIpAddress: false,
+        visitorId: false,
+        _v: false,
+        _id: false,
       },
     };
     this.onChangeRadio = this.onChangeRadio.bind(this);
@@ -75,12 +91,7 @@ class Filter extends React.Component {
   handleTap(groupName) {
     const newInitiallyOpen = this.state.initiallyOpen;
     newInitiallyOpen[groupName] = (!newInitiallyOpen[groupName]);
-    this.setState({initiallyOpen: newInitiallyOpen});
-    // Тут происходит магия
-    // С закоментированной строкой все работает как надо.Если раскоментировать, то невозможно будет поставить 
-    // галочку в checkBox.
-    // При этом функция с закоментированным изменением состояния фактически ничего не делает, но если ее убрать, 
-    // то при нажатии на любой "RadioButton" все выпадающие списки будут закрываться.
+    this.setState({ initiallyOpen: newInitiallyOpen });
   }
 
   handleCheck(checkBoxName) {
@@ -98,8 +109,8 @@ class Filter extends React.Component {
         <div>
           <MuiThemeProvider>
             <List>
-              <Subheader style={{ fontSize: '16px', fontFamily:'Roboto' }}>User attributes</Subheader> {
-                statisticOptions.items.map((elem) => {
+              <Subheader style={{ fontSize: '16px', fontFamily: 'Roboto' }}>Filter user attributes</Subheader> {
+                statisticOptions.map((elem) => {
                   return (<ListItem
                     style={{ fontSize: '14px' }}
                     leftCheckbox={
@@ -113,7 +124,7 @@ class Filter extends React.Component {
                     initiallyOpen={this.state.initiallyOpen[elem]}
                     onClick={() => this.handleTap(elem)}
                     primaryTogglesNestedList
-                    nestedItems={this.getNestedItems(statisticOptions[elem], elem)}
+                    // nestedItems={this.getNestedItems(statisticOptions[elem], elem)}
                   />);
                 })
               }
@@ -126,7 +137,7 @@ class Filter extends React.Component {
 }
 
 Filter.propTypes = {
-  statisticOptions: React.PropTypes.object.isRequired,
+  statisticOptions: React.PropTypes.arrayOf(React.PropTypes.string),
 };
 
 export default Filter;

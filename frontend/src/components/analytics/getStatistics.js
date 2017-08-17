@@ -1,5 +1,4 @@
 export function fetchStatistic() {
-  console.log('fetch statistic function');
   const url = 'http://localhost:3000/api/statistics';
   const requestOptions = {
     headers: {
@@ -8,13 +7,11 @@ export function fetchStatistic() {
     body: null,
     method: 'GET',
   };
-  return fetch(url)
+  return fetch(url, requestOptions)
     .then((response) => {
       return response.json();
     })
     .then((info) => {
-      // console.log(typeof(info[0]));
-      // console.log(info[0]);
       return info;
     });
 }

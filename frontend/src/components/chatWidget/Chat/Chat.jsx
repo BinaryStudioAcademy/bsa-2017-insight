@@ -24,7 +24,7 @@ class Chat extends Component {
   }
 
   onCreateConversationButtonClick() {
-    const userId = window._injectedData.globalId || window._injectedData.userId._id;
+    const userId = window._injectedData.globalId || window._injectedData._id;
     const conversation = {
       participants: [{
         userType: 'User',

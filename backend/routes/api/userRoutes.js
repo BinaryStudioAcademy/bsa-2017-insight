@@ -50,18 +50,17 @@ module.exports = (app) => {
       email: req.body.email,
       avatar: req.file ? req.file.filename : 'avatar.png',
       username: req.body.username,
-      gender: req.body.gender
+      gender: req.body.gender,
     };
 
     User.getByUsername(data.username, function(err, user) {
       if(err) return next(err);
       if(user) return res.json({ text: 'User with this username exists' });
 
-      User.add(data, function(err) {
+      createUserAndEmptyStatistics(data, function(err) {
         if(err) return next(err);
         res.redirect('/userlogin');
       });
-
     });
   });
 

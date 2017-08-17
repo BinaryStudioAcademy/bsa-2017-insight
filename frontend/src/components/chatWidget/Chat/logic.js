@@ -13,7 +13,7 @@ function findConversationById(id, conversations) {
 }
 
 function startSocketConnection(socket) {
-  const id = window._injectedData.globalId || window._injectedData.userId._id;
+  const id = window._injectedData.globalId || window._injectedData._id;
   socket.on('user connected', () => {
     console.log('connected to the server succesfully');
   });

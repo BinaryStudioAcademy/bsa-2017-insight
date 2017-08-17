@@ -1,6 +1,6 @@
 const getStatistic = () => {
   return {
-    type: 'GET_STATISTIC',
+    type: 'GET_ALL_STATISTIC',
   }
 }
 

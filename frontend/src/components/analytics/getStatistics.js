@@ -1,4 +1,4 @@
-function fetchStatistic() {
+function getAllStatistic() {
   const url = 'http://localhost:3000/api/statistics';
   const requestOptions = {
     headers: {
@@ -16,10 +16,10 @@ function fetchStatistic() {
     });
 }
 
-function fetchStatisticById(id) {
+function getStatisticById(id) {
   return fetch(`http://localhost:3000/api/statistics/by-user/${id}`)
     .then(response => response.json())
     .then(statistic => statistic);
 }
 
-export { fetchStatisticById, fetchStatistic };
+export { getStatisticById, getAllStatistic };

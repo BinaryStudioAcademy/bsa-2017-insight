@@ -122,10 +122,6 @@ class AdminPage extends React.Component {
                             <div>
                               <Filter statisticOptions={options} />
                               <UserInfoTable options={options} statistics={statistics} />
-                              /* <UserInfoTable options={options} statistics={statistics} toggleDrawer={this.toggleDrawer} />*/
-                              {/* <Drawer width={215} open={this.state.isDrawerOpened} openSecondary> */}
-                                {/* <UserInfo statistic={this.state.chosenUser} /> */}
-                              {/* </Drawer> */}
                             </div>
                           );
                         }}
@@ -161,7 +157,7 @@ AdminPage.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    allData: state.allStatistics.allData,
+    allData: state.statistics.allData,
   };
 };
 

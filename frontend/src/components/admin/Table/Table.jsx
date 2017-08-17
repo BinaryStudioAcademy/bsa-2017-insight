@@ -17,7 +17,7 @@ class UserInfoTable extends React.Component {
         {
           this.props.options.map(elem => (
             <TableRowColumn key={'row '+index+',column'+elem} style={{ fontSize: '12px', width: '200px', padding: '5px' }}>
-              {row[elem]}
+              <span>{row[elem]}</span>
             </TableRowColumn>
           ))
         }

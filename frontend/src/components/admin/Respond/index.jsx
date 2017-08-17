@@ -70,7 +70,7 @@ const mapStateToProps = (state) => {
   return {
     conversations: state.conversationsInfo.conversations,
     conversationToRenderId: state.conversationsInfo.conversationToRenderId,
-    statisticById: state.userStatistics.statisticById,
+    statisticById: state.statistics.statisticById,
   };
 };
 

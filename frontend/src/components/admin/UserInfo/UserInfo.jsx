@@ -6,20 +6,18 @@ import Divider from 'material-ui/Divider';
 import Time from 'material-ui/svg-icons/device/access-time';
 import Subheader from 'material-ui/Subheader';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import "./styles.scss"
+import styles from './styles.scss';
 
 
 const UserInfo = (props) => {
   const user = props.statistic.userId;
   const statistic = props.statistic;
-  const userIsFrom = `${statistic.country} ${statistic.city}`;
-  const isOnline = statistic.online ? "online" : "offline";
-  const lastUrl = statistic.viewedUrls.join(" , ");
-  const browser = `${statistic.browser} ${statistic.browserVersion}`;
+  const isOnline = statistic.online ? 'online' : 'offline';
+  const lastUrl = statistic.viewedUrls.join(' , ');
   const screen = `${statistic.screenWidth} x ${statistic.screenHeight}`;
   return (
     <MuiThemeProvider>
-      <div className="user-info">
+      <div className={styles['user-info']}>
         <List>
           <ListItem primaryText={user.username} secondaryText={isOnline} leftAvatar={<Avatar src={user.avatar} />} />
           <ListItem primaryText={statistic.country} secondaryText={statistic.city} leftIcon={<GpsFixed />} />

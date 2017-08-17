@@ -32,7 +32,7 @@
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userStatistics),
-      method, // вообще это всегда PUT, просто пут нужно настраивать различать id, сейчас нет времени
+      method,
     };
     fetch(url, requestOptions)
       .then(response => response.json())
@@ -48,7 +48,7 @@
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userObject),
-      method: 'POST', // вообще это всегда PUT, просто пут нужно настраивать различать id, сейчас нет времени
+      method: 'POST',
     };
     return fetch('http://localhost:3000/api/users', requestOptions);
   }
@@ -92,16 +92,14 @@
 
   window.addEventListener('click', () => {
     const injectedData = window._injectedData;
-    const registeredUserId = injectedData.userId && injectedData.userId.username ? injectedData.userId._id : undefined;
+    const registeredUserId = injectedData._id;
     const globalId = injectedData.globalId;
-
     if (registeredUserId) {
       userStatistics.userId = registeredUserId;
       collectAllData().then(() => sendStatistics(registeredUserId, 'PUT'));
     } else if (globalId) {
       userStatistics.userId = globalId;
       collectAllData().then(() => sendStatistics(globalId, 'PUT'));
-      // на сервере проверять не _id, а userId
     } else {
       const newGlobalId = generateId();
       userStatistics.userId = newGlobalId;

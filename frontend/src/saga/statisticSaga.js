@@ -1,4 +1,3 @@
-
 import { take, put } from 'redux-saga/effects';
 import * as fetchAPI from '../components/analytics/getStatistics';
 
@@ -9,4 +8,3 @@ function* statisticSaga() {
 }
 
 export default statisticSaga;
-

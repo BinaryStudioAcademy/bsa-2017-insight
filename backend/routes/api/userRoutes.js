@@ -1,30 +1,72 @@
 const passport = require('passport');
-const userRepository = require('../../repositories/userRepository');
+const User = require('../../repositories/userRepository');
 const createUserAndEmptyStatistics = require('./../../services/userService');
+const multer = require('multer');
+const mime = require('mime');
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, __dirname + '/../../../uploads/avatars');
+  },
+  filename: function(req, file, cb) {
+    const extension = mime.extension(file.mimetype);
+    cb(null, `${req.body.username}-${Date.now()}.${extension}`);
+  }
+});
+
+const upload = multer({ storage: storage });
 
 module.exports = (app) => {
-  app.post('/api/user/login/', passport.authenticate('user', {
-    successRedirect: '/',
-    failureRedirect: '/userregistration',
-    failureFlash: true,
-    successFlash: 'Welcome!',
-  }));
 
-  app.post('/api/user/registration', (req, res) => {
+  app.post('/api/user/login/', function(req, res, next) {
+    if(req.user) return res.redirect('/');
+
+    passport.authenticate('user', function(err, user, info) {
+      if(err) {
+        return next(err);
+      };
+
+      if(!user) {
+        return res.json({ text: info });
+      };
+
+      req.logIn(user, function(err) {
+        if(err) return next(err);
+        res.redirect('/');
+      });
+
+    })(req, res, next);
+  });
+
+  app.post('/api/user/registration', upload.single('avatar'), (req, res, next) => {
+    if(req.user) return res.redirect('/');
+
     const data = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      dateOfBirth: new Date(req.body.dateOfBirth),
+      password: req.body.secondPassword,
+      company: req.body.company,
+      email: req.body.email,
+      avatar: req.file ? req.file.filename : 'avatar.png',
       username: req.body.username,
-      password: req.body.password,
+      gender: req.body.gender,
     };
-    createUserAndEmptyStatistics(data, () => { // TODO заменить на свою функцию
-      passport.authenticate('local')(req, res, () => {
-        console.log('before redirect');
+
+    User.getByUsername(data.username, function(err, user) {
+      if(err) return next(err);
+      if(user) return res.json({ text: 'User with this username exists' });
+
+      createUserAndEmptyStatistics(data, function(err) {
+        if(err) return next(err);
         res.redirect('/userlogin');
       });
     });
   });
 
   app.get('/api/users/', (req, res) => {
-    userRepository.getAll((err, data) => {
+    return res.json(req.user);
+    User.getAll((err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -36,7 +78,7 @@ module.exports = (app) => {
 
   app.get('/api/users/:id', (req, res) => {
     const id = req.params.id;
-    userRepository.findOneAndPopulate(id, (err, data) => {
+    User.findOneAndPopulate(id, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -47,7 +89,7 @@ module.exports = (app) => {
   });
 
   app.post('/api/users/', (req, res) => {
-    userRepository.add(req.body, (err, data) => {
+    User.add(req.body, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -59,7 +101,7 @@ module.exports = (app) => {
 
   app.put('/api/users/:id', (req, res) => {
     const id = req.params.id;
-    userRepository.update(id, req.body, (err, data) => {
+    User.update(id, req.body, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -71,7 +113,7 @@ module.exports = (app) => {
 
   app.delete('/api/users/:id', (req, res) => {
     const id = req.params.id;
-    userRepository.delete(id, (err, data) => {
+    User.delete(id, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);

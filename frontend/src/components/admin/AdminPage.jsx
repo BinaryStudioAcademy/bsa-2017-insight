@@ -4,14 +4,17 @@ import { Switch, Route } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import Drawer from 'material-ui/Drawer';
 import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
 import UserInfoTable from './Table/Table';
 import Filter from './Filter/Filter';
 import * as statisticActions from '../../actions/statisticActions';
-import Login from './login';
-import Registration from './registration';
+import Login from './AdminAuthentication/AdminLogin';
+import Registration from './AdminAuthentication/AdminRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
+import UserInfo from './UserInfo/UserInfo';
+import Respond from './Respond/index';
 
 const muiTheme = getMuiTheme({
   tooltip: {
@@ -52,11 +55,32 @@ injectTapEventPlugin();
 // };
 
 
+// const userStatisticsPlaceholder = {
+//   visitorId: '598ed40c0a68ce58cd3d1cd3',
+//   country: 'China',
+//   city: 'Beijing',
+//   online: false,
+//   viewedUrls: ['/to', '/be-or-not', '/to-be'],
+//   browser: 'Chrome',
+//   browserVersion: 'v.33.33',
+//   screenWidth: 1366,
+//   screenHeight: 768,
+// };
+
 class AdminPage extends React.Component {
   constructor(props) {
     super(props);
     this.leftMenuWidth = 75;
+    // this.state = {
+      // chosenUser: userStatisticsPlaceholder,
+      // isDrawerOpened: false,
+    // };
+    // this.toggleDrawer = this.toggleDrawer.bind(this);
   }
+
+  // toggleDrawer() {
+  //   this.setState({ isDrawerOpened: !this.state.isDrawerOpened });
+  // }
 
   componentWillMount() {
     this.props.getStatistic();
@@ -75,7 +99,7 @@ class AdminPage extends React.Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div style={{ minWidth: '700px' }}>
+        <div style={{ minWidth: '700px', fontFamily: 'Roboto, sans-serif' }}>
           <Switch>
             <Route path={'/admin/login'} component={Login} />
             <Route path={'/admin/registration'} component={Registration} />
@@ -98,18 +122,15 @@ class AdminPage extends React.Component {
                             <div>
                               <Filter statisticOptions={options} />
                               <UserInfoTable options={options} statistics={statistics} />
+                              /* <UserInfoTable options={options} statistics={statistics} toggleDrawer={this.toggleDrawer} />*/
+                              {/* <Drawer width={215} open={this.state.isDrawerOpened} openSecondary> */}
+                                {/* <UserInfo statistic={this.state.chosenUser} /> */}
+                              {/* </Drawer> */}
                             </div>
                           );
                         }}
                       />
-                      <Route
-                        path={'/admin/respond'}
-                        render={() => {
-                          return (
-                            <div>respond</div>
-                          );
-                        }}
-                      />
+                      <Route path="/admin/respond" component={Respond} />
                       <Route
                         path={'/admin/engage'}
                         render={() => {
@@ -140,7 +161,7 @@ AdminPage.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    allData: state.statisticState.allData,
+    allData: state.allStatistics.allData,
   };
 };
 

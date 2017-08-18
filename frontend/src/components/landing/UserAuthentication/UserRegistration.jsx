@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './styles.scss';
+// import { validated } from 'react-custom-validation';
+import validator from 'validator';
 
 class UserRegistration extends React.Component {
   constructor(props) {
@@ -7,13 +9,11 @@ class UserRegistration extends React.Component {
     this.state = {
       info: '',
       formValues: {
-        fName: '',
-        lName: '',
-        // bDate: undefined,
-        gender: undefined,
-        email: '',
-        password: '',
-        company: '',
+        firstName: '',
+        lastName: '',
+        userName: '',
+        password1: '',
+        password2: '',
       },
     };
     this.sendForm = this.sendForm.bind(this);
@@ -22,20 +22,28 @@ class UserRegistration extends React.Component {
   formValuesSaver(field, filledField) {
     this.setState({
       formValues: Object.assign(this.state.formValues, {
-        [field]: filledField.value,
+        [field]: filledField.value.toString(),
       }),
     });
     console.log(this.state);
   }
 
+  formValidator() {
+    const errors = [];
+    if (!validator.isLength(this.state.formValues.firstName, { min: 2 })) {
+      errors.push('Please enter your first name (it should be longer than 2 letters)');
+    }
+  }
+
   sendForm(e) {
     e.preventDefault();
+    this.formValidator();
     const formData = new FormData(e.target);
     fetch('/api/user/registration/', {
       method: 'POST',
       body: formData,
       redirect: 'follow',
-      credentials: 'include'
+      credentials: 'include',
     }).then(response => response.json()).then((response) => {
       this.setState({ info: response.text });
     });
@@ -53,16 +61,25 @@ class UserRegistration extends React.Component {
               type="text"
               name="firstName"
               required
-              onChange={e => this.formValuesSaver('fName', e.target)}
+              onChange={e => this.formValuesSaver('firstName', e.target)}
             />
           </div>
           <div className={styles['get-data']}>
             <span>Last Name*</span>
-            <input type="text" name="lastName" required />
+            <input
+              type="text"
+              name="lastName"
+              required
+              onChange={e => this.formValuesSaver('lastName', e.target)}
+            />
           </div>
           <div className={styles['get-data']}>
             <span>Date of birth*</span>
-            <input type="date" name="dateOfBirth" required />
+            <input
+              type="date"
+              name="dateOfBirth"
+              required
+            />
           </div>
           <div className={styles['get-data']}>
             <span>Gender</span>
@@ -73,7 +90,12 @@ class UserRegistration extends React.Component {
           </div>
           <div className={styles['get-data']}>
             <span>Username*</span>
-            <input type="text" name="username" required />
+            <input
+              type="text"
+              name="username"
+              required
+              onChange={e => this.formValuesSaver('userName', e.target)}
+            />
           </div>
           <div className={styles['get-data']}>
             <span>Email*</span>
@@ -81,11 +103,21 @@ class UserRegistration extends React.Component {
           </div>
           <div className={styles['get-data']}>
             <span>Password*</span>
-            <input type="password" name="firstPassword" required />
+            <input
+              type="password"
+              name="firstPassword"
+              required
+              onChange={e => this.formValuesSaver('password1', e.target)}
+            />
           </div>
           <div className={styles['get-data']}>
             <span>Confirm password*</span>
-            <input type="password" name="secondPassword" required />
+            <input
+              type="password"
+              name="secondPassword"
+              required
+              onChange={e => this.formValuesSaver('password2', e.target)}
+            />
           </div>
           <div className={styles['get-data']}>
             <span>Company</span>

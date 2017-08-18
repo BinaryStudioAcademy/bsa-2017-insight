@@ -4,7 +4,7 @@ import styles from './styles.scss';
 
 const ChatWidget = (props) => {
   return (
-    <div
+    <img src="http://www.iconsfind.com/wp-content/uploads/2015/12/20151229_5682318d75553.png"
       role="button"
       tabIndex="0"
       className={styles['chat-icon']}

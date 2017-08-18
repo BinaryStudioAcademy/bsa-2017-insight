@@ -35,11 +35,11 @@ class Respond extends React.Component {
   render() {
     const idToRender = this.props.conversationToRenderId || null;
     const convToChat = idToRender ? this.conversationToChat(idToRender) : null;
-    convToChat ? this.getIdForStatistic(convToChat) : null;
     return (
       <div>
         {!idToRender ? <div className={styles['big-conversation-list']}>
           <ConversationList
+            setStatistic={this.getIdForStatistic}
             conversations={this.props.conversations}
             setConversation={this.props.setConversation}
           />
@@ -47,6 +47,7 @@ class Respond extends React.Component {
           : <div className={styles['small-conversation-list']}>
             <div className={styles.conversations}>
               <ConversationList
+                setStatistic={this.getIdForStatistic}
                 conversations={this.props.conversations}
                 setConversation={this.props.setConversation}
                 nowActive={this.props.conversationToRenderId}

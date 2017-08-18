@@ -23,7 +23,7 @@ class Chat extends Component {
       body: message,
       createdAt: Date.now(),
       author: {
-        item: window._injectedData.userId._id,
+        item: window._injectedData._id,
         userType: 'Admin',
       },
     };

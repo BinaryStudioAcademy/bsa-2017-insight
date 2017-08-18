@@ -92,7 +92,7 @@
 
   window.addEventListener('click', () => {
     const injectedData = window._injectedData;
-    const registeredUserId = injectedData.userId && injectedData.userId.username ? injectedData.userId._id : undefined;
+    const registeredUserId = injectedData._id;
     const globalId = injectedData.globalId;
     if (registeredUserId) {
       userStatistics.userId = registeredUserId;

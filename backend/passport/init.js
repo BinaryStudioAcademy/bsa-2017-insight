@@ -44,7 +44,6 @@ module.exports = function (localPassport) {
       });
     } else {
       Statistics.getUserStatisticsAndPopulate(user.id, function(err, user) {
-        debugger;
         done(err, user);
       });
     }

@@ -10,15 +10,20 @@ class AdminRegistration extends React.Component {
     this.sendForm = this.sendForm.bind(this);
   }
 
+  // validateForm(formData) {
+  //   console.log(formData);
+  // }
 
   sendForm(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
+    console.log(formData);
+    // this.validateForm(formData);
     fetch('/api/admin/registration/', {
       method: 'POST',
       body: formData,
       redirect: 'follow',
-      credentials: 'include'
+      credentials: 'include',
     }).then(response => response.json()).then((response) => {
       this.setState({ info: response.text });
     });
@@ -38,42 +43,41 @@ class AdminRegistration extends React.Component {
             type={'text'}
             name={'firstName'}
             required
-            hintText={'First Name'}
+            hintText={'First Name*'}
           /><br />
-          {/* <span>Last Name</span><br /> */}
           <TextField
             type={'text'}
             name={'lastName'}
             required
-            hintText={'Last Name'}
+            hintText={'Last Name*'}
           /><br />
           <TextField
             type={'text'}
             name={'username'}
             required
-            hintText={'Username'}
+            hintText={'Username*'}
           /><br />
           <TextField
             type={'email'}
             name={'email'}
             required
-            hintText={'Email'}
+            hintText={'Email*'}
           /><br />
           <TextField
             type={'password'}
             name={'firstPassword'}
             required
-            hintText={'Password'}
+            hintText={'Password*'}
           /><br />
           <TextField
             type={'password'}
             name={'secondPassword'}
             required
-            hintText={'Confirm password'}
+            hintText={'Confirm password*'}
           /><br /><br />
           <RadioButtonGroup name={'gender'}>
-            <RadioButton value="Male" required label={'Male'} style={{ width: '100px', display: 'inline-block' }} />
-            <RadioButton value="Female" required label={'Female'} style={{ width: '100px', display: 'inline-block' }} />
+            <RadioButton value="Male" label={'Male'} style={{ width: '100px', display: 'inline-block' }} />
+            <RadioButton value="Female" label={'Female'} style={{ width: '100px', display: 'inline-block' }} />
           </RadioButtonGroup><br />
           <RaisedButton
             name={'avatar'}
@@ -102,7 +106,6 @@ class AdminRegistration extends React.Component {
             primary
           />
         </form>
-        <br />
         {this.state.info}
       </div>
     );

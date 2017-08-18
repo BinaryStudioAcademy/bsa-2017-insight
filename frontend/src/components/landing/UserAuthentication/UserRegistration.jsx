@@ -4,10 +4,29 @@ import styles from './styles.scss';
 class UserRegistration extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { info: '' };
+    this.state = {
+      info: '',
+      formValues: {
+        fName: '',
+        lName: '',
+        // bDate: undefined,
+        gender: undefined,
+        email: '',
+        password: '',
+        company: '',
+      },
+    };
     this.sendForm = this.sendForm.bind(this);
   }
 
+  formValuesSaver(field, filledField) {
+    this.setState({
+      formValues: Object.assign(this.state.formValues, {
+        [field]: filledField.value,
+      }),
+    });
+    console.log(this.state);
+  }
 
   sendForm(e) {
     e.preventDefault();
@@ -26,45 +45,51 @@ class UserRegistration extends React.Component {
     return (
       <div className={styles['login-form']}>
         <h3>User registration</h3>
+        <hr />
         <form onSubmit={this.sendForm} encType="multipart/form-data">
           <div className={styles['get-data']}>
-            <span>First Name</span>
-            <input type="text" name="firstName" required />
+            <span>First Name*</span>
+            <input
+              type="text"
+              name="firstName"
+              required
+              onChange={e => this.formValuesSaver('fName', e.target)}
+            />
           </div>
           <div className={styles['get-data']}>
-            <span>Last Name</span>
+            <span>Last Name*</span>
             <input type="text" name="lastName" required />
           </div>
           <div className={styles['get-data']}>
-            <span>Date of birth</span>
+            <span>Date of birth*</span>
             <input type="date" name="dateOfBirth" required />
           </div>
           <div className={styles['get-data']}>
             <span>Gender</span>
             <div>
-              <input type="radio" name="gender" value="Male" id="male" required /><label htmlFor="male">Male</label>
-              <input type="radio" name="gender" value="Female" id="female" required /><label htmlFor="female">Female</label>
+              <input type="radio" name="gender" value="Male" id="male" /><label htmlFor="male">Male</label>
+              <input type="radio" name="gender" value="Female" id="female" /><label htmlFor="female">Female</label>
             </div>
           </div>
           <div className={styles['get-data']}>
-            <span>Username (Login)</span>
+            <span>Username*</span>
             <input type="text" name="username" required />
           </div>
           <div className={styles['get-data']}>
-            <span>Email</span>
+            <span>Email*</span>
             <input type="email" name="email" required />
           </div>
           <div className={styles['get-data']}>
-            <span>Password</span>
+            <span>Password*</span>
             <input type="password" name="firstPassword" required />
           </div>
           <div className={styles['get-data']}>
-            <span>Confirm password</span>
+            <span>Confirm password*</span>
             <input type="password" name="secondPassword" required />
           </div>
           <div className={styles['get-data']}>
             <span>Company</span>
-            <input type="text" name="company" required />
+            <input type="text" name="company" />
           </div>
           <div className={styles['get-data']}>
             <span>Avatar</span>
@@ -73,32 +98,9 @@ class UserRegistration extends React.Component {
           <button type="submit">Sign Up</button>
         </form>
         <br />
-        {this.state.info}
+        <div className={styles['error-message']}>{this.state.info}</div>
       </div>
     );
-
-
-
-    // return (
-    //   <div className={styles['login-form']}>
-    //     <h3>User registration</h3>
-    //     <hr />
-    //     <div className={styles['get-data']}>
-    //       <p>Username: </p>
-    //       <input type="text"name="username" onChange={this.setInput} />
-    //     </div>
-    //     <div className={styles['get-data']}>
-    //       <p>Enter your password</p>
-    //       <input type="password" name="password" onChange={this.setInput} />
-    //     </div>
-    //     {/* <div className={styles['remember-me']}>
-    //       <input type="checkbox" id="rememberMe" />
-    //       <label htmlFor="rememberMe">Remember me</label><br />
-    //     </div> */}
-    //     <button type="button" onClick={this.login}>Log in</button><br />
-    //     {this.state.info}
-    //   </div>
-    // );
   }
 }
 

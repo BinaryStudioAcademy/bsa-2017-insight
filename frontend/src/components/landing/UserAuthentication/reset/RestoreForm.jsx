@@ -36,16 +36,15 @@ class RestoreForm extends React.Component {
     return (
       <div className={styles['login-form']}>
         <h3>Enter your email to proceed:</h3>
-        <br />
+        <hr /><br />
         <input
           className={styles['restore-email']}
           type={'email'}
           name={'email'}
           onChange={(e) => { this.setState({ email: e.target.value }); }}
-        />
-        <br />
+        /><br />
         <button onClick={this.sendEmail}>Reset</button>
-        <div>{this.state.info}</div>
+        <div className={styles['error-message']}>{this.state.info}</div>
       </div>
     );
   }

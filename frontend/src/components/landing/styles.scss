@@ -1,0 +1,17 @@
+@import './frontend/src/common/styles/variables.scss';
+
+:local(.container) {
+    min-height: 500px;
+    color: $landing-darkgrey;
+    width: 1000px;
+    margin: 0 auto;
+    font-family: Ubuntu, sans-serif;
+
+    a {
+        transition: all .2s ease;
+
+        &:hover {
+            color: $landing-violet;
+        }
+    }
+}

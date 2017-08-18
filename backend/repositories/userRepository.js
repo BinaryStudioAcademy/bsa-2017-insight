@@ -1,24 +1,32 @@
-var connection = require('../db/dbconnect');
-var Repository = require('./generalRepository');
-var User = require('../schemas/userSchema');
+const connection = require('../db/dbConnect');
+const bcrypt = require('bcrypt-nodejs');
+const Repository = require('./generalRepository');
+const User = require('../schemas/userSchema');
+const mongoose = require('mongoose');
 
-function UserRepository() {
-	Repository.prototype.constructor.call(this);
-	this.model = User;
-}
+const userRepository = Object.create(Repository.prototype);
+userRepository.model = User;
 
-UserRepository.prototype = new Repository();
-
-UserRepository.prototype.oneMoreFunction = function(userId, obj, callback) {
-	var model = this.model;
-	var query = model.findByIdAndUpdate(userId, {
-		$push: {
-			property:{
-				nestedProperty: value,
-			}
-		}
-	}, {});
-	query.exec(callback);
+userRepository.add = function (data, callback) {
+  data.salt = bcrypt.genSaltSync(10);
+  bcrypt.hash(data.password, data.salt, null, (err, hash) => {
+    if(err) return callback(err);
+    data.password = hash;
+    const newUser = new User(data);
+    newUser.save(callback);
+  });
 };
 
-module.exports = new UserRepository();
+userRepository.addAnonymousUser = function (id) {
+  const userId = mongoose.Types.ObjectId(id);
+  const userObj = { _id: userId };
+  const model = this.model;
+  return model.create(userObj);
+};
+
+userRepository.findOneAndPopulate = function (id, callback) {
+  const model = this.model;
+  model.findById({ _id: id }).populate('conversations activeConversation widget').exec(callback);
+};
+
+module.exports = userRepository;

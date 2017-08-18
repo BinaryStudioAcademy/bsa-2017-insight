@@ -1,0 +1,51 @@
+@import './frontend/src/common/styles/variables.scss';
+
+$greyColor: #707070;
+
+$pictureSize: 400px;
+
+$bigHeaderFont: 28px;
+$headerFont: 24px;
+$textFont: 20px;
+$smallTextFont: 16px;
+
+:local(.container) {
+	width: 80%;
+	margin: auto;
+}
+
+:local(.product) {
+	display: inline-flex;
+	
+	h1{
+		font-size: $bigHeaderFont;
+		color: $landing-orange;
+	}
+
+	h2{
+		color: $landing-orange;
+		font-size: $headerFont;
+		text-align: center;
+		margin-bottom: 10%;
+	}
+
+	p{
+		color: $greyColor;
+		font-size: $textFont;
+	}
+
+	img{
+		width: $pictureSize;
+		height: $pictureSize;
+		margin: 30px;
+	}	
+}
+
+:local(.description) {
+	width: 50%;
+	margin: 30px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: $greyColor;
+	padding: 10px 30px;
+}

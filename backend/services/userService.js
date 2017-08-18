@@ -1,33 +1,21 @@
-var async = require('async');
-var userRepository = require('../repositories/userRepository');
+const userRepository = require('../repositories/userRepository');
+const statisticsRepository = require('../repositories/statisticsRepository');
+const bcrypt = require('bcrypt-nodejs');
 
-module.exports = function (id, onResult) {
-    let resData = {};
-    async.waterfall([
-            function (callback) {
-                userRepository.add(id, function (err, data) {
-                    if (err) {
-                        return callback(err, data);
-                    }
-                    if (data) {
-                        resData.features = data.features;
-                        callback(null, resData);
-                    }
-                });
-            },
-            function (data, callback) {
-                userRepository.add(id, function (err, data) {
-                    if (err) {
-                        return callback(err, data);
-                    }
-                    if (data) {
-                        resData.features = data.features;
-                        callback(null, resData);
-                    }
-                });
-            }
-        ],
-        function (err, result) {
-            onResult(err, result);
-        });
-};
+function createUserAndEmptyStatistics(data, callback) {
+  const userData = data;
+  userData.salt = bcrypt.genSaltSync(10);
+  bcrypt.hash(userData.password, userData.salt, null, (err, hash) => {
+    userData.password = hash;
+    userRepository.model.create(userData).then((newUserData) => {
+      console.log(newUserData);
+      const statisticsObj = { userId: newUserData._id };
+      statisticsRepository.model.create(statisticsObj).then((statisticsData) => {
+        console.log(statisticsData);
+        callback(userData);
+      });
+    });
+  });
+}
+
+module.exports = createUserAndEmptyStatistics;

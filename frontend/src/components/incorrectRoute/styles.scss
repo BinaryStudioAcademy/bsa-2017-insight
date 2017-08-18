@@ -1,0 +1,23 @@
+@import './frontend/src/common/styles/variables.scss';
+
+$minHeight: 500px;
+
+:local(.container) {
+    min-height: $minHeight;
+    color: $landing-darkgrey;
+    width: 1000px;
+    margin: 0 auto;
+    font-family: Ubuntu, sans-serif;
+    font-size: 32pt;
+    line-height: $minHeight;
+    text-align: center;
+    vertical-align: middle;
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+
+}

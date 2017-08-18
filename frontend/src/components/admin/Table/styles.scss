@@ -1,0 +1,8 @@
+@import './frontend/src/common/styles/variables.scss';
+
+:local(.container) {
+    color: $landing-darkgrey;
+
+	display: inline-block;
+	width: 80%;
+}

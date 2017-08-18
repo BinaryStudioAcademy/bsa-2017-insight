@@ -1,9 +1,9 @@
-const path = require('path');
-const apiResponse = require('express-api-response');
+const injectData = require('../../middleware/injectedDataMiddleware');
 
-module.exports = function(app) {
-	app.get('*', function(req, res, next) {
-		res.header = ('Content-Type', 'text/html');
-		res.sendFile(path.resolve(__dirname + '/../../../index.html'));
-	});
+module.exports = function (app) {
+  app.get('*', (req, res) => {
+    injectData(req, res, {}, false);
+    console.log('Request from: ');
+    console.log(req.user);
+  });
 };

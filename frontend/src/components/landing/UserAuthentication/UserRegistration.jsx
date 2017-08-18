@@ -1,7 +1,6 @@
 import React from 'react';
 import isLength from 'validator/lib/isLength';
 import equals from 'validator/lib/equals';
-import isAfter from 'validator/lib/isAfter';
 import styles from './styles.scss';
 
 class UserRegistration extends React.Component {
@@ -15,8 +14,8 @@ class UserRegistration extends React.Component {
         userName: '',
         password1: '',
         password2: '',
-        birstday: '',
-      },
+        birstday: ''
+      }
     };
     this.sendForm = this.sendForm.bind(this);
   }
@@ -24,8 +23,8 @@ class UserRegistration extends React.Component {
   formValuesSaver(field, filledField) {
     this.setState({
       formValues: Object.assign(this.state.formValues, {
-        [field]: filledField.value.toString(),
-      }),
+        [field]: filledField.value.toString()
+      })
     });
   }
 
@@ -65,16 +64,14 @@ class UserRegistration extends React.Component {
 
   sendForm(e) {
     e.preventDefault();
-
     this.setState({ info: this.formValidator() });
     if (this.state.info.length) return;
-
     const formData = new FormData(e.target);
     fetch('/api/user/registration/', {
       method: 'POST',
       body: formData,
       redirect: 'follow',
-      credentials: 'include',
+      credentials: 'include'
     }).then(response => response.json()).then((response) => {
       this.setState({ info: [response.text] });
     });
@@ -86,6 +83,15 @@ class UserRegistration extends React.Component {
         <h3>User registration</h3>
         <hr />
         <form onSubmit={this.sendForm} encType="multipart/form-data">
+          <div className={styles['get-data']}>
+            <span>Username</span>
+            <input
+              type="text"
+              name="username"
+              required
+              onChange={e => this.formValuesSaver('userName', e.target)}
+            />
+          </div>
           <div className={styles['get-data']}>
             <span>First Name</span>
             <input
@@ -113,7 +119,7 @@ class UserRegistration extends React.Component {
               onChange={e => this.formValuesSaver('birstday', e.target)}
             />
           </div>
-          <div className={styles['get-data']}>
+          {/* <div className={styles['get-data']}>
             <span>Gender</span>
             <div>
               <input type="radio" required name="gender" value="Male" id="male" />
@@ -121,16 +127,7 @@ class UserRegistration extends React.Component {
               <input type="radio" required name="gender" value="Female" id="female" />
               <label htmlFor="female">Female</label>
             </div>
-          </div>
-          <div className={styles['get-data']}>
-            <span>Username</span>
-            <input
-              type="text"
-              name="username"
-              required
-              onChange={e => this.formValuesSaver('userName', e.target)}
-            />
-          </div>
+          </div> */}
           <div className={styles['get-data']}>
             <span>Email</span>
             <input type="email" name="email" required />
@@ -165,8 +162,8 @@ class UserRegistration extends React.Component {
         </form>
         <br />
         <div className={styles['error-message']}>
-          {this.state.info.map((err) => {
-            return (<span>{err}<br /></span>);
+          {this.state.info.map((err, i) => {
+            return (<span key={i}>{err}<br /></span>);
           })}
         </div>
       </div>

@@ -1,4 +1,4 @@
-const getStatistic = () => {
+const getAllStatistic = () => {
   return {
     type: 'GET_ALL_STATISTIC',
   }
@@ -13,4 +13,4 @@ const getStatisticById = (id) => {
   };
 };
 
-export { getStatisticById, getStatistic };
+export { getStatisticById, getAllStatistic };

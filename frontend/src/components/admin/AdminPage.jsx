@@ -83,7 +83,7 @@ class AdminPage extends React.Component {
   // }
 
   componentWillMount() {
-    this.props.getStatistic();
+    this.props.getAllStatistic();
   }
 
   getStatisticOptions(arr) {
@@ -150,7 +150,7 @@ class AdminPage extends React.Component {
 }
 
 AdminPage.propTypes = {
-  getStatistic: React.PropTypes.func,
+  getAllStatistic: React.PropTypes.func,
   allData: React.PropTypes.arrayOf(React.PropTypes.object),
 };
 
@@ -163,8 +163,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getStatistic: () => {
-      return dispatch(statisticActions.getStatistic());
+    getAllStatistic: () => {
+      return dispatch(statisticActions.getAllStatistic());
     },
   };
 };

@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux';
-import usersReducer from './usersReducer';
-import conversationsReducer from './conversationsReducer';
 import statisticReducer from './statisticReducer';
+import conversationsReducer from './conversationsReducer';
 
 export default combineReducers({
-  userStatistics: statisticReducer,
+  statistics: statisticReducer,
   conversationsInfo: conversationsReducer,
 });

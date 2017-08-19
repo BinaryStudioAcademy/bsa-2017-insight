@@ -37,6 +37,10 @@ $smallTextFont: 16px;
 		background: linear-gradient(to bottom, white, $landing-lightgrey);
 		border-width: 1px;
 		cursor: pointer;
+
+		&:focus {
+			outline: none;
+		}
 	}
 
 	// #rememberMe{
@@ -75,6 +79,10 @@ $smallTextFont: 16px;
 		border-radius: 10px;
 		height: 32px;
 		padding: 10px;
+
+		&:focus {
+			outline: none;
+		}
 	}
 
 	input[type="radio"] {
@@ -89,6 +97,19 @@ $smallTextFont: 16px;
 
 	div, input {
 		width: 200px;
+	}
+}
+
+:local(.error-message) {
+	background-color: red;
+	color: white;
+	padding: 10px;
+	border: 1px solid grey;
+	border-radius: 10px;
+	margin: 10px 0;
+
+	&:empty {
+		display: none;
 	}
 }
 

@@ -13,6 +13,8 @@ module.exports = {
       ignoreStrings: true,
       ignoreTemplateLiterals: true,
     }],
+
+    "comma-dangle": ["error", "never"],
     "react/prefer-stateless-function": 0,
     "react/require-default-props": 0,
     "import/prefer-default-export": 0,

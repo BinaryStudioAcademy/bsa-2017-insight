@@ -17,6 +17,7 @@
     "babel-preset-stage-3": "^6.24.1",
     "body-parser": "^1.17.2",
     "bootstrap": "^3.3.7",
+    "classnames": "^2.2.5",
     "cnfg": "^1.2.0",
     "concat-stream": "^1.6.0",
     "connect-mongo": "^1.3.2",
@@ -38,6 +39,7 @@
     "path": "^0.12.7",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
+    "react-custom-validation": "^0.5.5",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.2",
@@ -46,6 +48,7 @@
     "redux-saga": "^0.15.6",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
+    "validator": "^8.0.0",
     "webfontloader": "^1.6.28",
     "which-browser": "^0.2.2"
   },

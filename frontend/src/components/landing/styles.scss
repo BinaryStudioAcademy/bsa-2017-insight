@@ -14,4 +14,27 @@
             color: $landing-violet;
         }
     }
+
+    input {
+		box-sizing: border-box;
+		border-radius: 10px;
+		height: 34px;
+		padding: 10px;
+		&:focus {
+			outline: none;
+        }
+    }
+}
+
+:local(.error-message) {
+	background-color: red;
+	color: white;
+	padding: 10px;
+	border: 1px solid grey;
+	border-radius: 10px;
+	margin: 10px 0;
+
+	&:empty {
+		display: none;
+	}
 }

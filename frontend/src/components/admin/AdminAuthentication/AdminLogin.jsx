@@ -70,10 +70,13 @@ class AdminLogin extends React.Component {
           onClick={this.login}
         >Login</RaisedButton>
         <br /><br />
-        {this.state.info}
         <div style={{ margin: '10px 0', lineHeight: '1.6em' }}>
           <NavLink to={'/admin/registration'}>Registration</NavLink><br />
           <NavLink to={'/forgot/admin'}>Restore my password</NavLink><br />
+        </div>
+        {this.state.info ? <hr /> : ''}
+        <div style={{ color: 'red' }}>
+          {this.state.info}
         </div>
       </div>
     );

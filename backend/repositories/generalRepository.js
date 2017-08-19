@@ -30,11 +30,17 @@ Repository.prototype.getById = function (id, callback) {
   query.exec(callback);
 };
 
+Repository.prototype.findByConditions = function (conditions, callback) {
+  const model = this.model;
+  const query = model.find(conditions);
+  query.exec(callback);
+};
+
 Repository.prototype.getByUsername = function(username, callback) {
   const model = this.model;
   const query = model.findOne({ username });
   query.exec(callback);
-}
+};
 
 Repository.prototype.getByEmail = function(email, callback){
   var model = this.model;

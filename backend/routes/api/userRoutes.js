@@ -1,5 +1,6 @@
 const passport = require('passport');
 const User = require('../../repositories/userRepository');
+const getFilteredUsers = require('./../../services/filteredUserService');
 const createUserAndEmptyStatistics = require('./../../services/userService');
 const multer = require('multer');
 const mime = require('mime');
@@ -65,15 +66,26 @@ module.exports = (app) => {
   });
 
   app.get('/api/users/', (req, res) => {
-    return res.json(req.user);
-    User.getAll((err, data) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(400);
-      } else {
-        res.status(200).json(data);
-      }
-    });
+    if (Object.keys(req.query).length === 0) { // If query has no GET params
+      User.getAll((err, data) => {
+        if (err) {
+          console.log(err);
+          res.sendStatus(400);
+        } else {
+          res.status(200).json(data);
+        }
+      });
+    }
+    else {
+      getFilteredUsers(req.query, (err, data) => {
+        if (err) {
+          console.log(err);
+          res.sendStatus(400);
+        } else {
+          res.status(200).json(data);
+        }
+      });
+    }
   });
 
   app.get('/api/users/:id', (req, res) => {

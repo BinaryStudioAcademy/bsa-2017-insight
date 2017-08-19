@@ -1,6 +1,7 @@
 import React from 'react';
 import isLength from 'validator/lib/isLength';
 import equals from 'validator/lib/equals';
+import isAfter from 'validator/lib/isAfter';
 import styles from './styles.scss';
 
 class UserRegistration extends React.Component {
@@ -117,6 +118,8 @@ class UserRegistration extends React.Component {
               name="dateOfBirth"
               required
               onChange={e => this.formValuesSaver('birstday', e.target)}
+              pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
+              placeholder="dd/mm/yyyy"
             />
           </div>
           {/* <div className={styles['get-data']}>

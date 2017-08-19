@@ -17,8 +17,8 @@ import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
 
 const muiTheme = getMuiTheme({
   tooltip: {
-    rippleBackgroundColor: '#333333',
-  },
+    rippleBackgroundColor: '#333333'
+  }
 });
 
 injectTapEventPlugin();

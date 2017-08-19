@@ -8,7 +8,6 @@ import { store, sagaMiddleware } from './store';
 import rootSaga from './saga/rootSaga';
 import Home from './components/landing/Home';
 import AdminPage from './components/admin/AdminPage';
-import EnsureAdmin from './components/ensureAdmin/EnsureAdmin';
 // import './components/analytics/analytics';
 
 WebFont.load({
@@ -23,16 +22,7 @@ render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route
-          path={'/admin'}
-          render={() => {
-            return (
-              <EnsureAdmin>
-                <AdminPage />
-              </EnsureAdmin>
-            );
-          }}
-        />
+        <Route path={'/admin'} component={AdminPage} />
         <Route component={Home} />
       </Switch>
     </BrowserRouter>

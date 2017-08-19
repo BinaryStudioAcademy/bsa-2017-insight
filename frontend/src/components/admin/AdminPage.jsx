@@ -13,6 +13,7 @@ import Login from './AdminAuthentication/AdminLogin';
 import Registration from './AdminAuthentication/AdminRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 import Respond from './Respond/index';
+import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
 
 const muiTheme = getMuiTheme({
   tooltip: {
@@ -74,53 +75,55 @@ class AdminPage extends React.Component {
 
   render() {
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <div style={{ minWidth: '700px', fontFamily: 'Roboto, sans-serif' }}>
-          <Switch>
-            <Route path={'/admin/login'} component={Login} />
-            <Route path={'/admin/registration'} component={Registration} />
-            <Route render={() => {
-              return (
-                <div>
-                  <LeftSideMenu
-                    width={this.leftMenuWidth}
-                  />
-                  <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
-                    <Header />
-                    <Switch>
-                      <Route
-                        exact
-                        path={'/admin'}
-                        render={() => {
-                          const statistics = this.props.allData;
-                          const options = this.getStatisticOptions(this.props.allData);
-                          return (
-                            <div>
-                              <Filter statisticOptions={options} />
-                              <UserInfoTable options={options} statistics={statistics} />
-                            </div>
-                          );
-                        }}
-                      />
-                      <Route path="/admin/respond" component={Respond} />
-                      <Route
-                        path={'/admin/engage'}
-                        render={() => {
-                          return (
-                            <div>Engage component is coming soon!</div>
-                          );
-                        }}
-                      />
-                      <Route component={IncorrectRoute} />
-                    </Switch>
+      <EnsureAdmin>
+        <MuiThemeProvider muiTheme={muiTheme}>
+          <div style={{ minWidth: '700px', fontFamily: 'Roboto, sans-serif' }}>
+            <Switch>
+              <Route path={'/admin/login'} component={Login} />
+              <Route path={'/admin/registration'} component={Registration} />
+              <Route render={() => {
+                return (
+                  <div>
+                    <LeftSideMenu
+                      width={this.leftMenuWidth}
+                    />
+                    <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
+                      <Header />
+                      <Switch>
+                        <Route
+                          exact
+                          path={'/admin'}
+                          render={() => {
+                            const statistics = this.props.allData;
+                            const options = this.getStatisticOptions(this.props.allData);
+                            return (
+                              <div>
+                                <Filter statisticOptions={options} />
+                                <UserInfoTable options={options} statistics={statistics} />
+                              </div>
+                            );
+                          }}
+                        />
+                        <Route path="/admin/respond" component={Respond} />
+                        <Route
+                          path={'/admin/engage'}
+                          render={() => {
+                            return (
+                              <div>Engage component is coming soon!</div>
+                            );
+                          }}
+                        />
+                        <Route component={IncorrectRoute} />
+                      </Switch>
+                    </div>
                   </div>
-                </div>
-              );
-            }}
-            />
-          </Switch>
-        </div>
-      </MuiThemeProvider>
+                );
+              }}
+              />
+            </Switch>
+          </div>
+        </MuiThemeProvider>
+      </EnsureAdmin>
     );
   }
 }

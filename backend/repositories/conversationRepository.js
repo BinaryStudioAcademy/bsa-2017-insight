@@ -25,4 +25,8 @@ conversationRepository.getAllConversations = function (callback) {
   }).exec(callback);
 };
 
+conversationRepository.getByQuery = function(query, callback) {
+  this.model.aggregate(query, callback);
+}
+
 module.exports = conversationRepository;

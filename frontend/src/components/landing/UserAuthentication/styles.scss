@@ -1,7 +1,7 @@
 @import './frontend/src/common/styles/variables.scss';
 
 $formWidth: 400px;
-$formHeight: 280px;
+// $formHeight: 280px;
 $checkboxSize: 20px;
 
 $headerFont: 24px;
@@ -13,10 +13,9 @@ $smallTextFont: 16px;
 	border-style: solid;
 	border-radius: 20px;
 	margin: 60px auto;
-	padding: 40px;
-	padding-top: 0px;
+	padding: 10px 40px;
 	width: $formWidth;
-	height: $formHeight;
+	// height: $formHeight;
 	text-align: center;
 
 	h3{
@@ -37,34 +36,63 @@ $smallTextFont: 16px;
 		margin: 10px;
 		background: linear-gradient(to bottom, white, $landing-lightgrey);
 		border-width: 1px;
+		cursor: pointer;
 	}
 
+	// #rememberMe{
+	// 	border-radius: 4px;
+	// 	width: $checkboxSize;
+	// 	height: $checkboxSize;
+	// }
+}
 
-	#rememberMe{
-		border-radius: 4px;
-		width: $checkboxSize;
-		height: $checkboxSize;
+:local(.auth-links) {
+	margin: 10px 0;
+	a {
+		line-height: 1.6em;
 	}
 }
 
 :local(.get-data) {
-	margin: 5px;
+	margin: 15px 5px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 
-	p{
+	span{
 		display: inline-block;
 		color: $landing-middlegrey;
 		font-size: $textFont;
 	}
 
 	input{
+		box-sizing: border-box;
 		border-radius: 10px;
-		height: 22px;
+		height: 32px;
+		padding: 10px;
+	}
+
+	input[type="radio"] {
+		height: 24px;
+		width: 24px;
+		margin-left: 12px;
+	}
+
+	label {
+		line-height: 30px;
+	}
+
+	div, input {
+		width: 200px;
 	}
 }
 
-:local(.remember-me) {
+:local(.notification-text) {
+	text-align: center;
+}
 
+:local(.restore-email) {
+	width: 150px;
+	height: 18px;
+	padding: 7px;
 }

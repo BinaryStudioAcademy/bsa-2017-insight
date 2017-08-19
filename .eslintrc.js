@@ -14,10 +14,13 @@ module.exports = {
       ignoreTemplateLiterals: true,
     }],
     "react/prefer-stateless-function": 0,
-    "arrow-body-style": ["error", "always"],
     "react/require-default-props": 0,
     "import/prefer-default-export": 0,
     "arrow-body-style": 0,
     "no-underscore-dangle": 0,
+    "no-plusplus": 0,
+    "guard-for-in": 0,
+    "no-restricted-syntax": 0,
+    "import/no-extraneous-dependencies": 0,
   }
 };

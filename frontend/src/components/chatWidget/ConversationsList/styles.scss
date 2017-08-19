@@ -1,0 +1,56 @@
+@import './../../../common/styles/variables';
+
+:local(.container) {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  overflow: auto;
+}
+
+:local(.conversations-list) {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 80%;
+}
+
+:local(.title) {
+  font-size: 24px;
+  color: $landing-orange;
+}
+
+:local(.conversation-item) {
+  text-align: center;
+  color: $landing-orange;
+  background-color: #fff;
+  border:2px solid $landing-orange;
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 15px;
+  margin-bottom: 10px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $landing-red;
+    color: #fff;
+  }
+}
+
+:local(.create-conversation-button) {
+  position: absolute;
+  bottom: 15px;
+  width: 70%;
+  font-size: 18px;
+  border-radius: 15px;
+  padding: 15px;
+  background-color: $landing-orange;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    background-color: $landing-red;
+  }
+}

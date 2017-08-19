@@ -32,7 +32,7 @@
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userStatistics),
-      method, // вообще это всегда PUT, просто пут нужно настраивать различать id, сейчас нет времени
+      method,
     };
     fetch(url, requestOptions)
       .then(response => response.json())
@@ -48,16 +48,17 @@
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userObject),
-      method: 'POST', // вообще это всегда PUT, просто пут нужно настраивать различать id, сейчас нет времени
+      method: 'POST',
     };
     return fetch('http://localhost:3000/api/users', requestOptions);
   }
 
   function saveUrlHistory() {
-    const lastUrl = window._injectedData.lastUrl;
+    const lastUrl = window._injectedData.lastUrl || window._injectedData.currentUrl;
     if (!lastUrl) {
       window._injectedData.lastUrl = location.href;
     } else if (lastUrl === location.href) {
+      userStatistics.viewedUrls = window._injectedData.urlHistory || window._injectedData.viewedUrls;
       return;
     } else {
       window._injectedData.lastUrl = location.href;
@@ -92,22 +93,21 @@
 
   window.addEventListener('click', () => {
     const injectedData = window._injectedData;
-    const registeredUserId = injectedData.userId && injectedData.userId.username ? injectedData.userId._id : undefined;
-    const globalId = injectedData.globalId;
-
+    if (injectedData.isAdmin) return;
+    const registeredUserId = injectedData.userId && injectedData.userId._id;
+    const anonymousUserId = injectedData.anonymousId;
     if (registeredUserId) {
       userStatistics.userId = registeredUserId;
       collectAllData().then(() => sendStatistics(registeredUserId, 'PUT'));
-    } else if (globalId) {
-      userStatistics.userId = globalId;
-      collectAllData().then(() => sendStatistics(globalId, 'PUT'));
-      // на сервере проверять не _id, а userId
+    } else if (anonymousUserId) {
+      userStatistics.userId = anonymousUserId;
+      collectAllData().then(() => sendStatistics(anonymousUserId, 'PUT'));
     } else {
-      const newGlobalId = generateId();
-      userStatistics.userId = newGlobalId;
-      injectedData.globalId = newGlobalId;
+      const newAnonymousId = generateId();
+      userStatistics.userId = newAnonymousId;
+      injectedData.anonymousId = newAnonymousId;
       collectAllData().then(() => {
-        sendUser(newGlobalId)
+        sendUser(newAnonymousId)
           .then(response => response.json())
           .then(() => {
             sendStatistics(null, 'POST');

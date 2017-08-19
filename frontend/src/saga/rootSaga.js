@@ -1,8 +1,14 @@
 import { fork } from 'redux-saga/effects';
-import usersSaga from './usersSaga';
+import statisticSaga from './statisticSaga';
+import conversationsSaga from './conversationsSaga';
+
 
 function* rootSaga() {
-  yield [fork(usersSaga)];
+  yield [
+    fork(statisticSaga),
+    fork(conversationsSaga)
+  ];
 }
+
 
 export default rootSaga;

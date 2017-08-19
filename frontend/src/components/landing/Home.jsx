@@ -1,19 +1,22 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import WebFont from 'webfontloader';
 import styles from './styles.scss';
 import Header from './Header/Header';
-import HomeContent from './HomeContent/HomeContent';
 import Footer from './Footer/Footer';
-import Login from './Login/Login';
-import Pricing from './Pricing/Pricing';
+import HomeContent from './HomeContent/HomeContent';
 import Product from './Product/Product';
+import Pricing from './Pricing/Pricing';
+import IncorrectRoute from './../incorrectRoute/IncorrectRoute';
+import ChatWidget from '../chatWidget/ChatWidget';
 
-WebFont.load({
-  google: {
-    families: ['Ubuntu:300,400,700'],
-  },
-});
+import Login from './UserAuthentication/UserLogin';
+import Registration from './UserAuthentication/UserRegistration';
+
+import Forgot from './UserAuthentication/reset/Forgot';
+import ResetPassword from './UserAuthentication/reset/ResetPassword';
+import InvalidToken from './UserAuthentication/reset/InvalidToken';
+
+import '../../components/analytics/analytics'; // на обсуждение
 
 class Home extends React.Component {
   render() {
@@ -29,8 +32,14 @@ class Home extends React.Component {
           <Route path={'/about'} component={HomeContent} />
           <Route path={'/pricing'} component={Pricing} />
           <Route path={'/login'} component={Login} />
+          <Route path={'/registration'} component={Registration} />
+          <Route path={'/forgot'} component={Forgot} />
+          <Route path={'/reset'} component={ResetPassword} />
+          <Route path={'/invalidtoken'} component={InvalidToken} />
+          <Route component={IncorrectRoute} />
         </Switch>
         <Footer />
+        <Route component={ChatWidget} />
       </div>
     );
   }

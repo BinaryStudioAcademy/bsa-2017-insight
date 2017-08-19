@@ -3,14 +3,14 @@ const userRepository = require('../repositories/userRepository');
 const statisticsRepository = require('../repositories/statisticsRepository');
 
 function getFilteredUsers(conditions, callback) {
+  console.log('GET FILTERED USERSZZZZZZ')
   const query = {};
   Object.keys(conditions).forEach((condition) => {
     const value = conditions[condition];
     if (value.indexOf('*HAS*') !== -1) {
       if (value.indexOf('*AND*') === -1) {
         query[condition] = { $in: value.split('*HAS*')[1].split('*OR*') };
-      }
-      else {
+      } else {
         query[condition] = { $all: value.split('*HAS*')[1].split('*AND*') };
       }
     } else if (value.indexOf('*MIN*') !== -1 && value.indexOf('*MAX*') !== -1) {

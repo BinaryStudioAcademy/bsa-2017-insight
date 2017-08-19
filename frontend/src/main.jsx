@@ -1,29 +1,31 @@
 import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import UserLogin from './components/user/login';
-import UserRegistration from './components/user/registration';
-import AdminLogin from './components/admin/login';
-import AdminRegistration from './components/admin/registration';
+import WebFont from 'webfontloader';
 import { store, sagaMiddleware } from './store';
 import rootSaga from './saga/rootSaga';
 import Home from './components/landing/Home';
+import AdminPage from './components/admin/AdminPage';
+// import './components/analytics/analytics';
+
+WebFont.load({
+  google: {
+    families: ['Ubuntu:300,400,700', 'Roboto'],
+  },
+});
+
+sagaMiddleware.run(rootSaga);
 
 render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route exact path={'/userlogin'} component={UserLogin} />
-        <Route exact path={'/userregistration'} component={UserRegistration} />
-        <Route exact path={'/adminlogin'} component={AdminLogin} />
-        <Route exact path={'/adminregistration'} component={AdminRegistration} />
-        <Route path={'/'} component={Home} />
+        <Route path={'/admin'} component={AdminPage} />
+        <Route component={Home} />
       </Switch>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root'),
 );
-
-sagaMiddleware.run(rootSaga);

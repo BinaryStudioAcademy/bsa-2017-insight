@@ -62,7 +62,7 @@ class UserLogin extends React.Component {
           <label htmlFor="rememberMe">Remember me</label><br />
         </div> */}
         <button type="button" onClick={this.login}>Log in</button><br />
-        {this.state.info}
+        <div className={styles['error-message']}>{this.state.info}</div>
         <div className={styles['auth-links']}>
           <NavLink to={'/registration'}>Registration</NavLink><br />
           <NavLink to={'/forgot/user'}>Restore my password</NavLink><br />

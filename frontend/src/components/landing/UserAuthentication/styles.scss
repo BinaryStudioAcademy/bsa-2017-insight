@@ -44,6 +44,11 @@ $smallTextFont: 16px;
 	// 	width: $checkboxSize;
 	// 	height: $checkboxSize;
 	// }
+
+	input[type=date]::-webkit-inner-spin-button {
+    	-webkit-appearance: none;
+    	display: none;
+	}
 }
 
 :local(.auth-links) {

@@ -6,41 +6,39 @@ const multer = require('multer');
 const mime = require('mime');
 
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination(req, file, cb) {
     cb(null, __dirname + '/../../../uploads/avatars');
   },
-  filename: function(req, file, cb) {
+  filename(req, file, cb) {
     const extension = mime.extension(file.mimetype);
     cb(null, `${req.body.username}-${Date.now()}.${extension}`);
-  }
+  },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 module.exports = (app) => {
+  app.post('/api/user/login/', function (req, res, next) {
+    if (req.user) return res.redirect('/');
 
-  app.post('/api/user/login/', function(req, res, next) {
-    if(req.user) return res.redirect('/');
-
-    passport.authenticate('user', function(err, user, info) {
-      if(err) {
+    passport.authenticate('user', function (err, user, info) {
+      if (err) {
         return next(err);
-      };
+      }
 
-      if(!user) {
+      if (!user) {
         return res.json({ text: info });
-      };
+      }
 
-      req.logIn(user, function(err) {
-        if(err) return next(err);
+      req.logIn(user, function (err) {
+        if (err) return next(err);
         res.redirect('/');
       });
-
     })(req, res, next);
   });
 
   app.post('/api/user/registration', upload.single('avatar'), (req, res, next) => {
-    if(req.user) return res.redirect('/');
+    if (req.user) return res.redirect('/');
 
     const data = {
       firstName: req.body.firstName,
@@ -54,12 +52,12 @@ module.exports = (app) => {
       gender: req.body.gender,
     };
 
-    User.getByUsername(data.username, function(err, user) {
-      if(err) return next(err);
-      if(user) return res.json({ text: 'User with this username exists' });
+    User.getByUsername(data.username, function (err, user) {
+      if (err) return next(err);
+      if (user) return res.json({ text: 'User with this username exists' });
 
-      createUserAndEmptyStatistics(data, function(err) {
-        if(err) return next(err);
+      createUserAndEmptyStatistics(data, function (err) {
+        if (err) return next(err);
         res.redirect('/userlogin');
       });
     });

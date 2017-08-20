@@ -1,0 +1,26 @@
+:local(.custom-filter) {
+  padding-left: 10px;
+  user-select: none;
+  height: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  label {
+    margin-right: 10px;
+  }
+}
+
+.text {
+  margin: 0;
+}
+
+.one-row {
+  display: flex;
+
+  .text {
+    width: 45%;
+  }
+}
+
+.second-block {
+  padding-left: 15px;
+}

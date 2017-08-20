@@ -1,0 +1,19 @@
+:local(.filter-wrapper) {
+  width: 20%;
+  float: left;
+}
+
+:local(.filter-title) {
+  text-align: center;
+}
+
+:local(.filter-form) {
+  display: flex;
+  flex-direction: column;
+}
+
+:local(.submit-button) {
+  width: 40%;
+  margin:0 auto;
+  padding: 5px;
+}

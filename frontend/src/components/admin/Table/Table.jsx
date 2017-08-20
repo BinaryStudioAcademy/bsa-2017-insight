@@ -13,13 +13,24 @@ import styles from './styles.scss';
 class UserInfoTable extends React.Component {
   generateRows() {
     return this.props.statistics.map((row, index) => (
-      <TableRow key={'row '+index} value={row}>
+      <TableRow key={`row ${index}`} value={row}>
         {
-          this.props.options.map(elem => (
-            <TableRowColumn key={'row '+index+',column'+elem} style={{ fontSize: '12px', width: '200px', padding: '5px' }}>
+          this.props.options.map((elem) => {
+            if (elem === 'userId') {
+              return (<TableRowColumn
+                key={`row ${index},column${elem}`}
+                style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+              >
+                <span>{row[elem._id]}</span>
+              </TableRowColumn>);
+            }
+            return (<TableRowColumn
+              key={`row ${index},column${elem}`}
+              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+            >
               <span>{row[elem]}</span>
-            </TableRowColumn>
-          ))
+            </TableRowColumn>);
+          })
         }
       </TableRow>
     ));
@@ -31,10 +42,14 @@ class UserInfoTable extends React.Component {
       <div className={styles.container}>
         <MuiThemeProvider>
           <Table bodyStyle={{ overflow: 'visible' }}>
-            <TableHeader adjustForCheckbox={false} displaySelectAll={false} >
+            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>
                 {this.props.options.map((elem) => {
-                  return <TableHeaderColumn key={elem} style={{ fontSize: '12px', width: '200px', padding: '5px' }}>{elem}</TableHeaderColumn>;
+                  return <TableHeaderColumn key={elem} style={{
+                    fontSize: '12px',
+                    width: '200px',
+                    padding: '5px',
+                  }}>{elem}</TableHeaderColumn>;
                 })}
               </TableRow>
             </TableHeader>

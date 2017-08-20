@@ -1,8 +1,9 @@
-const getAllStatistic = () => {
+const getAllStatistics = (query) => {
   return {
     type: 'GET_ALL_STATISTIC',
-  }
-}
+    query,
+  };
+};
 
 const getStatisticById = (id) => {
   return {
@@ -13,4 +14,9 @@ const getStatisticById = (id) => {
   };
 };
 
-export { getStatisticById, getAllStatistic };
+const setStatisticsFilter = filters => ({
+  type: 'SET_STATISTICS_FILTER',
+  payload: filters,
+});
+
+export { getStatisticById, getAllStatistics, setStatisticsFilter };

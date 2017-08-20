@@ -14,6 +14,7 @@ import Registration from './AdminAuthentication/AdminRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 import Respond from './Respond/index';
 import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
+import getCurrentUser from '../../actions/getCurrentUserAction';
 
 const muiTheme = getMuiTheme({
   tooltip: {
@@ -58,6 +59,20 @@ class AdminPage extends React.Component {
     super(props);
     this.leftMenuWidth = 75;
   }
+  componentWillMount() {
+    console.log('hooray, component will mount');
+    console.log(this.props);
+    console.log(window._injectedData);
+    this.props.getCurrentUser();
+  }
+  componentDidMount() {
+    console.log('MOUNTED, CURRENT PROPS ARE:');
+    console.log(this.props);
+  }
+  componentWillReceiveProps() {
+    console.log('INTERNAL WILL RECEIVE PROPS:');
+    console.log(this.props);
+  }
 
   componentWillMount() {
     this.props.getAllStatistic();
@@ -75,55 +90,53 @@ class AdminPage extends React.Component {
 
   render() {
     return (
-      <EnsureAdmin>
-        <MuiThemeProvider muiTheme={muiTheme}>
-          <div style={{ minWidth: '700px', fontFamily: 'Roboto, sans-serif' }}>
-            <Switch>
-              <Route path={'/admin/login'} component={Login} />
-              <Route path={'/admin/registration'} component={Registration} />
-              <Route render={() => {
-                return (
-                  <div>
-                    <LeftSideMenu
-                      width={this.leftMenuWidth}
-                    />
-                    <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
-                      <Header />
-                      <Switch>
-                        <Route
-                          exact
-                          path={'/admin'}
-                          render={() => {
-                            const statistics = this.props.allData;
-                            const options = this.getStatisticOptions(this.props.allData);
-                            return (
-                              <div>
-                                <Filter statisticOptions={options} />
-                                <UserInfoTable options={options} statistics={statistics} />
-                              </div>
-                            );
-                          }}
-                        />
-                        <Route path="/admin/respond" component={Respond} />
-                        <Route
-                          path={'/admin/engage'}
-                          render={() => {
-                            return (
-                              <div>Engage component is coming soon!</div>
-                            );
-                          }}
-                        />
-                        <Route component={IncorrectRoute} />
-                      </Switch>
-                    </div>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <div style={{ minWidth: '700px', fontFamily: 'Roboto, sans-serif' }}>
+          <Switch>
+            <Route path={'/admin/login'} component={Login} />
+            <Route path={'/admin/registration'} component={Registration} />
+            <Route render={() => {
+              return (
+                <EnsureAdmin currentUser={this.props.currentUser}>
+                  <LeftSideMenu
+                    width={this.leftMenuWidth}
+                  />
+                  <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
+                    <Header />
+                    <Switch>
+                      <Route
+                        exact
+                        path={'/admin'}
+                        render={() => {
+                          const statistics = this.props.allData;
+                          const options = this.getStatisticOptions(this.props.allData);
+                          return (
+                            <div>
+                              <Filter statisticOptions={options} />
+                              <UserInfoTable options={options} statistics={statistics} />
+                            </div>
+                          );
+                        }}
+                      />
+                      <Route path="/admin/respond" component={Respond} />
+                      <Route
+                        path={'/admin/engage'}
+                        render={() => {
+                          return (
+                            <div>Engage component is coming soon!</div>
+                          );
+                        }}
+                      />
+                      <Route component={IncorrectRoute} />
+                    </Switch>
                   </div>
-                );
-              }}
-              />
-            </Switch>
-          </div>
-        </MuiThemeProvider>
-      </EnsureAdmin>
+                </EnsureAdmin>
+              );
+            }}
+            />
+          </Switch>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
@@ -137,6 +150,7 @@ AdminPage.propTypes = {
 const mapStateToProps = (state) => {
   return {
     allData: state.statistics.allData,
+    currentUser: state.currentUser
   };
 };
 
@@ -145,6 +159,9 @@ const mapDispatchToProps = (dispatch) => {
     getAllStatistic: () => {
       return dispatch(statisticActions.getAllStatistic());
     },
+    getCurrentUser: () => {
+      dispatch(getCurrentUser());
+    }
   };
 };
 

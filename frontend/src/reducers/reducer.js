@@ -6,5 +6,5 @@ import currentUserReducer from './currentUserReducer';
 export default combineReducers({
   statistics: statisticReducer,
   conversationsInfo: conversationsReducer,
-  currentUser: currentUserReducer,
+  currentUser: currentUserReducer
 });

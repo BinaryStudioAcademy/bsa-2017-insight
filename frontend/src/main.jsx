@@ -12,8 +12,8 @@ import AdminPage from './components/admin/AdminPage';
 
 WebFont.load({
   google: {
-    families: ['Ubuntu:300,400,700', 'Roboto'],
-  },
+    families: ['Ubuntu:300,400,700', 'Roboto']
+  }
 });
 
 sagaMiddleware.run(rootSaga);

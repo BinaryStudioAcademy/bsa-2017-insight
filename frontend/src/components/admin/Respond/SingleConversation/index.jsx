@@ -10,19 +10,18 @@ const SingleConversation = (props) => {
   const userName = !!messages.length && messages[messages.length - 1].author.item.username;
   const userAvatar = !!messages.length && messages[messages.length - 1].author.item.avatar;
 
-  const defaultAvatar = 'https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png';
   return (<div>
     <MyThemeProvider>
       <List>
         {!messages.length ? <ListItem
           primaryText={'No messages in conversation'}
-          leftAvatar={<Avatar src={userAvatar || defaultAvatar} />}
+          leftAvatar={<Avatar src={'avatars/' + userAvatar} />}
         /> : <ListItem
           onClick={() => {
             props.handler();
             props.setStatistic(props.conversation);
           }}
-          leftAvatar={<Avatar src={userAvatar || defaultAvatar} />}
+          leftAvatar={<Avatar src={'avatars/' + userAvatar} />}
           primaryText={messages[messages.length - 1].body}
           secondaryText={userName}
           secondaryTextLines={2}

@@ -39,7 +39,7 @@ module.exports = function (app) {
 
       req.logIn(user, function(err) {
         if(err) return next(err);
-        res.redirect('/');
+        res.redirect('/admin');
       });
 
     })(req, res, next);
@@ -71,7 +71,7 @@ module.exports = function (app) {
 
       adminRepository.add(data, function(err) {
         if(err) return next(err);
-        res.redirect('/adminlogin');
+        res.redirect('/admin/login');
       });
 
     });

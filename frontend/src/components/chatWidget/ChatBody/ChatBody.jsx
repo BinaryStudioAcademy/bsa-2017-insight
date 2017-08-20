@@ -41,13 +41,13 @@ ChatBody.propTypes = {
     body: propTypes.string.isRequired,
     author: propTypes.shape({
       item: propTypes.any.isRequired,
-      userType: propTypes.string.isRequired,
+      userType: propTypes.string.isRequired
     }).isRequired,
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
-    editedAt: propTypes.number,
+    editedAt: propTypes.number
   })),
   onMessageSubmit: propTypes.func.isRequired,
-  onReturnButtonClick: propTypes.func.isRequired,
+  onReturnButtonClick: propTypes.func.isRequired
 };
 
 export default ChatBody;

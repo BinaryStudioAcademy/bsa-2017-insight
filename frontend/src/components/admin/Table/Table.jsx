@@ -5,7 +5,7 @@ import {
   TableHeader,
   TableHeaderColumn,
   TableRow,
-  TableRowColumn,
+  TableRowColumn
 } from 'material-ui/Table';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import styles from './styles.scss';
@@ -13,10 +13,10 @@ import styles from './styles.scss';
 class UserInfoTable extends React.Component {
   generateRows() {
     return this.props.statistics.map((row, index) => (
-      <TableRow key={'row '+index} value={row}>
+      <TableRow key={'row ' + index} value={row}>
         {
           this.props.options.map(elem => (
-            <TableRowColumn key={'row '+index+',column'+elem} style={{ fontSize: '12px', width: '200px', padding: '5px' }}>
+            <TableRowColumn key={'row ' + index + ',column' + elem} style={{ fontSize: '12px', width: '200px', padding: '5px' }}>
               <span>{row[elem]}</span>
             </TableRowColumn>
           ))
@@ -52,7 +52,7 @@ class UserInfoTable extends React.Component {
 
 UserInfoTable.propTypes = {
   options: React.PropTypes.arrayOf(React.PropTypes.string),
-  statistics: React.PropTypes.arrayOf(React.PropTypes.object),
+  statistics: React.PropTypes.arrayOf(React.PropTypes.object)
 };
 
 export default UserInfoTable;

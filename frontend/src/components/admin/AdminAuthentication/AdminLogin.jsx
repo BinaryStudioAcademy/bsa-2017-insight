@@ -38,10 +38,14 @@ class AdminLogin extends React.Component {
       },
       method: 'POST',
       body: JSON.stringify(loginData),
-      redirect: 'follow',
       credentials: 'include'
-    }).then(response => response.json()).then((response) => {
-      this.setState({ info: response.text });
+    }).then((response) => {
+      if (response.redirected) return window.location.replace(response.url);
+      return response.json();
+    }).then((response) => {
+      if (response) {
+        this.setState({ info: response.text });
+      }
     });
   }
 

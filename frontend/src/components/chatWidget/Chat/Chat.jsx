@@ -10,7 +10,7 @@ class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeChatId: null,
+      activeChatId: null
     };
     this.onMessageSubmit = this.onMessageSubmit.bind(this);
     this.onConversationClick = this.onConversationClick.bind(this);
@@ -28,11 +28,11 @@ class Chat extends Component {
     const conversation = {
       participants: [{
         userType: 'User',
-        user: userId,
+        user: userId
       }],
       messages: [],
       open: true,
-      createdAt: Date.now(),
+      createdAt: Date.now()
     };
     this.socket.emit('createNewConversation', conversation, userId);
   }
@@ -55,8 +55,8 @@ class Chat extends Component {
       createdAt: Date.now(),
       author: {
         item: this.state.user._id,
-        userType: 'User',
-      },
+        userType: 'User'
+      }
     };
     this.socket.emit('newMessage', messageObj);
     eventCopy.target.messageInput.value = '';
@@ -93,7 +93,7 @@ class Chat extends Component {
 }
 
 Chat.propTypes = {
-  onChatClose: propTypes.func.isRequired,
+  onChatClose: propTypes.func.isRequired
 };
 
 export default Chat;

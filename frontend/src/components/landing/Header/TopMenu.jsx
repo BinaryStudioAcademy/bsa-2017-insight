@@ -11,7 +11,7 @@ class TopMenu extends React.Component {
           link={'#'}
           submenu={[
             { name: 'Engage', link: '/engage' },
-            { name: 'Respond', link: '/respond' },
+            { name: 'Respond', link: '/respond' }
           ]}
         />
         <TopMenuItem
@@ -19,7 +19,7 @@ class TopMenu extends React.Component {
           link={'#'}
           submenu={[
             { name: 'Customers', link: '/customers' },
-            { name: 'Help center', link: '/help' },
+            { name: 'Help center', link: '/help' }
           ]}
         />
         <TopMenuItem name={'Pricing'} link={'/pricing'} />

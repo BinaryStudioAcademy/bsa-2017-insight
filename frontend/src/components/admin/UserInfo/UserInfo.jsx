@@ -20,7 +20,7 @@ const UserInfo = (props) => {
     <MuiThemeProvider>
       {statistic && <div className={styles['user-info']}>
         <List>
-          <ListItem primaryText={user.username} secondaryText={isOnline} leftAvatar={<Avatar src={'avatars/' + user.avatar} />} />
+          <ListItem primaryText={user.username} secondaryText={isOnline} leftAvatar={<Avatar src={`avatars/${user.avatar}`} />} />
           <ListItem primaryText={statistic.country} secondaryText={statistic.city} leftIcon={<GpsFixed />} />
           <ListItem primaryText={statistic.timeZone} leftIcon={<Time />} />
         </List>
@@ -67,8 +67,8 @@ UserInfo.propTypes = {
     userAgent: propTypes.string,
     timeZone: propTypes.string,
     signedUpDate: propTypes.any,
-    sessionsCounts: propTypes.number,
-  }),
+    sessionsCounts: propTypes.number
+  })
 };
 
 export default UserInfo;

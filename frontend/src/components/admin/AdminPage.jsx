@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import Drawer from 'material-ui/Drawer';
+// import Drawer from 'material-ui/Drawer';
 import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
 import UserInfoTable from './Table/Table';
@@ -13,7 +13,7 @@ import * as statisticActions from '../../actions/statisticActions';
 import Login from './AdminAuthentication/AdminLogin';
 import Registration from './AdminAuthentication/AdminRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
-import UserInfo from './UserInfo/UserInfo';
+// import UserInfo from './UserInfo/UserInfo';
 import Respond from './Respond/index';
 
 const muiTheme = getMuiTheme({

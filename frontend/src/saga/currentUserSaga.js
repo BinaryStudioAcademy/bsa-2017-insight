@@ -9,6 +9,7 @@ function* getCurrentUser() {
     counter += 1;
     if (counter === 10) break;
   }
+  console.log(window._injectedData);
   if (counter < 10) {
     const result = window._injectedData;
     yield put({ type: 'GET_CURRENT_USER_SUCCESS', payload: result });

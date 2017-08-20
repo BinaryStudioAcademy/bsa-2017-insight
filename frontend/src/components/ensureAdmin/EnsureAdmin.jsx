@@ -13,18 +13,21 @@ class EnsureAdmin extends React.Component {
   //   this.props.getCurrentUser();
   // }
   // componentDidMount() {
-  //   console.log('MOUNTED, CURRENT PROPS ARE:');
+  //   console.log('INTERNAL MOUNTED, CURRENT PROPS ARE:');
   //   console.log(this.props);
   // }
   componentWillReceiveProps() {
     console.log('INTERNAL WILL RECEIVE PROPS:');
     console.log(this.props);
+    if (this.props.currentUser) {
+      console.log('Current user in internal');
+    }
   }
   render() {
     if (!this.props.currentUser || this.props.currentUser && !this.props.currentUser.isAdmin) {
       return (
         <Switch>
-          <Route path={'/admin/login'} component={AdminPage} />
+          {/* <Route path={'/admin/login'} component={AdminPage} /> */}
           <Redirect to={'/admin/login'} />
         </Switch>
       );
@@ -39,7 +42,7 @@ class EnsureAdmin extends React.Component {
 
 // const mapStateToProps = (state) => {
 //   return {
-//     currentUser: state.currentUser
+//     currentUser: state.currentUser.currentUser
 //   };
 // };
 

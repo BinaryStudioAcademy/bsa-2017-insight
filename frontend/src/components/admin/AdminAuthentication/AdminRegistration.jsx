@@ -22,13 +22,26 @@ class AdminRegistration extends React.Component {
     this.sendForm = this.sendForm.bind(this);
   }
 
+  componentWillMount() {
+    if (this.props.currentUser) {
+      alert('You are already logged in');
+    }
+  }
+
+  componentWillReceiveProps() {
+    // console.log('INTERNAL WILL RECEIVE PROPS');
+    // console.log(this.props)
+    if (this.props.currentUser) {
+      alert('You are already logged in');
+    }
+  }
+
   formValuesSaver(field, filledField) {
     this.setState({
       formValues: Object.assign(this.state.formValues, {
         [field]: filledField.value.toString()
       })
     });
-    console.log(this.state.formValues);
   }
 
   formValidator() {

@@ -66,16 +66,17 @@ class AdminPage extends React.Component {
     this.props.getCurrentUser();
   }
   componentDidMount() {
-    console.log('MOUNTED, CURRENT PROPS ARE:');
+    console.log('EXTERNAL MOUNTED, CURRENT PROPS ARE:');
     console.log(this.props);
   }
   componentWillReceiveProps() {
-    console.log('INTERNAL WILL RECEIVE PROPS:');
+    console.log('EXTERNAL WILL RECEIVE PROPS:');
     console.log(this.props);
   }
 
   componentWillMount() {
     this.props.getAllStatistic();
+    this.props.getCurrentUser();
   }
 
   getStatisticOptions(arr) {
@@ -83,7 +84,7 @@ class AdminPage extends React.Component {
     if (typeof (arr[0]) === 'object') {
       options = Object.keys(arr[0]);
     }
-    console.log(this);
+    // console.log(this);
     return options;
   }
 
@@ -143,14 +144,14 @@ class AdminPage extends React.Component {
 
 AdminPage.propTypes = {
   getAllStatistic: React.PropTypes.func,
-  allData: React.PropTypes.arrayOf(React.PropTypes.object),
+  allData: React.PropTypes.arrayOf(React.PropTypes.object)
 };
 
 
 const mapStateToProps = (state) => {
   return {
     allData: state.statistics.allData,
-    currentUser: state.currentUser
+    currentUser: state.currentUser.currentUser
   };
 };
 
@@ -160,7 +161,7 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(statisticActions.getAllStatistic());
     },
     getCurrentUser: () => {
-      dispatch(getCurrentUser());
+      return dispatch(getCurrentUser());
     }
   };
 };

@@ -24,27 +24,7 @@ class Filter extends React.Component {
         Name: false,
         'Last seen': false,
       },
-      checkedCheckboxes: {
-        browser: false,
-        browserLanguage: false,
-        browserVersion: false,
-        city: false,
-        coordinates: false,
-        country: false,
-        currentUrl: false,
-        deviceType: false,
-        geoLocation: false,
-        online: false,
-        os: false,
-        screenHeight: false,
-        screenWidth: false,
-        timeZone: false,
-        userAgent: false,
-        userIpAddress: false,
-        visitorId: false,
-        _v: false,
-        _id: false,
-      },
+      checkedCheckboxes: {},
     };
     this.onChangeRadio = this.onChangeRadio.bind(this);
     this.handleTap = this.handleTap.bind(this);
@@ -97,7 +77,25 @@ class Filter extends React.Component {
   handleCheck(checkBoxName) {
     const checkedFields = this.state.checkedCheckboxes;
     checkedFields[checkBoxName] = (!checkedFields[checkBoxName]);
-    this.setState({ checkedCheckboxes: checkedFields });
+    this.setState({ checkedCheckboxes: checkedFields }, () => {
+      const newFields = [];
+      Object.keys(this.state.checkedCheckboxes).forEach((item) => {
+        if(this.state.checkedCheckboxes[item] === true) {
+          newFields.push(item);
+        }
+      });
+      this.props.updateFields(newFields);
+    });
+  }
+
+  componentWillMount() {
+    this.props.statisticOptions.forEach((option) => {
+      if(~this.props.selectedFields.indexOf(option)) {
+        this.state.checkedCheckboxes[option] = true; 
+      } else {
+        this.state.checkedCheckboxes[option] = false;
+      }
+    });
   }
 
   render() {

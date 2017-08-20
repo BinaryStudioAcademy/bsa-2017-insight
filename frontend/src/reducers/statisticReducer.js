@@ -1,5 +1,6 @@
 const initialState = {
   allData: [],
+  fieldsToDisplay: ["currentUrl", "city", "country", "browser"],
   statisticById: null,
 };
 
@@ -9,6 +10,8 @@ const statisticReducer = (state = initialState, action) => {
       return Object.assign({}, state, { allData: action.payload });
     case 'GET_STATISTIC_BY_ID_SUCCESS':
       return Object.assign({}, state, { statisticById: action.payload });
+    case 'UPDATE_FIELDS':
+      return Object.assign({}, state, { fieldsToDisplay: action.payload })
     default:
       return state;
   }

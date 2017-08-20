@@ -118,12 +118,16 @@ class AdminPage extends React.Component {
                         render={() => {
                           const statistics = this.props.allData;
                           const options = this.getStatisticOptions(this.props.allData);
-                          return (
-                            <div>
-                              <Filter statisticOptions={options} />
-                              <UserInfoTable options={options} statistics={statistics} />
-                            </div>
-                          );
+                          if(statistics.length) {
+                            return (
+                              <div>
+                                <Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
+                                <UserInfoTable options={this.props.fieldsToDisplay} statistics={statistics} />
+                              </div>
+                            );
+                          } else {
+                            return null;
+                          }
                         }}
                       />
                       <Route path="/admin/respond" component={Respond} />
@@ -158,6 +162,7 @@ AdminPage.propTypes = {
 const mapStateToProps = (state) => {
   return {
     allData: state.statistics.allData,
+    fieldsToDisplay: state.statistics.fieldsToDisplay
   };
 };
 
@@ -166,6 +171,9 @@ const mapDispatchToProps = (dispatch) => {
     getAllStatistic: () => {
       return dispatch(statisticActions.getAllStatistic());
     },
+    updateFields: (newFields) => {
+      return dispatch({ type: 'UPDATE_FIELDS', payload: newFields })
+    }
   };
 };
 

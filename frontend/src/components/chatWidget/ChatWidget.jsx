@@ -1,34 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ChatIcon from './ChatIcon/chatIcon';
 import ChatBody from './Chat/Chat';
+import Trigger from './Trigger';
 
-class ChatWidget extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false
-    };
-    this.onChatIconClick = this.onChatIconClick.bind(this);
-    this.onChatClose = this.onChatClose.bind(this);
-  }
-
-  onChatClose() {
-    this.setState({ isOpen: false });
-  }
-
-  onChatIconClick() {
-    this.setState({ isOpen: true });
-  }
-
-  render() {
-    return (
-      <div>
-        {this.state.isOpen ?
-          <ChatBody onChatClose={this.onChatClose} /> :
-          <ChatIcon onChatIconClick={this.onChatIconClick} />}
-      </div>
-    );
-  }
+const ChatWidget = (props) => {
+  console.log(props.phrase)
+  return (
+    <div>
+      {props.isOpen ?
+        <ChatBody onChatClose={props.toggleChat} phrase={props.phrase} /> :
+        <ChatIcon onChatIconClick={props.toggleChat} />}
+    </div>
+  );
 }
 
-export default ChatWidget;
+export default Trigger(ChatWidget);

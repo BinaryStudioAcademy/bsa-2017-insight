@@ -20,7 +20,7 @@ HomeContentProduct.propTypes = {
   image: PropTypes.string,
   name: PropTypes.string,
   description: PropTypes.string,
-  link: PropTypes.string,
+  link: PropTypes.string
 };
 
 export default HomeContentProduct;

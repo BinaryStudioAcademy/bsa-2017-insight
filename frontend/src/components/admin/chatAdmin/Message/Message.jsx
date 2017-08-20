@@ -15,7 +15,7 @@ const Message = ({ name, body, type }) => {
 Message.propTypes = {
   name: propTypes.string,
   body: propTypes.string,
-  type: propTypes.string,
+  type: propTypes.string
 };
 
 export default Message;

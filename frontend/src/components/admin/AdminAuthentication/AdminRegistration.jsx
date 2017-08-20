@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 // import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import Paper from 'material-ui/Paper';
+// import Paper from 'material-ui/Paper';
 import isLength from 'validator/lib/isLength';
 import equals from 'validator/lib/equals';
 
@@ -28,7 +28,7 @@ class AdminRegistration extends React.Component {
         [field]: filledField.value.toString()
       })
     });
-    console.log(this.state.formValues);
+    // console.log(this.state.formValues);
   }
 
   formValidator() {
@@ -69,10 +69,15 @@ class AdminRegistration extends React.Component {
     fetch('/api/admin/registration/', {
       method: 'POST',
       body: formData,
-      redirect: 'follow',
       credentials: 'include'
-    }).then(response => response.json()).then((response) => {
-      this.setState({ info: [response.text] });
+    }).then((response) => {
+      console.log(response);
+      if (response.redirected) return window.location.replace(response.url);
+      return response.json();
+    }).then((response) => {
+      if (response) {
+        this.setState({ info: [response.text] });
+      }
     });
   }
 
@@ -137,6 +142,7 @@ class AdminRegistration extends React.Component {
             containerElement={'label'}
           >
             <input
+              name={'avatar'}
               type={'file'}
               style={{
                 cursor: 'pointer',

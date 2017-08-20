@@ -60,9 +60,14 @@ module.exports = (app) => {
 
       createUserAndEmptyStatistics(data, function(err) {
         if(err) return next(err);
-        res.redirect('/userlogin');
+        res.redirect('/login');
       });
     });
+  });
+
+  app.get('/api/user/logout', function(req, res, next) {
+    req.logout();
+    res.redirect('/');
   });
 
   app.get('/api/users/', (req, res) => {

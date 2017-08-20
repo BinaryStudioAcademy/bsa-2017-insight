@@ -18,8 +18,8 @@ import Respond from './Respond/index';
 
 const muiTheme = getMuiTheme({
   tooltip: {
-    rippleBackgroundColor: '#333333',
-  },
+    rippleBackgroundColor: '#333333'
+  }
 });
 
 injectTapEventPlugin();
@@ -72,8 +72,8 @@ class AdminPage extends React.Component {
     super(props);
     this.leftMenuWidth = 75;
     // this.state = {
-      // chosenUser: userStatisticsPlaceholder,
-      // isDrawerOpened: false,
+    //  chosenUser: userStatisticsPlaceholder,
+    //  isDrawerOpened: false,
     // };
     // this.toggleDrawer = this.toggleDrawer.bind(this);
   }
@@ -151,13 +151,13 @@ class AdminPage extends React.Component {
 
 AdminPage.propTypes = {
   getAllStatistic: React.PropTypes.func,
-  allData: React.PropTypes.arrayOf(React.PropTypes.object),
+  allData: React.PropTypes.arrayOf(React.PropTypes.object)
 };
 
 
 const mapStateToProps = (state) => {
   return {
-    allData: state.statistics.allData,
+    allData: state.statistics.allData
   };
 };
 
@@ -165,7 +165,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllStatistic: () => {
       return dispatch(statisticActions.getAllStatistic());
-    },
+    }
   };
 };
 

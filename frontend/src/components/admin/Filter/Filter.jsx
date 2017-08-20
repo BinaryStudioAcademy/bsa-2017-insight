@@ -24,10 +24,20 @@ class Filter extends React.Component {
         Name: false,
         'Last seen': false
       },
-      checkedCheckboxes: {},
+      checkedCheckboxes: {}
     };
     this.onChangeRadio = this.onChangeRadio.bind(this);
     this.handleTap = this.handleTap.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.statisticOptions.forEach((option) => {
+      if(this.props.selectedFields.indexOf(option) !== -1) {
+        this.state.checkedCheckboxes[option] = true;
+      } else {
+        this.state.checkedCheckboxes[option] = false;
+      }
+    });
   }
 
   onChangeRadio(value, groupName) {
@@ -80,7 +90,7 @@ class Filter extends React.Component {
     this.setState({ checkedCheckboxes: checkedFields }, () => {
       const newFields = [];
       Object.keys(this.state.checkedCheckboxes).forEach((item) => {
-        if(this.state.checkedCheckboxes[item] === true) {
+        if (this.state.checkedCheckboxes[item] === true) {
           newFields.push(item);
         }
       });
@@ -88,18 +98,25 @@ class Filter extends React.Component {
     });
   }
 
-  componentWillMount() {
-    this.props.statisticOptions.forEach((option) => {
-      if(~this.props.selectedFields.indexOf(option)) {
-        this.state.checkedCheckboxes[option] = true; 
-      } else {
-        this.state.checkedCheckboxes[option] = false;
-      }
-    });
-  }
-
   render() {
     const statisticOptions = this.props.statisticOptions;
+    let nestedItems = statisticOptions.map((elem) => {
+      return (<ListItem
+        style={{ fontSize: '14px' }}
+        leftCheckbox={
+          <Checkbox
+            onCheck={() => this.handleCheck(elem)}
+            checked={this.state.checkedCheckboxes[elem]}
+          />}
+        primaryText={elem}
+        key={uniqueId++}
+        rightIcon={<EmptyPlace />}
+        initiallyOpen={this.state.initiallyOpen[elem]}
+        onClick={() => this.handleTap(elem)}
+        primaryTogglesNestedList
+        // nestedItems={this.getNestedItems(statisticOptions[elem], elem)}
+      />);
+    });
 
     return (
       <div className={styles.container}>
@@ -107,25 +124,14 @@ class Filter extends React.Component {
         <div>
           <MuiThemeProvider>
             <List>
-              <Subheader style={{ fontSize: '16px', fontFamily: 'Roboto' }}>Filter user attributes</Subheader> {
-                statisticOptions.map((elem) => {
-                  return (<ListItem
-                    style={{ fontSize: '14px' }}
-                    leftCheckbox={
-                      <Checkbox
-                        onCheck={() => this.handleCheck(elem)}
-                        checked={this.state.checkedCheckboxes[elem]}
-                      />}
-                    primaryText={elem}
-                    key={uniqueId++}
-                    rightIcon={<EmptyPlace />}
-                    initiallyOpen={this.state.initiallyOpen[elem]}
-                    onClick={() => this.handleTap(elem)}
-                    primaryTogglesNestedList
-                    // nestedItems={this.getNestedItems(statisticOptions[elem], elem)}
-                  />);
-                })
-              }
+              <Subheader style={{ fontSize: '16px', fontFamily: 'Roboto' }}>Filter user attributes</Subheader>
+              <ListItem
+                primaryText="Fields Filter"
+                key={1}
+                initiallyOpen={false}
+                primaryTogglesNestedList={true}
+                nestedItems={nestedItems}
+              />
             </List>
           </MuiThemeProvider>
         </div>

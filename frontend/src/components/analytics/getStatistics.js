@@ -2,10 +2,10 @@ function getAllStatistic() {
   const url = 'http://localhost:3000/api/statistics';
   const requestOptions = {
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: null,
-    method: 'GET',
+    method: 'GET'
   };
   return fetch(url, requestOptions)
     .then((response) => {

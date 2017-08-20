@@ -71,10 +71,14 @@ class UserRegistration extends React.Component {
     fetch('/api/user/registration/', {
       method: 'POST',
       body: formData,
-      redirect: 'follow',
       credentials: 'include'
-    }).then(response => response.json()).then((response) => {
-      this.setState({ info: [response.text] });
+    }).then((response) => {
+      if (response.redirected) return window.location.replace(response.url);
+      return response.json();
+    }).then((response) => {
+      if (response) {
+        this.setState({ info: [response.text] });
+      }
     });
   }
 

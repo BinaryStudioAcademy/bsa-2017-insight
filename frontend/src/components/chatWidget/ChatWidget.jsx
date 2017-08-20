@@ -6,7 +6,7 @@ class ChatWidget extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false,
+      isOpen: false
     };
     this.onChatIconClick = this.onChatIconClick.bind(this);
     this.onChatClose = this.onChatClose.bind(this);

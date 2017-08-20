@@ -6,7 +6,7 @@ class RestoreForm extends React.Component {
     super(props);
     this.state = {
       info: '',
-      email: '',
+      email: ''
     };
     this.sendEmail = this.sendEmail.bind(this);
   }
@@ -16,7 +16,7 @@ class RestoreForm extends React.Component {
     const options = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: this.state.email, userType }),
+      body: JSON.stringify({ email: this.state.email, userType })
     };
 
     fetch('/api/forgot', options)
@@ -24,10 +24,10 @@ class RestoreForm extends React.Component {
         return response.json();
       })
       .then((response) => {
-        if(response.text === 'ok') {
+        if (response.text === 'ok') {
           return this.props.history.push('/forgot/success');
         }
-        this.setState({ info: response.text });
+        return this.setState({ info: response.text });
       });
   }
 

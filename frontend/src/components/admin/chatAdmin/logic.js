@@ -6,7 +6,7 @@ function startSocketConnection(dispatch) {
   this.socket = io('http://localhost:3000');
   const userObj = {
     type: 'Admin',
-    id,
+    id
   };
   this.socket.emit('userId', userObj);
   this.socket.on('newMessage', (message) => {
@@ -15,6 +15,6 @@ function startSocketConnection(dispatch) {
 }
 
 export {
-  startSocketConnection,
+  startSocketConnection
 };
 

@@ -77,6 +77,11 @@ module.exports = function (app) {
     });
   });
 
+  app.get('/api/admin/logout', function(req, res, next) {
+    req.logout();
+    res.redirect('/admin/login');
+  });
+
   app.get('/api/admins/', (req, res) => {
     adminRepository.getAll((err, data) => {
       if (err) {

@@ -8,7 +8,15 @@ import Key from 'material-ui/svg-icons/communication/vpn-key';
 import Person from 'material-ui/svg-icons/social/person';
 
 class Header extends React.Component {
+
+  logout(e) {
+    e.preventDefault();
+    fetch('/api/admin/logout', { credentials: 'include' })
+      .then((response) => window.location.replace(response.url));
+  }
+
   render() {
+    const user = window._injectedData;
     return (
       <div>
         <AppBar
@@ -21,16 +29,12 @@ class Header extends React.Component {
               <ToolbarGroup
                 lastChild
               >
-                <Chip
-                  onTouchTap={() => alert('Imagine... that you see your user info')}
-                >
-                  <Avatar>
-                    <Person />
-                  </Avatar>
-                  User Name
+                <Chip>
+                  <Avatar src={`/avatars/${user.avatar}`} />
+                  {`${user.firstName}  ${user.lastName}`}
                 </Chip>
                 <FlatButton
-                  onTouchTap={() => alert('Imagine... that you just logged out')}
+                  onTouchTap={this.logout}
                   style={{ color: 'black' }}
                   label={'Log out'}
                   icon={<Key />}

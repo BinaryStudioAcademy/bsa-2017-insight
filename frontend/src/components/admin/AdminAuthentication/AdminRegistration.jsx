@@ -22,19 +22,11 @@ class AdminRegistration extends React.Component {
     this.sendForm = this.sendForm.bind(this);
   }
 
-  componentWillMount() {
-    if (this.props.currentUser) {
-      alert('You are already logged in');
-    }
-  }
-
-  componentWillReceiveProps() {
-    // console.log('INTERNAL WILL RECEIVE PROPS');
-    // console.log(this.props)
-    if (this.props.currentUser) {
-      alert('You are already logged in');
-    }
-  }
+  // componentWillReceiveProps() {
+  //   if (this.props.currentUser) {
+  //     alert('You are already logged in');
+  //   }
+  // }
 
   formValuesSaver(field, filledField) {
     this.setState({
@@ -76,21 +68,23 @@ class AdminRegistration extends React.Component {
 
   sendForm(e) {
     e.preventDefault();
-    this.setState({ info: this.formValidator() });
-    if (this.state.info.length) return;
-    const formData = new FormData(e.target);
-    fetch('/api/admin/registration/', {
-      method: 'POST',
-      body: formData,
-      credentials: 'include'
-    }).then((response) => {
-      console.log(response);
-      if (response.redirected) return window.location.replace(response.url);
-      return response.json();
-    }).then((response) => {
-      if (response) {
-        this.setState({ info: [response.text] });
-      }
+    e.persist();
+    this.setState({ info: this.formValidator() }, () => {
+      if (this.state.info.length) return;
+      const formData = new FormData(e.target);
+      fetch('/api/admin/registration/', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      }).then((response) => {
+        console.log(response);
+        if (response.redirected) return window.location.replace(response.url);
+        return response.json();
+      }).then((response) => {
+        if (response) {
+          this.setState({ info: [response.text] });
+        }
+      });
     });
   }
 

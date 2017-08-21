@@ -6,7 +6,6 @@ const widgetRoutes = require('./widgetRoutes');
 const statisticsRoutes = require('./statisticsRoutes');
 const passwordRoutes = require('./passwordRoutes');
 const uploadRoutes = require('./uploadRoutes');
-const currentUserRoute = require('./currentUserRoute');
 
 
 module.exports = app => ({
@@ -18,5 +17,4 @@ module.exports = app => ({
   adminRoutes: adminRoutes(app),
   passwordRoutes: passwordRoutes(app),
   uploadRoutes: uploadRoutes(app),
-  currentUserRoute: currentUserRoute(app),
 });

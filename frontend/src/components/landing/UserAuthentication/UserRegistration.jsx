@@ -89,7 +89,10 @@ class UserRegistration extends React.Component {
       <div className={styles['login-form']}>
         <h3>User registration</h3>
         <hr />
-        <form onSubmit={this.sendForm} encType="multipart/form-data">
+        <form
+          onSubmit={this.sendForm}
+          encType="multipart/form-data"
+        >
           <div className={styles['get-data']}>
             <span>Username</span>
             <input

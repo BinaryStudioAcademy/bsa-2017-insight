@@ -8,6 +8,13 @@ import Key from 'material-ui/svg-icons/communication/vpn-key';
 import Person from 'material-ui/svg-icons/social/person';
 
 class Header extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ currentUser: nextProps.currentUser });
+  }
   render() {
     return (
       <div>
@@ -27,7 +34,7 @@ class Header extends React.Component {
                   <Avatar>
                     <Person />
                   </Avatar>
-                  User Name
+                  {this.state.currentUser ? this.state.currentUser.username : 'username'}
                 </Chip>
                 <FlatButton
                   onTouchTap={() => alert('Imagine... that you just logged out')}

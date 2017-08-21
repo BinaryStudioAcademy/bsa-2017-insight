@@ -1,30 +1,36 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import getCurrentUser from '../../actions/getCurrentUserAction';
-import AdminPage from '../admin/AdminPage';
+// import AdminPage from '../admin/AdminPage';
 
 class EnsureAdmin extends React.Component {
-  // componentWillMount() {
-  //   console.log('hooray, component will mount');
-  //   console.log(this.props);
-  //   console.log(window._injectedData);
-  //   this.props.getCurrentUser();
-  // }
-  // componentDidMount() {
-  //   console.log('INTERNAL MOUNTED, CURRENT PROPS ARE:');
-  //   console.log(this.props);
-  // }
-  componentWillReceiveProps() {
+  constructor() {
+    super();
+    this.state = {};
+  }
+  componentWillReceiveProps(nextProps) {
     console.log('INTERNAL WILL RECEIVE PROPS:');
     console.log(this.props);
-    if (this.props.currentUser) {
-      console.log('Current user in internal');
-    }
+    console.log(this.state);
+    // if (this.props.currentUser) {
+    //   console.log('Current user in internal');
+    //   console.log(this.props.currentUser);
+    // }
+    this.setState({ currentUser: nextProps.currentUser });
   }
   render() {
-    if (!this.props.currentUser || this.props.currentUser && !this.props.currentUser.isAdmin) {
+    // If current user isn't in the state yet
+    if (!this.state.currentUser) {
+      return (
+        <div>
+          <p>Authentication in progress.</p>
+          <p>If you see this message for more than a few seconds \
+            please make sure that you are logged in as admin and try to reload this page.</p>
+        </div>
+      );
+    }
+    // If current user is in the state, but isn't considered admin
+    else if (this.state.currentUser && !this.state.currentUser.isAdmin) {
       return (
         <Switch>
           {/* <Route path={'/admin/login'} component={AdminPage} /> */}
@@ -32,28 +38,15 @@ class EnsureAdmin extends React.Component {
         </Switch>
       );
     }
-    return (
-      <div>
-        {this.props.children}
-      </div>
-    );
+    // If current user is admin
+    else {
+      return (
+        <div>
+          {this.props.children}
+        </div>
+      );
+    }
   }
 }
-
-// const mapStateToProps = (state) => {
-//   return {
-//     currentUser: state.currentUser.currentUser
-//   };
-// };
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     getCurrentUser: () => {
-//       dispatch(getCurrentUser());
-//     }
-//   };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(EnsureAdmin);
 
 export default EnsureAdmin;

@@ -65,20 +65,22 @@ class UserRegistration extends React.Component {
 
   sendForm(e) {
     e.preventDefault();
-    this.setState({ info: this.formValidator() });
-    if (this.state.info.length) return;
-    const formData = new FormData(e.target);
-    fetch('/api/user/registration/', {
-      method: 'POST',
-      body: formData,
-      credentials: 'include'
-    }).then((response) => {
-      if (response.redirected) return window.location.replace(response.url);
-      return response.json();
-    }).then((response) => {
-      if (response) {
-        this.setState({ info: [response.text] });
-      }
+    e.persist();
+    this.setState({ info: this.formValidator() }, () => {
+      if (this.state.info.length) return;
+      const formData = new FormData(e.target);
+      fetch('/api/user/registration/', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      }).then((response) => {
+        if (response.redirected) return window.location.replace(response.url);
+        return response.json();
+      }).then((response) => {
+        if (response) {
+          this.setState({ info: [response.text] });
+        }
+      });
     });
   }
 

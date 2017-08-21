@@ -58,25 +58,24 @@ class AdminPage extends React.Component {
   constructor(props) {
     super(props);
     this.leftMenuWidth = 75;
+    this.state = {};
   }
+
   componentWillMount() {
     console.log('hooray, component will mount');
     console.log(this.props);
     console.log(window._injectedData);
     this.props.getCurrentUser();
   }
-  componentDidMount() {
-    console.log('EXTERNAL MOUNTED, CURRENT PROPS ARE:');
-    console.log(this.props);
-  }
-  componentWillReceiveProps() {
-    console.log('EXTERNAL WILL RECEIVE PROPS:');
-    console.log(this.props);
-  }
 
   componentWillMount() {
     this.props.getAllStatistic();
     this.props.getCurrentUser();
+  }
+
+  componentWillReceiveProps() {
+    console.log('EXTERNAL WILL RECEIVE PROPS:');
+    console.log(this.props);
   }
 
   getStatisticOptions(arr) {
@@ -87,7 +86,6 @@ class AdminPage extends React.Component {
     // console.log(this);
     return options;
   }
-
 
   render() {
     return (
@@ -103,7 +101,7 @@ class AdminPage extends React.Component {
                     width={this.leftMenuWidth}
                   />
                   <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
-                    <Header />
+                    <Header currentUser={this.props.currentUser} />
                     <Switch>
                       <Route
                         exact

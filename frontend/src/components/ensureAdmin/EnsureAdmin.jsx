@@ -1,7 +1,6 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-// import AdminPage from '../admin/AdminPage';
 
 class EnsureAdmin extends React.Component {
   constructor() {
@@ -10,10 +9,10 @@ class EnsureAdmin extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('ENSURE ADMIN WILL RECEIVE PROPS:');
-    console.log(this.props);
-    console.log('ENSURE ADMIN STATE WILL BE:');
-    console.log(this.state);
+    // console.log('ENSURE ADMIN WILL RECEIVE PROPS:');
+    // console.log(this.props);
+    // console.log('ENSURE ADMIN STATE WILL BE:');
+    // console.log(this.state);
     this.setState({ currentUser: nextProps.currentUser });
   }
 
@@ -29,13 +28,13 @@ class EnsureAdmin extends React.Component {
       );
     }
     // If current user is in the state, but isn't considered admin
-    // else if (this.state.currentUser && !this.state.currentUser.isAdmin) {
-    //   return (
-    //     <Switch>
-    //       <Redirect to={'/admin/login'} />
-    //     </Switch>
-    //   );
-    // }
+    else if (Object.keys(this.state.currentUser).length && !this.state.currentUser.isAdmin) {
+      return (
+        <Switch>
+          <Redirect to={'/admin/login'} />
+        </Switch>
+      );
+    }
     // If current user is admin
     else {
       return (

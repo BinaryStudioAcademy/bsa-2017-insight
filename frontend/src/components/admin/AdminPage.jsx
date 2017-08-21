@@ -62,13 +62,6 @@ class AdminPage extends React.Component {
   }
 
   componentWillMount() {
-    console.log('hooray, component will mount');
-    console.log(this.props);
-    console.log(window._injectedData);
-    this.props.getCurrentUser();
-  }
-
-  componentWillMount() {
     this.props.getAllStatistic();
     this.props.getCurrentUser();
   }
@@ -103,7 +96,7 @@ class AdminPage extends React.Component {
                     width={this.leftMenuWidth}
                   />
                   <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
-                    <Header />
+                    <Header currentUser={this.state.currentUser} />
                     <Switch>
                       <Route
                         exact
@@ -146,7 +139,6 @@ AdminPage.propTypes = {
   getAllStatistic: React.PropTypes.func,
   allData: React.PropTypes.arrayOf(React.PropTypes.object)
 };
-
 
 const mapStateToProps = (state) => {
   return {

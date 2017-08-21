@@ -114,7 +114,13 @@ module.exports = function(app) {
       }
     ], function(err) {
       if(err) return next(err);
-      return res.redirect('/login');
+      req.logout();
+      if(req.params.userType === 'admin') {
+        return res.redirect('/admin/login');
+      } else {
+        return res.redirect('/login')
+      }
+      
     });
   });
 };

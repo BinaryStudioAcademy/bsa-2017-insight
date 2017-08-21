@@ -8,18 +8,18 @@ function findConversationById(id, conversations) {
   });
   return {
     conversationItem,
-    index,
+    index
   };
 }
 
 function startSocketConnection(socket) {
-  const id = window._injectedData.globalId || window._injectedData._id;
+  const id = window._injectedData.anonymousId || window._injectedData.userId._id;
   socket.on('user connected', () => {
     console.log('connected to the server succesfully');
   });
   const userObj = {
     type: 'User',
-    id,
+    id
   };
   socket.emit('userId', userObj);
   socket.emit('getUserConversations', id);
@@ -37,7 +37,7 @@ function startSocketConnection(socket) {
       conversationItem.messages = [...conversationItem.messages, message];
       const newConversations = [...oldConversations, conversationItem];
       return {
-        conversations: newConversations,
+        conversations: newConversations
       };
     });
   });
@@ -45,12 +45,12 @@ function startSocketConnection(socket) {
     const newConversations = [...this.state.conversations, conversation];
     this.setState({
       conversations: newConversations,
-      activeChatId: conversation._id,
+      activeChatId: conversation._id
     });
   });
 }
 
 export {
   findConversationById,
-  startSocketConnection,
+  startSocketConnection
 };

@@ -38,10 +38,14 @@ class AdminLogin extends React.Component {
       },
       method: 'POST',
       body: JSON.stringify(loginData),
-      redirect: 'follow',
       credentials: 'include'
-    }).then(response => response.json()).then((response) => {
-      this.setState({ info: response.text });
+    }).then((response) => {
+      if (response.redirected) return window.location.replace(response.url);
+      return response.json();
+    }).then((response) => {
+      if (response) {
+        this.setState({ info: response.text });
+      }
     });
   }
 
@@ -70,10 +74,13 @@ class AdminLogin extends React.Component {
           onClick={this.login}
         >Login</RaisedButton>
         <br /><br />
-        {this.state.info}
         <div style={{ margin: '10px 0', lineHeight: '1.6em' }}>
           <NavLink to={'/admin/registration'}>Registration</NavLink><br />
           <NavLink to={'/forgot/admin'}>Restore my password</NavLink><br />
+        </div>
+        {this.state.info ? <hr /> : ''}
+        <div style={{ color: 'red' }}>
+          {this.state.info}
         </div>
       </div>
     );

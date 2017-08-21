@@ -37,10 +37,14 @@ class UserLogin extends React.Component {
       },
       method: 'POST',
       body: JSON.stringify(loginData),
-      redirect: 'follow',
       credentials: 'include'
-    }).then(response => response.json()).then((response) => {
-      this.setState({ info: response.text });
+    }).then((response) => {
+      if (response.redirected) return window.location.replace(response.url);
+      return response.json();
+    }).then((response) => {
+      if (response) {
+        this.setState({ info: response.text });
+      }
     });
   }
 
@@ -62,7 +66,7 @@ class UserLogin extends React.Component {
           <label htmlFor="rememberMe">Remember me</label><br />
         </div> */}
         <button type="button" onClick={this.login}>Log in</button><br />
-        {this.state.info}
+        <div className={styles['error-message']}>{this.state.info}</div>
         <div className={styles['auth-links']}>
           <NavLink to={'/registration'}>Registration</NavLink><br />
           <NavLink to={'/forgot/user'}>Restore my password</NavLink><br />

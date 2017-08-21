@@ -32,7 +32,6 @@ class Header extends React.Component {
                   <Avatar>
                     <Person />
                   </Avatar>
-                  {/* {this.state.currentUser ? this.state.currentUser.username : 'username'} */}
                   { this.props.currentUser.username }
                 </Chip>
                 <FlatButton

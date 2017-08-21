@@ -67,10 +67,7 @@ class AdminPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('ADMIN PAGE WILL RECEIVE PROPS:');
-    console.log(nextProps);
     this.setState({ currentUser: nextProps.currentUser });
-    console.log(this.props);
   }
 
   getStatisticOptions(arr) {

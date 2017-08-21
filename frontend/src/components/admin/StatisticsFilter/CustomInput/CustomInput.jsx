@@ -1,30 +1,132 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { ListItem } from 'material-ui/List';
+import Checkbox from 'material-ui/Checkbox';
+import RadioChecked from 'material-ui/svg-icons/toggle/radio-button-checked';
+import RadioUnchecked from 'material-ui/svg-icons/toggle/radio-button-unchecked';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import TextField from 'material-ui/TextField';
+
 import styles from './styles.scss';
 
 class CustomInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      select: '',
+    };
+  }
   componentWillUnmount() {
     if (this.props.onUnmount) this.props.onUnmount(this.props.matching);
   }
+
   render() {
-    return (
-      <div className={`${this.props.class} ${styles['custom-filter']}`}>
-        <input
-          ref={(node) => {
-            this.input = node;
-          }}
-          name={this.props.name}
-          type={this.props.type}
-          onChange={() => {
-            if (this.props.onInputChange) this.props.onInputChange(this.props.matching, this.input.value);
-          }}
-          id={this.props.matching}
+    if (this.props.type === 'multiple') {
+      console.log('THIS PROPZZZZZZ:', this.props);
+      return (<ListItem
+        primaryText={this.props.text}
+        initiallyOpen={false}
+        primaryTogglesNestedList
+        onNestedListToggle={(listItem) => {
+          if (listItem.props.leftCheckbox.props.checked && this.props.onUnmount) {
+            console.log('11111111111111111111111111');
+            this.props.onUnmount(this.props.matching);
+          }
+        }}
+        rightIcon={<div />}
+        onClick={() => this.props.onCustomInputClick && this.props.onCustomInputClick(this.props.matching)}
+        leftCheckbox={
+          <Checkbox checked={this.props.displayChildren} />
+        }
+        nestedItems={this.props.displayChildren && this.props.childs.map((child) => {
+          return (<ListItem
+            primaryText={child.text}
+            key={child.matching}
+            initiallyOpen={false}
+            primaryTogglesNestedList
+            rightIcon={<div />}
+            onClick={() => this.props.onCustomInputClick && this.props.onCustomInputClick(child.matching)}
+            leftCheckbox={
+              <Checkbox
+                checkedIcon={<RadioChecked />}
+                uncheckedIcon={<RadioUnchecked />}
+                checked={child.displayChildren}
+              />}
+            nestedItems={child.displayChildren && [
+              <TextField
+                className={styles['radio-input']}
+                hintText="Search value"
+                ref={(node) => {
+                  this.input = node;
+                }}
+                onChange={() => {
+                  if (this.props.onInputChange) this.props.onInputChange(child.matching, this.input.input.value);
+                }}
+              />]
+            }
+          />);
+        })}
+      />);
+    } else if (this.props.type === 'single') {
+      return (
+        <ListItem
+          primaryText={this.props.text}
+          initiallyOpen={false}
+          primaryTogglesNestedList
+          rightIcon={<div />}
           onClick={() => this.props.onCustomInputClick && this.props.onCustomInputClick(this.props.matching)}
+          leftCheckbox={
+            <Checkbox checked={this.props.displayChildren} />
+          }
+          nestedItems={this.props.displayChildren && [
+            <TextField
+              key={this.props.matching}
+              className={styles['checkbox-input']}
+              hintText="Search value"
+              ref={(node) => {
+                this.input = node;
+              }}
+              onChange={() => {
+                if (this.props.onInputChange) this.props.onInputChange(this.props.matching, this.input.input.value);
+              }}
+            />]}
         />
-        <label htmlFor={this.props.matching}>{this.props.text}</label>
-        {this.props.children}
-      </div>
-    );
+      );
+    } else if (this.props.type === 'select') {
+      return (
+        <ListItem
+          primaryText={this.props.text}
+          initiallyOpen={false}
+          primaryTogglesNestedList
+          rightIcon={<div />}
+          onClick={() => this.props.onCustomInputClick && this.props.onCustomInputClick(this.props.matching)}
+          leftCheckbox={
+            <Checkbox checked={this.props.displayChildren} />
+          }
+          nestedItems={this.props.displayChildren && [
+            <SelectField
+              className={styles.select}
+              key={this.props.matching}
+              value={this.state.select}
+              floatingLabelText="Device Type"
+              ref={(node) => {
+                this.input = node;
+              }}
+              onChange={(event, index, value) => {
+                this.setState({ select: value });
+                if (this.props.onInputChange) this.props.onInputChange(this.props.matching, value);
+              }}
+            >
+              {this.props.options.map((option) => {
+                return <MenuItem value={option} key={option} primaryText={option} />;
+              })}
+            </SelectField>]}
+        />
+      );
+    } else {
+      return <div>kek</div>;
+    }
   }
 }
 

@@ -9,6 +9,24 @@
   }
 }
 
+:local(.radio-input) {
+  padding-left: 70px;
+  width: 60%;
+  overflow: hidden;
+}
+
+:local(.checkbox-input) {
+  padding-left: 70px;
+  width: 60%;
+  overflow: hidden;
+}
+
+:local(.select) {
+  padding: 0 0 0 70px;
+  width: 60%;
+  overflow: hidden;
+}
+
 .text {
   margin: 0;
 }

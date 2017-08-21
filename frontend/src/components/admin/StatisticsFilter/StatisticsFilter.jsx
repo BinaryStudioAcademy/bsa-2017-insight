@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import styles from './styles.scss';
 import CustomInput from './CustomInput/CustomInput';
-import CustomSelect from './CustomSelect/CustomSelect';
 import { setStatisticsFilter, getAllStatistics } from './../../../actions/statisticActions';
 
 class StatisticsFilter extends React.Component {
@@ -82,6 +81,9 @@ class StatisticsFilter extends React.Component {
         if (key !== name) obj[key] = false;
       });
       this.setState((prevState) => {
+        console.log('prevState:', prevState);
+        console.log('obj:', obj);
+        console.log('property to change:', name);
         return { ...prevState, ...obj, [name]: !prevState[name] };
       });
     } else {
@@ -91,6 +93,9 @@ class StatisticsFilter extends React.Component {
         obj[key] = false;
       });
       this.setState((prevState) => {
+        console.log('prevState:', prevState);
+        console.log('obj:', obj);
+        console.log('property to change:', name);
         return { ...prevState, ...obj, [name]: !prevState[name] };
       });
     }
@@ -109,67 +114,83 @@ class StatisticsFilter extends React.Component {
   }
 
   render() {
+    console.log('STAAAAAAATEEEEEEEZZZZZ:', this.state);
     return (
       <div className={styles['filter-wrapper']}>
         <h3 className={styles['filter-title']}>Filter users</h3>
         <form className={styles['filter-form']} onSubmit={this.onFormSubmit}>
           <CustomInput
-            type="checkbox"
-            id="username"
+            type="single"
             text="Username: "
             matching="username"
             class="one-row"
+            displayChildren={this.state.username}
             onCustomInputClick={this.onCustomInputClick}
-          >
-            {this.state.username &&
-            <CustomInput
-              class="text"
-              type="text"
-              matching="username"
-              onInputChange={this.onInputChange}
-              onUnmount={this.onInputUnmount}
-            />}
-          </CustomInput>
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
+          />
+
           <CustomInput
-            type="checkbox"
+            type="multiple"
             id="currentUrl"
             text="Current URL: "
             matching="currentUrl"
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
             onCustomInputClick={this.onCustomInputClick}
-          >
-            {this.state.currentUrl &&
-            <div className="second-block">
-              <CustomInput
-                type="radio"
-                name="currentUrl"
-                class="one-row"
-                matching="currentUrl-exact"
-                text="Exact: "
-                onUnmount={this.onInputUnmount}
-                onCustomInputClick={this.onCustomInputClick}
-              >
-                {this.state['currentUrl-exact'] &&
-                <CustomInput matching="currentUrl-exact" class="text" type="text" onInputChange={this.onInputChange} />}
-              </CustomInput>
-              <CustomInput
-                type="radio"
-                name="currentUrl"
-                class="one-row"
-                matching="currentUrl-includes"
-                text="Includes: "
-                onUnmount={this.onInputUnmount}
-                onCustomInputClick={this.onCustomInputClick}
-              >
-                {this.state['currentUrl-includes'] &&
-                <CustomInput
-                  matching="currentUrl-includes"
-                  class="text"
-                  type="text"
-                  onInputChange={this.onInputChange}
-                />}
-              </CustomInput>
-            </div>}
-          </CustomInput>
+            displayChildren={this.state.currentUrl}
+            childs={[
+              { text: 'Exact :',
+                matching: 'currentUrl-exact',
+                displayChildren: this.state['currentUrl-exact'],
+              }, {
+                text: 'Includes :',
+                matching: 'currentUrl-includes',
+                displayChildren: this.state['currentUrl-includes'],
+              }]}
+          />
+
+
+          {/*<CustomInput*/}
+          {/*type="checkbox"*/}
+          {/*id="currentUrl"*/}
+          {/*text="Current URL: "*/}
+          {/*matching="currentUrl"*/}
+          {/*onCustomInputClick={this.onCustomInputClick}*/}
+          {/*>*/}
+          {/*{this.state.currentUrl &&*/}
+          {/*<div className="second-block">*/}
+          {/*<CustomInput*/}
+          {/*type="radio"*/}
+          {/*name="currentUrl"*/}
+          {/*class="one-row"*/}
+          {/*matching="currentUrl-exact"*/}
+          {/*text="Exact: "*/}
+          {/*onUnmount={this.onInputUnmount}*/}
+          {/*onCustomInputClick={this.onCustomInputClick}*/}
+          {/*>*/}
+          {/*{this.state['currentUrl-exact'] &&*/}
+          {/*<CustomInput matching="currentUrl-exact" class="text" type="text" onInputChange={this.onInputChange} />}*/}
+          {/*</CustomInput>*/}
+          {/*<CustomInput*/}
+          {/*type="radio"*/}
+          {/*name="currentUrl"*/}
+          {/*class="one-row"*/}
+          {/*matching="currentUrl-includes"*/}
+          {/*text="Includes: "*/}
+          {/*onUnmount={this.onInputUnmount}*/}
+          {/*onCustomInputClick={this.onCustomInputClick}*/}
+          {/*>*/}
+          {/*{this.state['currentUrl-includes'] &&*/}
+          {/*<CustomInput*/}
+          {/*matching="currentUrl-includes"*/}
+          {/*class="text"*/}
+          {/*type="text"*/}
+          {/*onInputChange={this.onInputChange}*/}
+          {/*/>}*/}
+          {/*</CustomInput>*/}
+          {/*</div>}*/}
+          {/*</CustomInput>*/}
           <CustomInput
             type="checkbox"
             id="browserLanguage"
@@ -399,21 +420,17 @@ class StatisticsFilter extends React.Component {
             />}
           </CustomInput>
           <CustomInput
-            type="checkbox"
+            type="select"
             id="deviceType"
             text="Device Type: "
             matching="deviceType"
             class="one-row"
+            options={['desktop', 'tablet', 'mobile']}
+            displayChildren={this.state.deviceType}
+            onUnmount={this.onInputUnmount}
+            onInputChange={this.onInputChange}
             onCustomInputClick={this.onCustomInputClick}
-          >
-            {this.state.deviceType &&
-            <CustomSelect
-              options={['desktop', 'tablet', 'mobile']}
-              matching="deviceType"
-              onUnmount={this.onInputUnmount}
-              onInputChange={this.onInputChange}
-            />}
-          </CustomInput>
+          />
           <CustomInput
             type="checkbox"
             id="viewedUrls"

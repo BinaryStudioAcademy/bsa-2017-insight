@@ -14,13 +14,9 @@ class CustomInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      select: '',
+      select: 'desktop',
     };
   }
-  componentWillUnmount() {
-    if (this.props.onUnmount) this.props.onUnmount(this.props.matching);
-  }
-
   render() {
     if (this.props.type === 'multiple') {
       console.log('THIS PROPZZZZZZ:', this.props);
@@ -30,7 +26,6 @@ class CustomInput extends React.Component {
         primaryTogglesNestedList
         onNestedListToggle={(listItem) => {
           if (listItem.props.leftCheckbox.props.checked && this.props.onUnmount) {
-            console.log('11111111111111111111111111');
             this.props.onUnmount(this.props.matching);
           }
         }}
@@ -76,6 +71,11 @@ class CustomInput extends React.Component {
           primaryTogglesNestedList
           rightIcon={<div />}
           onClick={() => this.props.onCustomInputClick && this.props.onCustomInputClick(this.props.matching)}
+          onNestedListToggle={(listItem) => {
+            if (listItem.props.leftCheckbox.props.checked && this.props.onUnmount) {
+              this.props.onUnmount(this.props.matching);
+            }
+          }}
           leftCheckbox={
             <Checkbox checked={this.props.displayChildren} />
           }
@@ -101,6 +101,11 @@ class CustomInput extends React.Component {
           primaryTogglesNestedList
           rightIcon={<div />}
           onClick={() => this.props.onCustomInputClick && this.props.onCustomInputClick(this.props.matching)}
+          onNestedListToggle={(listItem) => {
+            if (listItem.props.leftCheckbox.props.checked && this.props.onUnmount) {
+              this.props.onUnmount(this.props.matching);
+            }
+          }}
           leftCheckbox={
             <Checkbox checked={this.props.displayChildren} />
           }
@@ -109,7 +114,6 @@ class CustomInput extends React.Component {
               className={styles.select}
               key={this.props.matching}
               value={this.state.select}
-              floatingLabelText="Device Type"
               ref={(node) => {
                 this.input = node;
               }}

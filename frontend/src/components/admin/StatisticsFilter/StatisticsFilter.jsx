@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import RaisedButton from 'material-ui/RaisedButton';
 import styles from './styles.scss';
 import CustomInput from './CustomInput/CustomInput';
 import { setStatisticsFilter, getAllStatistics } from './../../../actions/statisticActions';
+
 
 class StatisticsFilter extends React.Component {
   constructor(props) {
@@ -121,7 +123,7 @@ class StatisticsFilter extends React.Component {
         <form className={styles['filter-form']} onSubmit={this.onFormSubmit}>
           <CustomInput
             type="single"
-            text="Username: "
+            text="Username:"
             matching="username"
             class="one-row"
             displayChildren={this.state.username}
@@ -129,11 +131,9 @@ class StatisticsFilter extends React.Component {
             onInputChange={this.onInputChange}
             onUnmount={this.onInputUnmount}
           />
-
           <CustomInput
             type="multiple"
-            id="currentUrl"
-            text="Current URL: "
+            text="Current URL:"
             matching="currentUrl"
             onInputChange={this.onInputChange}
             onUnmount={this.onInputUnmount}
@@ -149,276 +149,110 @@ class StatisticsFilter extends React.Component {
                 displayChildren: this.state['currentUrl-includes'],
               }]}
           />
-
-
-          {/*<CustomInput*/}
-          {/*type="checkbox"*/}
-          {/*id="currentUrl"*/}
-          {/*text="Current URL: "*/}
-          {/*matching="currentUrl"*/}
-          {/*onCustomInputClick={this.onCustomInputClick}*/}
-          {/*>*/}
-          {/*{this.state.currentUrl &&*/}
-          {/*<div className="second-block">*/}
-          {/*<CustomInput*/}
-          {/*type="radio"*/}
-          {/*name="currentUrl"*/}
-          {/*class="one-row"*/}
-          {/*matching="currentUrl-exact"*/}
-          {/*text="Exact: "*/}
-          {/*onUnmount={this.onInputUnmount}*/}
-          {/*onCustomInputClick={this.onCustomInputClick}*/}
-          {/*>*/}
-          {/*{this.state['currentUrl-exact'] &&*/}
-          {/*<CustomInput matching="currentUrl-exact" class="text" type="text" onInputChange={this.onInputChange} />}*/}
-          {/*</CustomInput>*/}
-          {/*<CustomInput*/}
-          {/*type="radio"*/}
-          {/*name="currentUrl"*/}
-          {/*class="one-row"*/}
-          {/*matching="currentUrl-includes"*/}
-          {/*text="Includes: "*/}
-          {/*onUnmount={this.onInputUnmount}*/}
-          {/*onCustomInputClick={this.onCustomInputClick}*/}
-          {/*>*/}
-          {/*{this.state['currentUrl-includes'] &&*/}
-          {/*<CustomInput*/}
-          {/*matching="currentUrl-includes"*/}
-          {/*class="text"*/}
-          {/*type="text"*/}
-          {/*onInputChange={this.onInputChange}*/}
-          {/*/>}*/}
-          {/*</CustomInput>*/}
-          {/*</div>}*/}
-          {/*</CustomInput>*/}
           <CustomInput
-            type="checkbox"
-            id="browserLanguage"
-            text="Browser Language: "
+            type="single"
+            text="Browser Language:"
             matching="browserLanguage"
             class="one-row"
+            displayChildren={this.state.browserLanguage}
             onCustomInputClick={this.onCustomInputClick}
-          >
-            {this.state.browserLanguage &&
-            <CustomInput
-              matching="browserLanguage"
-              class="text"
-              type="text"
-              onInputChange={this.onInputChange}
-              onUnmount={this.onInputUnmount}
-            />}
-          </CustomInput>
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
+          />
           <CustomInput
-            type="checkbox"
-            id="country"
-            text="Country: "
+            type="single"
+            text="Country:"
             matching="country"
             class="one-row"
+            displayChildren={this.state.country}
             onCustomInputClick={this.onCustomInputClick}
-          >
-            {this.state.country &&
-            <CustomInput
-              matching="country"
-              class="text"
-              type="text"
-              onInputChange={this.onInputChange}
-              onUnmount={this.onInputUnmount}
-            />}
-          </CustomInput>
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
+          />
           <CustomInput
-            type="checkbox"
-            id="city"
-            text="City: "
+            type="single"
+            text="City:"
             matching="city"
             class="one-row"
+            displayChildren={this.state.city}
             onCustomInputClick={this.onCustomInputClick}
-          >
-            {this.state.city &&
-            <CustomInput
-              matching="city"
-              class="text"
-              type="text"
-              onInputChange={this.onInputChange}
-              onUnmount={this.onInputUnmount}
-            />}
-          </CustomInput>
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
+          />
           <CustomInput
-            type="checkbox"
-            id="screenWidth"
-            text="Screen Width: "
+            type="multiple"
+            text="Screen Width:"
             matching="screenWidth"
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
             onCustomInputClick={this.onCustomInputClick}
-          >
-            {this.state.screenWidth &&
-            <div className="second-block">
-              <CustomInput
-                type="radio"
-                name="screenWidth"
-                class="one-row"
-                matching="screenWidth-exact"
-                text="Exact: "
-                onUnmount={this.onInputUnmount}
-                onCustomInputClick={this.onCustomInputClick}
-              >
-                {this.state['screenWidth-exact'] &&
-                <CustomInput
-                  matching="screenWidth-exact"
-                  class="text"
-                  type="text"
-                  onInputChange={this.onInputChange}
-                />}
-              </CustomInput>
-              <CustomInput
-                type="radio"
-                name="screenWidth"
-                class="one-row"
-                matching="screenWidth-lowerThan"
-                text="Lower than: "
-                onUnmount={this.onInputUnmount}
-                onCustomInputClick={this.onCustomInputClick}
-              >
-                {this.state['screenWidth-lowerThan'] &&
-                <CustomInput
-                  matching="screenWidth-lowerThan"
-                  class="text"
-                  type="text"
-                  onInputChange={this.onInputChange}
-                />}
-              </CustomInput>
-              <CustomInput
-                type="radio"
-                name="screenWidth"
-                class="one-row"
-                matching="screenWidth-greaterThan"
-                text="Greater than: "
-                onUnmount={this.onInputUnmount}
-                onCustomInputClick={this.onCustomInputClick}
-              >
-                {this.state['screenWidth-greaterThan'] &&
-                <CustomInput
-                  matching="screenWidth-greaterThan"
-                  class="text"
-                  type="text"
-                  onInputChange={this.onInputChange}
-                />}
-              </CustomInput>
-            </div>
-            }
-          </CustomInput>
+            displayChildren={this.state.screenWidth}
+            childs={[
+              { text: 'Exact :',
+                matching: 'screenWidth-exact',
+                displayChildren: this.state['screenWidth-exact'],
+              }, {
+                text: 'Greater than :',
+                matching: 'screenWidth-lowerThan',
+                displayChildren: this.state['screenWidth-lowerThan'],
+              }, {
+                text: 'Lower than :',
+                matching: 'screenWidth-greaterThan',
+                displayChildren: this.state['screenWidth-greaterThan'],
+              }]}
+          />
           <CustomInput
-            type="checkbox"
-            id="screenHeight"
-            text="Screen Height: "
+            type="multiple"
+            text="Screen Height:"
             matching="screenHeight"
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
             onCustomInputClick={this.onCustomInputClick}
-          >
-            {this.state.screenHeight &&
-            <div className="second-block">
-              <CustomInput
-                type="radio"
-                name="screenHeight"
-                class="one-row"
-                matching="screenHeight-exact"
-                text="Exact: "
-                onUnmount={this.onInputUnmount}
-                onCustomInputClick={this.onCustomInputClick}
-              >
-                {this.state['screenHeight-exact'] &&
-                <CustomInput
-                  matching="screenHeight-exact"
-                  class="text"
-                  type="text"
-                  onInputChange={this.onInputChange}
-                />}
-              </CustomInput>
-              <CustomInput
-                type="radio"
-                name="screenHeight"
-                class="one-row"
-                matching="screenHeight-lowerThan"
-                text="Lower than: "
-                onUnmount={this.onInputUnmount}
-                onCustomInputClick={this.onCustomInputClick}
-              >
-                {this.state['screenHeight-lowerThan'] &&
-                <CustomInput
-                  matching="screenHeight-lowerThan"
-                  class="text"
-                  type="text"
-                  onInputChange={this.onInputChange}
-                />}
-              </CustomInput>
-              <CustomInput
-                type="radio"
-                name="screenHeight"
-                class="one-row"
-                matching="screenHeight-greaterThan"
-                text="Greater than: "
-                onUnmount={this.onInputUnmount}
-                onCustomInputClick={this.onCustomInputClick}
-              >
-                {this.state['screenHeight-greaterThan'] &&
-                <CustomInput
-                  matching="screenHeight-greaterThan"
-                  class="text"
-                  type="text"
-                  onInputChange={this.onInputChange}
-                />}
-              </CustomInput>
-            </div>
-            }
-          </CustomInput>
+            displayChildren={this.state.screenHeight}
+            childs={[
+              { text: 'Exact :',
+                matching: 'screenHeight-exact',
+                displayChildren: this.state['screenHeight-exact'],
+              }, {
+                text: 'Greater than :',
+                matching: 'screenHeight-lowerThan',
+                displayChildren: this.state['screenHeight-lowerThan'],
+              }, {
+                text: 'Lower than :',
+                matching: 'screenHeight-greaterThan',
+                displayChildren: this.state['screenHeight-greaterThan'],
+              }]}
+          />
           <CustomInput
-            type="checkbox"
-            id="timeZone"
-            text="Time Zone: "
+            type="single"
+            text="Time Zone:"
             matching="timeZone"
             class="one-row"
+            displayChildren={this.state.timeZone}
             onCustomInputClick={this.onCustomInputClick}
-          >
-            {this.state.timeZone &&
-            <CustomInput
-              matching="timeZone"
-              class="text"
-              type="text"
-              onInputChange={this.onInputChange}
-              onUnmount={this.onInputUnmount}
-            />}
-          </CustomInput>
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
+          />
           <CustomInput
-            type="checkbox"
-            id="browser"
-            text="Browser: "
+            type="single"
+            text="Browser:"
             matching="browser"
             class="one-row"
+            displayChildren={this.state.browser}
             onCustomInputClick={this.onCustomInputClick}
-          >
-            {this.state.browser &&
-            <CustomInput
-              matching="browser"
-              class="text"
-              type="text"
-              onInputChange={this.onInputChange}
-              onUnmount={this.onInputUnmount}
-            />}
-          </CustomInput>
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
+          />
           <CustomInput
-            type="checkbox"
-            id="os"
-            text="Operation System: "
+            type="single"
+            text="Operation System:"
             matching="os"
             class="one-row"
+            displayChildren={this.state.os}
             onCustomInputClick={this.onCustomInputClick}
-          >
-            {this.state.os &&
-            <CustomInput
-              matching="os"
-              class="text"
-              type="text"
-              onInputChange={this.onInputChange}
-              onUnmount={this.onInputUnmount}
-            />}
-          </CustomInput>
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
+          />
           <CustomInput
             type="select"
             id="deviceType"
@@ -431,47 +265,26 @@ class StatisticsFilter extends React.Component {
             onInputChange={this.onInputChange}
             onCustomInputClick={this.onCustomInputClick}
           />
+
           <CustomInput
-            type="checkbox"
-            id="viewedUrls"
-            text="Viewed URLs: "
+            type="multiple"
+            text="Viewed URLs:"
             matching="viewedUrls"
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
             onCustomInputClick={this.onCustomInputClick}
-          >
-            {this.state.viewedUrls &&
-            <div className="second-block">
-              <CustomInput
-                type="radio"
-                name="viewedUrls"
-                class="one-row"
-                matching="viewedUrls-exact"
-                text="Exact: "
-                onUnmount={this.onInputUnmount}
-                onCustomInputClick={this.onCustomInputClick}
-              >
-                {this.state['viewedUrls-exact'] &&
-                <CustomInput matching="viewedUrls-exact" class="text" type="text" onInputChange={this.onInputChange} />}
-              </CustomInput>
-              <CustomInput
-                type="radio"
-                name="viewedUrls"
-                class="one-row"
-                matching="viewedUrls-includes"
-                text="Includes: "
-                onUnmount={this.onInputUnmount}
-                onCustomInputClick={this.onCustomInputClick}
-              >
-                {this.state['viewedUrls-includes'] &&
-                <CustomInput
-                  matching="viewedUrls-includes"
-                  class="text"
-                  type="text"
-                  onInputChange={this.onInputChange}
-                />}
-              </CustomInput>
-            </div>}
-          </CustomInput>
-          <button type="submit" className={styles['submit-button']}>Find</button>
+            displayChildren={this.state.viewedUrls}
+            childs={[
+              { text: 'Exact :',
+                matching: 'viewedUrls-exact',
+                displayChildren: this.state['viewedUrls-exact'],
+              }, {
+                text: 'Includes :',
+                matching: 'viewedUrls-includes',
+                displayChildren: this.state['viewedUrls-includes'],
+              }]}
+          />
+          <RaisedButton type="submit" label="Search" primary={true} className={styles['submit-button']} />
         </form>
       </div>
     );

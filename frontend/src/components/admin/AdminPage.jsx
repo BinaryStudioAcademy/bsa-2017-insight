@@ -73,8 +73,10 @@ class AdminPage extends React.Component {
     this.props.getCurrentUser();
   }
 
-  componentWillReceiveProps() {
-    console.log('EXTERNAL WILL RECEIVE PROPS:');
+  componentWillReceiveProps(nextProps) {
+    console.log('ADMIN PAGE WILL RECEIVE PROPS:');
+    console.log(nextProps);
+    this.setState({ currentUser: nextProps.currentUser });
     console.log(this.props);
   }
 
@@ -96,12 +98,12 @@ class AdminPage extends React.Component {
             <Route path={'/admin/registration'} component={Registration} />
             <Route render={() => {
               return (
-                <EnsureAdmin currentUser={this.props.currentUser}>
+                <EnsureAdmin currentUser={this.state.currentUser}>
                   <LeftSideMenu
                     width={this.leftMenuWidth}
                   />
                   <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
-                    <Header currentUser={this.props.currentUser} />
+                    <Header />
                     <Switch>
                       <Route
                         exact

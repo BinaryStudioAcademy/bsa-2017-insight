@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import FlatButton from 'material-ui/FlatButton';
@@ -12,9 +13,15 @@ class Header extends React.Component {
     super();
     this.state = {};
   }
+
   componentWillReceiveProps(nextProps) {
+    console.log('HEADER WILL RECEIVE PROPS:');
+    console.log(this.props);
+    console.log('HEADER STATE WILL BE:');
+    console.log(this.state);
     this.setState({ currentUser: nextProps.currentUser });
   }
+
   render() {
     return (
       <div>
@@ -52,4 +59,13 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+// export default Header;
+
+
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.currentUser.currentUser
+  };
+};
+
+export default connect(mapStateToProps)(Header);

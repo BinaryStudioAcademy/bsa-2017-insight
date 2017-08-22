@@ -1,4 +1,5 @@
 function findConversationById(id, conversations) {
+
   if (!id || !conversations) return null;
   const conversationItem = conversations.find((conversation) => {
     return conversation._id === id;
@@ -27,26 +28,18 @@ function startSocketConnection(socket) {
     this.setState({ user: data });
   });
   socket.on('returnUserConversations', (conversations) => {
-    this.setState({ conversations });
+    this.props.setAllConversations(conversations);
   });
   socket.on('newMessage', (message) => {
-    this.setState((prevState) => {
-      const { conversationItem, index } = findConversationById(message.conversationId, prevState.conversations);
-      const oldConversations = [...prevState.conversations];
-      oldConversations.splice(index, 1);
-      conversationItem.messages = [...conversationItem.messages, message];
-      const newConversations = [...oldConversations, conversationItem];
-      return {
-        conversations: newConversations
-      };
-    });
+    this.props.newMessage(message);
   });
   socket.on('newConversationCreated', (conversation) => {
-    const newConversations = [...this.state.conversations, conversation];
-    this.setState({
-      conversations: newConversations,
-      activeChatId: conversation._id
-    });
+    const newConversations = [...this.props.conversations, conversation];
+    this.props.newConversationCreated(newConversations, conversation._id);
+  });
+  socket.on('forceConversationCreated', (conversation) => {
+    const newConversations = [...this.props.conversations, conversation];
+    this.props.setForceConvId(conversation._id, newConversations);
   });
 }
 

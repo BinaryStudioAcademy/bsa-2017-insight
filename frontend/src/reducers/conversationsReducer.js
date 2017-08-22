@@ -1,6 +1,8 @@
 const initialState = {
   conversations: [],
-  conversationToRenderId: null
+  conversationToRenderId: null,
+  forceConvId: null,
+  forceConv: null
 };
 
 function findConversationById(id, conversations) {
@@ -34,6 +36,8 @@ const conversationsReducer = (state = initialState, action) => {
     }
     case 'REMOVE_CONVERSATION':
       return Object.assign({}, state, { conversationToRenderId: null });
+    case 'SET_FRORCE_CONV_ID':
+      return Object.assign({}, state, { forceConvId: action.payload.id, forceConv: action.payload.newConversations });
     default: {
       return state;
     }

@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import styles from './styles.scss';
 import CustomInput from './CustomInput/CustomInput';
+import { List } from 'material-ui/List';
 import { setStatisticsFilter, getAllStatistics } from './../../../actions/statisticActions';
 
 
@@ -118,7 +119,7 @@ class StatisticsFilter extends React.Component {
   render() {
     console.log('STAAAAAAATEEEEEEEZZZZZ:', this.state);
     return (
-      <div className={styles['filter-wrapper']}>
+      <List className={styles['filter-wrapper']}>
         <h3 className={styles['filter-title']}>Filter users</h3>
         <form className={styles['filter-form']} onSubmit={this.onFormSubmit}>
           <CustomInput
@@ -286,7 +287,7 @@ class StatisticsFilter extends React.Component {
           />
           <RaisedButton type="submit" label="Search" primary={true} className={styles['submit-button']} />
         </form>
-      </div>
+      </List>
     );
   }
 }

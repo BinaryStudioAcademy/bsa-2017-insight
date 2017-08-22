@@ -16,10 +16,28 @@ class CustomInput extends React.Component {
     this.state = {
       select: 'desktop',
     };
+    this.renderNestedTextInput = this.renderNestedTextInput.bind(this);
   }
+
+  renderNestedTextInput(displayChildren, key) {
+    if (displayChildren) {
+      return ([<TextField
+        key={`${key}-1`}
+        className={styles['radio-input']}
+        hintText="Search value"
+        ref={(node) => {
+          this.input = node;
+        }}
+        onChange={() => {
+          if (this.props.onInputChange) this.props.onInputChange(key, this.input.input.value);
+        }}
+      />]);
+    }
+    return [];
+  }
+
   render() {
     if (this.props.type === 'multiple') {
-      console.log('THIS PROPZZZZZZ:', this.props);
       return (<ListItem
         primaryText={this.props.text}
         initiallyOpen={false}
@@ -48,18 +66,7 @@ class CustomInput extends React.Component {
                 uncheckedIcon={<RadioUnchecked />}
                 checked={child.displayChildren}
               />}
-            nestedItems={child.displayChildren && [
-              <TextField
-                className={styles['radio-input']}
-                hintText="Search value"
-                ref={(node) => {
-                  this.input = node;
-                }}
-                onChange={() => {
-                  if (this.props.onInputChange) this.props.onInputChange(child.matching, this.input.input.value);
-                }}
-              />]
-            }
+            nestedItems={this.renderNestedTextInput(child.displayChildren, child.matching)}
           />);
         })}
       />);
@@ -128,8 +135,6 @@ class CustomInput extends React.Component {
             </SelectField>]}
         />
       );
-    } else {
-      return <div>kek</div>;
     }
   }
 }

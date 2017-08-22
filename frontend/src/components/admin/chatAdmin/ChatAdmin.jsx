@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import styles from './styles.scss';
 import MessagesList from './MessagesList/MessagesList';
 import { startSocketConnection } from './logic';
+import notify from '../../notifications/notifications';
 
 class Chat extends Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class Chat extends Component {
     };
     this.socket.emit('newMessage', messageObj);
     eventCopy.target.messageInput.value = '';
+    notify(messageObj);
   }
 
   render() {

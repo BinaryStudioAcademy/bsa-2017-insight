@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Repository = require('./generalRepository');
 const Conversation = require('../schemas/conversationSchema');
 
@@ -23,6 +24,18 @@ conversationRepository.getAllConversations = function (callback) {
     path: 'messages',
     populate: { path: 'author.item' },
   }).exec(callback);
+};
+
+conversationRepository.getReceiverByIds = function (conversationId, senderId, senderType, callback) {
+  this.model.aggregate([
+    { $match: { _id: mongoose.Types.ObjectId(conversationId) } },
+    { $unwind: '$participants' },
+    { $match: { 'participants.userType': senderType === 'Admin' ? 'User' : 'Admin' } },
+    { $project: {
+      'participants.user': 1,
+      _id: 0
+    } }
+  ]).exec(callback);
 };
 
 module.exports = conversationRepository;

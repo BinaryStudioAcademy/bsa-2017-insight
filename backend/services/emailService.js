@@ -2,9 +2,13 @@ const nodemailer = require('nodemailer');
 
 const smtpTransport = nodemailer.createTransport({
   service: 'Gmail',
+  // auth: {
+  //   user: 'bsa.insight@gmail.com',
+  //   pass: 'bsainsight'
+  // }
   auth: {
-    user: 'bsa.insight@gmail.com',
-    pass: 'bsainsight'
+    user: 'bsa.insight.1@gmail.com',
+    pass: 'bsainsight1'
   }
 });
 

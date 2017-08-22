@@ -5,6 +5,7 @@ import io from './../../../../../node_modules/socket.io-client/dist/socket.io';
 import ConversationsList from './../ConversationsList/ConversationsList';
 import ChatBody from './../ChatBody/ChatBody';
 import { findConversationById, startSocketConnection } from './logic';
+import notify from '../../notifications/notifications';
 
 class Chat extends Component {
   constructor(props) {
@@ -60,6 +61,7 @@ class Chat extends Component {
     };
     this.socket.emit('newMessage', messageObj);
     eventCopy.target.messageInput.value = '';
+    notify(messageObj);
   }
 
   render() {

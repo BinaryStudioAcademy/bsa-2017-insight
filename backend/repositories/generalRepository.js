@@ -30,9 +30,9 @@ Repository.prototype.getById = function (id, callback) {
   query.exec(callback);
 };
 
-Repository.prototype.findByConditions = function (conditions, callback) {
+Repository.prototype.findByConditions = function (conditions, callback, projection) {
   const model = this.model;
-  const query = model.find(conditions);
+  const query = model.find(conditions, projection);
   query.exec(callback);
 };
 
@@ -42,16 +42,35 @@ Repository.prototype.getByUsername = function(username, callback) {
   query.exec(callback);
 };
 
-Repository.prototype.getByEmail = function(email, callback){
-  var model = this.model;
-  var query = model.findOne({email:email});
+Repository.prototype.getByEmail = function(email, callback) {
+  const model = this.model;
+  const query = model.findOne({ email });
   query.exec(callback);
 };
 
-Repository.prototype.getByToken = function(token, callback){
-  var model = this.model;
-  var query = model.findOne(token);
+Repository.prototype.getByToken = function(token, callback) {
+  const model = this.model;
+  const query = model.findOne(token);
   query.exec(callback);
 };
+
+Repository.prototype.getByFullName = function(name, callback) {
+  const model = this.model;
+  const {first, last} = name;
+
+  let query;
+
+  if(first && last) {
+    query = model.find({ firstName: first, lastName: last });
+  } else {
+    if(first) {
+      query = model.find({ firstName: first });
+    } else {
+      query = model.find({ lastName: last });
+    }
+  }
+
+  query.exec(callback);
+}
 
 module.exports = Repository;

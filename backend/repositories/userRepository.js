@@ -29,4 +29,9 @@ userRepository.findOneAndPopulate = function (id, callback) {
   model.findById({ _id: id }).populate('conversations activeConversation widget').exec(callback);
 };
 
+userRepository.getEmailById = function (id, callback) {
+  const model = this.model;
+  model.findById({ _id: id }, { email: 1, _id: 0 }).exec(callback);
+};
+
 module.exports = userRepository;

@@ -21,17 +21,20 @@ class CustomInput extends React.Component {
 
   renderNestedTextInput(displayChildren, key) {
     if (displayChildren) {
-      return ([<TextField
-        key={`${key}-1`}
-        className={styles['radio-input']}
-        hintText="Search value"
-        ref={(node) => {
-          this.input = node;
-        }}
-        onChange={() => {
-          if (this.props.onInputChange) this.props.onInputChange(key, this.input.input.value);
-        }}
-      />]);
+      return ([
+        <ListItem key={this.props.matching} disabled={true} style={{ padding: 0, marginTop: '-10px' }}>
+          <TextField
+            key={`${key}-1`}
+            className={styles['radio-input']}
+            hintText="Search value"
+            ref={(node) => {
+              this.input = node;
+            }}
+            onChange={() => {
+              if (this.props.onInputChange) this.props.onInputChange(key, this.input.input.value);
+            }}
+          />
+        </ListItem>]);
     }
     return [];
   }
@@ -52,23 +55,26 @@ class CustomInput extends React.Component {
         leftCheckbox={
           <Checkbox checked={this.props.displayChildren} />
         }
-        nestedItems={this.props.displayChildren && this.props.childs.map((child) => {
-          return (<ListItem
-            primaryText={child.text}
-            key={child.matching}
-            initiallyOpen={false}
-            primaryTogglesNestedList
-            rightIcon={<div />}
-            onClick={() => this.props.onCustomInputClick && this.props.onCustomInputClick(child.matching)}
-            leftCheckbox={
-              <Checkbox
-                checkedIcon={<RadioChecked />}
-                uncheckedIcon={<RadioUnchecked />}
-                checked={child.displayChildren}
-              />}
-            nestedItems={this.renderNestedTextInput(child.displayChildren, child.matching)}
-          />);
-        })}
+        nestedItems={this.props.displayChildren ?
+          this.props.childs.map((child) => {
+            return (<ListItem
+              primaryText={child.text}
+              key={child.matching}
+              initiallyOpen={false}
+              primaryTogglesNestedList
+              rightIcon={<div />}
+              onClick={() => this.props.onCustomInputClick && this.props.onCustomInputClick(child.matching)}
+              leftCheckbox={
+                <Checkbox
+                  checkedIcon={<RadioChecked />}
+                  uncheckedIcon={<RadioUnchecked />}
+                  checked={child.displayChildren}
+                />}
+              nestedItems={this.renderNestedTextInput(child.displayChildren, child.matching)}
+            />);
+          })
+          :
+          []}
       />);
     } else if (this.props.type === 'single') {
       return (
@@ -86,18 +92,7 @@ class CustomInput extends React.Component {
           leftCheckbox={
             <Checkbox checked={this.props.displayChildren} />
           }
-          nestedItems={this.props.displayChildren && [
-            <TextField
-              key={this.props.matching}
-              className={styles['checkbox-input']}
-              hintText="Search value"
-              ref={(node) => {
-                this.input = node;
-              }}
-              onChange={() => {
-                if (this.props.onInputChange) this.props.onInputChange(this.props.matching, this.input.input.value);
-              }}
-            />]}
+          nestedItems={this.renderNestedTextInput(this.props.displayChildren, this.props.matching)}
         />
       );
     } else if (this.props.type === 'select') {
@@ -116,42 +111,49 @@ class CustomInput extends React.Component {
           leftCheckbox={
             <Checkbox checked={this.props.displayChildren} />
           }
-          nestedItems={this.props.displayChildren && [
-            <SelectField
-              className={styles.select}
-              key={this.props.matching}
-              value={this.state.select}
-              ref={(node) => {
-                this.input = node;
-              }}
-              onChange={(event, index, value) => {
-                this.setState({ select: value });
-                if (this.props.onInputChange) this.props.onInputChange(this.props.matching, value);
-              }}
-            >
-              {this.props.options.map((option) => {
-                return <MenuItem value={option} key={option} primaryText={option} />;
-              })}
-            </SelectField>]}
+          nestedItems={this.props.displayChildren ?
+            [<ListItem key={this.props.matching} disabled={true} style={{ padding: 0 }}>
+              <SelectField
+                className={styles.select}
+                key={this.props.matching}
+                value={this.state.select}
+                ref={(node) => {
+                  this.input = node;
+                }}
+                onChange={(event, index, value) => {
+                  this.setState({ select: value });
+                  if (this.props.onInputChange) this.props.onInputChange(this.props.matching, value);
+                }}
+              >
+                {this.props.options.map((option) => {
+                  return <MenuItem value={option} key={option} primaryText={option} />;
+                })}
+              </SelectField>
+            </ListItem>]
+            :
+            []
+          }
         />
       );
     }
+    return null;
   }
 }
 
 CustomInput.propTypes = {
+  childs: propTypes.arrayOf(propTypes.shape({
+    text: propTypes.string,
+    matching: propTypes.string,
+    displayChildren: propTypes.bool,
+  })),
+  options: propTypes.arrayOf(propTypes.string),
+  displayChildren: propTypes.bool,
   onUnmount: propTypes.func,
   matching: propTypes.string,
   onInputChange: propTypes.func,
   onCustomInputClick: propTypes.func,
   text: propTypes.string,
-  name: propTypes.string,
   type: propTypes.string,
-  class: propTypes.string,
-  children: propTypes.oneOfType([
-    propTypes.arrayOf(React.PropTypes.node),
-    propTypes.node,
-  ]),
 };
 
 export default CustomInput;

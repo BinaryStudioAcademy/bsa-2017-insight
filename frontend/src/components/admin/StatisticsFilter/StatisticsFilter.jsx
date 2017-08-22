@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { List } from 'material-ui/List';
 import propTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import styles from './styles.scss';
 import CustomInput from './CustomInput/CustomInput';
-import { List } from 'material-ui/List';
 import { setStatisticsFilter, getAllStatistics } from './../../../actions/statisticActions';
-
 
 class StatisticsFilter extends React.Component {
   constructor(props) {
@@ -27,6 +26,7 @@ class StatisticsFilter extends React.Component {
       'screenHeight-exact': false,
       'screenHeight-lowerThan': false,
       'screenHeight-greaterThan': false,
+      userIpAddress: false,
       timeZone: false,
       browser: false,
       os: false,
@@ -79,15 +79,15 @@ class StatisticsFilter extends React.Component {
     if (name.includes('-')) {
       const property = name.split('-')[0];
       const keys = Object.keys(this.state).filter(key => key !== property && key.includes(property));
-      const obj = {};
+      const stateObj = {};
       keys.forEach((key) => {
-        if (key !== name) obj[key] = false;
+        if (key !== name) {
+          stateObj[key] = false;
+        }
       });
+      this.props.dispatch(setStatisticsFilter({ [property]: '' }));
       this.setState((prevState) => {
-        console.log('prevState:', prevState);
-        console.log('obj:', obj);
-        console.log('property to change:', name);
-        return { ...prevState, ...obj, [name]: !prevState[name] };
+        return { ...prevState, ...stateObj, [name]: !prevState[name] };
       });
     } else {
       const keys = Object.keys(this.state).filter(key => key !== name && key.includes(name));
@@ -96,9 +96,6 @@ class StatisticsFilter extends React.Component {
         obj[key] = false;
       });
       this.setState((prevState) => {
-        console.log('prevState:', prevState);
-        console.log('obj:', obj);
-        console.log('property to change:', name);
         return { ...prevState, ...obj, [name]: !prevState[name] };
       });
     }
@@ -117,7 +114,6 @@ class StatisticsFilter extends React.Component {
   }
 
   render() {
-    console.log('STAAAAAAATEEEEEEEZZZZZ:', this.state);
     return (
       <List className={styles['filter-wrapper']}>
         <h3 className={styles['filter-title']}>Filter users</h3>
@@ -126,7 +122,6 @@ class StatisticsFilter extends React.Component {
             type="single"
             text="Username:"
             matching="username"
-            class="one-row"
             displayChildren={this.state.username}
             onCustomInputClick={this.onCustomInputClick}
             onInputChange={this.onInputChange}
@@ -141,7 +136,8 @@ class StatisticsFilter extends React.Component {
             onCustomInputClick={this.onCustomInputClick}
             displayChildren={this.state.currentUrl}
             childs={[
-              { text: 'Exact :',
+              {
+                text: 'Exact :',
                 matching: 'currentUrl-exact',
                 displayChildren: this.state['currentUrl-exact'],
               }, {
@@ -154,7 +150,6 @@ class StatisticsFilter extends React.Component {
             type="single"
             text="Browser Language:"
             matching="browserLanguage"
-            class="one-row"
             displayChildren={this.state.browserLanguage}
             onCustomInputClick={this.onCustomInputClick}
             onInputChange={this.onInputChange}
@@ -164,7 +159,6 @@ class StatisticsFilter extends React.Component {
             type="single"
             text="Country:"
             matching="country"
-            class="one-row"
             displayChildren={this.state.country}
             onCustomInputClick={this.onCustomInputClick}
             onInputChange={this.onInputChange}
@@ -174,7 +168,6 @@ class StatisticsFilter extends React.Component {
             type="single"
             text="City:"
             matching="city"
-            class="one-row"
             displayChildren={this.state.city}
             onCustomInputClick={this.onCustomInputClick}
             onInputChange={this.onInputChange}
@@ -189,7 +182,8 @@ class StatisticsFilter extends React.Component {
             onCustomInputClick={this.onCustomInputClick}
             displayChildren={this.state.screenWidth}
             childs={[
-              { text: 'Exact :',
+              {
+                text: 'Exact :',
                 matching: 'screenWidth-exact',
                 displayChildren: this.state['screenWidth-exact'],
               }, {
@@ -211,7 +205,8 @@ class StatisticsFilter extends React.Component {
             onCustomInputClick={this.onCustomInputClick}
             displayChildren={this.state.screenHeight}
             childs={[
-              { text: 'Exact :',
+              {
+                text: 'Exact :',
                 matching: 'screenHeight-exact',
                 displayChildren: this.state['screenHeight-exact'],
               }, {
@@ -226,9 +221,17 @@ class StatisticsFilter extends React.Component {
           />
           <CustomInput
             type="single"
+            text="User IP:"
+            matching="userIpAddress"
+            displayChildren={this.state.userIpAddress}
+            onCustomInputClick={this.onCustomInputClick}
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
+          />
+          <CustomInput
+            type="single"
             text="Time Zone:"
             matching="timeZone"
-            class="one-row"
             displayChildren={this.state.timeZone}
             onCustomInputClick={this.onCustomInputClick}
             onInputChange={this.onInputChange}
@@ -238,7 +241,6 @@ class StatisticsFilter extends React.Component {
             type="single"
             text="Browser:"
             matching="browser"
-            class="one-row"
             displayChildren={this.state.browser}
             onCustomInputClick={this.onCustomInputClick}
             onInputChange={this.onInputChange}
@@ -248,7 +250,6 @@ class StatisticsFilter extends React.Component {
             type="single"
             text="Operation System:"
             matching="os"
-            class="one-row"
             displayChildren={this.state.os}
             onCustomInputClick={this.onCustomInputClick}
             onInputChange={this.onInputChange}
@@ -259,7 +260,6 @@ class StatisticsFilter extends React.Component {
             id="deviceType"
             text="Device Type: "
             matching="deviceType"
-            class="one-row"
             options={['desktop', 'tablet', 'mobile']}
             displayChildren={this.state.deviceType}
             onUnmount={this.onInputUnmount}
@@ -276,7 +276,8 @@ class StatisticsFilter extends React.Component {
             onCustomInputClick={this.onCustomInputClick}
             displayChildren={this.state.viewedUrls}
             childs={[
-              { text: 'Exact :',
+              {
+                text: 'Exact :',
                 matching: 'viewedUrls-exact',
                 displayChildren: this.state['viewedUrls-exact'],
               }, {

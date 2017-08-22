@@ -7,7 +7,6 @@ const initialState = {
 const statisticReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_STATISTICS_FILTER': {
-      console.log(action);
       const newFilters = { ...state.activeStatisticsFilters, ...action.payload };
       return { ...state, activeStatisticsFilters: newFilters };
     }

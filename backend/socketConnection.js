@@ -3,6 +3,7 @@ const ConversationRepository = require('./repositories/conversationRepository');
 const UserRepository = require('./repositories/userRepository');
 const AdminRepository = require('./repositories/adminRepository');
 const createConversationAndUpdateUser = require('./services/conversationService').createConversationAndUpdateUser;
+const createForceConversation = require('./services/conversationService').createForceConversation;
 const checkIfAdminIsConversationParticipant = require('./services/conversationService').checkIfAdminIsConversationParticipant;
 const mongoose = require('mongoose');
 
@@ -52,6 +53,10 @@ function connectionHandler(socket) {
   });
   socket.on('createNewConversation', (conversationData, creatorId) => {
     createConversationAndUpdateUser(conversationData, creatorId, socket);
+  });
+  socket.on('createForceConversation', (conversationData, creatorId) => {
+    console.log(conversationData, creatorId,'+++++++++++++++++++++')
+    createForceConversation(conversationData, creatorId, socket);
   });
 }
 

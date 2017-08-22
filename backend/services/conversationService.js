@@ -10,6 +10,15 @@ function createConversationAndUpdateUser(conversation, userId, socket) {
   });
 }
 
+function createForceConversation(conversation, userId, socket) {
+  ConversationRepository.model.create(conversation).then((conversationData) => {
+    const update = { $push: { conversations: conversationData._id } };
+    // socket.emit('newConversationCreated', conversationData);
+    socket.emit('forceConversationCreated', conversationData);
+    UserRepository.model.findByIdAndUpdate(userId, update).exec();
+  });
+}
+
 function checkIfAdminIsConversationParticipant(conversationId, adminId) {
   ConversationRepository.model.findById(conversationId).then((conversationData) => {
     const isAdminParticipant = conversationData._doc.participants.find((participant) => {
@@ -29,4 +38,5 @@ function checkIfAdminIsConversationParticipant(conversationId, adminId) {
 module.exports = {
   createConversationAndUpdateUser,
   checkIfAdminIsConversationParticipant,
+  createForceConversation
 };

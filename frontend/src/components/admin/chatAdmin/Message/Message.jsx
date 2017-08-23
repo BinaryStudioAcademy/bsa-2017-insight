@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import styles from './styles.scss';
 
-const Message = ({ name, body, type, isReceived }) => {
+const Message = ({ name, body, type }) => {
   const messageAlign = type === 'Admin' ? 'message-item-left' : 'message-item-right';
   return (
     <li className={styles[messageAlign]}>

@@ -12,8 +12,14 @@ class Chat extends Component {
 
   componentDidMount() {
     const conversation = this.props.conversationToRender;
-    const user = conversation.participants.find(participant => participant.userType === 'User');
-    startSocketConnection.call(this, this.props.dispatch, conversation.messages, user);
+    startSocketConnection.call(this, this.props.dispatch, conversation.messages, conversation._id);
+  }
+  componentWillReceiveProps(nextProps) {
+    const oldConversationId = this.props.conversationToRender._id;
+    if (nextProps.conversationToRender._id !== oldConversationId) {
+      if (nextProps.conversationToRender._id) this.socket.emit('switchRoom', nextProps.conversationToRender._id);
+      this.socket.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
+    }
   }
 
   handleMessageSubmit(event) {

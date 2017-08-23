@@ -6,6 +6,8 @@ function createConversationAndUpdateUser(conversation, userId, socket) {
   ConversationRepository.model.create(conversation).then((conversationData) => {
     const update = { $push: { conversations: conversationData._id } };
     socket.emit('newConversationCreated', conversationData);
+    socket.room = conversationData._id.toString();
+    socket.join(conversationData._id.toString());
     UserRepository.model.findByIdAndUpdate(userId, update).exec();
   });
 }

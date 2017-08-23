@@ -6,6 +6,7 @@ const fetchMessage = messageData => ({
 const getAllConversations = () => ({ type: 'GET_ALL_CONVERSATIONS' });
 
 const setConversation = (id) => {
+  debugger;
   return {
     type: 'SET_CONVERSATION',
     payload: id,

@@ -10,9 +10,10 @@ import { fetchMessage } from './../../../actions/conversationsActions';
 //   });
 // }
 
-function startSocketConnection(dispatch, messages, user) {
+function startSocketConnection(dispatch, messages, conversationId) {
   const id = window._injectedData._id;
   this.socket = io('http://localhost:3000');
+  this.socket.emit('adminConnectedToRoom', conversationId);
   const userObj = {
     type: 'Admin',
     id,
@@ -21,7 +22,7 @@ function startSocketConnection(dispatch, messages, user) {
   // checkUserMessagesReceived(messages);
   this.socket.emit('userId', userObj);
   this.socket.on('newMessage', (message) => {
-    if (message.author.userType === 'User' && message.author.item._id === user.user._id) {
+    if (message.author.userType === 'User') {
       const messageCopy = { ...message };
       messageCopy.isReceived = true;
       this.socket.emit('newMessageReceived', { type: 'Admin', id: message._id });
@@ -29,6 +30,9 @@ function startSocketConnection(dispatch, messages, user) {
     } else {
       dispatch(fetchMessage(message));
     }
+  });
+  this.socket.on('unreadNewMessage', (message) => {
+    dispatch(fetchMessage(message));
   });
 }
 

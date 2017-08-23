@@ -1,13 +1,13 @@
-function findConversationById(id, conversations) {
-  if (!id || !conversations) return null;
-  const conversationItem = conversations.find((conversation) => {
-    return conversation._id === id;
+function findItemById(id, arrOfObjects) {
+  if (!id || !arrOfObjects) return null;
+  const item = arrOfObjects.find((obj) => {
+    return obj._id === id;
   });
-  const index = conversations.findIndex((conv) => {
-    return conv._id === id;
+  const index = arrOfObjects.findIndex((obj) => {
+    return obj._id === id;
   });
   return {
-    conversationItem,
+    item,
     index,
   };
 }
@@ -31,7 +31,7 @@ function startSocketConnection(socket) {
   });
   socket.on('newMessage', (message) => {
     this.setState((prevState) => {
-      const { conversationItem, index } = findConversationById(message.conversationId, prevState.conversations);
+      const { item: conversationItem, index } = findItemById(message.conversationId, prevState.conversations);
       const oldConversations = [...prevState.conversations];
       oldConversations.splice(index, 1);
       conversationItem.messages = [...conversationItem.messages, message];
@@ -50,7 +50,8 @@ function startSocketConnection(socket) {
   });
   socket.on('messagesReceived', (updatedMessages) => {
     this.setState((prevState) => {
-      const { conversationItem, index } = findConversationById(updatedMessages[0].conversationId, prevState.conversations);
+      const { item: conversationItem,
+        index } = findItemById(updatedMessages[0].conversationId, prevState.conversations);
       const oldConversations = [...prevState.conversations];
       oldConversations.splice(index, 1);
       conversationItem.messages = [...updatedMessages];
@@ -60,9 +61,26 @@ function startSocketConnection(socket) {
       };
     });
   });
+  socket.on('newMessageReceived', (message) => {
+    this.setState((prevState) => {
+      const { item: conversationItem,
+        index: conversationIndex } = findItemById(message.conversationId, prevState.conversations);
+      const { index: messageIndex } = findItemById(message._id, conversationItem.messages);
+      const oldMessages = [...conversationItem.messages];
+      oldMessages.splice(messageIndex, 1);
+      const newMessages = [...oldMessages, message];
+      const newConversation = { ...conversationItem, messages: newMessages };
+      const oldConversations = [...prevState.conversations];
+      oldConversations.splice(conversationIndex, 1);
+      const newConversations = [...oldConversations, newConversation];
+      return {
+        conversations: newConversations,
+      };
+    });
+  });
 }
 
 export {
-  findConversationById,
+  findItemById,
   startSocketConnection,
 };

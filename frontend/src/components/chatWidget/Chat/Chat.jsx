@@ -4,13 +4,13 @@ import styles from './styles.scss';
 import io from './../../../../../node_modules/socket.io-client/dist/socket.io';
 import ConversationsList from './../ConversationsList/ConversationsList';
 import ChatBody from './../ChatBody/ChatBody';
-import { findConversationById, startSocketConnection } from './logic';
+import { findItemById, startSocketConnection } from './logic';
 
 class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeChatId: null
+      activeChatId: null,
     };
     this.onMessageSubmit = this.onMessageSubmit.bind(this);
     this.onConversationClick = this.onConversationClick.bind(this);
@@ -65,8 +65,8 @@ class Chat extends Component {
 
   render() {
     const conversations = this.state.conversations;
-    const conversationToRender = findConversationById(this.state.activeChatId, conversations);
-    const messages = conversationToRender ? conversationToRender.conversationItem.messages : null;
+    const conversationToRender = findItemById(this.state.activeChatId, conversations);
+    const messages = conversationToRender ? conversationToRender.item.messages : null;
     return (
       <div className={styles.chat}>
         <img
@@ -94,7 +94,7 @@ class Chat extends Component {
 }
 
 Chat.propTypes = {
-  onChatClose: propTypes.func.isRequired
+  onChatClose: propTypes.func.isRequired,
 };
 
 export default Chat;

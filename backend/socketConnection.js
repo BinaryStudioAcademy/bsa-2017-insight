@@ -53,6 +53,9 @@ function connectionHandler(socket) {
   socket.on('createNewConversation', (conversationData, creatorId) => {
     createConversationAndUpdateUser(conversationData, creatorId, socket);
   });
+  // socket.on('changeRoom', (roomInfo) => {
+  //   socket.join(roomInfo.roomName);
+  // })
   socket.on('messagesReceived', (data) => {
     if (data.type === 'Admin') {
       const searchObj = {
@@ -67,6 +70,16 @@ function connectionHandler(socket) {
             socket.broadcast.emit('messagesReceived', updatedMessages);
           });
       });
+    }
+  });
+  socket.on('newMessageReceived', (data) => {
+    if (data.type === 'Admin') {
+      MessageRepository.model.findOneAndUpdate({ _id: data.id }, { isReceived: true }, { new: true })
+        .populate('author.item')
+        .exec()
+        .then((updatedMessage) => {
+          socket.broadcast.emit('newMessageReceived', updatedMessage);
+        });
     }
   });
 }

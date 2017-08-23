@@ -10,7 +10,7 @@ import { fetchMessage } from './../../../actions/conversationsActions';
 //   });
 // }
 
-function startSocketConnection(dispatch, messages) {
+function startSocketConnection(dispatch, messages, user) {
   const id = window._injectedData._id;
   this.socket = io('http://localhost:3000');
   const userObj = {
@@ -21,7 +21,14 @@ function startSocketConnection(dispatch, messages) {
   // checkUserMessagesReceived(messages);
   this.socket.emit('userId', userObj);
   this.socket.on('newMessage', (message) => {
-    dispatch(fetchMessage(message));
+    if (message.author.userType === 'User' && message.author.item._id === user.user._id) {
+      const messageCopy = { ...message };
+      messageCopy.isReceived = true;
+      this.socket.emit('newMessageReceived', { type: 'Admin', id: message._id });
+      dispatch(fetchMessage(messageCopy));
+    } else {
+      dispatch(fetchMessage(message));
+    }
   });
 }
 

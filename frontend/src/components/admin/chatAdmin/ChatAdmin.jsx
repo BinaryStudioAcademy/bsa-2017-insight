@@ -11,7 +11,9 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    startSocketConnection.call(this, this.props.dispatch, this.props.conversationToRender.messages);
+    const conversation = this.props.conversationToRender;
+    const user = conversation.participants.find(participant => participant.userType === 'User');
+    startSocketConnection.call(this, this.props.dispatch, conversation.messages, user);
   }
 
   handleMessageSubmit(event) {

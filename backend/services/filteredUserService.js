@@ -3,7 +3,7 @@ const userRepository = require('../repositories/userRepository');
 const statisticsRepository = require('../repositories/statisticsRepository');
 
 function getFilteredUsers(conditions, callback) {
-  console.log('GET FILTERED USERSZZZZZZ')
+  console.log('GET FILTERED USERSZZZZZZ');
   const query = {};
   Object.keys(conditions).forEach((condition) => {
     const value = conditions[condition];

@@ -6,7 +6,7 @@ import conversationsSaga from './conversationsSaga';
 function* rootSaga() {
   yield [
     fork(statisticSaga),
-    fork(conversationsSaga)
+    fork(conversationsSaga),
   ];
 }
 

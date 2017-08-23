@@ -8,7 +8,13 @@ const MessagesList = (props) => {
     <ul className={styles['messages-list']}>
       {props.messages && props.messages.map((message) => {
         return (
-          <Message key={message._id} body={message.body} name={message.author.item.username} />
+          <Message
+            key={message._id}
+            body={message.body}
+            name={message.author.item.username}
+            isReceived={message.isReceived}
+            type={message.author.userType}
+          />
         );
       })}
     </ul>
@@ -21,11 +27,11 @@ MessagesList.propTypes = {
     body: propTypes.string.isRequired,
     author: propTypes.shape({
       item: propTypes.any.isRequired,
-      userType: propTypes.string.isRequired
+      userType: propTypes.string.isRequired,
     }).isRequired,
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
-    editedAt: propTypes.number
-  }))
+    editedAt: propTypes.number,
+  })),
 };
 
 export default MessagesList;

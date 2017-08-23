@@ -11,7 +11,7 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    startSocketConnection.call(this, this.props.dispatch);
+    startSocketConnection.call(this, this.props.dispatch, this.props.conversationToRender.messages);
   }
 
   handleMessageSubmit(event) {
@@ -24,8 +24,9 @@ class Chat extends Component {
       createdAt: Date.now(),
       author: {
         item: window._injectedData._id,
-        userType: 'Admin'
-      }
+        userType: 'Admin',
+      },
+      isReceived: false,
     };
     this.socket.emit('newMessage', messageObj);
     eventCopy.target.messageInput.value = '';
@@ -56,13 +57,13 @@ Chat.propTypes = {
     _id: propTypes.string.isRequired,
     participants: propTypes.arrayOf(propTypes.shape({
       userType: propTypes.string,
-      user: propTypes.any
+      user: propTypes.any,
     })).isRequired,
     messages: propTypes.arrayOf(propTypes.any).isRequired,
     open: propTypes.bool,
-    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string])
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
   }),
-  dispatch: propTypes.func
+  dispatch: propTypes.func,
 };
 
 export default Chat;

@@ -53,6 +53,22 @@ function connectionHandler(socket) {
   socket.on('createNewConversation', (conversationData, creatorId) => {
     createConversationAndUpdateUser(conversationData, creatorId, socket);
   });
+  socket.on('messagesReceived', (data) => {
+    if (data.type === 'Admin') {
+      const searchObj = {
+        conversationId: data.messages[0].conversationId,
+        'author.userType': 'User',
+      };
+      MessageRepository.model.update(searchObj, { isReceived: true }, { multi: true }).exec().then(() => {
+        MessageRepository.model.find({ conversationId: data.messages[0].conversationId })
+          .populate('author.item')
+          .exec()
+          .then((updatedMessages) => {
+            socket.broadcast.emit('messagesReceived', updatedMessages);
+          });
+      });
+    }
+  });
 }
 
 module.exports = connectionHandler;

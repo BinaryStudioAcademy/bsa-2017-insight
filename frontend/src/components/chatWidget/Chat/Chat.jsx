@@ -28,11 +28,11 @@ class Chat extends Component {
     const conversation = {
       participants: [{
         userType: 'User',
-        user: userId
+        user: userId,
       }],
       messages: [],
       open: true,
-      createdAt: Date.now()
+      createdAt: Date.now(),
     };
     this.socket.emit('createNewConversation', conversation, userId);
   }
@@ -50,13 +50,14 @@ class Chat extends Component {
     const eventCopy = event;
     const message = event.target.messageInput.value;
     const messageObj = {
-      conversationId: this.state.activeChatId, // должно быть activeChatId
+      conversationId: this.state.activeChatId,
       body: message,
       createdAt: Date.now(),
       author: {
         item: this.state.user._id,
-        userType: 'User'
-      }
+        userType: 'User',
+      },
+      isReceived: false,
     };
     this.socket.emit('newMessage', messageObj);
     eventCopy.target.messageInput.value = '';

@@ -8,7 +8,7 @@ function findConversationById(id, conversations) {
   });
   return {
     conversationItem,
-    index
+    index,
   };
 }
 
@@ -19,7 +19,7 @@ function startSocketConnection(socket) {
   });
   const userObj = {
     type: 'User',
-    id
+    id,
   };
   socket.emit('userId', userObj);
   socket.emit('getUserConversations', id);
@@ -37,7 +37,7 @@ function startSocketConnection(socket) {
       conversationItem.messages = [...conversationItem.messages, message];
       const newConversations = [...oldConversations, conversationItem];
       return {
-        conversations: newConversations
+        conversations: newConversations,
       };
     });
   });
@@ -45,12 +45,24 @@ function startSocketConnection(socket) {
     const newConversations = [...this.state.conversations, conversation];
     this.setState({
       conversations: newConversations,
-      activeChatId: conversation._id
+      activeChatId: conversation._id,
+    });
+  });
+  socket.on('messagesReceived', (updatedMessages) => {
+    this.setState((prevState) => {
+      const { conversationItem, index } = findConversationById(updatedMessages[0].conversationId, prevState.conversations);
+      const oldConversations = [...prevState.conversations];
+      oldConversations.splice(index, 1);
+      conversationItem.messages = [...updatedMessages];
+      const newConversations = [...oldConversations, conversationItem];
+      return {
+        conversations: newConversations,
+      };
     });
   });
 }
 
 export {
   findConversationById,
-  startSocketConnection
+  startSocketConnection,
 };

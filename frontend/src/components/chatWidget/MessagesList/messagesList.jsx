@@ -8,7 +8,7 @@ const MessagesList = (props) => {
     <ul className={styles['messages-list']}>
       {props.messages && props.messages.map((message) => {
         return (
-          <Message key={message._id} body={message.body} name={message.author.item.username} />
+          <Message key={message._id} body={message.body} name={message.author ? message.author.item.username : "chat"} />
         );
       })}
     </ul>

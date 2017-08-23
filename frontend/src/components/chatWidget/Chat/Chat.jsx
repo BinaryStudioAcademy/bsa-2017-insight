@@ -10,18 +10,41 @@ class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeChatId: null
+      activeChatId: null,
+      conversations: [],
+      forceMessage: 'Maybe we can help you?'
     };
     this.onMessageSubmit = this.onMessageSubmit.bind(this);
     this.onConversationClick = this.onConversationClick.bind(this);
     this.onReturnButtonClick = this.onReturnButtonClick.bind(this);
     this.onCreateConversationButtonClick = this.onCreateConversationButtonClick.bind(this);
+    this.onForceConversation = this.onForceConversation.bind(this);
   }
 
-  componentDidMount() {
+ componentDidMount() {
+   console.log("component did mount")
     this.socket = io('http://localhost:3000');
     startSocketConnection.call(this, this.socket);
-  }
+    if (this.props.force && !window._injectedData.forceConvId) {
+      this.onForceConversation();
+    } 
+    // else if (this.props.force && window._injectedData.forceConvId) {
+    //   this.setState({ activeChatId: window._injectedData.forceConvId });
+    // }
+}
+  onForceConversation() {
+    const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
+    const conversation = {
+      participants: [{
+        userType: 'User',
+        user: userId
+      }],
+      messages: [],
+      open: true,
+      createdAt: Date.now()
+    };
+    this.socket.emit('createForceConversation', conversation, userId);
+  } 
 
   onCreateConversationButtonClick() {
     const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
@@ -63,8 +86,11 @@ class Chat extends Component {
   }
 
   render() {
+    console.log('render')
     const conversations = this.state.conversations;
+    console.log(this.state.conversations)
     const conversationToRender = findConversationById(this.state.activeChatId, conversations);
+    console.log(conversationToRender)
     const messages = conversationToRender ? conversationToRender.conversationItem.messages : null;
     return (
       <div className={styles.chat}>

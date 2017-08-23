@@ -7,12 +7,13 @@ const MessagesList = (props) => {
   return (
     <ul className={styles['messages-list']}>
       {props.messages && props.messages.map((message) => {
+        const author = message.author ? message.author : null 
         return (
           <Message
             key={message._id}
             body={message.body}
-            name={message.author.item.username}
-            type={message.author.userType}
+            name={author ? author.item.username : null}
+            type={author ? author.userType : null}
           />
         );
       })}

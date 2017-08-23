@@ -27,11 +27,19 @@ function startSocketConnection(socket) {
     this.setState({ user: data });
   });
   socket.on('returnUserConversations', (conversations) => {
-    this.setState({ conversations });
+    console.log(conversations,'from socket')
+    if (window._injectedData.forceConvId) {
+      this.setState({ conversations, activeChatId: window._injectedData.forceConvId });
+    } else {
+      this.setState({ conversations });
+    }
+
   });
   socket.on('newMessage', (message) => {
+    console.log("new message")
     this.setState((prevState) => {
       const { conversationItem, index } = findConversationById(message.conversationId, prevState.conversations);
+      if (index === -1) return { conversations: [...prevState.conversations] };
       const oldConversations = [...prevState.conversations];
       oldConversations.splice(index, 1);
       conversationItem.messages = [...conversationItem.messages, message];
@@ -43,6 +51,21 @@ function startSocketConnection(socket) {
   });
   socket.on('newConversationCreated', (conversation) => {
     const newConversations = [...this.state.conversations, conversation];
+    this.setState({
+      conversations: newConversations,
+      activeChatId: conversation._id
+    });
+  });
+  socket.on('forceConversationCreated', (conversation) => {
+    const convCopy = Object.assign({}, conversation);
+    const forceMessage = {
+      body: 'AHAHAHAHAH',
+      createdAt: Date.now()
+    }
+    convCopy.messages = [...conversation.messages, forceMessage]
+    const newConversations = [...this.state.conversations, convCopy];
+    console.log(newConversations,'newConversations')
+    window._injectedData.forceConvId = conversation._id;
     this.setState({
       conversations: newConversations,
       activeChatId: conversation._id

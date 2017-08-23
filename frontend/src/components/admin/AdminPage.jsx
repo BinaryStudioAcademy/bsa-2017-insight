@@ -95,7 +95,6 @@ class AdminPage extends React.Component {
     return options;
   }
 
-
   render() {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>

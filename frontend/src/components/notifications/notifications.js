@@ -1,46 +1,58 @@
 const options = {
-  email: true,
+  email: false,
   api: true,
-  title: true,
-  emailTimeout: 30 // seconds
+  title: true
 };
 
 const notifications = {
 
   email(message) {
-    console.log('email notification');
-    fetch('/api/notification/email', {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify(message)
-    }).catch((err) => {
-      console.log(`We've got a problem: ${err}`);
-    });
+    if (options.email) {
+      fetch('/api/notification/email', {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(message)
+      }).catch((err) => {
+        console.log(`Houston, we've got a problem: ${err}`);
+      });
+    }
   },
 
-  api() {
-    console.log('api notificaiton');
+  api(message) {
+    if (options.api && !document.hasFocus()) {
+      const notificaitonText = `${message.author.item.username}: ${message.body}`;
+      if ('Notification' in window) {
+        if (Notification.permission === 'granted') {
+          let notification = new Notification(notificaitonText);
+        } else if (Notification.permission !== 'denied') {
+          Notification.requestPermission((permission) => {
+            if (permission === 'granted') {
+              let notification = new Notification(notificaitonText);
+            }
+          });
+        }
+      }
+    }
   },
 
   title() {
-    console.log('title notification');
+    const initialTitle = document.title;
+    const blinkingTitle = setInterval(() => {
+      if (options.title && !document.hasFocus()) {
+        if (document.title === initialTitle) {
+          document.title += ': new message/s';
+        } else {
+          document.title = initialTitle;
+        }
+      } else {
+        document.title = initialTitle;
+        clearInterval(blinkingTitle);
+      }
+    }, 1500);
   }
 
 };
 
-function notify(message) {
-  console.log('Notifying...');
-  if (options.email) {
-    notifications.email(message);
-  }
-  if (options.api) {
-    notifications.api(message);
-  }
-  if (options.title) {
-    notifications.title();
-  }
-}
-
-export default notify;
+export default notifications;

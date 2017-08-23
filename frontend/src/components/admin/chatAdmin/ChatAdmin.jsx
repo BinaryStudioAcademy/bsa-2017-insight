@@ -3,16 +3,36 @@ import propTypes from 'prop-types';
 import styles from './styles.scss';
 import MessagesList from './MessagesList/MessagesList';
 import { startSocketConnection } from './logic';
-import notify from '../../notifications/notifications';
+import notifications from '../../notifications/notifications';
 
 class Chat extends Component {
   constructor(props) {
     super(props);
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
+    this.state = {
+      messageNum: 0
+    };
   }
 
   componentDidMount() {
     startSocketConnection.call(this, this.props.dispatch);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // console.log(nextProps);
+    const messageNumProps = nextProps.conversationToRender.messages.length;
+    if (this.state.messageNum === 0) {
+      this.setState({ messageNum: messageNumProps });
+    } else if (this.state.messageNum !== messageNumProps) {
+      const newMessage = nextProps.conversationToRender.messages[messageNumProps - 1];
+      const currentUser = window._injectedData.userId ?
+        window._injectedData.userId.username : window._injectedData.username;
+      this.setState({ messageNum: messageNumProps });
+      if (newMessage.author.item.username !== currentUser) {
+        notifications.api(newMessage);
+        notifications.title();
+      }
+    }
   }
 
   handleMessageSubmit(event) {
@@ -30,7 +50,7 @@ class Chat extends Component {
     };
     this.socket.emit('newMessage', messageObj);
     eventCopy.target.messageInput.value = '';
-    notify(messageObj);
+    notifications.email(messageObj);
   }
 
   render() {

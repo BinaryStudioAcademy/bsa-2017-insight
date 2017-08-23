@@ -6,18 +6,11 @@ const emailService = require('./emailService');
 const notificationService = {};
 
 notificationService.emailNotification = (info, cb) => {
-
-  // const receiverId = conversationRepository.findById(info.conversationId);
-  // const receiverEmail = userRepository.getEmailById(info.userId)
-  // callback(emailService.send({ to: email, subject: 'You have a new message', text: 'New message' }));
-
   conversationRepository.getReceiverByIds(info.conversationId, info.author.item, info.author.userType, (err, data) => {
     if (err) {
       cb(err);
       return;
     }
-    // console.log('DATA');
-    // console.log(data);
     const receiverId = data[data.length - 1].participants.user;
     const receiverRepository = info.author.userType === 'Admin' ? userRepository : adminRepository;
     receiverRepository.getById(receiverId, (intErr, intData) => {
@@ -25,10 +18,14 @@ notificationService.emailNotification = (info, cb) => {
         cb(intErr);
         return;
       }
-      // console.log('intData');
-      // console.log(intData);
       if (intData.email) {
-        cb(emailService.send({ to: intData.email, subject: 'You have a new message on InSight', text: info.body }));
+        cb(emailService.send({
+          to: intData.email,
+          subject: `You have a new message on InSight from ${intData.username || 'an anonimous user'}`,
+          text: ' ',
+          html: `<p><q>${info.body}</q></p>
+<p>You can visit <a href="http://localhost:3000/${info.author.userType === 'Admin' ? '' : 'admin/respond/'}">InSight</a> to answer.</p>`
+        }));
       }
     });
   });

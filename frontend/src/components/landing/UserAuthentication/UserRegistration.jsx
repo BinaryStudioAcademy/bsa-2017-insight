@@ -3,6 +3,7 @@ import isLength from 'validator/lib/isLength';
 import equals from 'validator/lib/equals';
 import isAfter from 'validator/lib/isAfter';
 import styles from './styles.scss';
+import AvatarPreview from '../AvatarPreview/AvatarPreview';
 
 class UserRegistration extends React.Component {
   constructor(props) {
@@ -16,9 +17,12 @@ class UserRegistration extends React.Component {
         password1: '',
         password2: '',
         birstday: ''
-      }
+      },
     };
+
     this.sendForm = this.sendForm.bind(this);
+    this.loadPreview = this.loadPreview.bind(this);
+    this.updateImage = this.updateImage.bind(this);
   }
 
   formValuesSaver(field, filledField) {
@@ -68,6 +72,8 @@ class UserRegistration extends React.Component {
     this.setState({ info: this.formValidator() });
     if (this.state.info.length) return;
     const formData = new FormData(e.target);
+    formData.set('avatar', this.state.image);
+
     fetch('/api/user/registration/', {
       method: 'POST',
       body: formData,
@@ -80,6 +86,14 @@ class UserRegistration extends React.Component {
         this.setState({ info: [response.text] });
       }
     });
+  }
+
+  loadPreview(e) {
+    this.setState({ image: e.target.files[0] })
+  }
+
+  updateImage(newImage) {
+    this.setState({ image: newImage });
   }
 
   render() {
@@ -163,8 +177,13 @@ class UserRegistration extends React.Component {
           </div>
           <div className={styles['get-data']}>
             <span>Avatar</span>
-            <div><input type="file" name="avatar" /></div>
+            <div><input type='file' name='avatar' onChange={this.loadPreview}/></div>
           </div>
+          <br />
+          <div className={styles['avatar-preview']}>
+            <AvatarPreview image={this.state.image} update={this.updateImage}/>
+          </div>
+          <br />
           <button type="submit">Sign Up</button>
         </form>
         <br />

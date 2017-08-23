@@ -18,29 +18,44 @@ import InvalidToken from './UserAuthentication/reset/InvalidToken';
 
 import '../../components/analytics/analytics'; // на обсуждение
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import {red800} from 'material-ui/styles/colors';
+
+const muiTheme = getMuiTheme({
+  palette: {
+    textColor: red800,
+  },
+  appBar: {
+    height: 50,
+  },
+});
+
 class Home extends React.Component {
   render() {
     return (
-      <div className={styles.container}>
-        <Header />
-        <Switch>
-          <Route exact path={'/'} component={HomeContent} />
-          <Route path={'/engage'} component={Product} />
-          <Route path={'/respond'} component={Product} />
-          <Route path={'/customers'} component={HomeContent} />
-          <Route path={'/help'} component={HomeContent} />
-          <Route path={'/about'} component={HomeContent} />
-          <Route path={'/pricing'} component={Pricing} />
-          <Route path={'/login'} component={Login} />
-          <Route path={'/registration'} component={Registration} />
-          <Route path={'/forgot'} component={Forgot} />
-          <Route path={'/reset'} component={ResetPassword} />
-          <Route path={'/invalidtoken'} component={InvalidToken} />
-          <Route component={IncorrectRoute} />
-        </Switch>
-        <Footer />
-        <Route component={ChatWidget} />
-      </div>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <div className={styles.container}>
+          <Header />
+          <Switch>
+            <Route exact path={'/'} component={HomeContent} />
+            <Route path={'/engage'} component={Product} />
+            <Route path={'/respond'} component={Product} />
+            <Route path={'/customers'} component={HomeContent} />
+            <Route path={'/help'} component={HomeContent} />
+            <Route path={'/about'} component={HomeContent} />
+            <Route path={'/pricing'} component={Pricing} />
+            <Route path={'/login'} component={Login} />
+            <Route path={'/registration'} component={Registration} />
+            <Route path={'/forgot'} component={Forgot} />
+            <Route path={'/reset'} component={ResetPassword} />
+            <Route path={'/invalidtoken'} component={InvalidToken} />
+            <Route component={IncorrectRoute} />
+          </Switch>
+          <Footer />
+          <Route component={ChatWidget} />
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

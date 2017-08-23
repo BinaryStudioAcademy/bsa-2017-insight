@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.cropper {
+	width: 100%;
+	overflow: hidden;
+
+	& > img {
+		height: 300px;
+	}
+
+	.cropper-tools {
+		margin-top: 10px;
+		display: flex;
+		justify-content: space-around;
+		flex-wrap: wrap;
+	}
+
+	.actionBtns {
+		display: flex;
+		justify-content: flex-end;
+		padding: 0 15px 15px 0;
+	}
+}

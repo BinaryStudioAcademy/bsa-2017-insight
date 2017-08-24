@@ -14,7 +14,6 @@ userRepository.add = function (data, callback) {
     data.password = hash;
     if (!data.username)
       data.anonymousCreatedAt = new Date();
-    console.log(data);
     const newUser = new User(data);
     newUser.save(callback);
   });

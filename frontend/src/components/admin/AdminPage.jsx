@@ -121,7 +121,9 @@ class AdminPage extends React.Component {
                           if(statistics.length) {
                             return (
                               <div>
-                                <Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
+                                <div style={{position: 'relative', height: '64px'}}>
+                                	<Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
+                                </div>
                                 <UserInfoTable options={this.props.fieldsToDisplay} statistics={statistics} />
                               </div>
                             );

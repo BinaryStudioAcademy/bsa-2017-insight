@@ -124,13 +124,14 @@ class Filter extends React.Component {
         <div>
           <MuiThemeProvider>
             <List>
-              <Subheader style={{ fontSize: '16px', fontFamily: 'Roboto' }}>Filter user attributes</Subheader>
               <ListItem
                 primaryText="Fields Filter"
                 key={1}
                 initiallyOpen={false}
                 primaryTogglesNestedList={true}
                 nestedItems={nestedItems}
+                nestedListStyle={{ height: '400px', overflowY: 'scroll', border: '1px solid #E5E5E5', backgroundColor: '#fff' }}
+                style={{backgroundColor: '#E5E5E5'}}
               />
             </List>
           </MuiThemeProvider>

@@ -22,5 +22,6 @@ module.exports = {
     "guard-for-in": 0,
     "no-restricted-syntax": 0,
     "import/no-extraneous-dependencies": 0,
+    "class-methods-use-this": 0
   }
 };

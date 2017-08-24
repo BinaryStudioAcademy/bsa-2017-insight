@@ -40,9 +40,9 @@ ChatBody.propTypes = {
     conversationId: propTypes.string.isRequired,
     body: propTypes.string.isRequired,
     author: propTypes.shape({
-      item: propTypes.any.isRequired,
-      userType: propTypes.string.isRequired
-    }).isRequired,
+      item: propTypes.any,
+      userType: propTypes.string
+    }),
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
     editedAt: propTypes.number
   })),

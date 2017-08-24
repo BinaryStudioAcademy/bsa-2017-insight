@@ -11,6 +11,7 @@ const messageSchema = new Schema({
   },
   createdAt: Date,
   editedAt: Date,
+  isReceived: Boolean,
 });
 
 module.exports = mongoose.model('Message', messageSchema);

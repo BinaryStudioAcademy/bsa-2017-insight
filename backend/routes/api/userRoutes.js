@@ -7,7 +7,7 @@ const mime = require('mime');
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, __dirname + '/../../../uploads/avatars');
+    cb(null, `${__dirname}/../../../uploads/avatars`);
   },
   filename(req, file, cb) {
     const extension = mime.extension(file.mimetype);
@@ -18,10 +18,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 module.exports = (app) => {
-  app.post('/api/user/login/', function (req, res, next) {
+  app.post('/api/user/login/', (req, res, next) => {
     if (req.user) return res.redirect('/');
 
-    passport.authenticate('user', function (err, user, info) {
+    passport.authenticate('user', (err, user, info) => {
       if (err) {
         return next(err);
       }
@@ -30,7 +30,7 @@ module.exports = (app) => {
         return res.json({ text: info });
       }
 
-      req.logIn(user, function (err) {
+      req.logIn(user, (err) => {
         if (err) return next(err);
         res.redirect('/');
       });
@@ -52,17 +52,18 @@ module.exports = (app) => {
       gender: req.body.gender,
     };
 
-    User.getByUsername(data.username, function (err, user) {
+    User.getByUsername(data.username, (err, user) => {
       if (err) return next(err);
       if (user) return res.json({ text: 'User with this username exists' });
-      createUserAndEmptyStatistics(data, function(err) {
-        if(err) return next(err);
+
+      createUserAndEmptyStatistics(data, (err) => {
+        if (err) return next(err);
         res.redirect('/login');
       });
     });
   });
 
-  app.get('/api/user/logout', function(req, res, next) {
+  app.get('/api/user/logout', (req, res, next) => {
     req.logout();
     res.redirect('/');
   });
@@ -77,8 +78,7 @@ module.exports = (app) => {
           res.status(200).json(data);
         }
       });
-    }
-    else {
+    } else {
       getFilteredUsers(req.query, (err, data) => {
         if (err) {
           console.log(err);

@@ -48,6 +48,7 @@ class Header extends React.Component {
                   style={{ color: 'black' }}
                   label={'Log out'}
                   icon={<Key />}
+                  containerElement={'label'}
                   secondary
                 />
               </ToolbarGroup>
@@ -61,8 +62,8 @@ class Header extends React.Component {
 
 Header.propTypes = {
   currentUser: PropTypes.shape({
-    username: PropTypes.string
-  })
+    username: PropTypes.string,
+  }),
 };
 
 export default Header;

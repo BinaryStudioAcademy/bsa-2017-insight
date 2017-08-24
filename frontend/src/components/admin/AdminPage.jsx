@@ -14,15 +14,18 @@ import Registration from './AdminAuthentication/AdminRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 import Respond from './Respond/index';
 import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
+import StatisticsFilter from './StatisticsFilter/StatisticsFilter';
 import getCurrentUser from '../../actions/getCurrentUserAction';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import { grey800 } from 'material-ui/styles/colors';
 
-const muiTheme = getMuiTheme({
-  tooltip: {
-    rippleBackgroundColor: '#333333'
-  }
-});
+// const darkBaseThemeMod = getMuiTheme({
+//   ...darkBaseTheme,
+//   palette: {
+//     bgColor: grey800,
+//   },
+// });
 
 injectTapEventPlugin();
 
@@ -61,14 +64,17 @@ class AdminPage extends React.Component {
     super(props);
     this.leftMenuWidth = 75;
     this.state = {
-      chosenTheme: lightBaseTheme
+      chosenTheme: lightBaseTheme,
     };
     this.toggleTheme = this.toggleTheme.bind(this);
   }
 
   componentWillMount() {
-    this.props.getAllStatistic();
     this.props.getCurrentUser();
+  }
+
+  componentDidMount() {
+    this.props.getAllStatistic();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -85,16 +91,23 @@ class AdminPage extends React.Component {
   }
 
   toggleTheme() {
-    // console.log(this);
+    console.log(this.state.chosenTheme);
     this.setState({
-      chosenTheme: this.state.chosenTheme === lightBaseTheme ? darkBaseTheme : lightBaseTheme
+      chosenTheme: this.state.chosenTheme === lightBaseTheme ? darkBaseTheme : lightBaseTheme,
     });
   }
 
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(this.state.chosenTheme)}>
-        <div style={{ minWidth: '700px', fontFamily: 'Roboto, sans-serif' }}>
+        <div style={{
+          minWidth: '700px',
+          fontFamily: 'Roboto, sans-serif',
+          backgroundColor: this.state.chosenTheme.palette.canvasColor,
+          color: this.state.chosenTheme.palette.textColor,
+          minHeight: '100vh',
+        }}
+        >
           <Switch>
             <Route path={'/admin/login'} component={Login} />
             <Route path={'/admin/registration'} component={Registration} />
@@ -109,17 +122,18 @@ class AdminPage extends React.Component {
                     <Header
                       currentUser={this.state.currentUser}
                       toggleTheme={this.toggleTheme}
+                      chosenTheme={this.state.chosenTheme}
                     />
                     <Switch>
                       <Route
                         exact
                         path={'/admin'}
                         render={() => {
-                          const statistics = this.props.allData;
-                          const options = this.getStatisticOptions(this.props.allData);
+                          const statistics = this.props.usersToRender;
+                          const options = this.getStatisticOptions(this.props.usersToRender);
                           return (
                             <div>
-                              <Filter statisticOptions={options} />
+                              <StatisticsFilter chosenTheme={this.state.chosenTheme} />
                               <UserInfoTable options={options} statistics={statistics} />
                             </div>
                           );
@@ -150,24 +164,26 @@ class AdminPage extends React.Component {
 
 AdminPage.propTypes = {
   getAllStatistic: React.PropTypes.func,
-  allData: React.PropTypes.arrayOf(React.PropTypes.object)
+  allData: React.PropTypes.arrayOf(React.PropTypes.object),
+  usersToRender: React.PropTypes.arrayOf(React.PropTypes.object),
 };
 
 const mapStateToProps = (state) => {
   return {
     allData: state.statistics.allData,
-    currentUser: state.currentUser.currentUser
+    currentUser: state.currentUser.currentUser,
+    usersToRender: state.statistics.usersToRender,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllStatistic: () => {
-      return dispatch(statisticActions.getAllStatistic());
+      return dispatch(statisticActions.getAllStatistics());
     },
     getCurrentUser: () => {
       return dispatch(getCurrentUser());
-    }
+    },
   };
 };
 

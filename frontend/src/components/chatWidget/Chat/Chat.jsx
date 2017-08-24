@@ -49,6 +49,7 @@ class Chat extends Component {
     event.preventDefault();
     const eventCopy = event;
     const message = event.target.messageInput.value;
+    if (message === '') return;
     const messageObj = {
       conversationId: this.state.activeChatId,
       body: message,

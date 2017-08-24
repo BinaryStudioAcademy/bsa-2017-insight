@@ -38,12 +38,12 @@ module.exports = function (localPassport) {
   });
 
   localPassport.deserializeUser((user, done) => {
-    if(user.isAdmin) {
-      Admin.getById(user.id, function(err, user) {
+    if (user.isAdmin) {
+      Admin.getById(user.id, (err, user) => {
         done(err, user);
       });
     } else {
-      Statistics.getUserStatisticsAndPopulate(user.id, function(err, user) {
+      Statistics.getUserStatisticsAndPopulate(user.id, (err, user) => {
         done(err, user);
       });
     }

@@ -10,16 +10,21 @@ class Chat extends Component {
     super(props);
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
     this.state = {
-      messageNum: 0
+      messageNum: 0,
     };
   }
 
   componentDidMount() {
-    startSocketConnection.call(this, this.props.dispatch);
+    const conversation = this.props.conversationToRender;
+    startSocketConnection.call(this, this.props.dispatch, conversation.messages, conversation._id);
   }
-
   componentWillReceiveProps(nextProps) {
-    // console.log(nextProps);
+    const oldConversationId = this.props.conversationToRender._id;
+    if (nextProps.conversationToRender._id !== oldConversationId) {
+      if (nextProps.conversationToRender._id) this.socket.emit('switchRoom', nextProps.conversationToRender._id);
+      this.socket.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
+    }
+    // Notifications
     const messageNumProps = nextProps.conversationToRender.messages.length;
     if (this.state.messageNum === 0) {
       this.setState({ messageNum: messageNumProps });
@@ -35,6 +40,10 @@ class Chat extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.socket.emit('switchRoom', '');
+  }
+
   handleMessageSubmit(event) {
     event.preventDefault();
     const eventCopy = event;
@@ -45,8 +54,9 @@ class Chat extends Component {
       createdAt: Date.now(),
       author: {
         item: window._injectedData._id,
-        userType: 'Admin'
-      }
+        userType: 'Admin',
+      },
+      isReceived: false,
     };
     this.socket.emit('newMessage', messageObj);
     eventCopy.target.messageInput.value = '';
@@ -78,13 +88,13 @@ Chat.propTypes = {
     _id: propTypes.string.isRequired,
     participants: propTypes.arrayOf(propTypes.shape({
       userType: propTypes.string,
-      user: propTypes.any
+      user: propTypes.any,
     })).isRequired,
     messages: propTypes.arrayOf(propTypes.any).isRequired,
     open: propTypes.bool,
-    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string])
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
   }),
-  dispatch: propTypes.func
+  dispatch: propTypes.func,
 };
 
 export default Chat;

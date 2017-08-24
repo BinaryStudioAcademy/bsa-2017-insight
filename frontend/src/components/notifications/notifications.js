@@ -1,7 +1,7 @@
 const options = {
-  email: false,
+  email: true,
   api: true,
-  title: true
+  title: true,
 };
 
 const notifications = {
@@ -13,7 +13,7 @@ const notifications = {
           'Content-Type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify(message)
+        body: JSON.stringify(message),
       }).catch((err) => {
         console.log(`Houston, we've got a problem: ${err}`);
       });

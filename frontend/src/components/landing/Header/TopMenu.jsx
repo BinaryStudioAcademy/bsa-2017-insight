@@ -1,9 +1,13 @@
 import React from 'react';
 import styles from './styles.scss';
 import TopMenuItem from './TopMenuItem';
+import Greeting from './Greeting';
 
 class TopMenu extends React.Component {
   render() {
+    const user = window._injectedData.userId;
+    const greeting = (user && !user.isAdmin) ? <Greeting name={user.firstName} /> : null;
+    
     return (
       <ul className={styles['top-menu']}>
         <TopMenuItem
@@ -23,7 +27,7 @@ class TopMenu extends React.Component {
           ]}
         />
         <TopMenuItem name={'Pricing'} link={'/pricing'} />
-        <TopMenuItem name={'Log in'} link={'/login'} />
+        {greeting || <TopMenuItem name={'Log in'} link={'/login'} />}
       </ul>
     );
   }

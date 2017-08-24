@@ -10,7 +10,7 @@ userRepository.model = User;
 userRepository.add = function (data, callback) {
   data.salt = bcrypt.genSaltSync(10);
   bcrypt.hash(data.password, data.salt, null, (err, hash) => {
-    if(err) return callback(err);
+    if (err) return callback(err);
     data.password = hash;
     const newUser = new User(data);
     newUser.save(callback);

@@ -3,6 +3,19 @@ import isLength from 'validator/lib/isLength';
 import equals from 'validator/lib/equals';
 import isAfter from 'validator/lib/isAfter';
 import styles from './styles.scss';
+import AvatarPreview from '../AvatarPreview/AvatarPreview';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { red800 } from 'material-ui/styles/colors';
+
+const muiTheme = getMuiTheme({
+  palette: {
+    textColor: red800
+  },
+  appBar: {
+    height: 50
+  }
+});
 
 class UserRegistration extends React.Component {
   constructor(props) {
@@ -18,7 +31,10 @@ class UserRegistration extends React.Component {
         birstday: ''
       }
     };
+
     this.sendForm = this.sendForm.bind(this);
+    this.loadPreview = this.loadPreview.bind(this);
+    this.updateImage = this.updateImage.bind(this);
   }
 
   formValuesSaver(field, filledField) {
@@ -65,21 +81,31 @@ class UserRegistration extends React.Component {
 
   sendForm(e) {
     e.preventDefault();
-    this.setState({ info: this.formValidator() });
-    if (this.state.info.length) return;
-    const formData = new FormData(e.target);
-    fetch('/api/user/registration/', {
-      method: 'POST',
-      body: formData,
-      credentials: 'include'
-    }).then((response) => {
-      if (response.redirected) return window.location.replace(response.url);
-      return response.json();
-    }).then((response) => {
-      if (response) {
-        this.setState({ info: [response.text] });
-      }
+    e.persist();
+    this.setState({ info: this.formValidator() }, () => {
+      if (this.state.info.length) return;
+      const formData = new FormData(e.target);
+      fetch('/api/user/registration/', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      }).then((response) => {
+        if (response.redirected) return window.location.replace(response.url);
+        return response.json();
+      }).then((response) => {
+        if (response) {
+          this.setState({ info: [response.text] });
+        }
+      });
     });
+  }
+
+  loadPreview(e) {
+    this.setState({ image: e.target.files[0] });
+  }
+
+  updateImage(newImage) {
+    this.setState({ image: newImage });
   }
 
   render() {
@@ -87,7 +113,10 @@ class UserRegistration extends React.Component {
       <div className={styles['login-form']}>
         <h3>User registration</h3>
         <hr />
-        <form onSubmit={this.sendForm} encType="multipart/form-data">
+        <form
+          onSubmit={this.sendForm}
+          encType="multipart/form-data"
+        >
           <div className={styles['get-data']}>
             <span>Username</span>
             <input
@@ -163,8 +192,15 @@ class UserRegistration extends React.Component {
           </div>
           <div className={styles['get-data']}>
             <span>Avatar</span>
-            <div><input type="file" name="avatar" /></div>
+            <div><input type={'file'} name={'avatar'} onChange={this.loadPreview} /></div>
           </div>
+          <br />
+          <div className={styles['avatar-preview']}>
+            <MuiThemeProvider muiTheme={muiTheme}>
+              <AvatarPreview image={this.state.image} update={this.updateImage} />
+            </MuiThemeProvider>
+          </div>
+          <br />
           <button type="submit">Sign Up</button>
         </form>
         <br />

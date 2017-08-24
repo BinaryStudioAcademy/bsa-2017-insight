@@ -9,7 +9,7 @@ AdminRepository.model = Admin;
 AdminRepository.add = function (data, callback) {
   data.salt = bcrypt.genSaltSync(10);
   bcrypt.hash(data.password, data.salt, null, (err, hash) => {
-    if(err) return callback(err);
+    if (err) return callback(err);
     data.password = hash;
     const newAdmin = new Admin(data);
     newAdmin.save(callback);

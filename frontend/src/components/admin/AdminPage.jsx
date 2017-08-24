@@ -15,11 +15,12 @@ import Registration from './AdminAuthentication/AdminRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 // import UserInfo from './UserInfo/UserInfo';
 import Respond from './Respond/index';
+import StatisticsFilter from './StatisticsFilter/StatisticsFilter';
 
 const muiTheme = getMuiTheme({
   tooltip: {
-    rippleBackgroundColor: '#333333'
-  }
+    rippleBackgroundColor: '#333333',
+  },
 });
 
 injectTapEventPlugin();
@@ -82,7 +83,7 @@ class AdminPage extends React.Component {
   //   this.setState({ isDrawerOpened: !this.state.isDrawerOpened });
   // }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAllStatistic();
   }
 
@@ -116,11 +117,11 @@ class AdminPage extends React.Component {
                         exact
                         path={'/admin'}
                         render={() => {
-                          const statistics = this.props.allData;
-                          const options = this.getStatisticOptions(this.props.allData);
+                          const statistics = this.props.usersToRender;
+                          const options = this.getStatisticOptions(this.props.usersToRender);
                           return (
                             <div>
-                              <Filter statisticOptions={options} />
+                              <StatisticsFilter />
                               <UserInfoTable options={options} statistics={statistics} />
                             </div>
                           );
@@ -151,21 +152,23 @@ class AdminPage extends React.Component {
 
 AdminPage.propTypes = {
   getAllStatistic: React.PropTypes.func,
-  allData: React.PropTypes.arrayOf(React.PropTypes.object)
+  allData: React.PropTypes.arrayOf(React.PropTypes.object),
+  usersToRender: React.PropTypes.arrayOf(React.PropTypes.object),
 };
 
 
 const mapStateToProps = (state) => {
   return {
-    allData: state.statistics.allData
+    allData: state.statistics.allData,
+    usersToRender: state.statistics.usersToRender,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllStatistic: () => {
-      return dispatch(statisticActions.getAllStatistic());
-    }
+      return dispatch(statisticActions.getAllStatistics());
+    },
   };
 };
 

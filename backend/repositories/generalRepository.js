@@ -32,7 +32,7 @@ Repository.prototype.getById = function (id, callback) {
 
 Repository.prototype.findByConditions = function (conditions, callback) {
   const model = this.model;
-  const query = model.find(conditions);
+  const query = model.find(conditions).populate('userId');
   query.exec(callback);
 };
 

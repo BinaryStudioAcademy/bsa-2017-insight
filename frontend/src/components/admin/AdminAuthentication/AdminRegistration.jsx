@@ -5,6 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 // import Paper from 'material-ui/Paper';
 import isLength from 'validator/lib/isLength';
 import equals from 'validator/lib/equals';
+import AvatarPreview from '../../landing/AvatarPreview/AvatarPreview';
+import styles from './styles.scss';
 
 class AdminRegistration extends React.Component {
   constructor(props) {
@@ -20,6 +22,8 @@ class AdminRegistration extends React.Component {
       }
     };
     this.sendForm = this.sendForm.bind(this);
+    this.loadPreview = this.loadPreview.bind(this);
+    this.updateImage = this.updateImage.bind(this);
   }
 
   // componentWillReceiveProps() {
@@ -86,6 +90,14 @@ class AdminRegistration extends React.Component {
         }
       });
     });
+  }
+
+  loadPreview(e) {
+    this.setState({ image: e.target.files[0] })
+  }
+
+  updateImage(newImage) {
+    this.setState({ image: newImage });
   }
 
   render() {
@@ -162,8 +174,13 @@ class AdminRegistration extends React.Component {
                 opacity: 0,
                 zIndex: 10
               }}
+              onChange={this.loadPreview}
             />
           </RaisedButton>
+          <br /><br />
+          <div className={styles['avatar-preview']}>
+            <AvatarPreview image={this.state.image} update={this.updateImage}/>
+          </div>
           <br /><br />
           <RaisedButton
             type={'submit'}

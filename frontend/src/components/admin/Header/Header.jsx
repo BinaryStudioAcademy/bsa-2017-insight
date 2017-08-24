@@ -6,7 +6,6 @@ import FlatButton from 'material-ui/FlatButton';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Key from 'material-ui/svg-icons/communication/vpn-key';
-// import Person from 'material-ui/svg-icons/social/person';
 
 class Header extends React.Component {
   logout(e) {
@@ -54,9 +53,9 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  currentUser: {
+  currentUser: PropTypes.shape({
     username: PropTypes.string
-  }
+  })
 };
 
 export default Header;

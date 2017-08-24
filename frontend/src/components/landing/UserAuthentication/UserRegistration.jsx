@@ -3,6 +3,19 @@ import isLength from 'validator/lib/isLength';
 import equals from 'validator/lib/equals';
 import isAfter from 'validator/lib/isAfter';
 import styles from './styles.scss';
+import AvatarPreview from '../AvatarPreview/AvatarPreview';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { red800 } from 'material-ui/styles/colors';
+
+const muiTheme = getMuiTheme({
+  palette: {
+    textColor: red800
+  },
+  appBar: {
+    height: 50
+  }
+});
 
 class UserRegistration extends React.Component {
   constructor(props) {
@@ -18,7 +31,10 @@ class UserRegistration extends React.Component {
         birstday: ''
       }
     };
+
     this.sendForm = this.sendForm.bind(this);
+    this.loadPreview = this.loadPreview.bind(this);
+    this.updateImage = this.updateImage.bind(this);
   }
 
   formValuesSaver(field, filledField) {
@@ -82,6 +98,14 @@ class UserRegistration extends React.Component {
         }
       });
     });
+  }
+
+  loadPreview(e) {
+    this.setState({ image: e.target.files[0] });
+  }
+
+  updateImage(newImage) {
+    this.setState({ image: newImage });
   }
 
   render() {
@@ -168,8 +192,15 @@ class UserRegistration extends React.Component {
           </div>
           <div className={styles['get-data']}>
             <span>Avatar</span>
-            <div><input type="file" name="avatar" /></div>
+            <div><input type={'file'} name={'avatar'} onChange={this.loadPreview} /></div>
           </div>
+          <br />
+          <div className={styles['avatar-preview']}>
+            <MuiThemeProvider muiTheme={muiTheme}>
+              <AvatarPreview image={this.state.image} update={this.updateImage} />
+            </MuiThemeProvider>
+          </div>
+          <br />
           <button type="submit">Sign Up</button>
         </form>
         <br />

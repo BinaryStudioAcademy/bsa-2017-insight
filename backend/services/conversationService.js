@@ -1,9 +1,6 @@
 const UserRepository = require('./../repositories/userRepository');
 const ConversationRepository = require('./../repositories/conversationRepository');
-const MessageRepository = require('./../repositories/messageRepository');
 const mongoose = require('mongoose');
-
-
 
 function createConversationAndUpdateUser(conversation, userId, socket) {
   ConversationRepository.model.create(conversation).then((conversationData) => {
@@ -18,26 +15,6 @@ function createForceConversation(conversation, userId, socket) {
     socket.emit('forceConversationCreated', conversationData);
     const update = { $push: { conversations: conversationData._id } };
     UserRepository.model.findByIdAndUpdate(userId, update).exec();
-    // MessageRepository.model.create(forceMessage)
-    //   .then((data) => {
-    //     console.log(data,'000000000000000000000')
-    //     const id = data._id;
-    //     ConversationRepository.model
-    //       .findByIdAndUpdate({ _id: conversationData._id }, { $push: { messages: mongoose.Types.ObjectId(id) } })
-    //       .then(() => {
-    //         ConversationRepository.model.findById({_id:conversationData._id })
-    //         .populate('messages').exec((err,conv)=>{
-    //           console.log(conv,'___________________________________')
-    //           socket.emit('forceConversationCreated', conv);
-    //           const update = { $push: { conversations: conversationData._id } };
-    //           UserRepository.model.findByIdAndUpdate(userId, update).exec();
-    //         });
-              
-        
-          
-    //     })
-      
-    //   })
   });
 }
 

@@ -7,8 +7,15 @@ const MessagesList = (props) => {
   return (
     <ul className={styles['messages-list']}>
       {props.messages && props.messages.map((message) => {
+        const style = message.forceMessage ? 'force-message' :
+         (message.author.userType === "Admin" ? 'admin-message' : 'user-message')
         return (
-          <Message key={message._id} body={message.body} name={message.author ? message.author.item.username : "chat"} />
+          <Message
+            messageStyle={style}
+            key={message._id}
+            body={message.body}
+            name={message.author ? message.author.item.username : ''} 
+          />
         );
       })}
     </ul>

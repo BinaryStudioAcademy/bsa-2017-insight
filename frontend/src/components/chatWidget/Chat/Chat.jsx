@@ -12,7 +12,6 @@ class Chat extends Component {
     this.state = {
       activeChatId: null,
       conversations: [],
-      forceMessage: 'Maybe we can help you?'
     };
     this.onMessageSubmit = this.onMessageSubmit.bind(this);
     this.onConversationClick = this.onConversationClick.bind(this);
@@ -21,27 +20,25 @@ class Chat extends Component {
     this.onForceConversation = this.onForceConversation.bind(this);
   }
 
- componentDidMount() {
-   console.log("component did mount")
+  componentDidMount() {
     this.socket = io('http://localhost:3000');
+    const id = window._injectedData.anonymousId || window._injectedData.userId._id;
+    this.socket.emit('getUserConversations', id);
     startSocketConnection.call(this, this.socket);
     if (this.props.force && !window._injectedData.forceConvId) {
       this.onForceConversation();
-    } 
-    // else if (this.props.force && window._injectedData.forceConvId) {
-    //   this.setState({ activeChatId: window._injectedData.forceConvId });
-    // }
-}
+    }
+  }
   onForceConversation() {
     const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
     const conversation = {
       participants: [{
         userType: 'User',
-        user: userId
+        user: userId,
       }],
       messages: [],
       open: true,
-      createdAt: Date.now()
+      createdAt: Date.now(),
     };
     this.socket.emit('createForceConversation', conversation, userId);
   } 
@@ -55,7 +52,7 @@ class Chat extends Component {
       }],
       messages: [],
       open: true,
-      createdAt: Date.now()
+      createdAt: Date.now(),
     };
     this.socket.emit('createNewConversation', conversation, userId);
   }
@@ -69,6 +66,7 @@ class Chat extends Component {
   }
 
   onMessageSubmit(event) {
+    const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
     event.preventDefault();
     const eventCopy = event;
     const message = event.target.messageInput.value;
@@ -77,7 +75,7 @@ class Chat extends Component {
       body: message,
       createdAt: Date.now(),
       author: {
-        item: this.state.user._id,
+        item: userId,
         userType: 'User'
       }
     };
@@ -86,11 +84,9 @@ class Chat extends Component {
   }
 
   render() {
-    console.log('render')
     const conversations = this.state.conversations;
-    console.log(this.state.conversations)
-    const conversationToRender = findConversationById(this.state.activeChatId, conversations);
-    console.log(conversationToRender)
+    const conversationToRender = conversations.length > 0 ?
+      findConversationById(this.state.activeChatId, conversations) : null;
     const messages = conversationToRender ? conversationToRender.conversationItem.messages : null;
     return (
       <div className={styles.chat}>
@@ -119,7 +115,8 @@ class Chat extends Component {
 }
 
 Chat.propTypes = {
-  onChatClose: propTypes.func.isRequired
+  onChatClose: propTypes.func.isRequired,
+  force: propTypes.bool,
 };
 
 export default Chat;

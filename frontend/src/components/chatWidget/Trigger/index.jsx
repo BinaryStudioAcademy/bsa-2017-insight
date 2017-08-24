@@ -18,10 +18,9 @@ const Trigger = (OriginalComponent) => {
     }
     componentDidMount() {
       actions.add(PATH_CHANGED, this, checkPath);
-    } 
+    }
 
     componentDidUpdate(prevProps) {
-
       if (prevProps.location.pathname !== this.props.location.pathname) {
         actions.trigger(PATH_CHANGED, [this.timeToggle, this.props.location.pathname]);
       }

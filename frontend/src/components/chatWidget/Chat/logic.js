@@ -12,6 +12,25 @@ function findConversationById(id, conversations) {
   };
 }
 
+function getForceMessage(conversation) {
+  const forceMessage = {
+    body: 'what are you want from me ?',
+    createdAt: Date.now(),
+    forceMessage: true
+  };
+  if (conversation.length) {
+    if (conversation.length === 0) return conversation;
+    const oldConversations = [].concat(conversation);
+    const { conversationItem, index } = findConversationById(window._injectedData.forceConvId, oldConversations)
+    conversationItem.messages = [...conversationItem.messages, forceMessage];
+    oldConversations.splice(index, 1, conversationItem);
+    return oldConversations;
+  } 
+  const convCopy = Object.assign({}, conversation);
+  convCopy.messages = [forceMessage, ...conversation.messages];
+  return convCopy;
+}
+
 function startSocketConnection(socket) {
   const id = window._injectedData.anonymousId || window._injectedData.userId._id;
   socket.on('user connected', () => {
@@ -22,21 +41,19 @@ function startSocketConnection(socket) {
     id
   };
   socket.emit('userId', userObj);
-  socket.emit('getUserConversations', id);
+//  socket.emit('getUserConversations', id);
   socket.on('userData', (data) => {
     this.setState({ user: data });
   });
   socket.on('returnUserConversations', (conversations) => {
-    console.log(conversations,'from socket')
-    if (window._injectedData.forceConvId) {
-      this.setState({ conversations, activeChatId: window._injectedData.forceConvId });
+    if (window._injectedData.forceConvId && this.props.force) {
+      const convWithForceMessage = getForceMessage(conversations);
+      this.setState({ conversations: convWithForceMessage, activeChatId: window._injectedData.forceConvId });
     } else {
       this.setState({ conversations });
     }
-
   });
   socket.on('newMessage', (message) => {
-    console.log("new message")
     this.setState((prevState) => {
       const { conversationItem, index } = findConversationById(message.conversationId, prevState.conversations);
       if (index === -1) return { conversations: [...prevState.conversations] };
@@ -57,14 +74,8 @@ function startSocketConnection(socket) {
     });
   });
   socket.on('forceConversationCreated', (conversation) => {
-    const convCopy = Object.assign({}, conversation);
-    const forceMessage = {
-      body: 'AHAHAHAHAH',
-      createdAt: Date.now()
-    }
-    convCopy.messages = [...conversation.messages, forceMessage]
-    const newConversations = [...this.state.conversations, convCopy];
-    console.log(newConversations,'newConversations')
+    const convWithForceMessage = getForceMessage(conversation);
+    const newConversations = [...this.state.conversations, convWithForceMessage];
     window._injectedData.forceConvId = conversation._id;
     this.setState({
       conversations: newConversations,

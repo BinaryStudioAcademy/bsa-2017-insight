@@ -50,13 +50,11 @@ function connectionHandler(socket) {
           .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) } })
           .then();
       });
-    
   });
   socket.on('createNewConversation', (conversationData, creatorId) => {
     createConversationAndUpdateUser(conversationData, creatorId, socket);
   });
   socket.on('createForceConversation', (conversationData, creatorId) => {
-    console.log(conversationData, creatorId,'+++++++++++++++++++++')
     createForceConversation(conversationData, creatorId, socket);
   });
 }

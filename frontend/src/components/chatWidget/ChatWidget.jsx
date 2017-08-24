@@ -18,7 +18,7 @@ ChatWidget.propTypes = {
   isOpen: propTypes.bool,
   toggleChat: propTypes.func,
   force: propTypes.bool
-}
+};
 
 
 export default Trigger(ChatWidget);

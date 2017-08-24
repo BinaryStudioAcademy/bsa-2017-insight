@@ -4,7 +4,7 @@ import styles from './styles.scss';
 import io from './../../../../../node_modules/socket.io-client/dist/socket.io';
 import ConversationsList from './../ConversationsList/ConversationsList';
 import ChatBody from './../ChatBody/ChatBody';
-import { findConversationById, startSocketConnection } from './logic';
+import { findItemById, startSocketConnection } from './logic';
 
 class Chat extends Component {
   constructor(props) {
@@ -25,9 +25,6 @@ class Chat extends Component {
     const id = window._injectedData.anonymousId || window._injectedData.userId._id;
     this.socket.emit('getUserConversations', id);
     startSocketConnection.call(this, this.socket);
-    if (this.props.force && !window._injectedData.forceConvId) {
-      this.onForceConversation();
-    }
   }
   onForceConversation() {
     const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
@@ -41,14 +38,13 @@ class Chat extends Component {
       createdAt: Date.now(),
     };
     this.socket.emit('createForceConversation', conversation, userId);
-  } 
-
+  }
   onCreateConversationButtonClick() {
     const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
     const conversation = {
       participants: [{
         userType: 'User',
-        user: userId
+        user: userId,
       }],
       messages: [],
       open: true,
@@ -58,10 +54,14 @@ class Chat extends Component {
   }
 
   onConversationClick(id) {
+    this.socket.emit('switchRoom', id);
     this.setState({ activeChatId: id });
   }
 
   onReturnButtonClick() {
+    const id = window._injectedData.anonymousId || window._injectedData.userId._id;
+    this.props.forceWillBeFalse();
+    this.socket.emit('getUserConversations', id);
     this.setState({ activeChatId: null });
   }
 
@@ -70,14 +70,16 @@ class Chat extends Component {
     event.preventDefault();
     const eventCopy = event;
     const message = event.target.messageInput.value;
+    if (message === '') return;
     const messageObj = {
-      conversationId: this.state.activeChatId, // должно быть activeChatId
+      conversationId: this.state.activeChatId,
       body: message,
       createdAt: Date.now(),
       author: {
         item: userId,
-        userType: 'User'
-      }
+        userType: 'User',
+      },
+      isReceived: false,
     };
     this.socket.emit('newMessage', messageObj);
     eventCopy.target.messageInput.value = '';
@@ -85,9 +87,8 @@ class Chat extends Component {
 
   render() {
     const conversations = this.state.conversations;
-    const conversationToRender = conversations.length > 0 ?
-      findConversationById(this.state.activeChatId, conversations) : null;
-    const messages = conversationToRender ? conversationToRender.conversationItem.messages : null;
+    const conversationToRender = conversations.length > 0 ? findItemById(this.state.activeChatId, conversations) : null;
+    const messages = conversationToRender ? conversationToRender.item.messages : null;
     return (
       <div className={styles.chat}>
         <img
@@ -117,6 +118,7 @@ class Chat extends Component {
 Chat.propTypes = {
   onChatClose: propTypes.func.isRequired,
   force: propTypes.bool,
+  forceWillBeFalse: propTypes.func,
 };
 
 export default Chat;

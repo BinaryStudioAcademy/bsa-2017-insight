@@ -10,10 +10,11 @@ const Trigger = (OriginalComponent) => {
       super(props);
       this.state = {
         isOpen: false,
-        force: null
+        force: null,
       };
       this.toggleChat = this.toggleChat.bind(this);
       this.timeToggle = this.timeToggle.bind(this);
+      this.forceWillBeFalse = this.forceWillBeFalse.bind(this);
       this.timer = null;
     }
     componentDidMount() {
@@ -25,13 +26,13 @@ const Trigger = (OriginalComponent) => {
         actions.trigger(PATH_CHANGED, [this.timeToggle, this.props.location.pathname]);
       }
     }
-
-
     toggleChat() {
       this.setState({ isOpen: !this.state.isOpen, force: false });
       clearTimeout(this.timer);
     }
-
+    forceWillBeFalse() {
+      this.setState({ force: false });
+    }
     timeToggle(time) {
       if (!this.state.isOpen) {
         this.timer = setTimeout(() => {
@@ -47,6 +48,7 @@ const Trigger = (OriginalComponent) => {
         toggleChat={this.toggleChat}
         isOpen={this.state.isOpen}
         force={this.state.force}
+        forceWillBeFalse={this.forceWillBeFalse}
       />);
     }
   };

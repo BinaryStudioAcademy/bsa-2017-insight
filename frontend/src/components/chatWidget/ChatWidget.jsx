@@ -8,7 +8,7 @@ const ChatWidget = (props) => {
   return (
     <div>
       {props.isOpen ?
-        <Chat onChatClose={props.toggleChat} force={props.force} /> :
+        <Chat onChatClose={props.toggleChat} force={props.force} forceWillBeFalse={props.forceWillBeFalse} /> :
         <ChatIcon onChatIconClick={props.toggleChat} />}
     </div>
   );
@@ -17,7 +17,8 @@ const ChatWidget = (props) => {
 ChatWidget.propTypes = {
   isOpen: propTypes.bool,
   toggleChat: propTypes.func,
-  force: propTypes.bool
+  force: propTypes.bool,
+  forceWillBeFalse: propTypes.func,
 };
 
 

@@ -4,5 +4,5 @@ import conversationsReducer from './conversationsReducer';
 
 export default combineReducers({
   statistics: statisticReducer,
-  conversationsInfo: conversationsReducer
+  conversationsInfo: conversationsReducer,
 });

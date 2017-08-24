@@ -1,6 +1,6 @@
 const initialState = {
   allData: [],
-  statisticById: null
+  statisticById: null,
 };
 
 const statisticReducer = (state = initialState, action) => {

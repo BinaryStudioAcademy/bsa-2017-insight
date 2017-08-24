@@ -19,7 +19,7 @@ const adminSchema = new Schema({
   conversations: [{ type: Schema.Types.ObjectId, ref: 'Conversation' }],
 });
 
-adminSchema.methods.checkPassword = function(plainPassword, callback) {
+adminSchema.methods.checkPassword = function (plainPassword, callback) {
   return bcrypt.compareSync(plainPassword, this.password);
 };
 

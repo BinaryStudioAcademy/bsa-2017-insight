@@ -12,6 +12,18 @@ function findItemById(id, arrOfObjects) {
   };
 }
 
+function returnNewState(messages, conversationId, conversations) {
+  const { item: conversationItem, index } = findItemById(conversationId, conversations);
+  const oldConversations = [...conversations];
+  oldConversations.splice(index, 1);
+  if (Array.isArray(messages)) {
+    conversationItem.messages = [...messages];
+  } else {
+    conversationItem.messages = [...conversationItem.messages, messages];
+  }
+  return [...oldConversations, conversationItem];
+}
+
 function startSocketConnection(socket) {
   const id = window._injectedData.anonymousId || window._injectedData.userId._id;
   socket.on('user connected', () => {
@@ -31,13 +43,9 @@ function startSocketConnection(socket) {
   });
   socket.on('newMessage', (message) => {
     this.setState((prevState) => {
-      const { item: conversationItem, index } = findItemById(message.conversationId, prevState.conversations);
-      const oldConversations = [...prevState.conversations];
-      oldConversations.splice(index, 1);
-      conversationItem.messages = [...conversationItem.messages, message];
-      const newConversations = [...oldConversations, conversationItem];
+      const conversations = returnNewState(message, message.conversationId, prevState.conversations);
       return {
-        conversations: newConversations,
+        conversations,
       };
     });
   });
@@ -50,14 +58,9 @@ function startSocketConnection(socket) {
   });
   socket.on('messagesReceived', (updatedMessages) => {
     this.setState((prevState) => {
-      const { item: conversationItem,
-        index } = findItemById(updatedMessages[0].conversationId, prevState.conversations);
-      const oldConversations = [...prevState.conversations];
-      oldConversations.splice(index, 1);
-      conversationItem.messages = [...updatedMessages];
-      const newConversations = [...oldConversations, conversationItem];
+      const conversations = returnNewState(updatedMessages, updatedMessages[0].conversationId, prevState.conversations);
       return {
-        conversations: newConversations,
+        conversations,
       };
     });
   });

@@ -29,22 +29,20 @@ class UserInfoTable extends React.Component {
   render() {
     return (
       <div className={styles.container}>
-        <MuiThemeProvider>
-          <Table bodyStyle={{ overflow: 'visible' }}>
-            <TableHeader adjustForCheckbox={false} displaySelectAll={false} >
-              <TableRow>
-                {this.props.options.map((elem) => {
-                  return <TableHeaderColumn key={elem} style={{ fontSize: '12px', width: '200px', padding: '5px' }}>{elem}</TableHeaderColumn>;
-                })}
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              {
-                this.generateRows()
-              }
-            </TableBody>
-          </Table>
-        </MuiThemeProvider>
+        <Table bodyStyle={{ overflow: 'visible' }}>
+          <TableHeader adjustForCheckbox={false} displaySelectAll={false} >
+            <TableRow>
+              {this.props.options.map((elem) => {
+                return <TableHeaderColumn key={elem} style={{ fontSize: '12px', width: '200px', padding: '5px' }}>{elem}</TableHeaderColumn>;
+              })}
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}>
+            {
+              this.generateRows()
+            }
+          </TableBody>
+        </Table>
       </div>
     );
   }

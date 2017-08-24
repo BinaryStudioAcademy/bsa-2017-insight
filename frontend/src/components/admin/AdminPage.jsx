@@ -15,6 +15,8 @@ import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 import Respond from './Respond/index';
 import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
 import getCurrentUser from '../../actions/getCurrentUserAction';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 
 const muiTheme = getMuiTheme({
   tooltip: {
@@ -58,7 +60,10 @@ class AdminPage extends React.Component {
   constructor(props) {
     super(props);
     this.leftMenuWidth = 75;
-    this.state = {};
+    this.state = {
+      chosenTheme: lightBaseTheme
+    };
+    this.toggleTheme = this.toggleTheme.bind(this);
   }
 
   componentWillMount() {
@@ -79,9 +84,16 @@ class AdminPage extends React.Component {
     return options;
   }
 
+  toggleTheme() {
+    // console.log(this);
+    this.setState({
+      chosenTheme: this.state.chosenTheme === lightBaseTheme ? darkBaseTheme : lightBaseTheme
+    });
+  }
+
   render() {
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
+      <MuiThemeProvider muiTheme={getMuiTheme(this.state.chosenTheme)}>
         <div style={{ minWidth: '700px', fontFamily: 'Roboto, sans-serif' }}>
           <Switch>
             <Route path={'/admin/login'} component={Login} />
@@ -91,9 +103,13 @@ class AdminPage extends React.Component {
                 <EnsureAdmin currentUser={this.state.currentUser}>
                   <LeftSideMenu
                     width={this.leftMenuWidth}
+                    chosenTheme={this.state.chosenTheme}
                   />
                   <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
-                    <Header currentUser={this.state.currentUser} />
+                    <Header
+                      currentUser={this.state.currentUser}
+                      toggleTheme={this.toggleTheme}
+                    />
                     <Switch>
                       <Route
                         exact

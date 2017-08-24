@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Key from 'material-ui/svg-icons/communication/vpn-key';
+import Toggle from 'material-ui/Toggle';
 
 class Header extends React.Component {
   logout(e) {
@@ -28,6 +29,12 @@ class Header extends React.Component {
               <ToolbarGroup
                 lastChild
               >
+                <Toggle
+                  onToggle={this.props.toggleTheme}
+                  style={{ width: 150, marginRight: 30 }}
+                  thumbStyle={{ background: '#fff' }}
+                  label={'Toggle theme'}
+                />
                 <Chip>
                   <Avatar src={`/avatars/${user.avatar}`} />
                   { this.props.currentUser.username }

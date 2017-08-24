@@ -13,8 +13,6 @@ module.exports = {
       ignoreStrings: true,
       ignoreTemplateLiterals: true,
     }],
-
-    "comma-dangle": ["error", "never"],
     "react/prefer-stateless-function": 0,
     "react/require-default-props": 0,
     "import/prefer-default-export": 0,
@@ -24,5 +22,6 @@ module.exports = {
     "guard-for-in": 0,
     "no-restricted-syntax": 0,
     "import/no-extraneous-dependencies": 0,
+    "class-methods-use-this": 0
   }
 };

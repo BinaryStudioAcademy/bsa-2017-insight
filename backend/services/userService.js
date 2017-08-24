@@ -6,7 +6,7 @@ function createUserAndEmptyStatistics(data, callback) {
   const userData = data;
   userData.salt = bcrypt.genSaltSync(10);
   bcrypt.hash(userData.password, userData.salt, null, (err, hash) => {
-    if(err) return callback(err);
+    if (err) return callback(err);
     userData.password = hash;
     userRepository.model.create(userData).then((newUserData) => {
       console.log(newUserData);

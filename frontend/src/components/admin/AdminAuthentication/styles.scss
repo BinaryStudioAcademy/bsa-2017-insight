@@ -1,0 +1,11 @@
+:local(.avatar-preview) {
+	width: 200px;
+	height: auto;
+	margin: 0 auto;
+	overflow: hidden;
+
+	img {
+		width: 100%;
+		height: auto;
+	}
+}

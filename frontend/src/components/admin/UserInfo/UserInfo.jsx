@@ -37,7 +37,6 @@ const UserInfo = (props) => {
 
         <List>
           <Subheader>Details</Subheader>
-          <ListItem primaryText="Signed up" secondaryText={statistic.signedUp} />
           <ListItem primaryText="IP" secondaryText={statistic.userIpAddress} />
           <ListItem primaryText="Browser" secondaryText={statistic.browser} />
           <ListItem primaryText="Browser lang" secondaryText={statistic.browserLanguage} />
@@ -50,6 +49,7 @@ const UserInfo = (props) => {
   );
 };
 
+          // <ListItem primaryText="Signed up" secondaryText={statistic.signedUp} />
 UserInfo.propTypes = {
   statistic: propTypes.shape({
     userId: propTypes.any,

@@ -13,6 +13,7 @@ const MessagesList = (props) => {
             body={message.body}
             name={message.author.item.username}
             type={message.author.userType}
+            isReceived={message.isReceived}
           />
         );
       })}
@@ -26,11 +27,11 @@ MessagesList.propTypes = {
     body: propTypes.string.isRequired,
     author: propTypes.shape({
       item: propTypes.any.isRequired,
-      userType: propTypes.string.isRequired
+      userType: propTypes.string.isRequired,
     }).isRequired,
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
-    editedAt: propTypes.oneOfType([propTypes.number, propTypes.string])
-  }))
+    editedAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
+  })),
 };
 
 export default MessagesList;

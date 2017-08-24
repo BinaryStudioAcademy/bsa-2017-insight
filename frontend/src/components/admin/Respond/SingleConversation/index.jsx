@@ -7,8 +7,10 @@ import MyThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const SingleConversation = (props) => {
   const messages = props.conversation.messages;
-  const userName = !!messages.length && messages[messages.length - 1].author.item.username;
-  const userAvatar = !!messages.length && messages[messages.length - 1].author.item.avatar;
+  const author = !!messages.length && messages[messages.length - 1].author ?
+    messages[messages.length - 1].author : null;
+  const userName = author ? author.item.username : null;
+  const userAvatar = author ? author.item.avatar : null;
 
   return (<div>
     <MyThemeProvider>

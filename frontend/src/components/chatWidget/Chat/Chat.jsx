@@ -84,7 +84,8 @@ class Chat extends Component {
     };
     this.socket.emit('newMessage', messageObj);
     eventCopy.target.messageInput.value = '';
-    notifications.email(messageObj);
+    console.log(messageObj);
+    // notifications.email(messageObj);
   }
 
   render() {

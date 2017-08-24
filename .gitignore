@@ -27,3 +27,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Uploaded images
+/uploads
+!/uploads/avatars/avatar.png

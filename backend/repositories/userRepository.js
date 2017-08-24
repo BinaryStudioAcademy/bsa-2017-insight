@@ -10,7 +10,7 @@ userRepository.model = User;
 userRepository.add = function (data, callback) {
   data.salt = bcrypt.genSaltSync(10);
   bcrypt.hash(data.password, data.salt, null, (err, hash) => {
-    if(err) return callback(err);
+    if (err) return callback(err);
     data.password = hash;
     if (!data.username)
       data.anonymousCreatedAt = new Date();

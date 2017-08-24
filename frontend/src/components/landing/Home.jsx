@@ -8,10 +8,8 @@ import Product from './Product/Product';
 import Pricing from './Pricing/Pricing';
 import IncorrectRoute from './../incorrectRoute/IncorrectRoute';
 import ChatWidget from '../chatWidget/ChatWidget';
-
 import Login from './UserAuthentication/UserLogin';
 import Registration from './UserAuthentication/UserRegistration';
-
 import Forgot from './UserAuthentication/reset/Forgot';
 import ResetPassword from './UserAuthentication/reset/ResetPassword';
 import InvalidToken from './UserAuthentication/reset/InvalidToken';

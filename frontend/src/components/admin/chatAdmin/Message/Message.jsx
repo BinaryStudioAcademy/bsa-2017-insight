@@ -15,7 +15,8 @@ const Message = ({ name, body, type }) => {
 Message.propTypes = {
   name: propTypes.string,
   body: propTypes.string,
-  type: propTypes.string
+  type: propTypes.string,
+  isReceived: propTypes.bool,
 };
 
 export default Message;

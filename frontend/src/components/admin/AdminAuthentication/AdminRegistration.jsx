@@ -5,6 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 // import Paper from 'material-ui/Paper';
 import isLength from 'validator/lib/isLength';
 import equals from 'validator/lib/equals';
+import AvatarPreview from '../../landing/AvatarPreview/AvatarPreview';
+import styles from './styles.scss';
 
 class AdminRegistration extends React.Component {
   constructor(props) {
@@ -20,7 +22,15 @@ class AdminRegistration extends React.Component {
       }
     };
     this.sendForm = this.sendForm.bind(this);
+    this.loadPreview = this.loadPreview.bind(this);
+    this.updateImage = this.updateImage.bind(this);
   }
+
+  // componentWillReceiveProps() {
+  //   if (this.props.currentUser) {
+  //     alert('You are already logged in');
+  //   }
+  // }
 
   formValuesSaver(field, filledField) {
     this.setState({
@@ -28,7 +38,6 @@ class AdminRegistration extends React.Component {
         [field]: filledField.value.toString()
       })
     });
-    // console.log(this.state.formValues);
   }
 
   formValidator() {
@@ -63,22 +72,32 @@ class AdminRegistration extends React.Component {
 
   sendForm(e) {
     e.preventDefault();
-    this.setState({ info: this.formValidator() });
-    if (this.state.info.length) return;
-    const formData = new FormData(e.target);
-    fetch('/api/admin/registration/', {
-      method: 'POST',
-      body: formData,
-      credentials: 'include'
-    }).then((response) => {
-      console.log(response);
-      if (response.redirected) return window.location.replace(response.url);
-      return response.json();
-    }).then((response) => {
-      if (response) {
-        this.setState({ info: [response.text] });
-      }
+    e.persist();
+    this.setState({ info: this.formValidator() }, () => {
+      if (this.state.info.length) return;
+      const formData = new FormData(e.target);
+      fetch('/api/admin/registration/', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      }).then((response) => {
+        console.log(response);
+        if (response.redirected) return window.location.replace(response.url);
+        return response.json();
+      }).then((response) => {
+        if (response) {
+          this.setState({ info: [response.text] });
+        }
+      });
     });
+  }
+
+  loadPreview(e) {
+    this.setState({ image: e.target.files[0] })
+  }
+
+  updateImage(newImage) {
+    this.setState({ image: newImage });
   }
 
   render() {
@@ -155,8 +174,13 @@ class AdminRegistration extends React.Component {
                 opacity: 0,
                 zIndex: 10
               }}
+              onChange={this.loadPreview}
             />
           </RaisedButton>
+          <br /><br />
+          <div className={styles['avatar-preview']}>
+            <AvatarPreview image={this.state.image} update={this.updateImage}/>
+          </div>
           <br /><br />
           <RaisedButton
             type={'submit'}

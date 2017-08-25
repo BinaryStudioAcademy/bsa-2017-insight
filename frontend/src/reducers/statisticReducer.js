@@ -2,6 +2,7 @@ const initialState = {
   usersToRender: [],
   statisticById: null,
   activeStatisticsFilters: {},
+  fieldsToDisplay: ["currentUrl", "city", "country", "browser"],
 };
 
 const statisticReducer = (state = initialState, action) => {
@@ -14,6 +15,8 @@ const statisticReducer = (state = initialState, action) => {
       return Object.assign({}, state, { usersToRender: action.payload });
     case 'GET_STATISTIC_BY_ID_SUCCESS':
       return Object.assign({}, state, { statisticById: action.payload });
+    case 'UPDATE_FIELDS':
+      return Object.assign({}, state, { fieldsToDisplay: action.payload })
     default:
       return state;
   }

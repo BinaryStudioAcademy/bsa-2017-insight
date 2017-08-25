@@ -23,31 +23,38 @@ class Filter extends React.Component {
         Email: false,
         Name: false,
         'Last seen': false
-      },
+       },
       checkedCheckboxes: {
-        browser: false,
-        browserLanguage: false,
-        browserVersion: false,
-        city: false,
-        coordinates: false,
-        country: false,
+        _id: false,
+        userId: false,
         currentUrl: false,
-        deviceType: false,
+        browserLanguage: false,
         geoLocation: false,
         online: false,
-        os: false,
-        screenHeight: false,
-        screenWidth: false,
-        timeZone: false,
-        userAgent: false,
+        coordinates: false,
         userIpAddress: false,
-        visitorId: false,
+        country: false,
+        city: false,
+        screenWidth: false,
+        screenHeight: false,
+        userAgent: false,
+        timeZone: false,
+        browser: false,
+        browserVersion: false,
+        os: false,
+        deviceType: false,
         _v: false,
-        _id: false
-      }
+        viewedUrls: false
+      },
     };
     this.onChangeRadio = this.onChangeRadio.bind(this);
     this.handleTap = this.handleTap.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.selectedFields.forEach((option) => {
+        this.state.checkedCheckboxes[option] = true;
+    });
   }
 
   onChangeRadio(value, groupName) {
@@ -97,11 +104,36 @@ class Filter extends React.Component {
   handleCheck(checkBoxName) {
     const checkedFields = this.state.checkedCheckboxes;
     checkedFields[checkBoxName] = (!checkedFields[checkBoxName]);
-    this.setState({ checkedCheckboxes: checkedFields });
+    this.setState({ checkedCheckboxes: checkedFields }, () => {
+      const newFields = [];
+      Object.keys(this.state.checkedCheckboxes).forEach((item) => {
+        if (this.state.checkedCheckboxes[item] === true) {
+          newFields.push(item);
+        }
+      });
+      this.props.updateFields(newFields);
+    });
   }
 
   render() {
     const statisticOptions = this.props.statisticOptions;
+    let nestedItems = statisticOptions.map((elem) => {
+      return (<ListItem
+        style={{ fontSize: '14px' }}
+        leftCheckbox={
+          <Checkbox
+            onCheck={() => this.handleCheck(elem)}
+            checked={this.state.checkedCheckboxes[elem]}
+          />}
+        primaryText={elem}
+        key={uniqueId++}
+        rightIcon={<EmptyPlace />}
+        initiallyOpen={this.state.initiallyOpen[elem]}
+        onClick={() => this.handleTap(elem)}
+        primaryTogglesNestedList
+        // nestedItems={this.getNestedItems(statisticOptions[elem], elem)}
+      />);
+    });
 
     return (
       <div className={styles.container}>
@@ -109,25 +141,15 @@ class Filter extends React.Component {
         <div>
           <MuiThemeProvider>
             <List>
-              <Subheader style={{ fontSize: '16px', fontFamily: 'Roboto' }}>Filter user attributes</Subheader> {
-                statisticOptions.map((elem) => {
-                  return (<ListItem
-                    style={{ fontSize: '14px' }}
-                    leftCheckbox={
-                      <Checkbox
-                        onCheck={() => this.handleCheck(elem)}
-                        checked={this.state.checkedCheckboxes[elem]}
-                      />}
-                    primaryText={elem}
-                    key={uniqueId++}
-                    rightIcon={<EmptyPlace />}
-                    initiallyOpen={this.state.initiallyOpen[elem]}
-                    onClick={() => this.handleTap(elem)}
-                    primaryTogglesNestedList
-                    // nestedItems={this.getNestedItems(statisticOptions[elem], elem)}
-                  />);
-                })
-              }
+              <ListItem
+                primaryText="Fields Filter"
+                key={1}
+                initiallyOpen={false}
+                primaryTogglesNestedList={true}
+                nestedItems={nestedItems}
+                nestedListStyle={{ height: '400px', overflowY: 'scroll', border: '1px solid #E5E5E5', backgroundColor: '#fff' }}
+                style={{backgroundColor: '#E5E5E5'}}
+              />
             </List>
           </MuiThemeProvider>
         </div>

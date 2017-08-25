@@ -8,7 +8,7 @@ function* rootSaga() {
   yield [
     fork(statisticSaga),
     fork(conversationsSaga),
-    fork(getCurrentUserSaga)
+    fork(getCurrentUserSaga),
   ];
 }
 

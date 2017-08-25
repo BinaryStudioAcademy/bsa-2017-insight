@@ -2,8 +2,9 @@
 
 :local(.container) {
     color: $landing-darkgrey;
-
-    width: 20%;
+    position: absolute;
+    top: 0;
+    right: 1%;
     display: inline-block;
     vertical-align: top;
 }

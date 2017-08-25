@@ -58,7 +58,7 @@ const staticPath = path.resolve(`${__dirname}/../dist/`);
 const uploads = path.resolve(`${__dirname}/../uploads/`);
 
 app.use(express.static(staticPath));
-app.use('/avatars', express.static(uploads + '/avatars'));
+app.use('/avatars', express.static(`${uploads}/avatars`));
 
 app.use('/resources', express.static('./frontend/src/common/resources'));
 app.use('/uploads', express.static(path.join(__dirname, '/../uploads')));

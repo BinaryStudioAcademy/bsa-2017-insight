@@ -14,22 +14,12 @@ class UserInfoTable extends React.Component {
     return this.props.statistics.map((row, index) => (
       <TableRow key={`row ${index}`} value={row}> {
         this.props.options.map((elem) => {
-          if (elem === 'userId') {
-            return (<TableRowColumn
-              key={`row ${index},column${elem}`}
-              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
-            >
-              <span>{row[elem._id]}</span>
-            </TableRowColumn>);
-          }
-          return (
-            <TableRowColumn
-              key={`row ${index},column${elem}`}
-              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+          return (<TableRowColumn
+            key={`row ${index},column${elem}`}
+            style={{ fontSize: '12px', width: '200px', padding: '5px' }}
             >
               <span>{row[elem]}</span>
-            </TableRowColumn>
-          );
+            </TableRowColumn>);
         })
       }
       </TableRow>

@@ -6,6 +6,18 @@ function createConversationAndUpdateUser(conversation, userId, socket) {
   ConversationRepository.model.create(conversation).then((conversationData) => {
     const update = { $push: { conversations: conversationData._id } };
     socket.emit('newConversationCreated', conversationData);
+    socket.room = conversationData._id.toString();
+    socket.join(conversationData._id.toString());
+    UserRepository.model.findByIdAndUpdate(userId, update).exec();
+  });
+}
+
+function createForceConversation(conversation, userId, socket) {
+  ConversationRepository.model.create(conversation).then((conversationData) => {
+    socket.emit('forceConversationCreated', conversationData);
+    socket.room = conversationData._id.toString();
+    socket.join(conversationData._id.toString());
+    const update = { $push: { conversations: conversationData._id } };
     UserRepository.model.findByIdAndUpdate(userId, update).exec();
   });
 }
@@ -29,4 +41,5 @@ function checkIfAdminIsConversationParticipant(conversationId, adminId) {
 module.exports = {
   createConversationAndUpdateUser,
   checkIfAdminIsConversationParticipant,
+  createForceConversation
 };

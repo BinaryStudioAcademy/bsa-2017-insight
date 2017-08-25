@@ -87,8 +87,6 @@ class Chat extends Component {
     if (window._injectedData
       && window._injectedData.userId
       && typeof (window._injectedData.userId === 'object')) {
-      console.log('SENDING EMAIL');
-      console.log(window._injectedData);
       notifications.email(messageObj);
     }
   }

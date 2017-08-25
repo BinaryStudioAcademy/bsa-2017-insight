@@ -27,8 +27,7 @@ userSchema.methods.checkPassword = function (plainPassword, callback) {
   return bcrypt.compareSync(plainPassword, this.password);
 };
 
-// userSchema.index({ anonymousCreatedAt: 1 }, { expireAfterSeconds: 3600 * 24 * 7 });
-userSchema.index({ anonymousCreatedAt: 1 }, { expireAfterSeconds: 30 });
+userSchema.index({ anonymousCreatedAt: 1 }, { expireAfterSeconds: 3600 * 24 * 7 });
 
 userSchema.plugin(passportLocalMongoose);
 

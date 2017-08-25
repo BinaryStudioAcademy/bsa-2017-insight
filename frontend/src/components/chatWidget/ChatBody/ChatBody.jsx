@@ -13,7 +13,6 @@ class ChatBody extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     const messageNumProps = nextProps.messages.length;
     if (this.state.messageNum === 0) {
       this.setState({ messageNum: messageNumProps });

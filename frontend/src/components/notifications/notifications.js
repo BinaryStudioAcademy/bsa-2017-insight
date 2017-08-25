@@ -10,7 +10,7 @@ const notifications = {
     if (options.email) {
       fetch('/api/notification/email', {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         method: 'POST',
         body: JSON.stringify(message),

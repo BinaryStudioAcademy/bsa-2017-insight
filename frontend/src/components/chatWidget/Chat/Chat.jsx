@@ -84,11 +84,13 @@ class Chat extends Component {
     };
     this.socket.emit('newMessage', messageObj);
     eventCopy.target.messageInput.value = '';
-    // if (window._injectedData
-    //   && window._injectedData.userId
-    //   && typeof (window._injectedData.userId === 'object')) {
-    //   notifications.email(messageObj);
-    // }
+    if (window._injectedData
+      && window._injectedData.userId
+      && typeof (window._injectedData.userId === 'object')) {
+      console.log('SENDING EMAIL');
+      console.log(window._injectedData);
+      notifications.email(messageObj);
+    }
   }
 
   render() {

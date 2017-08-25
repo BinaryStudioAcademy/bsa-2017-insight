@@ -4,16 +4,16 @@ const multer = require('multer');
 const mime = require('mime');
 
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, __dirname + '/../../../uploads/avatars');
+  destination(req, file, cb) {
+    cb(null, `${__dirname}/../../../uploads/avatars`);
   },
-  filename: function(req, file, cb) {
+  filename(req, file, cb) {
     const extension = mime.extension(file.mimetype);
     cb(null, `${req.body.username}-${Date.now()}.${extension}`);
-  }
+  },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 module.exports = function (app) {
   // app.post('/api/admins/login/', passport.authenticate('admin', {
@@ -24,30 +24,27 @@ module.exports = function (app) {
   // }));
   // app.post('/api/admins/registration', (req, res) => {
 
-  app.post('/api/admin/login/', function(req, res, next) {
+  app.post('/api/admin/login/', (req, res, next) => {
+    if (req.user) return res.redirect('/');
 
-    if(req.user) return res.redirect('/');
-
-    passport.authenticate('admin', function(err, user, info) {
-      if(err) {
+    passport.authenticate('admin', (err, user, info) => {
+      if (err) {
         return next(err);
-      };
+      }
 
-      if(!user) {
+      if (!user) {
         return res.json({ text: info });
-      };
+      }
 
-      req.logIn(user, function(err) {
-        if(err) return next(err);
-        res.redirect('/');
+      req.logIn(user, (err) => {
+        if (err) return next(err);
+        res.redirect('/admin');
       });
-
     })(req, res, next);
   });
 
   app.post('/api/admin/registration', upload.single('avatar'), (req, res, next) => {
-
-    if(req.user) return res.redirect('/');
+    if (req.user) return res.redirect('/');
 
     const data = {
       firstName: req.body.firstName,
@@ -65,16 +62,20 @@ module.exports = function (app) {
     //     console.log('before redirect');
     //     res.redirect('/admin/login');
 
-    adminRepository.getByUsername(data.username, function(err, user) {
-      if(err) return next(err);
-      if(user) return res.json({ text: 'User with this username exists' });
+    adminRepository.getByUsername(data.username, (err, user) => {
+      if (err) return next(err);
+      if (user) return res.json({ text: 'User with this username exists' });
 
-      adminRepository.add(data, function(err) {
-        if(err) return next(err);
-        res.redirect('/adminlogin');
+      adminRepository.add(data, (err) => {
+        if (err) return next(err);
+        res.redirect('/admin/login');
       });
-
     });
+  });
+
+  app.get('/api/admin/logout', function(req, res, next) {
+    req.logout();
+    res.redirect('/admin/login');
   });
 
   app.get('/api/admins/', (req, res) => {

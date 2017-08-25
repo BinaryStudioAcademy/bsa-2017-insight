@@ -7,8 +7,23 @@ const MessagesList = (props) => {
   return (
     <ul className={styles['messages-list']}>
       {props.messages && props.messages.map((message) => {
+        let style;
+        if (message.forceMessage) {
+          style = 'force-message';
+        } else if (message.author.userType === 'Admin') {
+          style = 'admin-message';
+        } else {
+          style = 'user-message';
+        }
         return (
-          <Message key={message._id} body={message.body} name={message.author.item.username} />
+          <Message
+            messageStyle={style}
+            key={message._id}
+            body={message.body}
+            name={message.author ? message.author.item.username : ''}
+            isReceived={message.isReceived}
+            type={message.author ? message.author.userType : ''}
+          />
         );
       })}
     </ul>

@@ -7,22 +7,23 @@ import MyThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const SingleConversation = (props) => {
   const messages = props.conversation.messages;
-  const userName = !!messages.length && messages[messages.length - 1].author.item.username;
-  const userAvatar = !!messages.length && messages[messages.length - 1].author.item.avatar;
+  const author = !!messages.length && messages[messages.length - 1].author ?
+    messages[messages.length - 1].author : null;
+  const userName = author ? author.item.username : null;
+  const userAvatar = author ? author.item.avatar : null;
 
-  const defaultAvatar = 'https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png';
   return (<div>
     <MyThemeProvider>
       <List>
         {!messages.length ? <ListItem
           primaryText={'No messages in conversation'}
-          leftAvatar={<Avatar src={userAvatar || defaultAvatar} />}
+          leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
         /> : <ListItem
           onClick={() => {
             props.handler();
             props.setStatistic(props.conversation);
           }}
-          leftAvatar={<Avatar src={userAvatar || defaultAvatar} />}
+          leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
           primaryText={messages[messages.length - 1].body}
           secondaryText={userName}
           secondaryTextLines={2}
@@ -39,12 +40,12 @@ SingleConversation.propTypes = {
     _id: propTypes.string.isRequired,
     participants: propTypes.arrayOf(propTypes.shape({
       userType: propTypes.string,
-      user: propTypes.any,
+      user: propTypes.any
     })).isRequired,
     messages: propTypes.arrayOf(propTypes.any).isRequired,
     open: propTypes.bool,
-    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string])
   }),
-  handler: propTypes.func,
+  handler: propTypes.func
 };
 export default SingleConversation;

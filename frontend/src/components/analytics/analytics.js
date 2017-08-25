@@ -54,10 +54,11 @@
   }
 
   function saveUrlHistory() {
-    const lastUrl = window._injectedData.lastUrl;
+    const lastUrl = window._injectedData.lastUrl || window._injectedData.currentUrl;
     if (!lastUrl) {
       window._injectedData.lastUrl = location.href;
     } else if (lastUrl === location.href) {
+      userStatistics.viewedUrls = window._injectedData.urlHistory || window._injectedData.viewedUrls;
       return;
     } else {
       window._injectedData.lastUrl = location.href;
@@ -92,20 +93,21 @@
 
   window.addEventListener('click', () => {
     const injectedData = window._injectedData;
-    const registeredUserId = injectedData._id;
-    const globalId = injectedData.globalId;
+    if (injectedData.isAdmin) return;
+    const registeredUserId = injectedData.userId && injectedData.userId._id;
+    const anonymousUserId = injectedData.anonymousId;
     if (registeredUserId) {
       userStatistics.userId = registeredUserId;
       collectAllData().then(() => sendStatistics(registeredUserId, 'PUT'));
-    } else if (globalId) {
-      userStatistics.userId = globalId;
-      collectAllData().then(() => sendStatistics(globalId, 'PUT'));
+    } else if (anonymousUserId) {
+      userStatistics.userId = anonymousUserId;
+      collectAllData().then(() => sendStatistics(anonymousUserId, 'PUT'));
     } else {
-      const newGlobalId = generateId();
-      userStatistics.userId = newGlobalId;
-      injectedData.globalId = newGlobalId;
+      const newAnonymousId = generateId();
+      userStatistics.userId = newAnonymousId;
+      injectedData.anonymousId = newAnonymousId;
       collectAllData().then(() => {
-        sendUser(newGlobalId)
+        sendUser(newAnonymousId)
           .then(response => response.json())
           .then(() => {
             sendStatistics(null, 'POST');

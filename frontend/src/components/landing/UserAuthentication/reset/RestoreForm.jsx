@@ -6,7 +6,7 @@ class RestoreForm extends React.Component {
     super(props);
     this.state = {
       info: '',
-      email: '',
+      email: ''
     };
     this.sendEmail = this.sendEmail.bind(this);
   }
@@ -16,7 +16,7 @@ class RestoreForm extends React.Component {
     const options = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: this.state.email, userType }),
+      body: JSON.stringify({ email: this.state.email, userType })
     };
 
     fetch('/api/forgot', options)
@@ -24,10 +24,10 @@ class RestoreForm extends React.Component {
         return response.json();
       })
       .then((response) => {
-        if(response.text === 'ok') {
+        if (response.text === 'ok') {
           return this.props.history.push('/forgot/success');
         }
-        this.setState({ info: response.text });
+        return this.setState({ info: response.text });
       });
   }
 
@@ -36,16 +36,15 @@ class RestoreForm extends React.Component {
     return (
       <div className={styles['login-form']}>
         <h3>Enter your email to proceed:</h3>
-        <br />
+        <hr /><br />
         <input
           className={styles['restore-email']}
           type={'email'}
           name={'email'}
           onChange={(e) => { this.setState({ email: e.target.value }); }}
-        />
-        <br />
+        /><br />
         <button onClick={this.sendEmail}>Reset</button>
-        <div>{this.state.info}</div>
+        <div className={styles['error-message']}>{this.state.info}</div>
       </div>
     );
   }

@@ -29,8 +29,12 @@ const conversationsReducer = (state = initialState, action) => {
     }
     case 'GET_CONVERSATIONS_SUCCESS':
       return Object.assign({}, state, { conversations: action.payload });
-    case 'SET_CONVERSATION': {
-      return { ...state, conversationToRenderId: action.payload };
+    case 'GET_CONVERSATION_BY_ID_SUCCESS': {
+      const { index } = findConversationById(action.payload.conversation._id, state.conversations);
+      const oldConversation = [...state.conversations];
+      oldConversation.splice(index, 1, action.payload.conversation);
+      const newConversations = [...oldConversation];
+      return { ...state, conversations: newConversations, conversationToRenderId: action.payload.id };
     }
     case 'REMOVE_CONVERSATION':
       return Object.assign({}, state, { conversationToRenderId: null });

@@ -18,14 +18,12 @@ class Respond extends React.Component {
   componentWillMount() {
     this.props.getAllConversations();
   }
-
   getIdForStatistic(conversation) {
     const userObj = conversation.participants.find((user) => {
       return user.userType === 'User';
     });
     this.props.getStatisticById(userObj.user._id);
   }
-
   conversationToChat(id) {
     return this.props.conversations.find((e) => {
       return e._id === id;
@@ -89,7 +87,7 @@ const mapDispatchToProps = (dispatch) => {
     getStatisticById: (id) => {
       dispatch(StatisticActions.getStatisticById(id));
     },
-    dispatch,
+    dispatch
   };
 };
 

@@ -1,6 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const Admin = require('../repositories/adminRepository');
 const User = require('../repositories/userRepository');
+const Statistics = require('./../repositories/statisticsRepository');
 
 module.exports = function (localPassport) {
   localPassport.use('admin', new LocalStrategy({ passReqToCallback: true }, (req, username, password, done) => {
@@ -37,12 +38,12 @@ module.exports = function (localPassport) {
   });
 
   localPassport.deserializeUser((user, done) => {
-    if(user.isAdmin) {
-      Admin.getById(user.id, function(err, user) {
+    if (user.isAdmin) {
+      Admin.getById(user.id, (err, user) => {
         done(err, user);
       });
     } else {
-      User.getById(user.id, function(err, user) {
+      Statistics.getUserStatisticsAndPopulate(user.id, (err, user) => {
         done(err, user);
       });
     }

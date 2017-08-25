@@ -2,11 +2,30 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import MessagesList from '../MessagesList/messagesList';
 import styles from './styles.scss';
+import notifications from '../../notifications/notifications';
 
 class ChatBody extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      messageNum: 0
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    const messageNumProps = nextProps.messages.length;
+    if (this.state.messageNum === 0) {
+      this.setState({ messageNum: messageNumProps });
+    } else if (this.state.messageNum !== messageNumProps) {
+      this.setState({ messageNum: messageNumProps });
+      const newMessage = nextProps.messages[messageNumProps - 1];
+      const currentUser = window._injectedData.userId ? window._injectedData.userId.username : window._injectedData.username;
+      if (newMessage.author.item.username !== currentUser) {
+        notifications.api(newMessage);
+        notifications.title();
+      }
+    }
   }
 
   render() {
@@ -40,14 +59,14 @@ ChatBody.propTypes = {
     conversationId: propTypes.string.isRequired,
     body: propTypes.string.isRequired,
     author: propTypes.shape({
-      item: propTypes.any.isRequired,
-      userType: propTypes.string.isRequired,
-    }).isRequired,
+      item: propTypes.any,
+      userType: propTypes.string
+    }),
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
-    editedAt: propTypes.number,
+    editedAt: propTypes.number
   })),
   onMessageSubmit: propTypes.func.isRequired,
-  onReturnButtonClick: propTypes.func.isRequired,
+  onReturnButtonClick: propTypes.func.isRequired
 };
 
 export default ChatBody;

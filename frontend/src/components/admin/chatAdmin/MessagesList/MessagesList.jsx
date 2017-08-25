@@ -13,6 +13,7 @@ const MessagesList = (props) => {
             body={message.body}
             name={message.author.item.username}
             type={message.author.userType}
+            isReceived={message.isReceived}
           />
         );
       })}

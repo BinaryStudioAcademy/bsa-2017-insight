@@ -1,5 +1,6 @@
-function getAllStatistic() {
-  const url = 'http://localhost:3000/api/statistics';
+function getStatisticsByQuery(query) {
+  let url = 'http://localhost:3000/api/statistics';
+  if (query && query !== '') url = `http://localhost:3000/api/users?${query}`;
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',
@@ -22,4 +23,4 @@ function getStatisticById(id) {
     .then(statistic => statistic);
 }
 
-export { getStatisticById, getAllStatistic };
+export { getStatisticById, getStatisticsByQuery };

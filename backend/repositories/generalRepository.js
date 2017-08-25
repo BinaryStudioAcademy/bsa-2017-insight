@@ -30,21 +30,27 @@ Repository.prototype.getById = function (id, callback) {
   query.exec(callback);
 };
 
-Repository.prototype.getByUsername = function(username, callback) {
+Repository.prototype.findByConditions = function (conditions, callback) {
   const model = this.model;
-  const query = model.findOne({ username });
-  query.exec(callback);
-}
-
-Repository.prototype.getByEmail = function(email, callback){
-  var model = this.model;
-  var query = model.findOne({email:email});
+  const query = model.find(conditions).populate('userId');
   query.exec(callback);
 };
 
-Repository.prototype.getByToken = function(token, callback){
-  var model = this.model;
-  var query = model.findOne(token);
+Repository.prototype.getByUsername = function (username, callback) {
+  const model = this.model;
+  const query = model.findOne({ username });
+  query.exec(callback);
+};
+
+Repository.prototype.getByEmail = function (email, callback) {
+  const model = this.model;
+  const query = model.findOne({ email });
+  query.exec(callback);
+};
+
+Repository.prototype.getByToken = function (token, callback) {
+  const model = this.model;
+  const query = model.findOne(token);
   query.exec(callback);
 };
 

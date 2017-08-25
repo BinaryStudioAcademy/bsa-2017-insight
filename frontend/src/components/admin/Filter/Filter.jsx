@@ -23,20 +23,37 @@ class Filter extends React.Component {
         Email: false,
         Name: false,
         'Last seen': false
+       },
+      checkedCheckboxes: {
+        _id: false,
+        userId: false,
+        currentUrl: false,
+        browserLanguage: false,
+        geoLocation: false,
+        online: false,
+        coordinates: false,
+        userIpAddress: false,
+        country: false,
+        city: false,
+        screenWidth: false,
+        screenHeight: false,
+        userAgent: false,
+        timeZone: false,
+        browser: false,
+        browserVersion: false,
+        os: false,
+        deviceType: false,
+        _v: false,
+        viewedUrls: false
       },
-      checkedCheckboxes: {}
     };
     this.onChangeRadio = this.onChangeRadio.bind(this);
     this.handleTap = this.handleTap.bind(this);
   }
 
   componentWillMount() {
-    this.props.statisticOptions.forEach((option) => {
-      if(this.props.selectedFields.indexOf(option) !== -1) {
+    this.props.selectedFields.forEach((option) => {
         this.state.checkedCheckboxes[option] = true;
-      } else {
-        this.state.checkedCheckboxes[option] = false;
-      }
     });
   }
 

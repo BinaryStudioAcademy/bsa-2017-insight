@@ -1,5 +1,4 @@
 const initialState = {
-  allData: [],
   usersToRender: [],
   statisticById: null,
   activeStatisticsFilters: {},

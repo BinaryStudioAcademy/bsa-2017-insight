@@ -103,21 +103,17 @@ class AdminPage extends React.Component {
                         exact
                         path={'/admin'}
                         render={() => {
-                          const statistics = this.props.allData;
-                          const options = this.getStatisticOptions(this.props.allData);
-                          if(statistics.length) {
-                            return (
-                              <div>
-                                <div style={{position: 'relative', height: '64px'}}>
-                                	<Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
-                                </div>
-                                <StatisticsFilter />
-                                <UserInfoTable options={this.props.fieldsToDisplay} statistics={statistics} />
+                          const statistics = this.props.usersToRender;
+                          const options = this.getStatisticOptions(this.props.usersToRender);
+                          return (
+                            <div>
+                          	  <div style={{position: 'relative', height: '64px', zIndex: 1000 }}>
+                              	<Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
                               </div>
+                              <StatisticsFilter />
+                              <UserInfoTable options={this.props.fieldsToDisplay} statistics={statistics} />
+                            </div>
                             );
-                          } else {
-                            return null;
-                          }
                         }}
                       />
                       <Route path="/admin/respond" component={Respond} />
@@ -151,8 +147,7 @@ AdminPage.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    allData: state.statistics.allData,
-    fieldsToDisplay: state.statistics.fieldsToDisplay
+    fieldsToDisplay: state.statistics.fieldsToDisplay,
     currentUser: state.currentUser.currentUser,
     usersToRender: state.statistics.usersToRender,
   };

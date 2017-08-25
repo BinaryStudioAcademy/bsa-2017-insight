@@ -31,10 +31,10 @@ class Header extends React.Component {
               >
                 <Toggle
                   onToggle={this.props.toggleTheme}
-                  style={{ width: 150, marginRight: 30 }}
+                  style={{ width: 170, marginRight: 30 }}
                   thumbStyle={{ background: this.props.chosenTheme.palette.accent3Color }}
                   trackStyle={{ background: this.props.chosenTheme.palette.primary3Color }}
-                  label={'Toggle theme'}
+                  label={`Turn ${this.props.chosenTheme.palette.canvasColor === '#ffffff' ? 'off' : 'on'} the light`}
                 />
                 <Chip>
                   <Avatar src={`/avatars/${user.avatar}`} />

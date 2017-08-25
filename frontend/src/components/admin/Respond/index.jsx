@@ -40,6 +40,7 @@ class Respond extends React.Component {
             setStatistic={this.getIdForStatistic}
             conversations={this.props.conversations}
             setConversation={this.props.setConversation}
+            chosenTheme={this.props.chosenTheme}
           />
         </div>
           : <div className={styles['small-conversation-list']}>
@@ -50,10 +51,15 @@ class Respond extends React.Component {
                 setConversation={this.props.setConversation}
                 nowActive={this.props.conversationToRenderId}
                 removeConversations={this.props.removeConversations}
+                chosenTheme={this.props.chosenTheme}
               />
             </div>
             <div className={styles.chat}>
-              <Chat conversationToRender={convToChat} dispatch={this.props.dispatch} />
+              <Chat
+                conversationToRender={convToChat}
+                dispatch={this.props.dispatch}
+                chosenTheme={this.props.chosenTheme}
+              />
             </div>
             <div className={styles.info}>
               <UserInfo statistic={this.props.statisticById} />

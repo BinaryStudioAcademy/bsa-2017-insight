@@ -18,7 +18,6 @@ import StatisticsFilter from './StatisticsFilter/StatisticsFilter';
 import getCurrentUser from '../../actions/getCurrentUserAction';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import { grey800 } from 'material-ui/styles/colors';
 
 // const darkBaseThemeMod = getMuiTheme({
 //   ...darkBaseTheme,
@@ -94,6 +93,8 @@ class AdminPage extends React.Component {
     console.log(this.state.chosenTheme);
     this.setState({
       chosenTheme: this.state.chosenTheme === lightBaseTheme ? darkBaseTheme : lightBaseTheme,
+    }, () => {
+      document.documentElement.style = `background-color: ${this.state.chosenTheme.palette.canvasColor}`;
     });
   }
 
@@ -134,7 +135,12 @@ class AdminPage extends React.Component {
                           return (
                             <div>
                               <div style={{ position: 'relative', height: '64px', zIndex: 1000 }}>
-                                <Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
+                                <Filter
+                                  selectedFields={this.props.fieldsToDisplay}
+                                  statisticOptions={options}
+                                  updateFields={this.props.updateFields}
+                                  chosenTheme={this.state.chosenTheme}
+                                />
                               </div>
                               <StatisticsFilter chosenTheme={this.state.chosenTheme} />
                               <UserInfoTable
@@ -146,7 +152,10 @@ class AdminPage extends React.Component {
                           );
                         }}
                       />
-                      <Route path="/admin/respond" component={Respond} />
+                      <Route
+                        path="/admin/respond"
+                        render={() => <Respond chosenTheme={this.state.chosenTheme} />}
+                      />
                       <Route
                         path={'/admin/engage'}
                         render={() => {

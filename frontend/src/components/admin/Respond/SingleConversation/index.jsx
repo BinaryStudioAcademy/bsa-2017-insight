@@ -13,24 +13,22 @@ const SingleConversation = (props) => {
   const userAvatar = author ? author.item.avatar : null;
 
   return (<div>
-    <MyThemeProvider>
-      <List>
-        {!messages.length ? <ListItem
-          primaryText={'No messages in conversation'}
-          leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
-        /> : <ListItem
-          onClick={() => {
-            props.handler();
-            props.setStatistic(props.conversation);
-          }}
-          leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
-          primaryText={messages[messages.length - 1].body}
-          secondaryText={userName}
-          secondaryTextLines={2}
-        />}
-        <Divider inset={true} />
-      </List>
-    </MyThemeProvider>
+    <List>
+      {!messages.length ? <ListItem
+        primaryText={'No messages in conversation'}
+        leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
+      /> : <ListItem
+        onClick={() => {
+          props.handler();
+          props.setStatistic(props.conversation);
+        }}
+        leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
+        primaryText={messages[messages.length - 1].body}
+        secondaryText={userName}
+        secondaryTextLines={2}
+      />}
+      <Divider inset={true} />
+    </List>
   </div>);
 };
 

@@ -68,7 +68,7 @@ class Chat extends Component {
     const messages = conversationToRender ? conversationToRender.messages : null;
     return (
       <div className={styles.chat}>
-        <MessagesList messages={messages} />
+        <MessagesList messages={messages} chosenTheme={this.props.chosenTheme} />
         <form className={styles['sending-form']} onSubmit={this.handleMessageSubmit}>
           <input
             type="text"

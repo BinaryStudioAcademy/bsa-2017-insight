@@ -12,6 +12,8 @@ userRepository.add = function (data, callback) {
   bcrypt.hash(data.password, data.salt, null, (err, hash) => {
     if (err) return callback(err);
     data.password = hash;
+    if (!data.username)
+      data.anonymousCreatedAt = new Date();
     const newUser = new User(data);
     newUser.save(callback);
   });

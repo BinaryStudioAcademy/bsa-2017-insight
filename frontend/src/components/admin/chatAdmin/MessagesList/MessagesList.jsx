@@ -24,7 +24,12 @@ const MessagesList = (props) => {
 MessagesList.propTypes = {
   messages: propTypes.arrayOf(propTypes.shape({
     conversationId: propTypes.string.isRequired,
-    body: propTypes.string.isRequired,
+    body: propTypes.oneOfType([propTypes.string, propTypes.shape({
+      finalName: propTypes.string,
+      fileName: propTypes.string,
+      fileType: propTypes.string,
+      isImage: propTypes.bool,
+    })]).isRequired,
     author: propTypes.shape({
       item: propTypes.any.isRequired,
       userType: propTypes.string.isRequired,

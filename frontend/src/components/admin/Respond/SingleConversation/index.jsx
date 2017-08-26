@@ -24,7 +24,9 @@ const SingleConversation = (props) => {
             props.setStatistic(props.conversation);
           }}
           leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
-          primaryText={messages[messages.length - 1].body}
+          primaryText={typeof messages[messages.length - 1].body === 'object' ?
+            `${messages[messages.length - 1].body.fileName}.${messages[messages.length - 1].body.fileType}` :
+            messages[messages.length - 1].body}
           secondaryText={userName}
           secondaryTextLines={2}
         />}

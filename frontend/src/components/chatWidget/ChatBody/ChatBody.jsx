@@ -8,8 +8,9 @@ class ChatBody extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messageNum: 0
+      messageNum: 0,
     };
+    this.onFileInputChange = this.onFileInputChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -19,11 +20,20 @@ class ChatBody extends Component {
     } else if (this.state.messageNum !== messageNumProps) {
       this.setState({ messageNum: messageNumProps });
       const newMessage = nextProps.messages[messageNumProps - 1];
-      const currentUser = window._injectedData.userId ? window._injectedData.userId.username : window._injectedData.username;
+      const currentUser = window._injectedData.userId ?
+        window._injectedData.userId.username : window._injectedData.username;
       if (newMessage.author.item.username !== currentUser) {
         notifications.api(newMessage);
         notifications.title();
       }
+    }
+  }
+
+  onFileInputChange() {
+    if (this.fileInput.files.length > 0) {
+      this.filesCounter.innerHTML = this.fileInput.files.length;
+    } else {
+      this.filesCounter.innerHTML = '';
     }
   }
 
@@ -39,7 +49,26 @@ class ChatBody extends Component {
           tabIndex="0"
         />
         <MessagesList messages={this.props.messages} />
-        <form className={styles['sending-form']} onSubmit={event => this.props.onMessageSubmit(event)}>
+        <form className={styles['sending-form']} onSubmit={event => this.props.onFormSubmit(event)}>
+          <input
+            id="file-input"
+            name="fileInput"
+            type="file"
+            className={styles['file-input']}
+            ref={(node) => {
+              this.fileInput = node;
+            }}
+            onChange={this.onFileInputChange}
+            multiple
+          />
+          <label htmlFor="file-input" className={styles['file-input-label']}>
+            <span
+              className={styles['selected-files-counter']}
+              ref={(node) => {
+                this.filesCounter = node;
+              }}
+            />
+          </label>
           <input
             type="text"
             name="messageInput"
@@ -56,16 +85,21 @@ class ChatBody extends Component {
 ChatBody.propTypes = {
   messages: propTypes.arrayOf(propTypes.shape({
     conversationId: propTypes.string.isRequired,
-    body: propTypes.string.isRequired,
+    body: propTypes.oneOfType([propTypes.string, propTypes.shape({
+      finalName: propTypes.string,
+      fileName: propTypes.string,
+      fileType: propTypes.string,
+      isImage: propTypes.bool,
+    })]).isRequired,
     author: propTypes.shape({
       item: propTypes.any,
-      userType: propTypes.string
+      userType: propTypes.string,
     }),
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
-    editedAt: propTypes.number
+    editedAt: propTypes.number,
   })),
-  onMessageSubmit: propTypes.func.isRequired,
-  onReturnButtonClick: propTypes.func.isRequired
+  onFormSubmit: propTypes.func.isRequired,
+  onReturnButtonClick: propTypes.func.isRequired,
 };
 
 export default ChatBody;

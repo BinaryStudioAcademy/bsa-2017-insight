@@ -11,6 +11,8 @@ const storage = multer.diskStorage({
     const [fileName, fileType] = splittedFilename;
     const finalName = `${fileName}-${Date.now()}.${fileType}`;
     req.finalName = finalName;
+    req.fileName = fileName;
+    req.fileType = fileType;
     cb(null, finalName);
   },
 });
@@ -21,6 +23,8 @@ module.exports = function (app) {
   app.post('/api/uploads', upload.single('codename'), (req, res) => {
     const resp = {
       path: `http://localhost:3000/uploads/${req.finalName}`,
+      fileType: req.fileType,
+      fileName: req.fileName,
     };
     res.status(200).json(resp);
   });

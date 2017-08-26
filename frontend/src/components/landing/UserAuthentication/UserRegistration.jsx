@@ -85,6 +85,7 @@ class UserRegistration extends React.Component {
     this.setState({ info: this.formValidator() }, () => {
       if (this.state.info.length) return;
       const formData = new FormData(e.target);
+      formData.set('avatar', this.state.image);
       fetch('/api/user/registration/', {
         method: 'POST',
         body: formData,

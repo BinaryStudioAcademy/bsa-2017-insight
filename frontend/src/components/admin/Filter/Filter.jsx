@@ -145,8 +145,13 @@ class Filter extends React.Component {
               initiallyOpen={false}
               primaryTogglesNestedList={true}
               nestedItems={nestedItems}
-              nestedListStyle={{ height: '400px', overflowY: 'scroll', border: '1px solid #E5E5E5', backgroundColor: '#fff' }}
-              style={{backgroundColor: '#E5E5E5'}}
+              nestedListStyle={{
+                height: '400px',
+                overflowY: 'scroll',
+                border: '1px solid #E5E5E5',
+                backgroundColor: this.props.chosenTheme.palette.canvasColor,
+              }}
+              style={{backgroundColor: this.props.chosenTheme.palette.primary3Color}}
             />
           </List>
         </div>

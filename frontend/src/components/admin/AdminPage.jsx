@@ -117,7 +117,8 @@ class AdminPage extends React.Component {
                                 statistics={statistics}
                               />
                               <StatisticsCharts
-                                selected={this.props.fieldsToDisplay}
+                                selectedFields={this.props.fieldsToDisplay}
+                                statistics={statistics}
                               />
                             </div>
                           );

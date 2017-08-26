@@ -16,6 +16,7 @@ import Respond from './Respond/index';
 import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
 import getCurrentUser from '../../actions/getCurrentUserAction';
 import StatisticsFilter from './StatisticsFilter/StatisticsFilter';
+import StatisticsCharts from './StatisticsCharts/StatisticsCharts';
 
 const muiTheme = getMuiTheme({
   tooltip: {
@@ -107,13 +108,19 @@ class AdminPage extends React.Component {
                           const options = this.getStatisticOptions(this.props.usersToRender);
                           return (
                             <div>
-                          	  <div style={{position: 'relative', height: '64px', zIndex: 1000 }}>
-                              	<Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
+                              <div style={{ position: 'relative', height: '64px', zIndex: 1000 }}>
+                                <Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
                               </div>
                               <StatisticsFilter />
-                              <UserInfoTable options={this.props.fieldsToDisplay} statistics={statistics} />
+                              <UserInfoTable
+                                options={this.props.fieldsToDisplay}
+                                statistics={statistics}
+                              />
+                              <StatisticsCharts
+                                selected={this.props.fieldsToDisplay}
+                              />
                             </div>
-                            );
+                          );
                         }}
                       />
                       <Route path="/admin/respond" component={Respond} />
@@ -163,7 +170,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateFields: (newFields) => {
       return dispatch({ type: 'UPDATE_FIELDS', payload: newFields })
-    }
+    },
   };
 };
 

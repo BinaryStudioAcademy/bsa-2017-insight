@@ -38,6 +38,8 @@
     "nodemailer": "^4.0.1",
     "path": "^0.12.7",
     "prop-types": "^15.5.10",
+    "random-material-color": "^1.0.3",
+    "randomcolor": "^0.5.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",

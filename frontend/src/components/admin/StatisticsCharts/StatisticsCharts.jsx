@@ -1,5 +1,7 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, Tooltip } from 'recharts';
+import Toggle from 'material-ui/Toggle';
+import { BarChart, Bar, PieChart, Pie, XAxis, Tooltip, Legend, Cell } from 'recharts';
+import randomColor from 'random-material-color';
 
 class StatisticsCharts extends React.Component {
   constructor() {
@@ -22,6 +24,7 @@ class StatisticsCharts extends React.Component {
         deviceType: 'Device Type',
       },
       statisticsData: [],
+      chartType: 'bar',
     };
   }
 
@@ -58,30 +61,64 @@ class StatisticsCharts extends React.Component {
     const chartName = this.state.chartsToShow[field];
     if (chartName) {
       const statisticsData = this.getAndAddStatisticsData(field);
-      return (
-        <div key={i} style={{ width: '30%' }}>
-          <h3>{chartName}</h3>
-          {/* {console.log(statisticsData)} */}
-          <BarChart width={300} height={200} data={statisticsData.statValues}>
+      let chart;
+      if (this.state.chartType === 'bar') {
+        chart = (
+          <BarChart width={280} height={200} data={statisticsData.statValues}>
             <XAxis dataKey="name" />
             <Tooltip cursor={{ strokeWidth: 1, opacity: 0.3 }} />
-            <Bar dataKey="value" fill="grey" />
+            <Bar dataKey="value">
+              {
+                statisticsData.statValues.map(entry => (
+                  <Cell key={entry} fill={randomColor.getColor()} />
+                ))
+              }
+            </Bar>
           </BarChart>
+        );
+      } else {
+        chart = (
+          <PieChart width={280} height={200}>
+            <Pie data={statisticsData.statValues} dataKey="value">
+              {
+                statisticsData.statValues.map(entry => (
+                  <Cell fill={randomColor.getColor()} key={entry} />
+                ))
+              }
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+        );
+      }
+      return (
+        <div key={i} style={{ margin: '10px 20px' }}>
+          <h3 style={{ textAlign: 'center' }}>{chartName}</h3>
+          {chart}
         </div>
       );
     }
     return undefined;
   }
 
+  switchChartType(state) {
+    this.setState({ chartType: state.chartType === 'bar' ? 'pie' : 'bar' });
+  }
+
   render() {
     return (
-      <div style={{ marginTop: 50 }}>
-        {/* <h2>Charts</h2> */}
+      <div style={{ marginTop: 40, padding: '0 10px', float: 'right', width: '78%' }}>
+        {/* <h2 style={{ width: 400 }}>Charts</h2> */}
+        <Toggle
+          style={{ float: 'right', width: 190 }}
+          label={`Switch to "${this.state.chartType === 'pie' ? 'bar' : 'pie'}" style`}
+          onToggle={() => this.switchChartType(this.state)}
+        />
         <div
           style={{
-            width: '80%',
-            float: 'right',
+            marginTop: 40,
             display: 'flex',
+            flexShring: 0,
             flexWrap: 'wrap',
             justifyContent: 'space-around',
           }}

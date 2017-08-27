@@ -1,0 +1,45 @@
+@import './../../../common/styles/variables';
+
+:local(.emoji-container){
+    height: 200px;
+    width:250px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 5px;
+    border: 2px solid #E5E5E5;
+    padding: 10px 8px 2px 8px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    div{
+       height: 200px;
+       width:250px;  
+       overflow-y: scroll;
+       overflow-x: hidden;
+       padding: 5px 0 6px 0;
+       box-sizing: border-box;
+    }
+    div>span:hover{
+        background-color: rgba(182, 226, 100, 0.6);
+        border-radius: 5px;
+        cursor: pointer;
+    }
+}
+
+:local(.category-name){
+    font-size: 12px;
+    display: inline;
+    padding-bottom: 4px;
+    color: lightgrey;
+    border-bottom: none;
+    &:hover{
+      color: darkgrey;
+      background-color: none;
+    }
+}
+
+:local(.active){
+    font-size: 14px;
+    color: #000;
+    border-bottom: 1px solid green;
+}

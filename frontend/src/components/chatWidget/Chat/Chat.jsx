@@ -66,11 +66,8 @@ class Chat extends Component {
     this.setState({ activeChatId: null });
   }
 
-  onMessageSubmit(event) {
+  onMessageSubmit(message) {
     const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
-    event.preventDefault();
-    const eventCopy = event;
-    const message = event.target.messageInput.value;
     if (message === '') return;
     const messageObj = {
       conversationId: this.state.activeChatId,
@@ -83,7 +80,6 @@ class Chat extends Component {
       isReceived: false,
     };
     this.socket.emit('newMessage', messageObj);
-    eventCopy.target.messageInput.value = '';
     if (window._injectedData
       && window._injectedData.userId
       && typeof (window._injectedData.userId === 'object')) {

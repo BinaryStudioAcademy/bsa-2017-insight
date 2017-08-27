@@ -49,7 +49,7 @@ const compiler = webpack(webpackConfig);
 
 app.use(webpackDevMiddleware(compiler, {
   noInfo: true,
-  publicPath: webpackConfig.output.publicPath,
+  publicPath: webpackConfig[0].output.publicPath,
 }));
 
 app.use(webpackHotMiddleware(compiler));

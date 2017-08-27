@@ -1,6 +1,7 @@
-import 'babel-polyfill';
+// import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import WebFont from 'webfontloader';
 import { Provider } from 'react-redux';
 import { store, sagaMiddleware } from '../../store';
@@ -30,9 +31,12 @@ document.documentElement.appendChild(document.createElement('div')).id = 'insigh
 
 render(
   <Provider store={store}>
-    <div>
-      <ChatWidget />
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path={'/admin'} />
+        <Route component={ChatWidget} />
+      </Switch>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('insight-widget'),
 );

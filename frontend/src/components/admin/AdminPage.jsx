@@ -159,7 +159,6 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(statisticActions.getAllStatistics());
     },
     getCurrentUser: () => {
-      console.log('DISPATCHING GETCURRENTUSER');
       return dispatch(getCurrentUser());
     },
     updateFields: (newFields) => {

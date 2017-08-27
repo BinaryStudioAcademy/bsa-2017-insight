@@ -22,7 +22,7 @@ class CustomInput extends React.Component {
   renderNestedTextInput(displayChildren, key) {
     if (displayChildren) {
       return ([
-        <ListItem key={this.props.matching} disabled={true} style={{ padding: 0, marginTop: '-10px' }}>
+        <ListItem key={this.props.matching} disabled={true} style={{ padding: 0, marginTop: '-10px', fontSize: '12px' }}>
           <TextField
             key={`${key}-1`}
             className={styles['radio-input']}
@@ -33,6 +33,7 @@ class CustomInput extends React.Component {
             onChange={() => {
               if (this.props.onInputChange) this.props.onInputChange(key, this.input.input.value);
             }}
+            style={{paddingLeft: '25px'}}
           />
         </ListItem>]);
     }
@@ -42,6 +43,7 @@ class CustomInput extends React.Component {
   render() {
     if (this.props.type === 'multiple') {
       return (<ListItem
+        style={{fontSize: '15px'}}
         primaryText={this.props.text}
         initiallyOpen={false}
         primaryTogglesNestedList
@@ -58,6 +60,7 @@ class CustomInput extends React.Component {
         nestedItems={this.props.displayChildren ?
           this.props.childs.map((child) => {
             return (<ListItem
+              style={{fontSize: '15px'}}
               primaryText={child.text}
               key={child.matching}
               initiallyOpen={false}
@@ -79,6 +82,7 @@ class CustomInput extends React.Component {
     } else if (this.props.type === 'single') {
       return (
         <ListItem
+          style={{fontSize: '15px'}}
           primaryText={this.props.text}
           initiallyOpen={false}
           primaryTogglesNestedList
@@ -98,6 +102,7 @@ class CustomInput extends React.Component {
     } else if (this.props.type === 'select') {
       return (
         <ListItem
+          style={{fontSize: '15px'}}
           primaryText={this.props.text}
           initiallyOpen={false}
           primaryTogglesNestedList

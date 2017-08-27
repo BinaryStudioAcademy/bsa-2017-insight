@@ -7,7 +7,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
 import UserInfoTable from './Table/Table';
-import Filter from './Filter/Filter';
 import * as statisticActions from '../../actions/statisticActions';
 import Login from './AdminAuthentication/AdminLogin';
 import Registration from './AdminAuthentication/AdminRegistration';
@@ -107,11 +106,16 @@ class AdminPage extends React.Component {
                           const options = this.getStatisticOptions(this.props.usersToRender);
                           return (
                             <div>
-                          	  <div style={{position: 'relative', height: '64px', zIndex: 1000 }}>
-                              	<Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
+                              <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', marginTop: '10px'}}>
+                              	<StatisticsFilter />
+                              	<UserInfoTable 
+                                  options={this.props.fieldsToDisplay} 
+                                  statistics={statistics} 
+                                  selectedFields={this.props.fieldsToDisplay} 
+                                  statisticOptions={options} 
+                                  updateFields={this.props.updateFields}
+                                  />
                               </div>
-                              <StatisticsFilter />
-                              <UserInfoTable options={this.props.fieldsToDisplay} statistics={statistics} />
                             </div>
                             );
                         }}

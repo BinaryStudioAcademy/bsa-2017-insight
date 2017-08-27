@@ -1,4 +1,4 @@
-@import './../../../common/styles/variables';
+// @import './../../../common/styles/variables';
 
 :local(.messages-list) {
   padding: 5px;
@@ -8,7 +8,8 @@
   overflow: auto;
   background-color: white;
   list-style: none;
-  border: 2px solid $landing-red;
+  // border: 2px solid $landing-red;
+  border: 2px solid red;
   border-radius: 10px;
 }
 

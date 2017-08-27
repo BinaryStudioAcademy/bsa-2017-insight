@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import MessagesList from '../MessagesList/messagesList';
 import styles from './styles.scss';
-import notifications from '../../notifications/notifications';
+import notifications from '../../../notifications/notifications';
 
 class ChatBody extends Component {
   constructor(props) {

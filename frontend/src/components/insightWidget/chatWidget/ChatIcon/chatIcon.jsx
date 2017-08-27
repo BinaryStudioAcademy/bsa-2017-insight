@@ -9,8 +9,8 @@ const ChatWidget = (props) => {
       alt=""
       role="button"
       tabIndex="0"
-      className={styles['chat-icon']}
       onClick={props.onChatIconClick}
+      className={styles['chat-icon']}
     />
   );
 };
@@ -20,3 +20,4 @@ ChatWidget.propTypes = {
 };
 
 export default ChatWidget;
+// {/* className={styles['chat-icon']} */}

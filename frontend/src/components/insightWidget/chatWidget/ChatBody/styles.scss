@@ -1,4 +1,4 @@
-@import './../../../common/styles/variables';
+// @import './../../../common/styles/variables';
 
 :local(.chat) {
   box-sizing: border-box;
@@ -34,19 +34,23 @@
   padding: 10px;
   margin-right: 1%;
   border-radius: 5px;
-  border: 1px solid $landing-red;
+  // border: 1px solid $landing-red;
+  border: 1px solid red;
 }
 
 :local(.submit-button) {
   flex-basis: 25%;
   background-color: #fff;
-  color: $landing-red;
-  border: 1px solid $landing-red;
+  // color: $landing-red;
+  color: red;
+  // border: 1px solid $landing-red;
+  border: 1px solid red;
   border-radius: 5px;
   padding: 10px;
 
   &:hover {
-    background-color: $landing-red;
+    // background-color: $landing-red;
+    background-color: red;
     color: #fff;
     cursor: pointer;
   }

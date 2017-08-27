@@ -107,13 +107,13 @@ class AdminPage extends React.Component {
                           const options = this.getStatisticOptions(this.props.usersToRender);
                           return (
                             <div>
-                          	  <div style={{position: 'relative', height: '64px', zIndex: 1000 }}>
-                              	<Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
+                              <div style={{ position: 'relative', height: '64px', zIndex: 1000 }}>
+                                <Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
                               </div>
                               <StatisticsFilter />
                               <UserInfoTable options={this.props.fieldsToDisplay} statistics={statistics} />
                             </div>
-                            );
+                          );
                         }}
                       />
                       <Route path="/admin/respond" component={Respond} />

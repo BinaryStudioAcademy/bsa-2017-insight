@@ -1,4 +1,4 @@
-@import './../../../common/styles/variables';
+// @import './../../../common/styles/variables';
 
 :local(.container) {
   width: 100%;
@@ -17,14 +17,17 @@
 
 :local(.title) {
   font-size: 24px;
-  color: $landing-orange;
+  // color: $landing-orange;
+  color: orange;
 }
 
 :local(.conversation-item) {
   text-align: center;
-  color: $landing-orange;
+  // color: $landing-orange;
+  color: orange;
   background-color: #fff;
-  border:2px solid $landing-orange;
+  // border:2px solid $landing-orange;
+  border:2px solid orange;
   font-weight: bold;
   border-radius: 20px;
   padding: 15px;
@@ -32,7 +35,8 @@
 
   &:hover {
     cursor: pointer;
-    background-color: $landing-red;
+    // background-color: $landing-red;
+    background-color: red;
     color: #fff;
   }
 }
@@ -46,13 +50,15 @@
   font-size: 18px;
   border-radius: 15px;
   padding: 15px;
-  background-color: $landing-orange;
+  // background-color: $landing-orange;
+  background-color: orange;
   color: #fff;
   font-weight: bold;
   cursor: pointer;
   border: none;
 
   &:hover {
-    background-color: $landing-red;
+    // background-color: $landing-red;
+    background-color: red;
   }
 }

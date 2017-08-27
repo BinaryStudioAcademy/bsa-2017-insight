@@ -7,6 +7,9 @@ import WebFont from 'webfontloader';
 import { store, sagaMiddleware } from './store';
 import Home from './components/landing/Home';
 import AdminPage from './components/admin/AdminPage';
+import rootSaga from './saga/rootSaga';
+
+sagaMiddleware.run(rootSaga);
 
 WebFont.load({
   google: {

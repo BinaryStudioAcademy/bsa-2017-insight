@@ -2,6 +2,7 @@ import { takeEvery, put } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 
 function* getCurrentUser() {
+  console.log('GET CURRENT USER SAGA');
   let counter = 0;
   while (!window._injectedData) {
     yield delay(100);

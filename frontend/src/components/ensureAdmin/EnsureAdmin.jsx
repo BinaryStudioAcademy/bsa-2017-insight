@@ -9,10 +9,13 @@ class EnsureAdmin extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('ENSURE ADMIN WILL RECEIVE PROPS');
     this.setState({ currentUser: nextProps.currentUser });
   }
 
   render() {
+    console.log('this.state.currentUser');
+    console.log(this.state.currentUser);
     if (!this.state.currentUser || !Object.keys(this.state.currentUser).length) {
     // If current user isn't in the state yet or currentUser is empty
       return (

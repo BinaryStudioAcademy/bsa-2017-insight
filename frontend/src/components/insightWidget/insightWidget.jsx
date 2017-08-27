@@ -5,7 +5,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import WebFont from 'webfontloader';
 import { Provider } from 'react-redux';
 import { store, sagaMiddleware } from '../../store';
-import rootSaga from '../../saga/rootSaga';
+// import rootSaga from '../../saga/rootSaga';
 import ChatWidget from './chatWidget/ChatWidget';
 import '../analytics/analytics';
 
@@ -19,7 +19,7 @@ window._injectedData = {
   __v: 0,
 };
 
-sagaMiddleware.run(rootSaga);
+// sagaMiddleware.run(rootSaga);
 
 WebFont.load({
   google: {

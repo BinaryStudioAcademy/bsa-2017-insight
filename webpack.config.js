@@ -62,7 +62,6 @@ module.exports = [{
     ],
   },
 }, {
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   devtool: 'eval-source-map',
   entry: ['whatwg-fetch', './src/components/insightWidget/insightWidget.jsx'],
   output: {

@@ -42,7 +42,8 @@ render(
         <Route path={'/admin'} />
         <Route component={ChatWidget} />
       </Switch>
-    </BrowserRouter>,
-  // </Provider>,
+    </BrowserRouter>
+  // </Provider>
+  ,
   document.getElementById('insight-widget'),
 );

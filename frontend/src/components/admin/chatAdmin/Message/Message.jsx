@@ -11,7 +11,7 @@ const Message = ({ name, body, type }) => {
       message = (
         <a href={body.path} target="_blank">
           <img className={styles['message-body-image']} src={body.path} alt={body.fileName} />
-        </a>)
+        </a>);
     } else {
       message = <a href={body.path}>{body.fileName}.{body.fileType}</a>;
     }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import RaisedButton from 'material-ui/RaisedButton';
 import styles from './styles.scss';
 import MessagesList from './MessagesList/MessagesList';
 import { startSocketConnection } from './logic';
@@ -11,13 +12,16 @@ class Chat extends Component {
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
     this.state = {
       messageNum: 0,
+      filesCounter: 'Select file',
     };
+    this.onFileInputChange = this.onFileInputChange.bind(this);
   }
 
   componentDidMount() {
     const conversation = this.props.conversationToRender;
     startSocketConnection.call(this, this.props.dispatch, conversation.messages, conversation._id);
   }
+
   componentWillReceiveProps(nextProps) {
     const oldConversationId = this.props.conversationToRender._id;
     if (nextProps.conversationToRender._id !== oldConversationId) {
@@ -44,23 +48,67 @@ class Chat extends Component {
     this.socket.emit('switchRoom', '');
   }
 
+  onFileInputChange() {
+    if (this.fileInput.files.length === 1) {
+      this.setState({ filesCounter: this.fileInput.files[0].name });
+    } else if (this.fileInput.files.length > 1) {
+      this.setState({ filesCounter: `Selected files: ${this.fileInput.files.length}` });
+    } else {
+      this.setState({ filesCounter: 'Select file' });
+    }
+  }
+
   handleMessageSubmit(event) {
     event.preventDefault();
     const eventCopy = event;
     const message = event.target.messageInput.value;
-    const messageObj = {
-      conversationId: this.props.conversationToRender._id,
-      body: message,
-      createdAt: Date.now(),
-      author: {
-        item: window._injectedData._id,
-        userType: 'Admin',
-      },
-      isReceived: false,
-    };
-    this.socket.emit('newMessage', messageObj);
-    eventCopy.target.messageInput.value = '';
-    notifications.email(messageObj);
+    const files = event.target.fileInput.files;
+    if (files.length === 0) {
+      if (message === '') return;
+      const messageObj = {
+        conversationId: this.props.conversationToRender._id,
+        body: message,
+        createdAt: Date.now(),
+        author: {
+          item: window._injectedData._id,
+          userType: 'Admin',
+        },
+        isReceived: false,
+      };
+      this.socket.emit('newMessage', messageObj);
+      eventCopy.target.messageInput.value = '';
+      notifications.email(messageObj);
+    } else if (files.length > 0 && message === '') {
+      const formData = new FormData();
+      formData.append('codename', files[0]);
+      const options = {
+        method: 'POST',
+        body: formData,
+      };
+      eventCopy.target.reset();
+      this.setState({ filesCounter: 'Select file' });
+      fetch('http://localhost:3000/api/uploads', options)
+        .then(resp => resp.json())
+        .then((data) => {
+          const regex = /(png|gif|jpeg|jpg|bmp|tiff|svg)$/i;
+          const objectToSend = data;
+          objectToSend.isImage = data.fileType.match(regex) !== null;
+          const messageObj = {
+            conversationId: this.props.conversationToRender._id,
+            body: objectToSend,
+            createdAt: Date.now(),
+            author: {
+              item: window._injectedData._id,
+              userType: 'Admin',
+            },
+            isReceived: false,
+          };
+          this.socket.emit('newMessage', messageObj);
+        });
+    } else {
+      // TODO обсудить нужна ли возможность одновременной отправки сообщения и фалйа/файлов;
+      // TODO обсудить нужна ли возможность отправки нескольких файлов
+    }
   }
 
   render() {
@@ -70,13 +118,40 @@ class Chat extends Component {
       <div className={styles.chat}>
         <MessagesList messages={messages} />
         <form className={styles['sending-form']} onSubmit={this.handleMessageSubmit}>
+          <RaisedButton
+            className={styles['selected-files-counter']}
+            label={this.state.filesCounter}
+            primary
+            ref={(node) => {
+              this.filesCounter = node;
+            }}
+            style={{ height: '39px' }}
+          >
+            <input
+              id="file-input"
+              name="fileInput"
+              type="file"
+              ref={(node) => {
+                this.fileInput = node;
+              }}
+              className={styles['file-input']}
+              onChange={this.onFileInputChange}
+              multiple
+            />
+          </RaisedButton>
           <input
             type="text"
             name="messageInput"
             className={styles['message-input']}
             placeholder="Type yor message here.."
           />
-          <button className={styles['submit-button']} type="submit">Send</button>
+          <RaisedButton
+            type="submit"
+            label="Submit"
+            primary
+            className={styles['submit-button']}
+            style={{ height: '39px' }}
+          />
         </form>
       </div>
     );

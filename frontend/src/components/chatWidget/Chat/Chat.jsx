@@ -73,7 +73,7 @@ class Chat extends Component {
     event.preventDefault();
     const eventCopy = event;
     const message = event.target.messageInput.value;
-    const files = event.target.fileInput.files;
+    const files = [...event.target.fileInput.files];
     if (files.length === 0) {
       if (message === '') return;
       const messageObj = {
@@ -95,7 +95,9 @@ class Chat extends Component {
       }
     } else if (files.length > 0 && message === '') {
       const formData = new FormData();
-      formData.append('codename', files[0]);
+      files.forEach((file) => {
+        formData.append('codename', file);
+      });
       const options = {
         method: 'POST',
         body: formData,
@@ -106,11 +108,13 @@ class Chat extends Component {
         .then(resp => resp.json())
         .then((data) => {
           const regex = /(png|gif|jpeg|jpg|bmp|tiff|svg)$/i;
-          const objectToSend = data;
-          objectToSend.isImage = data.fileType.match(regex) !== null;
+          const filesArr = data.map((fileObj) => {
+            const isImage = fileObj.fileType.match(regex) !== null;
+            return { ...fileObj, isImage };
+          });
           const messageObj = {
             conversationId: this.state.activeChatId,
-            body: objectToSend,
+            body: filesArr,
             createdAt: Date.now(),
             author: {
               item: userId,
@@ -120,9 +124,6 @@ class Chat extends Component {
           };
           this.socket.emit('newMessage', messageObj);
         });
-    } else {
-      // TODO обсудить нужна ли возможность одновременной отправки сообщения и фалйа/файлов;
-      // TODO обсудить нужна ли возможность отправки нескольких файлов
     }
   }
 

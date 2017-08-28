@@ -12,18 +12,17 @@ const Message = ({ name, body, messageStyle, isReceived, type }) => {
   }
   const statusSpan = <span className={styles['message-status']}>{status}</span>;
   const nameSpan = <span className={styles['message-author']}>{`${name}:`}</span>;
-  const bodyIsLink = typeof body === 'object';
   let message;
   let result;
-  if (bodyIsLink) {
-    if (body.isImage) {
-      message = (
-        <a href={body.path} target="_blank">
-          <img className={styles['message-body-image']} src={body.path} alt={body.fileName} />
+  if (typeof body === 'object') {
+    message = body.map((file) => {
+      if (file.isImage) {
+        return (<a href={file.path} target="_blank">
+          <img className={styles['message-body-image']} src={file.path} alt={file.originalName} />
         </a>);
-    } else {
-      message = <a className={styles['message-body-link']} href={body.path}>{body.fileName}.{body.fileType}</a>;
-    }
+      }
+      return <a className={styles['message-body-link']} href={file.path}>{file.originalName}</a>;
+    });
   } else {
     message = <span className={styles['message-body-text']}>{body}</span>;
   }
@@ -37,12 +36,12 @@ const Message = ({ name, body, messageStyle, isReceived, type }) => {
 
 Message.propTypes = {
   name: propTypes.string,
-  body: propTypes.oneOfType([propTypes.string, propTypes.shape({
+  body: propTypes.oneOfType([propTypes.string, propTypes.arrayOf(propTypes.shape({
     finalName: propTypes.string,
     fileName: propTypes.string,
     fileType: propTypes.string,
     isImage: propTypes.bool,
-  })]),
+  }))]),
   messageStyle: propTypes.string,
   isReceived: propTypes.bool,
   type: propTypes.string,

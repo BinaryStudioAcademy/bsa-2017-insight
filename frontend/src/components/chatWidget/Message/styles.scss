@@ -1,5 +1,6 @@
 :local(.message-item) {
   display: flex;
+  flex-wrap: wrap;
   position: relative;
   margin-bottom: 10px;
 }
@@ -22,6 +23,7 @@
 }
 
 :local(.message-author) {
+  flex-basis: 20%;
   margin-right: 5px;
 }
 
@@ -32,11 +34,13 @@
 }
 
 :local(.message-body-image) {
+  padding-left: 5px;
   width: 200px;
   height: 200px;
 }
 
 :local(.message-body-link) {
+  flex-basis: 70%;
 }
 
 :local(.message-body-text) {

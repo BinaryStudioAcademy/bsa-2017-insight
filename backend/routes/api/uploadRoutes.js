@@ -10,9 +10,6 @@ const storage = multer.diskStorage({
     const splittedFilename = file.originalname.split('.');
     const [fileName, fileType] = splittedFilename;
     const finalName = `${fileName}-${Date.now()}.${fileType}`;
-    req.finalName = finalName;
-    req.fileName = fileName;
-    req.fileType = fileType;
     cb(null, finalName);
   },
 });
@@ -20,12 +17,16 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 module.exports = function (app) {
-  app.post('/api/uploads', upload.single('codename'), (req, res) => {
-    const resp = {
-      path: `http://localhost:3000/uploads/${req.finalName}`,
-      fileType: req.fileType,
-      fileName: req.fileName,
-    };
+  app.post('/api/uploads', upload.array('codename'), (req, res) => {
+    const filesArr = req.files;
+    const resp = filesArr.map((file) => {
+      return {
+        originalName: file.originalname,
+        filename: file.filename,
+        fileType: file.filename.split('.')[1],
+        path: `http://localhost:3000/uploads/${file.filename}`,
+      };
+    });
     res.status(200).json(resp);
   });
 };

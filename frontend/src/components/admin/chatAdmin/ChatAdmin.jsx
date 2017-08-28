@@ -67,7 +67,7 @@ class Chat extends Component {
     const conversationToRender = this.props.conversationToRender;
     const messages = conversationToRender ? conversationToRender.messages : null;
     return (
-      <div className={styles.chat} style={{ flexShrink: 1 }}>
+      <div className={styles.chat}>
         <MessagesList messages={messages} />
         <form className={styles['sending-form']} onSubmit={this.handleMessageSubmit}>
           <input

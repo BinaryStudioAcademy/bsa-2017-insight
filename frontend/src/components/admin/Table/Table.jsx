@@ -30,10 +30,7 @@ class UserInfoTable extends React.Component {
 
   render() {
     return (
-      <div
-        className={styles.container}
-        style={{ maxHeight: '400px', overflow: 'scroll', outline: '1px solid #ccc' }}
-      >
+      <div className={styles.container}>
         <MuiThemeProvider>
           <Table bodyStyle={{ overflow: 'visible' }}>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>

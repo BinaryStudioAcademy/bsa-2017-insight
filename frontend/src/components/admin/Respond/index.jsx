@@ -36,15 +36,22 @@ class Respond extends React.Component {
     return (
       <div>
         {!idToRender ?
-          <div className={styles['big-conversation-list']}>
+          <div
+            className={styles['big-conversation-list']}
+            style={{
+              height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
+              overflowY: 'scroll',
+              width: '20vw',
+            }}
+          >
             <ConversationList
               setStatistic={this.getIdForStatistic}
               conversations={this.props.conversations}
               setConversation={this.props.setConversation}
-              headerHeight={this.props.headerHeight}
             />
           </div> :
-          <div className={styles['small-conversation-list']}
+          <div
+            className={styles['small-conversation-list']}
             style={{
               height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
               overflowY: 'hidden',
@@ -53,20 +60,39 @@ class Respond extends React.Component {
               width: '100%',
             }}
           >
-            <div className={styles.conversations}>
+            <div
+              className={styles.conversations}
+              style={{
+                height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
+                overflowY: 'scroll',
+                width: '20vw',
+              }}
+            >
               <ConversationList
                 setStatistic={this.getIdForStatistic}
                 conversations={this.props.conversations}
                 setConversation={this.props.setConversation}
                 nowActive={this.props.conversationToRenderId}
                 removeConversations={this.props.removeConversations}
-                headerHeight={this.props.headerHeight}
               />
             </div>
-            <div className={styles.chat}>
+            <div
+              className={styles.chat}
+              style={{
+                flexShrink: 1,
+                flexGrow: 2,
+              }}
+            >
               <Chat conversationToRender={convToChat} dispatch={this.props.dispatch} />
             </div>
-            <div className={styles.info}>
+            <div
+              className={styles.info}
+              style={{
+                height: `calc(60vh - ${this.props.headerHeight})`,
+                overflowY: 'scroll',
+                width: '20vw',
+              }}
+            >
               <UserInfo statistic={this.props.statisticById} />
             </div>
           </div>

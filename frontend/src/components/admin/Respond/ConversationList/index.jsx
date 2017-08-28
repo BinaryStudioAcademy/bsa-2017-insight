@@ -4,13 +4,7 @@ import SingleConversation from '../SingleConversation';
 
 const ConversationList = (props) => {
   return (
-    <div
-      style={{
-        height: `calc(100vh - ${props.headerHeight}px - 8px)`,
-        overflowY: 'scroll',
-        width: '20vw',
-      }}
-    >
+    <div>
       {props.conversations.map((e) => {
         const activeConv = props.nowActive ? props.nowActive : null;
         const handler = activeConv === e._id ? () => props.removeConversations() : () => props.setConversation(e._id);

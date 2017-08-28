@@ -35,14 +35,24 @@ class Respond extends React.Component {
     const convToChat = idToRender ? this.conversationToChat(idToRender) : null;
     return (
       <div>
-        {!idToRender ? <div className={styles['big-conversation-list']}>
-          <ConversationList
-            setStatistic={this.getIdForStatistic}
-            conversations={this.props.conversations}
-            setConversation={this.props.setConversation}
-          />
-        </div>
-          : <div className={styles['small-conversation-list']}>
+        {!idToRender ?
+          <div className={styles['big-conversation-list']}>
+            <ConversationList
+              setStatistic={this.getIdForStatistic}
+              conversations={this.props.conversations}
+              setConversation={this.props.setConversation}
+              headerHeight={this.props.headerHeight}
+            />
+          </div> :
+          <div className={styles['small-conversation-list']}
+            style={{
+              height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
+              overflowY: 'hidden',
+              display: 'flex',
+              flexWrap: 'nowrap',
+              width: '100%',
+            }}
+          >
             <div className={styles.conversations}>
               <ConversationList
                 setStatistic={this.getIdForStatistic}
@@ -50,6 +60,7 @@ class Respond extends React.Component {
                 setConversation={this.props.setConversation}
                 nowActive={this.props.conversationToRenderId}
                 removeConversations={this.props.removeConversations}
+                headerHeight={this.props.headerHeight}
               />
             </div>
             <div className={styles.chat}>

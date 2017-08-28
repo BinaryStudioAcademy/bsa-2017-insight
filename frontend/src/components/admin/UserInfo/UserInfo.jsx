@@ -6,7 +6,7 @@ import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import Time from 'material-ui/svg-icons/device/access-time';
 import Subheader from 'material-ui/Subheader';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import styles from './styles.scss';
 
 
@@ -17,8 +17,15 @@ const UserInfo = (props) => {
   const lastUrl = statistic && statistic.viewedUrls.join(' , ');
   const screen = statistic && `${statistic.screenWidth} x ${statistic.screenHeight}`;
   return (
-    <MuiThemeProvider>
-      {statistic && <div className={styles['user-info']}>
+    <div>
+      {statistic && <div
+        className={styles['user-info']}
+        style={{
+          height: `calc(60vh - ${props.headerHeight})`,
+          overflowY: 'scroll',
+          width: '20vw',
+        }}
+      >
         <List>
           <ListItem primaryText={user.username} secondaryText={isOnline} leftAvatar={<Avatar src={`avatars/${user.avatar}`} />} />
           <ListItem primaryText={statistic.country} secondaryText={statistic.city} leftIcon={<GpsFixed />} />
@@ -45,7 +52,7 @@ const UserInfo = (props) => {
           <ListItem primaryText="Screen" secondaryText={screen} />
         </List>
       </div>}
-    </MuiThemeProvider>
+    </div>
   );
 };
 

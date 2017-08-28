@@ -60,6 +60,7 @@ class AdminPage extends React.Component {
   constructor(props) {
     super(props);
     this.leftMenuWidth = 75;
+    this.headerHeight = 65;
     this.state = {};
   }
 
@@ -97,8 +98,8 @@ class AdminPage extends React.Component {
                   <LeftSideMenu
                     width={this.leftMenuWidth}
                   />
-                  <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
-                    <Header currentUser={this.state.currentUser} />
+                  <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: this.leftMenuWidth - 8 }}>
+                    <Header currentUser={this.state.currentUser} style={{ height: this.headerHeight }} />
                     <Switch>
                       <Route
                         exact
@@ -109,7 +110,11 @@ class AdminPage extends React.Component {
                           return (
                             <div>
                               <div style={{ position: 'relative', height: '64px', zIndex: 1000 }}>
-                                <Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
+                                <Filter
+                                  selectedFields={this.props.fieldsToDisplay}
+                                  statisticOptions={options}
+                                  updateFields={this.props.updateFields}
+                                />
                               </div>
                               <StatisticsFilter />
                               <UserInfoTable
@@ -124,7 +129,12 @@ class AdminPage extends React.Component {
                           );
                         }}
                       />
-                      <Route path="/admin/respond" component={Respond} />
+                      <Route
+                        path="/admin/respond"
+                        render={() => (
+                          <Respond headerHeight={this.headerHeight} />)
+                        }
+                      />
                       <Route
                         path={'/admin/engage'}
                         render={() => {

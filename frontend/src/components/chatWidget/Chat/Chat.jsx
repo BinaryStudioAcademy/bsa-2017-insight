@@ -94,36 +94,34 @@ class Chat extends Component {
         notifications.email(messageObj);
       }
     } else if (files.length > 0 && message === '') {
-      const formData = new FormData();
       files.forEach((file) => {
+        const formData = new FormData();
         formData.append('codename', file);
+        const options = {
+          method: 'POST',
+          body: formData,
+        };
+        fetch('http://localhost:3000/api/uploads', options)
+          .then(resp => resp.json())
+          .then((data) => {
+            const regex = /(png|gif|jpeg|jpg|bmp|tiff|svg)$/i;
+            const objectToSend = data;
+            objectToSend.isImage = data.fileType.match(regex) !== null;
+            const messageObj = {
+              conversationId: this.state.activeChatId,
+              body: objectToSend,
+              createdAt: Date.now(),
+              author: {
+                item: userId,
+                userType: 'User',
+              },
+              isReceived: false,
+            };
+            this.socket.emit('newMessage', messageObj);
+          });
       });
-      const options = {
-        method: 'POST',
-        body: formData,
-      };
       eventCopy.target.reset();
       eventCopy.target.querySelector('span').innerHTML = '';
-      fetch('http://localhost:3000/api/uploads', options)
-        .then(resp => resp.json())
-        .then((data) => {
-          const regex = /(png|gif|jpeg|jpg|bmp|tiff|svg)$/i;
-          const filesArr = data.map((fileObj) => {
-            const isImage = fileObj.fileType.match(regex) !== null;
-            return { ...fileObj, isImage };
-          });
-          const messageObj = {
-            conversationId: this.state.activeChatId,
-            body: filesArr,
-            createdAt: Date.now(),
-            author: {
-              item: userId,
-              userType: 'User',
-            },
-            isReceived: false,
-          };
-          this.socket.emit('newMessage', messageObj);
-        });
     }
   }
 

@@ -1,5 +1,7 @@
 :local(.filter-wrapper) {
   width: 19%;
+  box-sizing: border-box;
+  float: left;
 }
 
 :local(.filter-title) {

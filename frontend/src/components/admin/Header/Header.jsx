@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
-import FlatButton from 'material-ui/FlatButton';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
-import Key from 'material-ui/svg-icons/communication/vpn-key';
+// import Key from 'material-ui/svg-icons/communication/vpn-key';
+import { ListItem } from 'material-ui/List';
 
 class Header extends React.Component {
   logout(e) {
@@ -36,12 +36,12 @@ class Header extends React.Component {
                   <Avatar src={`/avatars/${user.avatar}`} />
                   {`${user.firstName}  ${user.lastName}`}
                 </Chip> */}
-                <FlatButton
-                  onTouchTap={this.logout}
-                  style={{ color: 'black' }}
-                  label={'Log out'}
-                  icon={<Key />}
-                  secondary
+                <ListItem
+                  nestedListStyle={{ position: 'absolute', border: '1px solid #000', backgroundColor: '#fff', width: '120px', padding: '0' }}
+                  hoverColor={'transparent'}
+                  primaryText={'Settings'}
+                  nestedItems={[<ListItem primaryText={'Log out'} innerDivStyle={{ padding: '7px' }} />]}
+                  onClick={this.logout}
                 />
               </ToolbarGroup>
             </Toolbar>
@@ -54,8 +54,8 @@ class Header extends React.Component {
 
 Header.propTypes = {
   currentUser: PropTypes.shape({
-    username: PropTypes.string
-  })
+    username: PropTypes.string,
+  }),
 };
 
 export default Header;

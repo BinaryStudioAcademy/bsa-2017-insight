@@ -115,7 +115,7 @@ class StatisticsFilter extends React.Component {
 
   render() {
     return (
-      <List className={styles['filter-wrapper']} style={{padding: 0, border: '1px solid #4DD0E1', overflow: 'hidden'}}>
+      <List className={styles['filter-wrapper']} style={{padding: 0, border: '1px solid #4DD0E1', overflow: 'hidden', marginLeft: '13px'}}>
         <h4 className={styles['filter-title']} style={{ backgroundColor: '#4DD0E1', margin: 0, height: '48px', lineHeight: '48px'}}>Users Filter</h4>
         <form className={styles['filter-form']} onSubmit={this.onFormSubmit}>
           <CustomInput

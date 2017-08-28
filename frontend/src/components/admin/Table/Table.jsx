@@ -1,4 +1,7 @@
 import React from 'react';
+import Dialog from 'material-ui/Dialog';
+// import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import {
   Table,
   TableBody,
@@ -7,11 +10,8 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import styles from './styles.scss';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import Filter from '../Filter/Filter';
 
 class UserInfoTable extends React.Component {
@@ -34,11 +34,11 @@ class UserInfoTable extends React.Component {
       screenWidth: 'Screen Width',
       timeZone: 'Timezone',
       userAgent: 'User Agent',
-      userId: 'User ID', 
+      userId: 'User ID',
       userIpAddress: 'IP Address',
       viewedUrls: 'Viewed URLs',
-      open: false
-    }
+      open: false,
+    };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
@@ -49,14 +49,14 @@ class UserInfoTable extends React.Component {
 
   generateRows() {
     return this.props.statistics.map((row, index) => (
-      <TableRow key={`row ${index}`} value={row} style={{ borderBottom: '1px solid #E0F7FA'}}> {
+      <TableRow key={`row ${index}`} value={row} style={{ borderBottom: '1px solid #E0F7FA' }}> {
         this.props.options.map((elem) => {
           return (<TableRowColumn
             key={`row ${index},column${elem}`}
             style={{ fontSize: '12px', width: '200px', padding: '5px' }}
-            >
-              <span>{row[elem]}</span>
-            </TableRowColumn>);
+          >
+            <span>{row[elem]}</span>
+          </TableRowColumn>);
         })
       }
       </TableRow>
@@ -64,12 +64,12 @@ class UserInfoTable extends React.Component {
   }
 
   handleOpen() {
-    this.setState({open: true});
-  };
+    this.setState({ open: true });
+  }
 
   handleClose() {
-    this.setState({open: false});
-  };
+    this.setState({ open: false });
+  }
 
   render() {
     const actions = [
@@ -77,36 +77,35 @@ class UserInfoTable extends React.Component {
         label="Save"
         primary={true}
         onClick={this.handleClose}
-      />
+      />,
     ];
     return (
       <div className={styles.container} >
-        <RaisedButton label="Columns Filter" onClick={this.handleOpen} primary={true} style={{marginBottom: '5px'}}/>
+        <RaisedButton label="Columns Filter" onClick={this.handleOpen} primary={true} style={{ marginBottom: '5px' }} />
         <Dialog
           title="Columns Filter"
           actions={actions}
           modal={true}
           open={this.state.open}
-          bodyStyle={{overflowX: 'hidden'}}
+          bodyStyle={{ overflowX: 'hidden' }}
         >
-        <Filter 
-          selectedFields={this.props.selectedFields} 
-          statisticOptions={this.props.statisticOptions} 
-          updateFields={this.props.updateFields} />
+          <Filter
+            selectedFields={this.props.selectedFields}
+            statisticOptions={this.props.statisticOptions}
+            updateFields={this.props.updateFields}
+          />
         </Dialog>
-        <Table style={{border: '1px solid #E0F7FA'}}>
-          <TableHeader adjustForCheckbox={false} displaySelectAll={false} >
-            <TableRow style={{ backgroundColor: '#E0F7FA', borderBottom: '2px solid #E0F7FA' }}>
+        <Table bodyStyle={{ overflow: 'visible' }}>
+          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+            <TableRow style={{ height: '25px' }}>
               {this.props.options.map((elem) => {
                 return (<TableHeaderColumn
                   key={elem}
                   style={{
                     fontSize: '12px',
                     width: '200px',
-                    height: '15px',
                     padding: '5px',
-                    textAlign: 'center',
-                    color: '#000',
+                    height: '25px',
                   }}
                 >
                   {this.state[elem]}
@@ -114,7 +113,7 @@ class UserInfoTable extends React.Component {
               })}
             </TableRow>
           </TableHeader>
-          <TableBody displayRowCheckbox={false} style={{overflowX: 'scroll'}}>
+          <TableBody displayRowCheckbox={false}>
             {
               this.generateRows()
             }
@@ -128,6 +127,9 @@ class UserInfoTable extends React.Component {
 UserInfoTable.propTypes = {
   options: React.PropTypes.arrayOf(React.PropTypes.string),
   statistics: React.PropTypes.arrayOf(React.PropTypes.object),
+  statisticOptions: React.PropTypes.arrayOf(React.PropTypes.string),
+  selectedFields: React.PropTypes.arrayOf(React.PropTypes.string),
+  updateFields: React.PropTypes.func,
 };
 
 export default UserInfoTable;

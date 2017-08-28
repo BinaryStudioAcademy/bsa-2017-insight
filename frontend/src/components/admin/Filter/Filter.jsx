@@ -1,11 +1,6 @@
 import React from 'react';
-import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Checkbox from 'material-ui/Checkbox';
-import RadioChecked from 'material-ui/svg-icons/toggle/radio-button-checked';
-import RadioUnchecked from 'material-ui/svg-icons/toggle/radio-button-unchecked';
-import styles from './styles.scss';
+import { ListItem } from 'material-ui/List';
 import EmptyPlace from './EmptyPlace';
 
 let uniqueId = 0;
@@ -17,33 +12,33 @@ class Filter extends React.Component {
       radioValue: {
         Email: 'emailValue',
         Name: 'nameValue',
-        'Last seen': 'last seen Value'
+        'Last seen': 'last seen Value',
       },
       initiallyOpen: {
         Email: false,
         Name: false,
-        'Last seen': false
-       },
+        'Last seen': false,
+      },
       checkedCheckboxes: {
-      	browser: { status: false, alias: 'Browser' },
-      	browserLanguage: { status: false, alias: 'Browser Language' },
-      	browserVersion: { status: false, alias: 'Browser Version' },
-      	city: { status: false, alias: 'City' },
-      	coordinates: { status: false, alias: 'Coordinates' },
-      	country: { status: false, alias: 'Country' },
-      	currentUrl: { status: false, alias: 'Current URL' },
-      	deviceType: { status: false, alias: 'Device Type' },
-      	geoLocation: { status: false, alias: 'Geolocation' },
+        browser: { status: false, alias: 'Browser' },
+        browserLanguage: { status: false, alias: 'Browser Language' },
+        browserVersion: { status: false, alias: 'Browser Version' },
+        city: { status: false, alias: 'City' },
+        coordinates: { status: false, alias: 'Coordinates' },
+        country: { status: false, alias: 'Country' },
+        currentUrl: { status: false, alias: 'Current URL' },
+        deviceType: { status: false, alias: 'Device Type' },
+        geoLocation: { status: false, alias: 'Geolocation' },
         _id: { status: false, alias: 'ID' },
         online: { status: false, alias: 'Online' },
         os: { status: false, alias: 'OS' },
         screenHeight: { status: false, alias: 'Screen Height' },
         screenWidth: { status: false, alias: 'Screen Width' },
         timeZone: { status: false, alias: 'Timezone' },
-    	userAgent: { status: false, alias: 'User Agent' },
-        userId: { status: false, alias: 'User ID' }, 
+        userAgent: { status: false, alias: 'User Agent' },
+        userId: { status: false, alias: 'User ID' },
         userIpAddress: { status: false, alias: 'IP Address' },
-        viewedUrls: { status: false, alias: 'Viewed URLs' }
+        viewedUrls: { status: false, alias: 'Viewed URLs' },
       },
     };
     this.onChangeRadio = this.onChangeRadio.bind(this);
@@ -52,7 +47,7 @@ class Filter extends React.Component {
 
   componentWillMount() {
     this.props.selectedFields.forEach((option) => {
-        this.state.checkedCheckboxes[option].status = true;
+      this.state.checkedCheckboxes[option].status = true;
     });
   }
 
@@ -117,13 +112,13 @@ class Filter extends React.Component {
   render() {
     let nestedItems = Object.keys(this.state.checkedCheckboxes).map((elem) => {
       return (<ListItem
-        style={{ fontSize: '14px', width: '160px'}}
-        innerDivStyle={{width: '160px', padding: '16px 0 16px 38px'}}
+        style={{ fontSize: '14px', width: '160px' }}
+        innerDivStyle={{ width: '160px', padding: '16px 0 16px 38px' }}
         leftCheckbox={
           <Checkbox
             onCheck={() => this.handleCheck(elem)}
             checked={this.state.checkedCheckboxes[elem].status}
-            style={{left: '3%'}}
+            style={{ left: '3%' }}
           />}
         primaryText={this.state.checkedCheckboxes[elem].alias}
         key={uniqueId++}
@@ -136,15 +131,17 @@ class Filter extends React.Component {
     });
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'space-between', height: '300px'}}>
-        	{nestedItems}
-        </div>
+      <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'space-between', height: '300px' }}>
+        {nestedItems}
+      </div>
     );
   }
 }
 
 Filter.propTypes = {
-  statisticOptions: React.PropTypes.arrayOf(React.PropTypes.string)
+  statisticOptions: React.PropTypes.arrayOf(React.PropTypes.string),
+  selectedFields: React.PropTypes.arrayOf(React.PropTypes.string),
+  updateFields: React.PropTypes.func,
 };
 
 export default Filter;

@@ -129,7 +129,7 @@ class Chat extends Component {
     const messages = conversationToRender ? conversationToRender.messages : null;
     return (
       <div className={styles.chat} role="presentation" onClick={e => this.closeEmojiBlock(e)} >
-        <MessagesList messages={messages} />
+        <MessagesList messages={messages} chosenTheme={this.props.chosenTheme} />
         <form className={styles['sending-form']}>
           <input
             type="text"

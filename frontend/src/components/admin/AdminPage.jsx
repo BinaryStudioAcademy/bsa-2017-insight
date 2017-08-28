@@ -14,15 +14,12 @@ import Registration from './AdminAuthentication/AdminRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 import Respond from './Respond/index';
 import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
-import getCurrentUser from '../../actions/getCurrentUserAction';
 import StatisticsFilter from './StatisticsFilter/StatisticsFilter';
 import StatisticsCharts from './StatisticsCharts/StatisticsCharts';
-
-const muiTheme = getMuiTheme({
-  tooltip: {
-    rippleBackgroundColor: '#333333',
-  },
-});
+import getCurrentUser from '../../actions/getCurrentUserAction';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import styles from './styles.scss';
 
 injectTapEventPlugin();
 
@@ -61,7 +58,10 @@ class AdminPage extends React.Component {
     super(props);
     this.leftMenuWidth = 75;
     this.headerHeight = 65;
-    this.state = {};
+    this.state = {
+      chosenTheme: lightBaseTheme,
+    };
+    this.toggleTheme = this.toggleTheme.bind(this);
   }
 
   componentWillMount() {
@@ -85,10 +85,29 @@ class AdminPage extends React.Component {
     return options;
   }
 
+  toggleTheme() {
+    console.log('Current theme:');
+    console.log(this.state.chosenTheme);
+    this.setState({
+      chosenTheme: this.state.chosenTheme === lightBaseTheme ? darkBaseTheme : lightBaseTheme,
+    }, () => {
+      document.documentElement.style = `background-color: ${this.state.chosenTheme.palette.canvasColor}`;
+    });
+  }
+
   render() {
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <div style={{ minWidth: '700px', fontFamily: 'Roboto, sans-serif' }}>
+      <MuiThemeProvider muiTheme={getMuiTheme(this.state.chosenTheme)}>
+        <div
+          className={styles['admin-page']}
+          style={{
+            minWidth: '700px',
+            fontFamily: 'Roboto, sans-serif',
+            backgroundColor: this.state.chosenTheme.palette.canvasColor,
+            color: this.state.chosenTheme.palette.textColor,
+            minHeight: 'calc(100vh - 8px)',
+          }}
+        >
           <Switch>
             <Route path={'/admin/login'} component={Login} />
             <Route path={'/admin/registration'} component={Registration} />
@@ -97,9 +116,15 @@ class AdminPage extends React.Component {
                 <EnsureAdmin currentUser={this.state.currentUser}>
                   <LeftSideMenu
                     width={this.leftMenuWidth}
+                    chosenTheme={this.state.chosenTheme}
                   />
                   <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: this.leftMenuWidth - 8 }}>
-                    <Header currentUser={this.state.currentUser} style={{ height: this.headerHeight }} />
+                    <Header
+                      currentUser={this.state.currentUser}
+                      toggleTheme={this.toggleTheme}
+                      chosenTheme={this.state.chosenTheme}
+                      style={{ height: this.headerHeight }}
+                    />
                     <Switch>
                       <Route
                         exact
@@ -114,12 +139,14 @@ class AdminPage extends React.Component {
                                   selectedFields={this.props.fieldsToDisplay}
                                   statisticOptions={options}
                                   updateFields={this.props.updateFields}
+                                  chosenTheme={this.state.chosenTheme}
                                 />
                               </div>
-                              <StatisticsFilter />
+                              <StatisticsFilter chosenTheme={this.state.chosenTheme} />
                               <UserInfoTable
                                 options={this.props.fieldsToDisplay}
                                 statistics={statistics}
+                                chosenTheme={this.state.chosenTheme}
                               />
                               <StatisticsCharts
                                 selectedFields={this.props.fieldsToDisplay}
@@ -132,7 +159,10 @@ class AdminPage extends React.Component {
                       <Route
                         path="/admin/respond"
                         render={() => (
-                          <Respond headerHeight={this.headerHeight} />)
+                          <Respond
+                            headerHeight={this.headerHeight}
+                            chosenTheme={this.state.chosenTheme}
+                          />)
                         }
                       />
                       <Route

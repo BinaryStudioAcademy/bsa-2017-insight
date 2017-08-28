@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Key from 'material-ui/svg-icons/communication/vpn-key';
+import Toggle from 'material-ui/Toggle';
 
 class Header extends React.Component {
   logout(e) {
@@ -28,6 +29,13 @@ class Header extends React.Component {
               <ToolbarGroup
                 lastChild
               >
+                <Toggle
+                  onToggle={this.props.toggleTheme}
+                  style={{ width: 170, marginRight: 30 }}
+                  thumbStyle={{ background: this.props.chosenTheme.palette.accent3Color }}
+                  trackStyle={{ background: this.props.chosenTheme.palette.primary3Color }}
+                  label={`Turn ${this.props.chosenTheme.palette.canvasColor === '#ffffff' ? 'off' : 'on'} the light`}
+                />
                 <Chip>
                   <Avatar src={`/avatars/${user.avatar}`} />
                   { this.props.currentUser.username }
@@ -38,9 +46,10 @@ class Header extends React.Component {
                 </Chip> */}
                 <FlatButton
                   onTouchTap={this.logout}
-                  style={{ color: 'black' }}
+                  style={{ color: this.props.chosenTheme.palette.textColor }}
                   label={'Log out'}
                   icon={<Key />}
+                  containerElement={'label'}
                   secondary
                 />
               </ToolbarGroup>
@@ -54,8 +63,8 @@ class Header extends React.Component {
 
 Header.propTypes = {
   currentUser: PropTypes.shape({
-    username: PropTypes.string
-  })
+    username: PropTypes.string,
+  }),
 };
 
 export default Header;

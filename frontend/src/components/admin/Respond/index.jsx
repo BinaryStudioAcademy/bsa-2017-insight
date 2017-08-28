@@ -41,13 +41,14 @@ class Respond extends React.Component {
             style={{
               height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
               overflowY: 'scroll',
-              width: '20vw',
+              width: '100%',
             }}
           >
             <ConversationList
               setStatistic={this.getIdForStatistic}
               conversations={this.props.conversations}
               setConversation={this.props.setConversation}
+              chosenTheme={this.props.chosenTheme}
             />
           </div> :
           <div
@@ -74,6 +75,7 @@ class Respond extends React.Component {
                 setConversation={this.props.setConversation}
                 nowActive={this.props.conversationToRenderId}
                 removeConversations={this.props.removeConversations}
+                chosenTheme={this.props.chosenTheme}
               />
             </div>
             <div
@@ -83,7 +85,11 @@ class Respond extends React.Component {
                 flexGrow: 2,
               }}
             >
-              <Chat conversationToRender={convToChat} dispatch={this.props.dispatch} />
+              <Chat
+                conversationToRender={convToChat}
+                dispatch={this.props.dispatch}
+                chosenTheme={this.props.chosenTheme}
+              />
             </div>
             <div
               className={styles.info}

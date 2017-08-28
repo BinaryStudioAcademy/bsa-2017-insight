@@ -1,7 +1,6 @@
 import React from 'react';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Checkbox from 'material-ui/Checkbox';
 import RadioChecked from 'material-ui/svg-icons/toggle/radio-button-checked';
 import RadioUnchecked from 'material-ui/svg-icons/toggle/radio-button-unchecked';
@@ -139,19 +138,22 @@ class Filter extends React.Component {
       <div className={styles.container}>
         <div />
         <div>
-          <MuiThemeProvider>
-            <List>
-              <ListItem
-                primaryText="Fields Filter"
-                key={1}
-                initiallyOpen={false}
-                primaryTogglesNestedList={true}
-                nestedItems={nestedItems}
-                nestedListStyle={{ height: '400px', overflowY: 'scroll', border: '1px solid #E5E5E5', backgroundColor: '#fff' }}
-                style={{backgroundColor: '#E5E5E5'}}
-              />
-            </List>
-          </MuiThemeProvider>
+          <List>
+            <ListItem
+              primaryText="Fields Filter"
+              key={1}
+              initiallyOpen={false}
+              primaryTogglesNestedList={true}
+              nestedItems={nestedItems}
+              nestedListStyle={{
+                height: '400px',
+                overflowY: 'scroll',
+                border: '1px solid #E5E5E5',
+                backgroundColor: this.props.chosenTheme.palette.canvasColor,
+              }}
+              style={{backgroundColor: this.props.chosenTheme.palette.primary3Color}}
+            />
+          </List>
         </div>
       </div>
     );

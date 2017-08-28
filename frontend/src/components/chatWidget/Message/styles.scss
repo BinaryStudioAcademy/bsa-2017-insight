@@ -1,4 +1,7 @@
 :local(.message-item) {
+  display: flex;
+  position: relative;
+  margin-bottom: 10px;
 }
 
 :local(.force-message) {
@@ -16,4 +19,25 @@
 :local(.user-message) {
   color: green;
   font-size: 16px;
+}
+
+:local(.message-author) {
+  margin-right: 5px;
+}
+
+:local(.message-status) {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+:local(.message-body-image) {
+  width: 200px;
+  height: 200px;
+}
+
+:local(.message-body-link) {
+}
+
+:local(.message-body-text) {
 }

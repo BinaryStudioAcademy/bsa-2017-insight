@@ -22,7 +22,7 @@ class CustomInput extends React.Component {
   renderNestedTextInput(displayChildren, key) {
     if (displayChildren) {
       return ([
-        <ListItem key={this.props.matching} disabled={true} style={{ padding: 0, marginTop: '-10px' }}>
+        <ListItem key={this.props.matching} disabled style={{ padding: 0, marginTop: '-10px' }}>
           <TextField
             key={`${key}-1`}
             className={styles['radio-input']}
@@ -112,7 +112,7 @@ class CustomInput extends React.Component {
             <Checkbox checked={this.props.displayChildren} />
           }
           nestedItems={this.props.displayChildren ?
-            [<ListItem key={this.props.matching} disabled={true} style={{ padding: 0 }}>
+            [<ListItem key={this.props.matching} disabled style={{ padding: 0 }}>
               <SelectField
                 className={styles.select}
                 key={this.props.matching}

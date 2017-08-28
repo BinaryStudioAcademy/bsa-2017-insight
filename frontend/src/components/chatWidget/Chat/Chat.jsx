@@ -14,7 +14,7 @@ class Chat extends Component {
       activeChatId: null,
       conversations: [],
     };
-    this.onMessageSubmit = this.onMessageSubmit.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onConversationClick = this.onConversationClick.bind(this);
     this.onReturnButtonClick = this.onReturnButtonClick.bind(this);
     this.onCreateConversationButtonClick = this.onCreateConversationButtonClick.bind(this);
@@ -27,6 +27,7 @@ class Chat extends Component {
     this.socket.emit('getUserConversations', id);
     startSocketConnection.call(this, this.socket);
   }
+
   onForceConversation() {
     const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
     const conversation = {
@@ -40,6 +41,7 @@ class Chat extends Component {
     };
     this.socket.emit('createForceConversation', conversation, userId);
   }
+
   onCreateConversationButtonClick() {
     const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
     const conversation = {
@@ -65,25 +67,59 @@ class Chat extends Component {
     this.socket.emit('getUserConversations', id);
     this.setState({ activeChatId: null });
   }
-
-  onMessageSubmit(message) {
+  onFormSubmit(event, text) {
     const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
-    if (message === '') return;
-    const messageObj = {
-      conversationId: this.state.activeChatId,
-      body: message,
-      createdAt: Date.now(),
-      author: {
-        item: userId,
-        userType: 'User',
-      },
-      isReceived: false,
-    };
-    this.socket.emit('newMessage', messageObj);
-    if (window._injectedData
-      && window._injectedData.userId
-      && typeof (window._injectedData.userId === 'object')) {
-      notifications.email(messageObj);
+    event.preventDefault();
+    const eventCopy = event;
+    const message = text;
+    const files = [...event.target.fileInput.files];
+    if (files.length === 0) {
+      if (message === '') return;
+      const messageObj = {
+        conversationId: this.state.activeChatId,
+        body: message,
+        createdAt: Date.now(),
+        author: {
+          item: userId,
+          userType: 'User',
+        },
+        isReceived: false,
+      };
+      this.socket.emit('newMessage', messageObj);
+      if (window._injectedData
+        && window._injectedData.userId
+        && typeof (window._injectedData.userId === 'object')) {
+        notifications.email(messageObj);
+      }
+    } else if (files.length > 0 && message === '') {
+      files.forEach((file) => {
+        const formData = new FormData();
+        formData.append('codename', file);
+        const options = {
+          method: 'POST',
+          body: formData,
+        };
+        fetch('http://localhost:3000/api/uploads', options)
+          .then(resp => resp.json())
+          .then((data) => {
+            const regex = /(png|gif|jpeg|jpg|bmp|tiff|svg)$/i;
+            const objectToSend = data;
+            objectToSend.isImage = data.fileType.match(regex) !== null;
+            const messageObj = {
+              conversationId: this.state.activeChatId,
+              body: objectToSend,
+              createdAt: Date.now(),
+              author: {
+                item: userId,
+                userType: 'User',
+              },
+              isReceived: false,
+            };
+            this.socket.emit('newMessage', messageObj);
+          });
+      });
+      eventCopy.target.reset();
+      eventCopy.target.querySelector('span').innerHTML = '';
     }
   }
 
@@ -109,7 +145,7 @@ class Chat extends Component {
         {this.state.activeChatId &&
         <ChatBody
           messages={messages}
-          onMessageSubmit={this.onMessageSubmit}
+          onFormSubmit={this.onFormSubmit}
           onReturnButtonClick={this.onReturnButtonClick}
         />}
       </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import RaisedButton from 'material-ui/RaisedButton';
 import styles from './styles.scss';
 import MessagesList from './MessagesList/MessagesList';
 import { startSocketConnection } from './logic';
@@ -17,6 +18,7 @@ class Chat extends Component {
       selectionStart: null,
       selectionEnd: null,
       input: null,
+      filesCounter: 'Select file',
     };
     this.setTextIntoInput = this.setTextIntoInput.bind(this);
     this.toggleEmojiBlock = this.toggleEmojiBlock.bind(this);
@@ -25,6 +27,7 @@ class Chat extends Component {
     this.setEmojiToInput = this.setEmojiToInput.bind(this);
     this.focusToInput = this.focusToInput.bind(this);
     this.messageSubmit = this.messageSubmit.bind(this);
+    this.onFileInputChange = this.onFileInputChange.bind(this);
   }
 
   componentDidMount() {
@@ -33,6 +36,7 @@ class Chat extends Component {
     const input = document.getElementById('input');
     this.setState({ input });
   }
+
   componentWillReceiveProps(nextProps) {
     const oldConversationId = this.props.conversationToRender._id;
     if (nextProps.conversationToRender._id !== oldConversationId) {
@@ -85,19 +89,64 @@ class Chat extends Component {
     this.setState({ input: e.target, selectionStart: e.target.selectionStart, selectionEnd: e.target.selectionEnd });
   }
 
-  handleMessageSubmit(message) {
-    const messageObj = {
-      conversationId: this.props.conversationToRender._id,
-      body: message,
-      createdAt: Date.now(),
-      author: {
-        item: window._injectedData._id,
-        userType: 'Admin',
-      },
-      isReceived: false,
-    };
-    this.socket.emit('newMessage', messageObj);
-    notifications.email(messageObj);
+  onFileInputChange() {
+    if (this.fileInput.files.length === 1) {
+      this.setState({ filesCounter: this.fileInput.files[0].name });
+    } else if (this.fileInput.files.length > 1) {
+      this.setState({ filesCounter: `Selected files: ${this.fileInput.files.length}` });
+    } else {
+      this.setState({ filesCounter: 'Select file' });
+    }
+  }
+
+  handleMessageSubmit(event, text) {
+    const eventCopy = event;
+    const message = text;
+    const files = [...event.target.fileInput.files];
+    if (files.length === 0) {
+      if (message === '') return;
+      const messageObj = {
+        conversationId: this.props.conversationToRender._id,
+        body: message,
+        createdAt: Date.now(),
+        author: {
+          item: window._injectedData._id,
+          userType: 'Admin',
+        },
+        isReceived: false,
+      };
+      this.socket.emit('newMessage', messageObj);
+      notifications.email(messageObj);
+    } else if (files.length > 0 && message === '') {
+      files.forEach((file) => {
+        const formData = new FormData();
+        formData.append('codename', file);
+        const options = {
+          method: 'POST',
+          body: formData,
+        };
+        fetch('http://localhost:3000/api/uploads', options)
+          .then(resp => resp.json())
+          .then((data) => {
+            const regex = /(png|gif|jpeg|jpg|bmp|tiff|svg)$/i;
+            const objectToSend = data;
+            objectToSend.isImage = data.fileType.match(regex) !== null;
+            const messageObj = {
+              conversationId: this.props.conversationToRender._id,
+              body: objectToSend,
+              createdAt: Date.now(),
+              author: {
+                item: window._injectedData._id,
+                userType: 'Admin',
+              },
+              isReceived: false,
+            };
+            this.socket.emit('newMessage', messageObj);
+          });
+      });
+      eventCopy.target.reset();
+      this.setState({ filesCounter: 'Select file' });
+    }
   }
 
   focusToInput() {
@@ -117,10 +166,10 @@ class Chat extends Component {
     }
   }
 
-  messageSubmit(e) {
-    e.preventDefault();
+  messageSubmit(event) {
+    event.preventDefault();
     const text = this.state.text;
-    this.handleMessageSubmit(text);
+    this.handleMessageSubmit(event, text);
     this.setState({ text: '' });
   }
 
@@ -130,7 +179,28 @@ class Chat extends Component {
     return (
       <div className={styles.chat} role="presentation" onClick={e => this.closeEmojiBlock(e)} >
         <MessagesList messages={messages} />
-        <form className={styles['sending-form']}>
+        <form className={styles['sending-form']} onSubmit={this.messageSubmit}>
+          <RaisedButton
+            className={styles['selected-files-counter']}
+            label={this.state.filesCounter}
+            primary
+            ref={(node) => {
+              this.filesCounter = node;
+            }}
+            style={{ height: '39px' }}
+          >
+            <input
+              id="file-input"
+              name="fileInput"
+              type="file"
+              ref={(node) => {
+                this.fileInput = node;
+              }}
+              className={styles['file-input']}
+              onChange={this.onFileInputChange}
+              multiple
+            />
+          </RaisedButton>
           <input
             type="text"
             name="messageInput"
@@ -146,7 +216,13 @@ class Chat extends Component {
           >
             <i className={styles['emoji-block-icon']} />
           </button>
-          <button className={styles['submit-button']} onClick={e => this.messageSubmit(e)}>Send</button>
+          <RaisedButton
+            type="submit"
+            label="Submit"
+            primary
+            className={styles['submit-button']}
+            style={{ height: '39px' }}
+          />
         </form>
         {this.state.showEmojis ? <div
           tabIndex={0}

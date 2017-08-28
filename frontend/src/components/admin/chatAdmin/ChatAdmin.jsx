@@ -4,6 +4,7 @@ import styles from './styles.scss';
 import MessagesList from './MessagesList/MessagesList';
 import { startSocketConnection } from './logic';
 import notifications from '../../notifications/notifications';
+import EmojiContainer from '../../emojiRender/EmojiContainer';
 
 class Chat extends Component {
   constructor(props) {
@@ -11,12 +12,26 @@ class Chat extends Component {
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
     this.state = {
       messageNum: 0,
+      text: '',
+      showEmojis: false,
+      selectionStart: null,
+      selectionEnd: null,
+      input: null,
     };
+    this.setTextIntoInput = this.setTextIntoInput.bind(this);
+    this.toggleEmojiBlock = this.toggleEmojiBlock.bind(this);
+    this.closeEmojiBlock = this.closeEmojiBlock.bind(this);
+    this.blurFromInput = this.blurFromInput.bind(this);
+    this.setEmojiToInput = this.setEmojiToInput.bind(this);
+    this.focusToInput = this.focusToInput.bind(this);
+    this.messageSubmit = this.messageSubmit.bind(this);
   }
 
   componentDidMount() {
     const conversation = this.props.conversationToRender;
     startSocketConnection.call(this, this.props.dispatch, conversation.messages, conversation._id);
+    const input = document.getElementById('input');
+    this.setState({ input });
   }
   componentWillReceiveProps(nextProps) {
     const oldConversationId = this.props.conversationToRender._id;
@@ -44,10 +59,33 @@ class Chat extends Component {
     this.socket.emit('switchRoom', '');
   }
 
-  handleMessageSubmit(event) {
-    event.preventDefault();
-    const eventCopy = event;
-    const message = event.target.messageInput.value;
+  setTextIntoInput(e) {
+    this.setState({ text: e.target.value });
+  }
+
+  setEmojiToInput(emojiName) {
+    const startSelIndex = this.state.selectionStart;
+    const endSelIndex = this.state.selectionEnd;
+    const text = this.state.text;
+    let result = null;
+    if (startSelIndex === endSelIndex) {
+      result = text.slice(0, startSelIndex) + emojiName + text.slice(startSelIndex, text.length);
+      const lastIndex = result.lastIndexOf(emojiName) + emojiName.length;
+      this.focusToInput();
+      this.setState({ text: result, selectionStart: lastIndex, selectionEnd: lastIndex });
+    } else {
+      result = text.slice(0, startSelIndex) + emojiName + text.slice(endSelIndex, text.length);
+      const lastIndex = result.lastIndexOf(emojiName) + emojiName.length;
+      this.focusToInput();
+      this.setState({ text: result, selectionStart: lastIndex, selectionEnd: lastIndex });
+    }
+  }
+
+  blurFromInput(e) {
+    this.setState({ input: e.target, selectionStart: e.target.selectionStart, selectionEnd: e.target.selectionEnd });
+  }
+
+  handleMessageSubmit(message) {
     const messageObj = {
       conversationId: this.props.conversationToRender._id,
       body: message,
@@ -59,25 +97,64 @@ class Chat extends Component {
       isReceived: false,
     };
     this.socket.emit('newMessage', messageObj);
-    eventCopy.target.messageInput.value = '';
     notifications.email(messageObj);
+  }
+
+  focusToInput() {
+    const input = this.state.input;
+    input.focus();
+  }
+  toggleEmojiBlock(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({ showEmojis: !this.state.showEmojis });
+  }
+
+  closeEmojiBlock(e) {
+    e.stopPropagation();
+    if (this.state.showEmojis) {
+      this.setState({ showEmojis: false });
+    }
+  }
+
+  messageSubmit(e) {
+    e.preventDefault();
+    const text = this.state.text;
+    this.handleMessageSubmit(text);
+    this.setState({ text: '' });
   }
 
   render() {
     const conversationToRender = this.props.conversationToRender;
     const messages = conversationToRender ? conversationToRender.messages : null;
     return (
-      <div className={styles.chat}>
+      <div className={styles.chat} role="presentation" onClick={e => this.closeEmojiBlock(e)} >
         <MessagesList messages={messages} />
-        <form className={styles['sending-form']} onSubmit={this.handleMessageSubmit}>
+        <form className={styles['sending-form']}>
           <input
             type="text"
             name="messageInput"
             className={styles['message-input']}
-            placeholder="Type yor message here.."
+            onChange={(e) => { this.setTextIntoInput(e); }}
+            value={this.state.text}
+            onBlur={e => this.blurFromInput(e)}
+            id="input"
           />
-          <button className={styles['submit-button']} type="submit">Send</button>
+          <button
+            onClick={e => this.toggleEmojiBlock(e)}
+            className={styles['main_emo-menu']}
+          >
+            <i className={styles['emoji-block-icon']} />
+          </button>
+          <button className={styles['submit-button']} onClick={e => this.messageSubmit(e)}>Send</button>
         </form>
+        {this.state.showEmojis ? <div
+          tabIndex={0}
+          onBlur={this.closeEmojiBlock}
+          className={styles['emoji-block']}
+        >
+          <EmojiContainer setEmojiToInput={this.setEmojiToInput} />
+        </div> : null }
       </div>
     );
   }

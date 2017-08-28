@@ -1,6 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import styles from './styles.scss';
+import EmojiRender from '../../emojiRender';
 
 const Message = ({ name, body, messageStyle, isReceived, type }) => {
   const messageAuthor = messageStyle === 'force-message' ? null : name;
@@ -10,9 +11,10 @@ const Message = ({ name, body, messageStyle, isReceived, type }) => {
   } else {
     status = '';
   }
+  const message = messageAuthor ? `${name}: ${body}${status}` : `${body}`
   return (
     <li className={styles[messageStyle]}>
-      {messageAuthor ? `${name}: ${body}${status}` : `${body}`}
+      <EmojiRender text={message} />
     </li>
   );
 };

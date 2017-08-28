@@ -1,6 +1,7 @@
 :local(.chat) {
   padding: 0;
   height: 80%;
+  position: relative;
 }
 
 :local(.sending-form) {
@@ -16,4 +17,32 @@
 :local(.submit-button) {
   flex-basis: 20%;
   padding: 10px;
+}
+
+:local(.main_emo-menu){
+  height:40px;
+  line-height: 40pxl;
+  background:none;
+  border:none
+}
+
+
+
+:local(.emoji-block-icon){
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  &:after{
+    content: "☺️"
+  }
+}
+
+:local(.emoji-block) {
+  position: absolute;
+  bottom: 20px;
+  right: 5px;
+  border:none;
+  &:focus{
+    border: none;
+  }
 }

@@ -60,12 +60,7 @@
   border:none
 }
 
-:local(.main_emo-menu){
-  height:40px;
-  line-height: 40pxl;
-  background:none;
-  border:none
-}
+
 
 :local(.emoji-block-icon){
   font-size: 20px;
@@ -84,12 +79,4 @@
   &:focus{
     border: none;
   }
-}
-
-:local(.show) {
-  display: block
-}
-
-:local(.hide) {
-  display: none
 }

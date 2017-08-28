@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import style from './styles.scss';
 
 const Category = (props) => {
@@ -13,6 +14,12 @@ const Category = (props) => {
       > {props.categoryName}</span>
     </div>
   );
-}
+};
+
+Category.propTypes = {
+  setCategory: PropTypes.func,
+  categoryName: PropTypes.string,
+  activeCategory: PropTypes.string,
+};
 
 export default Category;

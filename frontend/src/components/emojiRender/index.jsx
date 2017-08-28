@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import * as parserService from './logic/parserService';
 
 const EmojiRender = (props) => {
-  const hendler = props.hendler ? props.hendler : null
+  const handler = props.handler ? props.handler : null;
   return (
     <div> {
-      props.category ? parserService.category(props.category, hendler) : parserService.get(props.text)
+      props.category ? parserService.category(props.category, handler) : parserService.get(props.text)
     } </div>
   );
 };
@@ -15,6 +15,7 @@ const EmojiRender = (props) => {
 EmojiRender.propTypes = {
   text: PropTypes.string,
   category: PropTypes.string,
+  handler: PropTypes.func,
 };
 
 export default EmojiRender;

@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import MyThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import EmojiRender from '../../../emojiRender';
 
 const SingleConversation = (props) => {
   const messages = props.conversation.messages;
@@ -24,7 +25,7 @@ const SingleConversation = (props) => {
             props.setStatistic(props.conversation);
           }}
           leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
-          primaryText={messages[messages.length - 1].body}
+          primaryText={<EmojiRender text={messages[messages.length - 1].body}/>}
           secondaryText={userName}
           secondaryTextLines={2}
         />}

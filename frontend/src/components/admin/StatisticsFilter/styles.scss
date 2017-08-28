@@ -1,5 +1,6 @@
 :local(.filter-wrapper) {
-  width: 20%;
+  width: 19%;
+  box-sizing: border-box;
   float: left;
 }
 
@@ -14,5 +15,5 @@
 
 :local(.submit-button) {
   width: 60%;
-  margin: 10px auto 0;
+  margin: 10px auto 5px;
 }

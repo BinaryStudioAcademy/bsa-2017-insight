@@ -7,7 +7,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
 import UserInfoTable from './Table/Table';
-import Filter from './Filter/Filter';
 import * as statisticActions from '../../actions/statisticActions';
 import Login from './AdminAuthentication/AdminLogin';
 import Registration from './AdminAuthentication/AdminRegistration';
@@ -133,19 +132,14 @@ class AdminPage extends React.Component {
                           const statistics = this.props.usersToRender;
                           const options = this.getStatisticOptions(this.props.usersToRender);
                           return (
-                            <div>
-                              <div style={{ position: 'relative', height: '64px', zIndex: 1000 }}>
-                                <Filter
-                                  selectedFields={this.props.fieldsToDisplay}
-                                  statisticOptions={options}
-                                  updateFields={this.props.updateFields}
-                                  chosenTheme={this.state.chosenTheme}
-                                />
-                              </div>
+                            <div style={{ marginTop: '10px' }}>
                               <StatisticsFilter chosenTheme={this.state.chosenTheme} />
                               <UserInfoTable
                                 options={this.props.fieldsToDisplay}
                                 statistics={statistics}
+                                selectedFields={this.props.fieldsToDisplay}
+                                statisticOptions={options}
+                                updateFields={this.props.updateFields}
                                 chosenTheme={this.state.chosenTheme}
                               />
                               <StatisticsCharts
@@ -210,7 +204,7 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(getCurrentUser());
     },
     updateFields: (newFields) => {
-      return dispatch({ type: 'UPDATE_FIELDS', payload: newFields })
+      return dispatch({ type: 'UPDATE_FIELDS', payload: newFields });
     },
   };
 };

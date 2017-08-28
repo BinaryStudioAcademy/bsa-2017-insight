@@ -22,7 +22,7 @@ class CustomInput extends React.Component {
   renderNestedTextInput(displayChildren, key) {
     if (displayChildren) {
       return ([
-        <ListItem key={this.props.matching} disabled={true} style={{ padding: 0, marginTop: '-10px' }}>
+        <ListItem key={this.props.matching} disabled={true} style={{ padding: 0, marginTop: '-10px', fontSize: '12px' }}>
           <TextField
             key={`${key}-1`}
             className={styles['radio-input']}
@@ -33,6 +33,7 @@ class CustomInput extends React.Component {
             onChange={() => {
               if (this.props.onInputChange) this.props.onInputChange(key, this.input.input.value);
             }}
+            style={{ paddingLeft: '25px' }}
           />
         </ListItem>]);
     }
@@ -42,6 +43,8 @@ class CustomInput extends React.Component {
   render() {
     if (this.props.type === 'multiple') {
       return (<ListItem
+        style={{ fontSize: '15px' }}
+        innerDivStyle={{ paddingLeft: '52px' }}
         primaryText={this.props.text}
         initiallyOpen={false}
         primaryTogglesNestedList
@@ -53,11 +56,13 @@ class CustomInput extends React.Component {
         rightIcon={<div />}
         onClick={() => this.props.onCustomInputClick && this.props.onCustomInputClick(this.props.matching)}
         leftCheckbox={
-          <Checkbox checked={this.props.displayChildren} />
+          <Checkbox checked={this.props.displayChildren} style={{ left: '12px' }} />
         }
         nestedItems={this.props.displayChildren ?
           this.props.childs.map((child) => {
             return (<ListItem
+              style={{ fontSize: '15px' }}
+              innerDivStyle={{ paddingLeft: '52px' }}
               primaryText={child.text}
               key={child.matching}
               initiallyOpen={false}
@@ -69,6 +74,7 @@ class CustomInput extends React.Component {
                   checkedIcon={<RadioChecked />}
                   uncheckedIcon={<RadioUnchecked />}
                   checked={child.displayChildren}
+                  style={{ left: '12px' }}
                 />}
               nestedItems={this.renderNestedTextInput(child.displayChildren, child.matching)}
             />);
@@ -79,6 +85,8 @@ class CustomInput extends React.Component {
     } else if (this.props.type === 'single') {
       return (
         <ListItem
+          style={{ fontSize: '15px' }}
+          innerDivStyle={{ paddingLeft: '52px' }}
           primaryText={this.props.text}
           initiallyOpen={false}
           primaryTogglesNestedList
@@ -90,7 +98,7 @@ class CustomInput extends React.Component {
             }
           }}
           leftCheckbox={
-            <Checkbox checked={this.props.displayChildren} />
+            <Checkbox checked={this.props.displayChildren} style={{ left: '12px' }} />
           }
           nestedItems={this.renderNestedTextInput(this.props.displayChildren, this.props.matching)}
         />
@@ -98,6 +106,8 @@ class CustomInput extends React.Component {
     } else if (this.props.type === 'select') {
       return (
         <ListItem
+          innerDivStyle={{ paddingLeft: '52px' }}
+          style={{ fontSize: '15px' }}
           primaryText={this.props.text}
           initiallyOpen={false}
           primaryTogglesNestedList
@@ -109,10 +119,10 @@ class CustomInput extends React.Component {
             }
           }}
           leftCheckbox={
-            <Checkbox checked={this.props.displayChildren} />
+            <Checkbox checked={this.props.displayChildren} style={{ left: '12px' }}/>
           }
           nestedItems={this.props.displayChildren ?
-            [<ListItem key={this.props.matching} disabled={true} style={{ padding: 0 }}>
+            [<ListItem key={this.props.matching} disabled style={{ padding: 0 }}>
               <SelectField
                 className={styles.select}
                 key={this.props.matching}

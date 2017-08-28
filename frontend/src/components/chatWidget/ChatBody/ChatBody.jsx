@@ -23,12 +23,14 @@ class ChatBody extends Component {
     this.setEmojiToInput = this.setEmojiToInput.bind(this);
     this.focusToInput = this.focusToInput.bind(this);
     this.messageSubmit = this.messageSubmit.bind(this);
+    this.onFileInputChange = this.onFileInputChange.bind(this);
   }
 
   componentDidMount() {
     const input = document.getElementById('input');
-    this.setState({ input });   
+    this.setState({ input });
   }
+
   componentWillReceiveProps(nextProps) {
     const messageNumProps = nextProps.messages.length;
     if (this.state.messageNum === 0) {
@@ -36,8 +38,8 @@ class ChatBody extends Component {
     } else if (this.state.messageNum !== messageNumProps) {
       this.setState({ messageNum: messageNumProps });
       const newMessage = nextProps.messages[messageNumProps - 1];
-      const currentUser = window._injectedData.userId ? window._injectedData.userId.username :
-        window._injectedData.username;
+      const currentUser = window._injectedData.userId ?
+        window._injectedData.userId.username : window._injectedData.username;
       if (newMessage.author.item.username !== currentUser) {
         notifications.api(newMessage);
         notifications.title();
@@ -45,6 +47,13 @@ class ChatBody extends Component {
     }
   }
 
+  onFileInputChange() {
+    if (this.fileInput.files.length > 0) {
+      this.filesCounter.innerHTML = this.fileInput.files.length;
+    } else {
+      this.filesCounter.innerHTML = '';
+    }
+  }
   setTextIntoInput(e) {
     this.setState({ text: e.target.value });
   }
@@ -75,6 +84,7 @@ class ChatBody extends Component {
     const input = this.state.input;
     input.focus();
   }
+
   toggleEmojiBlock(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -88,10 +98,9 @@ class ChatBody extends Component {
     }
   }
 
-  messageSubmit(e) {
-    e.preventDefault();
+  messageSubmit(event) {
     const text = this.state.text;
-    this.props.onMessageSubmit(text);
+    this.props.onFormSubmit(event, text);
     this.setState({ text: '' });
   }
 
@@ -106,15 +115,39 @@ class ChatBody extends Component {
           role="button"
           tabIndex="0"
         />
-           
         <MessagesList messages={this.props.messages} />
-      
-        <form className={styles['sending-form']} >
+        <form
+          className={styles['sending-form']}
+          onSubmit={(event) => {
+            this.messageSubmit(event);
+          }}
+        >
+          <input
+            id="file-input"
+            name="fileInput"
+            type="file"
+            className={styles['file-input']}
+            ref={(node) => {
+              this.fileInput = node;
+            }}
+            onChange={this.onFileInputChange}
+            multiple
+          />
+          <label htmlFor="file-input" className={styles['file-input-label']}>
+            <span
+              className={styles['selected-files-counter']}
+              ref={(node) => {
+                this.filesCounter = node;
+              }}
+            />
+          </label>
           <input
             type="text"
             name="messageInput"
             className={styles['message-input']}
-            onChange={(e) => { this.setTextIntoInput(e); }}
+            onChange={(e) => {
+              this.setTextIntoInput(e);
+            }}
             value={this.state.text}
             onBlur={e => this.blurFromInput(e)}
             id="input"
@@ -125,15 +158,15 @@ class ChatBody extends Component {
           >
             <i className={styles['emoji-block-icon']} />
           </button>
-          <button onClick={e => this.messageSubmit(e)} className={styles['submit-button']} type="submit">Send</button>
+          <button className={styles['submit-button']} type="submit">Send</button>
         </form>
         {this.state.showEmojis ? <div
           tabIndex={0}
-          onBlur={this.closeEmojiBlock} 
+          onBlur={this.closeEmojiBlock}
           className={styles['emoji-block']}
         >
           <EmojiContainer setEmojiToInput={this.setEmojiToInput} />
-        </div> : null }
+        </div> : null}
       </div>
     );
   }
@@ -141,8 +174,13 @@ class ChatBody extends Component {
 
 ChatBody.propTypes = {
   messages: propTypes.arrayOf(propTypes.shape({
-    conversationId: propTypes.string.isRequired,
-    body: propTypes.string.isRequired,
+    conversationId: propTypes.string,
+    body: propTypes.oneOfType([propTypes.string, propTypes.shape({
+      finalName: propTypes.string,
+      fileName: propTypes.string,
+      fileType: propTypes.string,
+      isImage: propTypes.bool,
+    })]).isRequired,
     author: propTypes.shape({
       item: propTypes.any,
       userType: propTypes.string,
@@ -150,8 +188,8 @@ ChatBody.propTypes = {
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
     editedAt: propTypes.number,
   })),
-  onMessageSubmit: propTypes.func.isRequired,
   onReturnButtonClick: propTypes.func.isRequired,
+  onFormSubmit: propTypes.func.isRequired,
 };
 
 export default ChatBody;

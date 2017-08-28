@@ -115,7 +115,15 @@ class StatisticsFilter extends React.Component {
 
   render() {
     return (
-      <List className={styles['filter-wrapper']} style={{padding: 0, border: '1px solid #4DD0E1', overflow: 'hidden', marginLeft: '13px'}}>
+      <List
+        className={styles['filter-wrapper']}
+        style={{
+          padding: 0,
+          border: `1px solid ${this.props.chosenTheme.palette.primary1Color}`,
+          overflow: 'hidden',
+          marginLeft: '13px',
+        }}
+      >
         <h4
           className={styles['filter-title']}
           style={{

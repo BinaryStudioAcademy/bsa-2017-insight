@@ -89,6 +89,7 @@ class Respond extends React.Component {
                 conversationToRender={convToChat}
                 dispatch={this.props.dispatch}
                 chosenTheme={this.props.chosenTheme}
+                headerHeight={this.props.headerHeight}
               />
             </div>
             <div

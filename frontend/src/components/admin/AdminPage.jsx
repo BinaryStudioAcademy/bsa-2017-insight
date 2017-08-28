@@ -124,51 +124,53 @@ class AdminPage extends React.Component {
                       chosenTheme={this.state.chosenTheme}
                       style={{ height: this.headerHeight }}
                     />
-                    <Switch>
-                      <Route
-                        exact
-                        path={'/admin'}
-                        render={() => {
-                          const statistics = this.props.usersToRender;
-                          const options = this.getStatisticOptions(this.props.usersToRender);
-                          return (
-                            <div style={{ marginTop: '10px' }}>
-                              <StatisticsFilter chosenTheme={this.state.chosenTheme} />
-                              <UserInfoTable
-                                options={this.props.fieldsToDisplay}
-                                statistics={statistics}
-                                selectedFields={this.props.fieldsToDisplay}
-                                statisticOptions={options}
-                                updateFields={this.props.updateFields}
-                                chosenTheme={this.state.chosenTheme}
-                              />
-                              <StatisticsCharts
-                                selectedFields={this.props.fieldsToDisplay}
-                                statistics={statistics}
-                              />
-                            </div>
-                          );
-                        }}
-                      />
-                      <Route
-                        path="/admin/respond"
-                        render={() => (
-                          <Respond
-                            headerHeight={this.headerHeight}
-                            chosenTheme={this.state.chosenTheme}
-                          />)
-                        }
-                      />
-                      <Route
-                        path={'/admin/engage'}
-                        render={() => {
-                          return (
-                            <div>Engage component is coming soon!</div>
-                          );
-                        }}
-                      />
-                      <Route component={IncorrectRoute} />
-                    </Switch>
+                    <div style={{ height: `calc(100vh - ${this.headerHeight + 8}px)`, overflowY: 'scroll' }}>
+                      <Switch>
+                        <Route
+                          exact
+                          path={'/admin'}
+                          render={() => {
+                            const statistics = this.props.usersToRender;
+                            const options = this.getStatisticOptions(this.props.usersToRender);
+                            return (
+                              <div style={{ marginTop: '10px' }}>
+                                <StatisticsFilter chosenTheme={this.state.chosenTheme} />
+                                <UserInfoTable
+                                  options={this.props.fieldsToDisplay}
+                                  statistics={statistics}
+                                  selectedFields={this.props.fieldsToDisplay}
+                                  statisticOptions={options}
+                                  updateFields={this.props.updateFields}
+                                  chosenTheme={this.state.chosenTheme}
+                                />
+                                <StatisticsCharts
+                                  selectedFields={this.props.fieldsToDisplay}
+                                  statistics={statistics}
+                                />
+                              </div>
+                            );
+                          }}
+                        />
+                        <Route
+                          path="/admin/respond"
+                          render={() => (
+                            <Respond
+                              headerHeight={this.headerHeight}
+                              chosenTheme={this.state.chosenTheme}
+                            />)
+                          }
+                        />
+                        <Route
+                          path={'/admin/engage'}
+                          render={() => {
+                            return (
+                              <div>Engage component is coming soon!</div>
+                            );
+                          }}
+                        />
+                        <Route component={IncorrectRoute} />
+                      </Switch>
+                    </div>
                   </div>
                 </EnsureAdmin>
               );

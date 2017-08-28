@@ -177,9 +177,14 @@ class Chat extends Component {
     const conversationToRender = this.props.conversationToRender;
     const messages = conversationToRender ? conversationToRender.messages : null;
     return (
-      <div className={styles.chat} role="presentation" onClick={e => this.closeEmojiBlock(e)} >
+      <div
+        className={styles.chat}
+        role="presentation"
+        onClick={e => this.closeEmojiBlock(e)}
+        style={{ height: this.props.headerHeight }}
+      >
         <MessagesList messages={messages} chosenTheme={this.props.chosenTheme} />
-        <form className={styles['sending-form']}>
+        <form className={styles['sending-form']} onSubmit={this.messageSubmit}>
           <RaisedButton
             className={styles['selected-files-counter']}
             label={this.state.filesCounter}

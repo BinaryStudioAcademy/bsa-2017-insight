@@ -174,7 +174,7 @@ class ChatBody extends Component {
 
 ChatBody.propTypes = {
   messages: propTypes.arrayOf(propTypes.shape({
-    conversationId: propTypes.string.isRequired,
+    conversationId: propTypes.string,
     body: propTypes.oneOfType([propTypes.string, propTypes.shape({
       finalName: propTypes.string,
       fileName: propTypes.string,

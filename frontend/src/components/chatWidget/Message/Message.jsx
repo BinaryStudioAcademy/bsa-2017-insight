@@ -36,7 +36,7 @@ const Message = ({ name, body, messageStyle, isReceived, type }) => {
       {statusSpan}
     </li>);
   } else {
-    result = <li className={`${styles[messageStyle]} ${styles['message-item']}`}><EmojiRender text={message} /></li>;
+    result = <li className={`${styles[messageStyle]} ${styles['message-item']}`}>{message} </li>;
   }
   return result;
 };

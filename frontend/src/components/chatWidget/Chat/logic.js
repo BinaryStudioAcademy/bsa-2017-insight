@@ -14,6 +14,7 @@ function findItemById(id, arrOfObjects) {
 
 function getForceMessage(conversation) {
   const forceMessage = {
+    _id: (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24),
     body: 'How can I help you ?',
     createdAt: Date.now(),
     forceMessage: true,

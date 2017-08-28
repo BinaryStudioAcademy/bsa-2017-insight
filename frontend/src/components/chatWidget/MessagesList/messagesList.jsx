@@ -32,7 +32,7 @@ const MessagesList = (props) => {
 
 MessagesList.propTypes = {
   messages: propTypes.arrayOf(propTypes.shape({
-    conversationId: propTypes.string.isRequired,
+    conversationId: propTypes.string,
     body: propTypes.oneOfType([propTypes.string, propTypes.shape({
       finalName: propTypes.string,
       fileName: propTypes.string,
@@ -42,7 +42,7 @@ MessagesList.propTypes = {
     author: propTypes.shape({
       item: propTypes.any.isRequired,
       userType: propTypes.string.isRequired,
-    }).isRequired,
+    }),
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
     editedAt: propTypes.number,
   })),

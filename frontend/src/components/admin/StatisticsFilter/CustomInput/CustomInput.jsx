@@ -122,7 +122,7 @@ class CustomInput extends React.Component {
             <Checkbox checked={this.props.displayChildren} style={{ left: '12px' }}/>
           }
           nestedItems={this.props.displayChildren ?
-            [<ListItem key={this.props.matching} disabled={true} style={{ padding: 0 }}>
+            [<ListItem key={this.props.matching} disabled style={{ padding: 0 }}>
               <SelectField
                 className={styles.select}
                 key={this.props.matching}

@@ -18,4 +18,5 @@ module.exports = app => ({
   adminRoutes: adminRoutes(app),
   passwordRoutes: passwordRoutes(app),
   notificationRoutes: notificationRoutes(app),
+  uploadRoutes: uploadRoutes(app),
 });

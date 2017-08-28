@@ -1,19 +1,69 @@
 :local(.chat) {
   padding: 0;
-  height: 80%;
+  position: relative;
 }
 
 :local(.sending-form) {
+  margin-top: 30px;
   width: 100%;
   display: flex;
 }
 
 :local(.message-input) {
-  flex-basis: 80%;
   padding: 10px;
+  flex: 1 1 auto;
+  border: 2px solid #66D7E6;
+  border-radius: 5px;
 }
 
 :local(.submit-button) {
-  flex-basis: 20%;
-  padding: 10px;
+  flex-basis: 15%;
+  span {
+    line-height: 39px;
+  }
+}
+
+:local(.main_emo-menu){
+  height:40px;
+  line-height: 40px;
+  background:none;
+  border:none
+}
+
+:local(.emoji-block-icon){
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  &:after{
+    content: "☺️"
+  }
+}
+
+:local(.emoji-block) {
+  position: absolute;
+  bottom: 50px;
+  right: 20px;
+  border:none;
+  &:focus{
+    border: none;
+  }
+}
+
+:local(.file-input) {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  opacity: 0;
+  z-index: 101;
+}
+
+:local(.selected-files-counter) {
+  flex: 0 0 auto;
+  span {
+    line-height: 39px;
+  }
 }

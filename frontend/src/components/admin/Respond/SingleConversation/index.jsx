@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import MyThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import EmojiRender from '../../../emojiRender';
 
 const SingleConversation = (props) => {
   const messages = props.conversation.messages;
@@ -24,11 +25,13 @@ const SingleConversation = (props) => {
             props.setStatistic(props.conversation);
           }}
           leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
-          primaryText={messages[messages.length - 1].body}
+          primaryText={typeof messages[messages.length - 1].body === 'object' ?
+            `${messages[messages.length - 1].body.fileName}.${messages[messages.length - 1].body.fileType}` :
+            <EmojiRender text={messages[messages.length - 1].body} />}
           secondaryText={userName}
           secondaryTextLines={2}
         />}
-        <Divider inset={true} />
+        <Divider inset />
       </List>
     </MyThemeProvider>
   </div>);
@@ -40,12 +43,12 @@ SingleConversation.propTypes = {
     _id: propTypes.string.isRequired,
     participants: propTypes.arrayOf(propTypes.shape({
       userType: propTypes.string,
-      user: propTypes.any
+      user: propTypes.any,
     })).isRequired,
     messages: propTypes.arrayOf(propTypes.any).isRequired,
     open: propTypes.bool,
-    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string])
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
   }),
-  handler: propTypes.func
+  handler: propTypes.func,
 };
 export default SingleConversation;

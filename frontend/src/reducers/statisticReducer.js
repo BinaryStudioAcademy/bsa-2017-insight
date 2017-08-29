@@ -2,7 +2,7 @@ const initialState = {
   usersToRender: [],
   statisticById: null,
   activeStatisticsFilters: {},
-  fieldsToDisplay: ["currentUrl", "city", "country", "browser"],
+  fieldsToDisplay: ['user name','first name', 'last name', 'currentUrl', 'city', 'country', 'browser'],
 };
 
 const statisticReducer = (state = initialState, action) => {

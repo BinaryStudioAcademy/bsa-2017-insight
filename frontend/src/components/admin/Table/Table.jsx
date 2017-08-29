@@ -15,12 +15,36 @@ class UserInfoTable extends React.Component {
     return this.props.statistics.map((row, index) => (
       <TableRow key={`row ${index}`} value={row}> {
         this.props.options.map((elem) => {
+          if (elem === 'user name') {
+            return (<TableRowColumn
+              key={`row ${index},column${elem}`}
+              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+            >
+              <span>{row.userId.username}</span>
+            </TableRowColumn>);
+          }
+          if (elem === 'first name') {
+            return (<TableRowColumn
+              key={`row ${index},column${elem}`}
+              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+            >
+              <span>{row.userId.firstName}</span>
+            </TableRowColumn>);
+          }
+          if (elem === 'last name') {
+            return (<TableRowColumn
+              key={`row ${index},column${elem}`}
+              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+            >
+              <span>{row.userId.lastName}</span>
+            </TableRowColumn>);
+          }
           return (<TableRowColumn
             key={`row ${index},column${elem}`}
             style={{ fontSize: '12px', width: '200px', padding: '5px' }}
-            >
-              <span>{row[elem]}</span>
-            </TableRowColumn>);
+          >
+            <span>{row[elem]}</span>
+          </TableRowColumn>);
         })
       }
       </TableRow>

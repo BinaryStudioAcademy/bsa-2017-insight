@@ -115,8 +115,8 @@ class Filter extends React.Component {
     });
   }
 
-  render() {
-    const statisticOptions = this.props.statisticOptions;
+  render() { 
+    const statisticOptions = this.props.statisticOptions.concat(['user name', 'first name', 'last name']);
     let nestedItems = statisticOptions.map((elem) => {
       return (<ListItem
         style={{ fontSize: '14px' }}

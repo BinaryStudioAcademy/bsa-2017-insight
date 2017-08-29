@@ -45,6 +45,16 @@ class LeftSideMenu extends React.Component {
             </IconButton>
           </NavLink>
           <Divider />
+          <NavLink to={'/admin/faq'}>
+            <IconButton
+              style={{ width: this.props.width }}
+              tooltip={'FAQ'}
+              tooltipPosition={'bottom-right'}
+            >
+              <EngageIcon />
+            </IconButton>
+          </NavLink>
+          <Divider />
         </Drawer>
       </div>
     );

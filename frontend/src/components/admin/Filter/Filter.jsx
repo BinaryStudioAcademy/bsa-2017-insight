@@ -15,7 +15,7 @@ class Filter extends React.Component {
     super(props);
     this.state = {
       radioValue: {
-        Email: 'emailValue',
+        browser: 'emailValue',
         Name: 'nameValue',
         'Last seen': 'last seen Value',
       },

@@ -1,29 +1,3 @@
-// import { take, put, all } from 'redux-saga/effects';
-// import * as fetchAPI from '../components/analytics/getStatistics';
-
-// function* statisticAllSaga() {
-//   yield take('GET_STATISTIC');
-//   const result = yield fetchAPI.fetchStatistic();
-//   yield put({ type: 'GET_STATISTIC_SUCCESS', payload: result });
-// }
-
-// function* statisticByIdSaga() {
-//   const action = yield take('GET_STATISTIC_BY_ID');
-//   const result = yield fetchAPI.fetchStatisticById(action.payload.id);
-//   console.log('Result in saga:', result);
-//   yield put({ type: 'GET_STATISTIC_BY_ID_SUCCESS', payload: result });
-// }
-
-// export default function* rootSaga() {
-//   yield all([
-//     statisticAllSaga(),
-//     statisticByIdSaga()
-//   ])
-// }
-
-
-// export default statisticSaga;
-
 import { takeEvery, put } from 'redux-saga/effects';
 import * as fetchAPI from './../components/analytics/getStatistics';
 

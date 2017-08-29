@@ -5,7 +5,10 @@ import styles from './styles.scss';
 
 const MessagesList = (props) => {
   return (
-    <ul className={styles['messages-list']}>
+    <ul
+      className={styles['messages-list']}
+      style={{ backgroundColor: props.chosenTheme.palette.canvasColor }}
+    >
       {props.messages && props.messages.map((message) => {
         return (
           <Message

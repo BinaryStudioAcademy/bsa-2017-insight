@@ -10,7 +10,6 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import styles from './styles.scss';
 import Filter from '../Filter/Filter';
 
@@ -38,6 +37,9 @@ class UserInfoTable extends React.Component {
       userIpAddress: 'IP Address',
       viewedUrls: 'Viewed URLs',
       open: false,
+      username: 'User name',
+      firstname: 'First name',
+      lastname: 'Last name',
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -51,6 +53,30 @@ class UserInfoTable extends React.Component {
     return this.props.statistics.map((row, index) => (
       <TableRow key={`row ${index}`} value={row} style={{ borderBottom: '1px solid #E0F7FA' }}> {
         this.props.options.map((elem) => {
+          if (elem === 'username') {
+            return (<TableRowColumn
+              key={`row ${index},column${elem}`}
+              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+            >
+              <span>{row.userId.username}</span>
+            </TableRowColumn>);
+          }
+          if (elem === 'firstname') {
+            return (<TableRowColumn
+              key={`row ${index},column${elem}`}
+              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+            >
+              <span>{row.userId.firstName}</span>
+            </TableRowColumn>);
+          }
+          if (elem === 'lastname') {
+            return (<TableRowColumn
+              key={`row ${index},column${elem}`}
+              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+            >
+              <span>{row.userId.lastName}</span>
+            </TableRowColumn>);
+          }
           return (<TableRowColumn
             key={`row ${index},column${elem}`}
             style={{ fontSize: '12px', width: '200px', padding: '5px' }}
@@ -81,7 +107,16 @@ class UserInfoTable extends React.Component {
     ];
     return (
       <div className={styles.container} >
-        <RaisedButton label="Columns Filter" onClick={this.handleOpen} primary={true} style={{ marginBottom: '5px' }} />
+        <RaisedButton
+          label="Columns Filter"
+          onClick={this.handleOpen}
+          primary={true}
+          style={{
+            marginBottom: '5px',
+            background: this.props.chosenTheme.palette.primary1Color,
+            color: this.props.chosenTheme.palette.alternateTextColor,
+          }}
+        />
         <Dialog
           title="Columns Filter"
           actions={actions}

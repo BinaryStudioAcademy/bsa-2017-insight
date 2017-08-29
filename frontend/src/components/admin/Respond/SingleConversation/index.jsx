@@ -3,7 +3,6 @@ import { List, ListItem } from 'material-ui/List';
 import propTypes from 'prop-types';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
-import MyThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import EmojiRender from '../../../emojiRender';
 
 const SingleConversation = (props) => {
@@ -14,26 +13,24 @@ const SingleConversation = (props) => {
   const userAvatar = author ? author.item.avatar : 'avatar.png';
 
   return (<div>
-    <MyThemeProvider>
-      <List>
-        {!messages.length ? <ListItem
-          primaryText={'No messages in conversation'}
-          leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
-        /> : <ListItem
-          onClick={() => {
-            props.handler();
-            props.setStatistic(props.conversation);
-          }}
-          leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
-          primaryText={typeof messages[messages.length - 1].body === 'object' ?
-            `${messages[messages.length - 1].body.fileName}.${messages[messages.length - 1].body.fileType}` :
-            <EmojiRender text={messages[messages.length - 1].body} />}
-          secondaryText={userName}
-          secondaryTextLines={2}
-        />}
-        <Divider inset />
-      </List>
-    </MyThemeProvider>
+    <List>
+      {!messages.length ? <ListItem
+        primaryText={'No messages in conversation'}
+        leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
+      /> : <ListItem
+        onClick={() => {
+          props.handler();
+          props.setStatistic(props.conversation);
+        }}
+        leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
+        primaryText={typeof messages[messages.length - 1].body === 'object' ?
+          `${messages[messages.length - 1].body.fileName}.${messages[messages.length - 1].body.fileType}` :
+          <EmojiRender text={messages[messages.length - 1].body} />}
+        secondaryText={userName}
+        secondaryTextLines={2}
+      />}
+      <Divider inset />
+    </List>
   </div>);
 };
 

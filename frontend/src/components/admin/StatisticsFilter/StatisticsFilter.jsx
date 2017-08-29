@@ -12,6 +12,8 @@ class StatisticsFilter extends React.Component {
     super(props);
     this.state = {
       username: false,
+      firstname: false,
+      lastname: false,
       currentUrl: false,
       'currentUrl-exact': false,
       'currentUrl-includes': false,
@@ -115,14 +117,49 @@ class StatisticsFilter extends React.Component {
 
   render() {
     return (
-      <List className={styles['filter-wrapper']} style={{padding: 0, border: '1px solid #4DD0E1', overflow: 'hidden', marginLeft: '13px'}}>
-        <h4 className={styles['filter-title']} style={{ backgroundColor: '#4DD0E1', margin: 0, height: '48px', lineHeight: '48px'}}>Users Filter</h4>
+      <List
+        className={styles['filter-wrapper']}
+        style={{
+          padding: 0,
+          border: `1px solid ${this.props.chosenTheme.palette.primary1Color}`,
+          overflow: 'hidden',
+          marginLeft: '13px',
+        }}
+      >
+        <h4
+          className={styles['filter-title']}
+          style={{
+            backgroundColor: this.props.chosenTheme.palette.primary1Color,
+            color: this.props.chosenTheme.palette.alternateTextColor,
+            margin: 0,
+            height: '48px',
+            lineHeight: '48px',
+          }}
+        >Users Filter</h4>
         <form className={styles['filter-form']} onSubmit={this.onFormSubmit}>
           <CustomInput
             type="single"
             text="Username:"
             matching="username"
             displayChildren={this.state.username}
+            onCustomInputClick={this.onCustomInputClick}
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
+          />
+          <CustomInput
+            type="single"
+            text="First name:"
+            matching="firstname"
+            displayChildren={this.state.firstname}
+            onCustomInputClick={this.onCustomInputClick}
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
+          />
+          <CustomInput
+            type="single"
+            text="Last name:"
+            matching="lastname"
+            displayChildren={this.state.lastname}
             onCustomInputClick={this.onCustomInputClick}
             onInputChange={this.onInputChange}
             onUnmount={this.onInputUnmount}

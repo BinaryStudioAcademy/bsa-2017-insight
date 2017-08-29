@@ -15,6 +15,7 @@ import Respond from './Respond/index';
 import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
 import getCurrentUser from '../../actions/getCurrentUserAction';
 import StatisticsFilter from './StatisticsFilter/StatisticsFilter';
+import WidgetSettings from './WidgetSettings/WidgetSettings';
 
 const muiTheme = getMuiTheme({
   tooltip: {
@@ -127,6 +128,7 @@ class AdminPage extends React.Component {
                           );
                         }}
                       />
+                      <Route path={'/admin/widget'} component={WidgetSettings} />
                       <Route component={IncorrectRoute} />
                     </Switch>
                   </div>

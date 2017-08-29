@@ -7,6 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import HomeAdminIcon from 'material-ui/svg-icons/action/dashboard';
 import RespondIcon from 'material-ui/svg-icons/communication/chat';
 import EngageIcon from 'material-ui/svg-icons/editor/insert-chart';
+import ActionSettings from 'material-ui/svg-icons/action/settings';
 
 class LeftSideMenu extends React.Component {
   render() {
@@ -45,6 +46,15 @@ class LeftSideMenu extends React.Component {
             </IconButton>
           </NavLink>
           <Divider />
+          <NavLink to={'/admin/widget'}>
+            <IconButton
+              style={{ width: this.props.width }}
+              tooltip={'Settings'}
+              tooltipPosition={'bottom-right'}
+            >
+              <ActionSettings />
+            </IconButton>
+          </NavLink>
         </Drawer>
       </div>
     );

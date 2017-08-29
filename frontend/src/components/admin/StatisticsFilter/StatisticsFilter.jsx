@@ -115,8 +115,25 @@ class StatisticsFilter extends React.Component {
 
   render() {
     return (
-      <List className={styles['filter-wrapper']}>
-        <h3 className={styles['filter-title']}>Filter users</h3>
+      <List
+        className={styles['filter-wrapper']}
+        style={{
+          padding: 0,
+          border: `1px solid ${this.props.chosenTheme.palette.primary1Color}`,
+          overflow: 'hidden',
+          marginLeft: '13px',
+        }}
+      >
+        <h4
+          className={styles['filter-title']}
+          style={{
+            backgroundColor: this.props.chosenTheme.palette.primary1Color,
+            color: this.props.chosenTheme.palette.alternateTextColor,
+            margin: 0,
+            height: '48px',
+            lineHeight: '48px',
+          }}
+        >Users Filter</h4>
         <form className={styles['filter-form']} onSubmit={this.onFormSubmit}>
           <CustomInput
             type="single"
@@ -286,7 +303,7 @@ class StatisticsFilter extends React.Component {
                 displayChildren: this.state['viewedUrls-includes'],
               }]}
           />
-          <RaisedButton type="submit" label="Search" primary={true} className={styles['submit-button']} />
+          <RaisedButton type="submit" label="Search" primary className={styles['submit-button']} />
         </form>
       </List>
     );

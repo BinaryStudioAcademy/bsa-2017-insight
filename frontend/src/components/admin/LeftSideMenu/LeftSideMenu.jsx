@@ -20,6 +20,7 @@ class LeftSideMenu extends React.Component {
               style={{ width: this.props.width }}
               tooltip={'Home'}
               tooltipPosition={'bottom-right'}
+              iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
             >
               <HomeAdminIcon />
             </IconButton>
@@ -30,6 +31,7 @@ class LeftSideMenu extends React.Component {
               style={{ width: this.props.width }}
               tooltip={'Respond'}
               tooltipPosition={'bottom-right'}
+              iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
             >
               <RespondIcon />
             </IconButton>
@@ -40,6 +42,7 @@ class LeftSideMenu extends React.Component {
               style={{ width: this.props.width }}
               tooltip={'Engage'}
               tooltipPosition={'bottom-right'}
+              iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
             >
               <EngageIcon />
             </IconButton>
@@ -52,7 +55,7 @@ class LeftSideMenu extends React.Component {
 }
 
 LeftSideMenu.propTypes = {
-  width: PropTypes.number
+  width: PropTypes.number,
 };
 
 export default LeftSideMenu;

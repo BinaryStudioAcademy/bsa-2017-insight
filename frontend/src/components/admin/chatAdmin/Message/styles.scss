@@ -1,23 +1,25 @@
-:local(.message-item-left) {
-  align-self: flex-start;
+:local(.message-item) {
   min-width: 150px;
   max-width: 300px;
-  background-color: #f0f0f0;
   border-radius: 18px;
   padding: 20px;
   word-wrap: break-word;
   margin-bottom: 10px;
 }
 
+:local(.message-body-image) {
+  width: 300px;
+  height: 300px;
+}
+
+:local(.message-item-left) {
+  align-self: flex-start;
+  background-color: #f0f0f0;
+}
+
 :local(.message-item-right) {
   align-self: flex-end;
-  min-width: 150px;
-  max-width: 300px;
   background-color: #D4F0FE;
-  border-radius: 18px;
-  padding: 20px;
-  word-wrap: break-word;
-  margin-bottom: 10px;
 }
 
 :local(.message-body) {

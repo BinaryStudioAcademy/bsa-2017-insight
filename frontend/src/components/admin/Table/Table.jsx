@@ -37,6 +37,9 @@ class UserInfoTable extends React.Component {
       userIpAddress: 'IP Address',
       viewedUrls: 'Viewed URLs',
       open: false,
+      username: 'User name',
+      firstname: 'First name',
+      lastname: 'Last name',
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -50,6 +53,30 @@ class UserInfoTable extends React.Component {
     return this.props.statistics.map((row, index) => (
       <TableRow key={`row ${index}`} value={row} style={{ borderBottom: '1px solid #E0F7FA' }}> {
         this.props.options.map((elem) => {
+          if (elem === 'username') {
+            return (<TableRowColumn
+              key={`row ${index},column${elem}`}
+              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+            >
+              <span>{row.userId.username}</span>
+            </TableRowColumn>);
+          }
+          if (elem === 'firstname') {
+            return (<TableRowColumn
+              key={`row ${index},column${elem}`}
+              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+            >
+              <span>{row.userId.firstName}</span>
+            </TableRowColumn>);
+          }
+          if (elem === 'lastname') {
+            return (<TableRowColumn
+              key={`row ${index},column${elem}`}
+              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+            >
+              <span>{row.userId.lastName}</span>
+            </TableRowColumn>);
+          }
           return (<TableRowColumn
             key={`row ${index},column${elem}`}
             style={{ fontSize: '12px', width: '200px', padding: '5px' }}

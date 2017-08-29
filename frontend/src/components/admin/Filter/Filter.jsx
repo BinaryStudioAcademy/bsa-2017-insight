@@ -39,6 +39,9 @@ class Filter extends React.Component {
         userId: { status: false, alias: 'User ID' },
         userIpAddress: { status: false, alias: 'IP Address' },
         viewedUrls: { status: false, alias: 'Viewed URLs' },
+        username: { status: false, alias: 'User name' },
+        firstname: { status: false, alias: 'First name' },
+        lastname: { status: false, alias: 'Last name' },
       },
     };
     this.onChangeRadio = this.onChangeRadio.bind(this);
@@ -111,7 +114,7 @@ class Filter extends React.Component {
 
   render() {
     let nestedItems = Object.keys(this.state.checkedCheckboxes).map((elem) => {
-      return (<ListItem
+    return (<ListItem
         style={{ fontSize: '14px', width: '160px' }}
         innerDivStyle={{ width: '160px', padding: '16px 0 16px 38px' }}
         leftCheckbox={

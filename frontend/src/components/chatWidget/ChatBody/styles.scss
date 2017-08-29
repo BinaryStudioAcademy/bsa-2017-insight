@@ -4,70 +4,89 @@
   box-sizing: border-box;
   width: 100%;
   margin: 0;
-  padding: 0 10% 0 8%;
-  height: 90%;
-  
+  height: 85%;
+}
+
+:local(.conversation-header) {
+  box-sizing: border-box;
+  background-color: $landing-orange;
+  padding: 20px 15px;
+  height: 80px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  position: relative;
 }
 
 :local(.return-button) {
-  position: absolute;
-  left: 5px;
-  top: 5px;
   width: 30px;
   height: 30px;
-  background-size: cover;
-
+  position: absolute;
+  left: 30px;
+  top: 25px;
+  
   &:hover {
     cursor: pointer;
   }
 }
 
-:local(.sending-form) {
-  position: absolute;
-  width: 80%;
-  bottom: 15px;
-  display: flex;
-  align-items: center;
-  left: 10%;
+:local(.operator-avatar) {
+  width: 40px;
+  height: 40px;
+  float: left;
+  margin-right: 10px;
 }
 
-:local(.message-input) {
-  flex-basis: 74%;
-  padding: 10px;
-  margin-right: 1%;
+:local(.operator-name) {
+  line-height: 40px;
+  color: #ffffff;
+}
+
+:local(.sending-form) {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+:local(.sending-form) :local(.message-input) {
+  box-sizing: border-box;
+  display: block;
+  font-size: 16px;
+  border: none;
+  flex-basis: 100%;
+  height: 60px;
+  padding: 25px 50px 10px 20px;
   border-radius: 5px;
-  border: 1px solid $landing-red;
 }
 
 :local(.file-input) {
+  position: absolute;
   width: 0.1px;
   height: 0.1px;
   opacity: 0;
   overflow: hidden;
-  position: absolute;
   z-index: -1;
 }
 
 :local(.file-input-label) {
-  position: relative;
+  position: absolute;
+  top: 25px;
+  right: 52px;
   cursor: pointer;
-  width: 35px;
-  height: 35px;
-  margin-right: 10px;
-  border-radius: 10px;
-  background: $landing-orange url("https://www.materialui.co/materialIcons/file/file_upload_white_192x192.png") no-repeat center;
-  background-size: cover;
-
-  &:hover {
-    background-color: $landing-red;
-  }
+  width: 25px;
+  height: 25px;
+  background: url("http://cdn.onlinewebfonts.com/svg/download_522887.png") no-repeat center;
+  background-size: contain;
 }
 
 :local(.selected-files-counter) {
   position: absolute;
   width: 15px;
   height: 15px;
-  color: $landing-orange;
+  color: #000000;
   font-weight: bold;
   font-size: 1.25rem;
   top: -10px;
@@ -75,31 +94,40 @@
 }
 
 :local(.submit-button) {
-  flex-basis: 25%;
-  background-color: #fff;
-  color: $landing-red;
-  border: 1px solid $landing-red;
+  position: absolute;
+  display: block;
+  border: none;
+  width: 30px;
+  height: 30px;
+  top: 23px;
+  right: 10px;
+  background: url("https://maxcdn.icons8.com/Share/icon/Messaging//sent1600.png") center no-repeat;
+  background-size: contain;
   border-radius: 5px;
-  padding: 10px;
-
+  
   &:hover {
-    background-color: $landing-red;
-    color: #fff;
     cursor: pointer;
   }
 }
 
 :local(.main_emo-menu){
-  height:40px;
-  line-height: 40pxl;
+  position: absolute;
+  padding-top: 10px;
+  outline: none;
+  right: 85px;
+  height: 30px;
+  line-height: 40px;
   background:none;
-  border:none
+  border:none;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
-
-
 :local(.emoji-block-icon){
-  font-size: 20px;
+  font-size: 30px;
+  line-height: 30px;
   font-style: normal;
   font-weight: 400;
   &:after{
@@ -109,8 +137,8 @@
 
 :local(.emoji-block) {
   position: absolute;
-  bottom: 70px;
-  left: 50px;
+  bottom: 75px;
+  right: 0;
   border:none;
   &:focus{
     border: none;

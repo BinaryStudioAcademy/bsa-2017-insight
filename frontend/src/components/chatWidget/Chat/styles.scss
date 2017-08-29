@@ -5,24 +5,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  bottom: 15px;
-  right: 15px;
+  bottom: 25px;
+  right: 25px;
   width: 25%;
   height: 50%;
-  border-radius: 25px;
+  border-radius: 10px;
   background-color: #fff;
-  border: 4px solid $landing-orange;
-  padding-bottom: 70px;
+  padding-bottom: 85px;
+  box-shadow: 0 0 34px -2px rgba(87,86,87,1);
 }
 
-:local(.close-button) {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 30px;
-  height: 30px;
-  z-index: 2;
-  &:hover {
-    cursor: pointer;
-  }
-}

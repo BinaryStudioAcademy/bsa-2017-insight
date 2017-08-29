@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.chat-wrapper {
+	transform: scale(.77);
+  margin-top: -60px;
+  cursor: default;
+	width: 370px;
+	height: 578px;
+	border-radius: 10px;
+	box-shadow: 0 2px 32px 0 rgba(0,0,0,.14), 0 1px 6px 0 rgba(0,0,0,.06);
+	overflow: hidden;
+
+	.chat-header {
+		position: relative;
+		display: flex;
+		align-items: center;
+		padding: 12px 0;
+		color: #fff;
+	}
+
+	.chat-body {
+	  height: 450px;
+	  border: 1px solid #eff0f1;
+	  position: relative;
+	  background-position: left -10px;
+
+		.dummy-message {
+			background-color: #fff;
+		  padding: 25px;
+		  border-radius: 6px;
+		  border: 1px solid #dadfe3;
+		}
+	}
+
+	.input-area {
+		border: 1px solid #eff0f1;
+	  border-top: 0;
+	  padding: 17px 30px;
+	  color: #a5adb6;
+	  border-bottom-left-radius: 8px;
+	  border-bottom-right-radius: 8px;
+	  background-color: #f0f3f5;
+	}
+}
+
+.wallpapers {
+
+	.wallpaper {
+		cursor: pointer;
+    overflow: hidden;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: #fff;
+    margin: 4px;
+    border: 1px solid #c9d7df;
+	}
+}

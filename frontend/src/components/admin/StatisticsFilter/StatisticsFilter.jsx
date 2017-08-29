@@ -12,6 +12,8 @@ class StatisticsFilter extends React.Component {
     super(props);
     this.state = {
       username: false,
+      firstname: false,
+      lastname: false,
       currentUrl: false,
       'currentUrl-exact': false,
       'currentUrl-includes': false,
@@ -140,6 +142,24 @@ class StatisticsFilter extends React.Component {
             text="Username:"
             matching="username"
             displayChildren={this.state.username}
+            onCustomInputClick={this.onCustomInputClick}
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
+          />
+          <CustomInput
+            type="single"
+            text="First name:"
+            matching="firstname"
+            displayChildren={this.state.firstname}
+            onCustomInputClick={this.onCustomInputClick}
+            onInputChange={this.onInputChange}
+            onUnmount={this.onInputUnmount}
+          />
+          <CustomInput
+            type="single"
+            text="Last name:"
+            matching="lastname"
+            displayChildren={this.state.lastname}
             onCustomInputClick={this.onCustomInputClick}
             onInputChange={this.onInputChange}
             onUnmount={this.onInputUnmount}

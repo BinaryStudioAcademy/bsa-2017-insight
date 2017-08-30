@@ -3,7 +3,7 @@ const widgetRepository = require('../../repositories/widgetRepository');
 module.exports = (app) => {
   app.get('/api/widgets/:id', (req, res) => {
     const id = req.params.id;
-    widgetRepository.findOneAndPopulate(id, (err, data) => {
+    widgetRepository.findByAdminId(id, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -26,7 +26,7 @@ module.exports = (app) => {
 
   app.put('/api/widgets/:id', (req, res) => {
     const id = req.params.id;
-    widgetRepository.update(id, req.body.path, (err, data) => {
+    widgetRepository.updateOrCreateByAdminId(id, req.body, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);

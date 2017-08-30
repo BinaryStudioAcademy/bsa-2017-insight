@@ -26,15 +26,32 @@ export default class WidgetSettings extends React.Component {
     this.setState({ settings: newSettings });
   }
 
+  getSettings() {
+    const adminId = window._injectedData._id;
+    fetch(`/api/widgets/${adminId}`, { credentials: 'include', method: 'GET' })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        this.setState({
+          settings: response,
+        });
+      });
+  }
   save() {
+    const adminId = window._injectedData._id;
     this.setState({ info: 'Saving...' });
-
-    fetch('/api/admin/settings', {
+    const dataToSend = {
+      admin: adminId,
+      options: this.state.settings,
+    };
+    dataToSend.admin = adminId;
+    fetch(`/api/widgets/${adminId}`, {
       headers: {
         'Content-Type': 'application/json',
       },
-      method: 'POST',
-      body: JSON.stringify({ element: 'widget', settings: this.state.settings }),
+      method: 'PUT',
+      body: JSON.stringify(dataToSend),
       credentials: 'include',
     }).then((response) => {
       return response.json();
@@ -44,19 +61,6 @@ export default class WidgetSettings extends React.Component {
       }
     });
   }
-
-  getSettings() {
-    fetch('/api/admin/settings/widget', { credentials: 'include', method: 'GET' })
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        this.setState({
-          settings: response.settings,
-        });
-      });
-  }
-
   handleChange(value) {
     this.setState({
       activeTab: value,
@@ -87,7 +91,7 @@ export default class WidgetSettings extends React.Component {
                 <p>Customize your Messenger’s color to suit your app or site, then choose a background wallpaper.</p>
                 <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start' }}>
                   <div>
-                    <SketchPicker color={this.state.settings.mainChatColor} onChange={color => this.setSettings('mainChatColor', color.hex)} />
+                    <SketchPicker color={this.state.settings.primaryColor} onChange={color => this.setSettings('primaryColor', color.hex)} />
                     <Wallpapers set={this.setSettings} active={this.state.settings.backgroundImage} />
                     <h5>Widget position:</h5>
                     <SelectField

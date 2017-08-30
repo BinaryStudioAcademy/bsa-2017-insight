@@ -21,11 +21,11 @@ MessagesList.propTypes = {
     body: propTypes.string.isRequired,
     author: propTypes.shape({
       item: propTypes.any.isRequired,
-      userType: propTypes.string.isRequired,
+      userType: propTypes.string.isRequired
     }).isRequired,
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
-    editedAt: propTypes.number,
-  })),
+    editedAt: propTypes.number
+  }))
 };
 
 export default MessagesList;

@@ -17,8 +17,8 @@ import FAQ from './FAQ/FAQ';
 
 const muiTheme = getMuiTheme({
   tooltip: {
-    rippleBackgroundColor: '#333333',
-  },
+    rippleBackgroundColor: '#333333'
+  }
 });
 
 injectTapEventPlugin();
@@ -99,13 +99,13 @@ class AdminPage extends React.Component {
 
 AdminPage.propTypes = {
   getAllStatistic: React.PropTypes.func,
-  allData: React.PropTypes.arrayOf(React.PropTypes.object),
+  allData: React.PropTypes.arrayOf(React.PropTypes.object)
 };
 
 
 const mapStateToProps = (state) => {
   return {
-    allData: state.statistics.allData,
+    allData: state.statistics.allData
   };
 };
 
@@ -113,7 +113,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllStatistic: () => {
       return dispatch(statisticActions.getAllStatistic());
-    },
+    }
   };
 };
 

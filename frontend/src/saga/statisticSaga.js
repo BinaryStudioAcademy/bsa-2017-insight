@@ -4,7 +4,6 @@ import * as fetchAPI from './../components/analytics/getStatistics';
 
 function* fetchStatistic(action) {
   const result = yield fetchAPI.getStatisticById(action.payload.id);
-  console.log('Result in saga:', result);
   yield put({ type: 'GET_STATISTIC_BY_ID_SUCCESS', payload: result });
 }
 

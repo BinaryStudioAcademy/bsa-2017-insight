@@ -2,7 +2,6 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 // import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import Paper from 'material-ui/Paper';
 import isLength from 'validator/lib/isLength';
 import equals from 'validator/lib/equals';
 

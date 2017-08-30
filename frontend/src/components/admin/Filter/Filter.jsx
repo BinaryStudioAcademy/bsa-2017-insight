@@ -17,12 +17,12 @@ class Filter extends React.Component {
       radioValue: {
         browser: 'emailValue',
         Name: 'nameValue',
-        'Last seen': 'last seen Value',
+        'Last seen': 'last seen Value'
       },
       initiallyOpen: {
         Email: false,
         Name: false,
-        'Last seen': false,
+        'Last seen': false
       },
       checkedCheckboxes: {
         browser: false,
@@ -43,8 +43,8 @@ class Filter extends React.Component {
         userIpAddress: false,
         visitorId: false,
         _v: false,
-        _id: false,
-      },
+        _id: false
+      }
     };
     this.onChangeRadio = this.onChangeRadio.bind(this);
     this.handleTap = this.handleTap.bind(this);
@@ -80,7 +80,7 @@ class Filter extends React.Component {
               <ListItem key={obj[elem][elemKey]}>
                 <input type="text" style={{ width: '70px', marginRight: '10px' }} />
                 <p style={{ fontSize: '14px', display: 'inline-block' }}>{obj[elem][elemKey]}</p>
-              </ListItem>,
+              </ListItem>
             ]}
           />);
       }
@@ -137,7 +137,7 @@ class Filter extends React.Component {
 }
 
 Filter.propTypes = {
-  statisticOptions: React.PropTypes.arrayOf(React.PropTypes.string),
+  statisticOptions: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 export default Filter;

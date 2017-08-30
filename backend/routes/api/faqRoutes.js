@@ -36,10 +36,7 @@ module.exports = (app) => {
   });
 
   app.put('/api/faq/:id', (req, res) => {
-    console.log('req.body');
-    console.log(req.body);
-    const id = req.params.id;
-    faqRepository.update(id, req.body, (err, data) => {
+    faqRepository.update(req.params.id, req.body, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);

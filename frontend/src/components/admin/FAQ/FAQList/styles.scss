@@ -9,9 +9,19 @@
   display: inline-block;
 }
 
-:local(.ListItem) {
+:local(.ListItem-highlight-false) {
   p{
     margin: 0px !important;
-    padding: 15px !important;
+    padding: 25px 15px !important;
+  }
+}
+
+
+:local(.ListItem-highlight-true) {
+  background-color: #bcbcbc !important;
+
+  p{
+    margin: 0px !important;
+    padding: 25px 15px !important;
   }
 }

@@ -6,5 +6,5 @@ import faqReducer from './faqReducer';
 export default combineReducers({
   statistics: statisticReducer,
   conversationsInfo: conversationsReducer,
-  faq: faqReducer,
+  faq: faqReducer
 });

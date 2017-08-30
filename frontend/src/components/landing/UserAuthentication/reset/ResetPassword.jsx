@@ -7,8 +7,8 @@ class ResetPassword extends React.Component {
   render() {
     return (
       <Switch>
-        <Route path='/reset/invalidtoken' component={InvalidToken} />
-        <Route path='/reset/:userType/:token' component={ResetForm} />
+        <Route path="/reset/invalidtoken" component={InvalidToken} />
+        <Route path="/reset/:userType/:token" component={ResetForm} />
       </Switch>
     );
   }

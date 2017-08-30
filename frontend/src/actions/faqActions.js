@@ -1,6 +1,6 @@
 const getFAQ = () => {
   return {
-    type: 'GET_FAQ',
+    type: 'GET_FAQ'
   };
 };
 
@@ -8,37 +8,46 @@ const addFAQ = (Body) => {
   return {
     type: 'ADD_FAQ',
     payload: {
-    	Body,
-    },
+      Body
+    }
   };
 };
 
-const deleteFAQ = (id) =>{
+const deleteFAQ = (id) => {
   return {
     type: 'DELETE_FAQ',
     payload: {
-      id,
-    },
+      id
+    }
   };
 };
 
-const getFAQById = (id) =>{
+const getFAQById = (id) => {
   return {
     type: 'GET_FAQ_BY_ID',
     payload: {
-      id,
-    },
+      id
+    }
   };
 };
 
-const modifyFAQ = (id, Body) =>{
+const modifyFAQ = (id, Body) => {
   return {
     type: 'MODIFY_FAQ',
     payload: {
       id,
-      Body,
-    },
+      Body
+    }
   };
 };
 
-export { getFAQ, addFAQ, deleteFAQ, getFAQById, modifyFAQ };
+const setCurrentFAQ = (id) => {
+  return {
+    type: 'SET_CURRENT_FAQ',
+    payload: {
+      id
+    }
+  }
+}
+
+export { getFAQ, addFAQ, deleteFAQ, getFAQById, modifyFAQ, setCurrentFAQ };

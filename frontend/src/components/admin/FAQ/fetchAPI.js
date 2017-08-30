@@ -65,11 +65,6 @@ function modifyFAQ(id, Body) {
   return fetch(url, requestOptions)
     .then((response) => {
       return response.json();
-    })
-    .then((data) => {
-      console.log("MODIFY FAQ");
-      console.log(data);
-      return data;
     });
 }
 

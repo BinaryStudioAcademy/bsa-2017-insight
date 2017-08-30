@@ -67,8 +67,8 @@ UserInfo.propTypes = {
     userAgent: propTypes.string,
     timeZone: propTypes.string,
     signedUpDate: propTypes.any,
-    sessionsCounts: propTypes.number,
-  }),
+    sessionsCounts: propTypes.number
+  })
 };
 
 export default UserInfo;

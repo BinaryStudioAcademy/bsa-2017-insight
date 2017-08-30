@@ -62,7 +62,7 @@ class LeftSideMenu extends React.Component {
 }
 
 LeftSideMenu.propTypes = {
-  width: PropTypes.number,
+  width: PropTypes.number
 };
 
 export default LeftSideMenu;

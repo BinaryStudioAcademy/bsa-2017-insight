@@ -127,23 +127,20 @@ class Chat extends Component {
     const conversations = this.state.conversations;
     const conversationToRender = conversations.length > 0 ? findItemById(this.state.activeChatId, conversations) : null;
     const messages = conversationToRender ? conversationToRender.item.messages : null;
+    const operator = conversationToRender ?
+      conversationToRender.item.participants.find(participant => participant.userType === 'Admin') :
+      null;
     return (
       <div className={styles.chat}>
-        <img
-          alt="close-button"
-          src="https://cdn2.iconfinder.com/data/icons/color-svg-vector-icons-part-2/512/erase_delete_remove_wipe_out-512.png"
-          className={styles['close-button']}
-          onClick={this.props.onChatClose}
-          role="button"
-          tabIndex="0"
-        />
         {!this.state.activeChatId && <ConversationsList
           conversations={conversations}
           onConversationClick={this.onConversationClick}
           onCreateConversationButtonClick={this.onCreateConversationButtonClick}
+          onChatClose={this.props.onChatClose}
         />}
         {this.state.activeChatId &&
         <ChatBody
+          operator={operator}
           messages={messages}
           onFormSubmit={this.onFormSubmit}
           onReturnButtonClick={this.onReturnButtonClick}

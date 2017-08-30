@@ -18,6 +18,7 @@ const MessagesList = (props) => {
         return (
           <Message
             messageStyle={style}
+            avatar={message.author ? message.author.item.avatar : ''}
             key={message._id}
             body={message.body}
             name={message.author ? message.author.item.username : ''}

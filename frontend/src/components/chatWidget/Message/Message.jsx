@@ -3,23 +3,26 @@ import propTypes from 'prop-types';
 import styles from './styles.scss';
 import EmojiRender from '../../emojiRender';
 
-const Message = ({ name, body, messageStyle, isReceived, type }) => {
+const Message = ({ name, body, messageStyle, isReceived, type, avatar }) => {
   const messageAuthor = messageStyle === 'force-message' ? null : name;
   let status;
   if (type === 'User') {
-    status = isReceived ? ' (read)' : ' (unread)';
+    status = isReceived ? 'Seen' : 'Message is not seen yet';
   } else {
     status = '';
   }
+  const avatarSrc = avatar === 'avatar.png' ?
+    'https://www.materialist.com/static/new_store/images/avatar_placeholder.svg' :
+    avatar;
   const statusSpan = <span className={styles['message-status']}>{status}</span>;
-  const nameSpan = <span className={styles['message-author']}>{`${name}:`}</span>;
+  const senderAvatar = <img className={styles['sender-avatar']} src={avatarSrc} alt="sender-avatar" />;
   let message;
   let result;
   if (typeof body === 'object') {
     if (body.isImage) {
       message = (
-        <a href={body.path} target="_blank">
-          <img className={styles['message-body-image']} src={body.path} alt={body.fileName} />
+        <a href={body.path} className={styles['message-body-image']} target="_blank">
+          <img src={body.path} alt={body.fileName} />
         </a>);
     } else {
       message = <a className={styles['message-body-link']} href={body.path}>{body.fileName}.{body.fileType}</a>;
@@ -31,7 +34,7 @@ const Message = ({ name, body, messageStyle, isReceived, type }) => {
     result = (<li
       className={`${styles[messageStyle]} ${styles['message-item']}`}
     >
-      {nameSpan}
+      {senderAvatar}
       {message}
       {statusSpan}
     </li>);
@@ -52,6 +55,7 @@ Message.propTypes = {
   messageStyle: propTypes.string,
   isReceived: propTypes.bool,
   type: propTypes.string,
+  avatar: propTypes.string,
 };
 
 export default Message;

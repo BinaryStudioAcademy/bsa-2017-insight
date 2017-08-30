@@ -10,16 +10,16 @@ class ConversationsList extends Component {
 
   render() {
     const conversations = this.props.conversations;
+    const wrapperStyles = { backgroundColor: this.props.widgetStyles.primaryColor };
+    const buttonStyles = { backgroundColor: this.props.widgetStyles.primaryColor };
     return (
       <div className={styles.container}>
-        <div className={styles['title-wrapper']}>
+        <div className={styles['title-wrapper']} style={wrapperStyles}>
           <img
             alt="close-button"
             src="http://flaticons.net/gd/makefg.php?i=icons/Mobile%20Application/Close.png&r=255&g=255&b=255"
             className={styles['close-button']}
             onClick={this.props.onChatClose}
-            role="button"
-            tabIndex="0"
           />
           <h3 className={styles.title}>Conversations</h3>
           <span className={styles['title-span']}>with Insight</span>
@@ -58,6 +58,7 @@ class ConversationsList extends Component {
           })}
         </ul>
         <button
+          style={buttonStyles}
           className={styles['create-conversation-button']}
           onClick={this.props.onCreateConversationButtonClick}
         >
@@ -82,6 +83,11 @@ ConversationsList.propTypes = {
   onConversationClick: propTypes.func.isRequired,
   onCreateConversationButtonClick: propTypes.func.isRequired,
   onChatClose: propTypes.func,
+  widgetStyles: propTypes.shape({
+    backgroundImage: propTypes.string,
+    primaryColor: propTypes.string,
+    widgetPosition: propTypes.string,
+  }),
 };
 
 export default ConversationsList;

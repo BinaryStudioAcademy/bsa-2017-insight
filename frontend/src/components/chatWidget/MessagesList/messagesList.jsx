@@ -4,8 +4,10 @@ import Message from './../Message/Message';
 import styles from './styles.scss';
 
 const MessagesList = (props) => {
+  const listStyles = { backgroundImage: `url(${props.widgetStyles.backgroundImage}.png)` };
+  const userMessageColor = { backgroundColor: props.widgetStyles.primaryColor };
   return (
-    <ul className={styles['messages-list']}>
+    <ul className={styles['messages-list']} style={listStyles}>
       {props.messages && props.messages.map((message) => {
         let style;
         if (message.forceMessage) {
@@ -17,6 +19,7 @@ const MessagesList = (props) => {
         }
         return (
           <Message
+            userMessageColor={userMessageColor}
             messageStyle={style}
             avatar={message.author ? message.author.item.avatar : ''}
             key={message._id}
@@ -47,6 +50,11 @@ MessagesList.propTypes = {
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
     editedAt: propTypes.number,
   })),
+  widgetStyles: propTypes.shape({
+    backgroundImage: propTypes.string,
+    primaryColor: propTypes.string,
+    widgetPosition: propTypes.string,
+  }),
 };
 
 export default MessagesList;

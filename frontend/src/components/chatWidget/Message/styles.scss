@@ -68,11 +68,11 @@
   }
 
   :local(.message-body-text) {
-    background-color: #e6e9eb;
+    background-color: #e6e9eb !important;
   }
 
   :local(.message-body-link) {
-    background-color: #e6e9eb;
+    background-color: #e6e9eb !important;
   }
 
   :local(.sender-avatar) {

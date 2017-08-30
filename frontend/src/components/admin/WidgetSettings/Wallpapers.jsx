@@ -11,17 +11,18 @@ export default class Wallpapers extends React.Component {
   }
 
   componentDidMount() {
-    const name = this.state.active.split('/').pop();
+    if (!this.state.active) return;
+    const name = this.state.active && this.state.active.split('/').pop();
     document.getElementById(name).style.border = '2px solid #000';
   }
 
   changeBackground(e) {
-    const name = this.state.active.split('/').pop();
+    const name = this.state.active && this.state.active.split('/').pop();
     if (e.target.id === this.state.active) return;
     document.getElementById(name).style.border = '1px solid #c9d7df';
     e.target.style.border = '2px solid #000';
     this.setState({ active: e.target.id });
-    this.props.set('backgroundImage', `http://localhost:3000/frontend/src/common/resources/wallpapers/${e.target.id}`);
+    this.props.set('backgroundImage', `resources/wallpapers/${e.target.id}`);
   }
 
   render() {

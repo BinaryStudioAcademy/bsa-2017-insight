@@ -34,7 +34,7 @@ export default class WidgetSettings extends React.Component {
       })
       .then((response) => {
         this.setState({
-          settings: response,
+          settings: response.options,
         });
       });
   }
@@ -45,6 +45,7 @@ export default class WidgetSettings extends React.Component {
       admin: adminId,
       options: this.state.settings,
     };
+    console.log(dataToSend);
     dataToSend.admin = adminId;
     fetch(`/api/widgets/${adminId}`, {
       headers: {

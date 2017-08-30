@@ -4,15 +4,36 @@ import ChatIcon from './ChatIcon/chatIcon';
 import Chat from './Chat/Chat';
 import Trigger from './Trigger';
 
-const ChatWidget = (props) => {
-  return (
-    <div>
-      {props.isOpen ?
-        <Chat onChatClose={props.toggleChat} force={props.force} forceWillBeFalse={props.forceWillBeFalse} /> :
-        <ChatIcon onChatIconClick={props.toggleChat} />}
-    </div>
-  );
-};
+class ChatWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3000/api/widgets/59a578b12ca51022dcb57210')
+      .then(response => response.json())
+      .then((data) => {
+        this.setState({ widgetStyles: data.options });
+        console.log(data);
+      });
+  }
+
+  render() {
+    return this.state.widgetStyles ? (
+      <div>
+        {this.props.isOpen ?
+          <Chat
+            widgetStyles={this.state.widgetStyles}
+            onChatClose={this.props.toggleChat}
+            force={this.props.force}
+            forceWillBeFalse={this.props.forceWillBeFalse}
+          /> :
+          <ChatIcon onChatIconClick={this.props.toggleChat} widgetStyles={this.state.widgetStyles} />}
+      </div>
+    ) : null;
+  }
+}
 
 ChatWidget.propTypes = {
   isOpen: propTypes.bool,

@@ -111,10 +111,11 @@ class ChatBody extends Component {
       'https://www.materialist.com/static/new_store/images/avatar_placeholder.svg' :
       operator.user.avatar);
     const operatorName = operator ? operator.user.username : 'Conversation hasn\'t been picked up';
+    const headerStyles = { backgroundColor: this.props.widgetStyles.primaryColor };
     return (
       <div onClick={e => this.closeEmojiBlock(e)} role="presentation" className={styles.chat}>
         {operator ?
-          <div className={styles['conversation-header']}>
+          <div className={styles['conversation-header']} style={headerStyles}>
             <img
               className={styles['return-button']}
               src="http://www.iconsdb.com/icons/preview/white/arrow-89-xxl.png"
@@ -124,7 +125,7 @@ class ChatBody extends Component {
             <img className={styles['operator-avatar']} alt="avatar" src={avatar} />
             <div className={styles['operator-name']}>{operatorName}</div>
           </div> :
-          <div className={styles['conversation-header']}>
+          <div className={styles['conversation-header']} style={headerStyles}>
             <img
               className={styles['return-button']}
               src="http://www.iconsdb.com/icons/preview/white/arrow-89-xxl.png"
@@ -134,7 +135,7 @@ class ChatBody extends Component {
             <div className={styles['operator-name']}>{operatorName}</div>
           </div>
         }
-        <MessagesList messages={this.props.messages} />
+        <MessagesList messages={this.props.messages} widgetStyles={this.props.widgetStyles} />
         <form
           className={styles['sending-form']}
           onSubmit={(event) => {
@@ -180,7 +181,6 @@ class ChatBody extends Component {
           <button className={styles['submit-button']} type="submit" />
         </form>
         {this.state.showEmojis ? <div
-          tabIndex={0}
           onBlur={this.closeEmojiBlock}
           className={styles['emoji-block']}
         >
@@ -212,6 +212,11 @@ ChatBody.propTypes = {
   operator: propTypes.shape({
     userType: propTypes.string,
     user: propTypes.object,
+  }),
+  widgetStyles: propTypes.shape({
+    backgroundImage: propTypes.string,
+    primaryColor: propTypes.string,
+    widgetPosition: propTypes.string,
   }),
 };
 

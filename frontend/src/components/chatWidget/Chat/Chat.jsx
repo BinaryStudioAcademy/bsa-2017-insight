@@ -67,6 +67,7 @@ class Chat extends Component {
     this.socket.emit('getUserConversations', id);
     this.setState({ activeChatId: null });
   }
+
   onFormSubmit(event, text) {
     const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
     event.preventDefault();
@@ -130,9 +131,19 @@ class Chat extends Component {
     const operator = conversationToRender ?
       conversationToRender.item.participants.find(participant => participant.userType === 'Admin') :
       null;
+    const chatStyles = this.props.widgetStyles.widgetPosition === 'right' ?
+      {
+        right: '25px',
+        bottom: '25px',
+      } :
+      {
+        left: '25px',
+        bottom: '25px',
+      };
     return (
-      <div className={styles.chat}>
+      <div className={styles.chat} style={chatStyles}>
         {!this.state.activeChatId && <ConversationsList
+          widgetStyles={this.props.widgetStyles}
           conversations={conversations}
           onConversationClick={this.onConversationClick}
           onCreateConversationButtonClick={this.onCreateConversationButtonClick}
@@ -140,6 +151,7 @@ class Chat extends Component {
         />}
         {this.state.activeChatId &&
         <ChatBody
+          widgetStyles={this.props.widgetStyles}
           operator={operator}
           messages={messages}
           onFormSubmit={this.onFormSubmit}
@@ -152,7 +164,11 @@ class Chat extends Component {
 
 Chat.propTypes = {
   onChatClose: propTypes.func.isRequired,
-  force: propTypes.bool,
+  widgetStyles: propTypes.shape({
+    backgroundImage: propTypes.string,
+    primaryColor: propTypes.string,
+    widgetPosition: propTypes.string,
+  }),
   forceWillBeFalse: propTypes.func,
 };
 

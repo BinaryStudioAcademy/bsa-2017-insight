@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import styles from './styles.scss';
 import EmojiRender from '../../emojiRender';
 
-const Message = ({ name, body, messageStyle, isReceived, type, avatar }) => {
+const Message = ({ name, body, messageStyle, isReceived, type, avatar, userMessageColor }) => {
   const messageAuthor = messageStyle === 'force-message' ? null : name;
   let status;
   if (type === 'User') {
@@ -25,10 +25,15 @@ const Message = ({ name, body, messageStyle, isReceived, type, avatar }) => {
           <img src={body.path} alt={body.fileName} />
         </a>);
     } else {
-      message = <a className={styles['message-body-link']} href={body.path}>{body.fileName}.{body.fileType}</a>;
+      message = (<a
+        className={styles['message-body-link']}
+        href={body.path}
+        style={userMessageColor}>
+        {body.fileName}.{body.fileType}
+      </a>);
     }
   } else {
-    message = <span className={styles['message-body-text']}><EmojiRender text={body} /></span>;
+    message = <span className={styles['message-body-text']} style={userMessageColor}><EmojiRender text={body} /></span>;
   }
   if (messageAuthor) {
     result = (<li
@@ -56,6 +61,7 @@ Message.propTypes = {
   isReceived: propTypes.bool,
   type: propTypes.string,
   avatar: propTypes.string,
+  userMessageColor: propTypes.string,
 };
 
 export default Message;

@@ -9,8 +9,16 @@ module.exports = (app) => {
 	});
 
 	app.get('/api/admin/settings/:element', (req, res, next) => {
+		const widgetDefaultSettings = {
+			mainChatColor: '#D91111',
+			backgroundImage: 'w1',
+			forceMessage: 'Hi! How can I help you?',
+			timeout: 10,
+			widgetPosition: 'right'
+		}
 		settingsRepository.getSettings(req.params.element, (err, data) => {
 			if(err) return next(err);
+			if(!data && req.params.element === 'widget') return res.json({ settings: widgetDefaultSettings });
 			res.json(data);
 		})
 	});

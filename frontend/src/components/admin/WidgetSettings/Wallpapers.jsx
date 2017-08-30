@@ -19,7 +19,7 @@ export default class Wallpapers extends React.Component {
     document.getElementById(this.state.active).style.border = '1px solid #c9d7df';
     e.target.style.border = '2px solid #000';
     this.setState({ active: e.target.id });
-    this.props.set('bg', e.target.id);
+    this.props.set('backgroundImage', e.target.id);
   }
 
   render() {

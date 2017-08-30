@@ -28,6 +28,17 @@
   align-items: center;
   border-radius: 10px;
   width: 70%;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  div span {
+    margin-left: 5px;
+    width: 18px !important;
+    height: 18px !important;
+  }
 }
 
 :local(.message-body-link) {
@@ -56,11 +67,11 @@
   }
 
   :local(.message-body-text) {
-    background-color: #eaedef;
+    background-color: #e6e9eb;
   }
 
   :local(.message-body-link) {
-    background-color: #eaedef;
+    background-color: #e6e9eb;
   }
 
   :local(.sender-avatar) {
@@ -91,7 +102,6 @@
     background-color: $landing-orange;
     color: #ffffff;
   }
-
   :local(.message-body-link) {
     background-color: $landing-orange;
     color: #ffffff;

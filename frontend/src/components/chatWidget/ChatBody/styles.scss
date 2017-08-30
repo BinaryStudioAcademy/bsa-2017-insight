@@ -18,6 +18,8 @@
   text-align: center;
   justify-content: center;
   position: relative;
+  z-index: 1000;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.3);
 }
 
 :local(.return-button) {
@@ -58,7 +60,7 @@
   border: none;
   flex-basis: 100%;
   height: 60px;
-  padding: 25px 50px 10px 20px;
+  padding: 25px 120px 10px 20px;
   border-radius: 5px;
 }
 
@@ -104,6 +106,7 @@
   background: url("https://maxcdn.icons8.com/Share/icon/Messaging//sent1600.png") center no-repeat;
   background-size: contain;
   border-radius: 5px;
+  outline: none;
   
   &:hover {
     cursor: pointer;

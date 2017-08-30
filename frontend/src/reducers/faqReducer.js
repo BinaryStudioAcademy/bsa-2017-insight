@@ -28,7 +28,7 @@ const faqReducer = (state = initialState, action) => {
     {
       const newData = [...state.data];
       const index = newData.findIndex((elem) => {
-        return elem._id === action.payload.id;
+        return elem._id === action.payload;
       });
       if (index !== -1) {
         newData.splice(index, 1);

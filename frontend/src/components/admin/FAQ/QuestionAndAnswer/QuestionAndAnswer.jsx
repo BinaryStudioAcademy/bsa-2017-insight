@@ -3,7 +3,7 @@ import TextField from 'material-ui/TextField';
 import styles from './styles.scss';
 
 const QuestionAndAnswer = ({ faq, action }) => {
-  const disabled = !(((action === 'add') || (action === 'modify')));
+  const disabled = !( (action === 'add') || (action === 'modify') );
   return (
     <div>
       <h3>Question</h3>

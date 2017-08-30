@@ -18,10 +18,7 @@ class FAQList extends Component {
   }
 
   render() {
-    let faqs;
-    if (this.props.action === 'search') {
-      faqs = this.props.searchedData;
-    } else { faqs = this.props.faqs; }
+    let faqs = (this.props.action === 'search') ? this.props.searchedData : this.props.faqs;
     return (
       <div className={styles['FAQ-list']}>
         <TextField hintText="Search" id="search" onInput={this.props.searchQuestion} /><br />

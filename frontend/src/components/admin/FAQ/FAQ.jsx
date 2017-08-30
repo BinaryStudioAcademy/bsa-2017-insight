@@ -57,11 +57,11 @@ class FAQ extends Component {
     });
   }
 
-  // componentWillUpdate(nextProps, nextState) {
-  //   if ((this.state.selectedFAQ !== nextState.selectedFAQ) || (this.state.action !== nextState.action)) {
-  //     this.setSelectedFAQ(nextProps, nextState);
-  //   }
-  // }
+  componentWillUpdate(nextProps, nextState) {
+    if ((this.state.selectedFAQ !== nextState.selectedFAQ) || (this.state.action !== nextState.action)) {
+      this.setSelectedFAQ(nextProps, nextState);
+    }
+  }
 
   setSelectedId(id) {
     const searchField = document.getElementById('search');
@@ -110,7 +110,7 @@ class FAQ extends Component {
         <FAQList
           faqs={this.props.data}
           setSelectedId={this.setSelectedId}
-          selectedId={this.state.selectedId}
+          selectedId={this.props.currentQuestion._id}
           searchQuestion={this.searchQuestion}
           searchedData={this.state.searchedData}
           action={this.state.action}
@@ -118,6 +118,7 @@ class FAQ extends Component {
         <MainWindow
           setAction={this.setAction}
           action={this.state.action}
+
 
           currentQuestion={this.props.currentQuestion}
 
@@ -163,8 +164,8 @@ FAQ.propTypes = {
   modifyFAQ: React.PropTypes.func,
   deleteFAQ: React.PropTypes.func,
   getFAQ: React.PropTypes.func,
-  data: React.PropTypes.arrayOf(),
-  currentQuestion: React.PropTypes.objectOf()
+  data: React.PropTypes.arrayOf(PropTypes.objectOf(propTypes.oneOfType([propTypes.number, propTypes.string]))),
+  currentQuestion: React.PropTypes.objectOf(propTypes.oneOfType([propTypes.number, propTypes.string]))
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FAQ);

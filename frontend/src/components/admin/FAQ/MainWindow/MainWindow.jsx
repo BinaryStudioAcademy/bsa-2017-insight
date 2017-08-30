@@ -13,12 +13,12 @@ class MainWindow extends Component {
     };
   }
 
-  deleteQuestion() { // selectedId не меняется.
+  deleteQuestion() {
     console.log('delete');
-    console.log(this.props.selectedId);
-    if (this.props.selectedId != null) {
+    console.log(this.props.currentQuestion._id);
+    if (this.props.currentQuestion._id != null) {
       this.props.setAction('delete');
-      this.props.deleteQuestion(this.props.selectedId);
+      this.props.deleteQuestion(this.props.currentQuestion._id);
       this.props.setAction('');
     }
   }

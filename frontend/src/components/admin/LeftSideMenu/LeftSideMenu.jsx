@@ -7,6 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import HomeAdminIcon from 'material-ui/svg-icons/action/dashboard';
 import RespondIcon from 'material-ui/svg-icons/communication/chat';
 import EngageIcon from 'material-ui/svg-icons/editor/insert-chart';
+import FAQIcon from 'material-ui/svg-icons/action/question-answer';
 
 import PopoverSettings from './PopoverSettings';
 
@@ -51,6 +52,15 @@ class LeftSideMenu extends React.Component {
           </NavLink>
           <Divider />
           <PopoverSettings width={this.props.width} chosenTheme={this.props.chosenTheme} />
+          <NavLink to={'/admin/faq'}>
+            <IconButton
+              style={{ width: this.props.width }}
+              tooltip={'FAQ'}
+              tooltipPosition={'bottom-right'}
+            >
+              <FAQIcon />
+            </IconButton>
+          </NavLink>
           <Divider />
         </Drawer>
       </div>

@@ -16,7 +16,7 @@ function startSocketConnection(dispatch, messages, conversationId) {
   this.socket.emit('adminConnectedToRoom', conversationId);
   const userObj = {
     type: 'Admin',
-    id,
+    id
   };
   this.socket.emit('messagesReceived', { type: 'Admin', messages });
   // checkUserMessagesReceived(messages);
@@ -37,6 +37,6 @@ function startSocketConnection(dispatch, messages, conversationId) {
 }
 
 export {
-  startSocketConnection,
+  startSocketConnection
 };
 

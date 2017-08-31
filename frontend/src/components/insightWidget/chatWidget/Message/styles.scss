@@ -22,12 +22,22 @@
 }
 
 :local(.message-body-text) {
+  position: relative;
   box-sizing: border-box;
-  padding: 20px 17px;
+  padding: 20px 25px;
   display: flex;
   align-items: center;
   border-radius: 10px;
-  width: 70%;
+  width: auto;
+  max-width: 70%;
+
+  a {
+    color: #ffffff;
+
+    &:hover {
+      color: $landing-orange;
+    }
+  }
 
   div {
     height: 20px;
@@ -43,20 +53,25 @@
   }
 }
 
-:local(.message-body-link) {
-  box-sizing: border-box;
-  padding: 20px 17px;
-  display: flex;
-  align-items: center;
+:local(.message-body-image) {
+  position: relative;
   border-radius: 10px;
   width: 70%;
+  height: 70%;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 :local(.message-status) {
+  color: #000000;
   font-size: 12px;
   bottom: -18px;
   position: absolute;
-  right: 20%;
+  right: 5px;
+  text-align: right;
   font-style: italic;
 }
 
@@ -64,63 +79,32 @@
   justify-content: flex-end;
   padding-right: 20px;
 
-  :local(.message-status) {
-    left: 20%;
-  }
-
   :local(.message-body-text) {
     background-color: #e6e9eb !important;
-  }
 
-  :local(.message-body-link) {
-    background-color: #e6e9eb !important;
+    a {
+      color: #000000;
+
+      &:hover {
+        color: $landing-orange;
+      }
+    }
   }
 
   :local(.sender-avatar) {
     order: 3;
     margin-left: 10px;
   }
-
-  :local(.message-body-image) {
-    border-radius: 10px;
-    width: 70%;
-    height: 70%;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
 }
 
 :local(.user-message) {
   padding-left: 20px;
 
-  :local(.message-status) {
-    right: 20%;
-  }
-
   :local(.message-body-text) {
-    background-color: $landing-orange;
-    color: #ffffff;
-  }
-  :local(.message-body-link) {
-    background-color: $landing-orange;
     color: #ffffff;
   }
 
   :local(.sender-avatar) {
     margin-right: 10px;
-  }
-
-  :local(.message-body-image) {
-    border-radius: 10px;
-    width: 70%;
-    height: 70%;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
   }
 }

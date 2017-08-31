@@ -7,7 +7,7 @@ const Message = ({ name, body, messageStyle, isReceived, type, avatar, userMessa
   const messageAuthor = messageStyle === 'force-message' ? null : name;
   let status;
   if (type === 'User') {
-    status = isReceived ? 'Seen' : 'Message is not seen yet';
+    status = isReceived ? 'Seen' : 'Not seen';
   } else {
     status = '';
   }
@@ -23,17 +23,19 @@ const Message = ({ name, body, messageStyle, isReceived, type, avatar, userMessa
       message = (
         <a href={body.path} className={styles['message-body-image']} target="_blank">
           <img src={body.path} alt={body.fileName} />
+          {statusSpan}
         </a>);
     } else {
-      message = (<a
-        className={styles['message-body-link']}
-        href={body.path}
-        style={userMessageColor}>
-        {body.fileName}.{body.fileType}
-      </a>);
+      message = (<div className={styles['message-body-text']} style={userMessageColor}>
+        <a href={body.path}> <span>{body.fileName}.{body.fileType} </span> </a>
+        {statusSpan}
+      </div>);
     }
   } else {
-    message = <span className={styles['message-body-text']} style={userMessageColor}><EmojiRender text={body} /></span>;
+    message = (<div className={styles['message-body-text']} style={userMessageColor}>
+      <EmojiRender text={body} />
+      {statusSpan}
+    </div>);
   }
   if (messageAuthor) {
     result = (<li
@@ -41,7 +43,7 @@ const Message = ({ name, body, messageStyle, isReceived, type, avatar, userMessa
     >
       {senderAvatar}
       {message}
-      {statusSpan}
+      {/*{statusSpan}*/}
     </li>);
   } else {
     result = <li className={`${styles[messageStyle]} ${styles['message-item']}`}>{message} </li>;

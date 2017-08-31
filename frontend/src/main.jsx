@@ -13,7 +13,7 @@ sagaMiddleware.run(rootSaga);
 
 WebFont.load({
   google: {
-    families: ['Ubuntu:300,400,700', 'Roboto'],
+    families: ['Ubuntu:300,400,700', 'Roboto:300,400,500,600,700,800'],
   },
 });
 

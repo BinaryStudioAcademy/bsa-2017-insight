@@ -1,92 +1,23 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-// import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
+import FlatButton from 'material-ui/FlatButton';
 import styles from './styles.scss';
 import Filter from '../Filter/Filter';
+import TableItself from './TableItself';
+import TextField from 'material-ui/TextField';
+import { connect } from 'react-redux';
+import { addSelection } from '../../../actions/selectionActions';
 
 class UserInfoTable extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
-    this.state = {
-      browser: 'Browser',
-      browserLanguage: 'Browser Language',
-      browserVersion: 'Browser Version',
-      city: 'City',
-      coordinates: 'Coordinates',
-      country: 'Country',
-      currentUrl: 'Current URL',
-      deviceType: 'Device Type',
-      geoLocation: 'Geolocation',
-      _id: 'ID',
-      online: 'Online',
-      os: 'OS',
-      screenHeight: 'Screen Height',
-      screenWidth: 'Screen Width',
-      timeZone: 'Timezone',
-      userAgent: 'User Agent',
-      userId: 'User ID',
-      userIpAddress: 'IP Address',
-      viewedUrls: 'Viewed URLs',
-      open: false,
-      username: 'User name',
-      firstname: 'First name',
-      lastname: 'Last name',
-    };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
-  }
-
-  hoverRow(e) {
-    console.log(e);
-  }
-
-  generateRows() {
-    return this.props.statistics.map((row, index) => (
-      <TableRow key={`row ${index}`} value={row} style={{ borderBottom: '1px solid #E0F7FA' }}> {
-        this.props.options.map((elem) => {
-          if (elem === 'username') {
-            return (<TableRowColumn
-              key={`row ${index},column${elem}`}
-              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
-            >
-              <span>{row.userId.username}</span>
-            </TableRowColumn>);
-          }
-          if (elem === 'firstname') {
-            return (<TableRowColumn
-              key={`row ${index},column${elem}`}
-              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
-            >
-              <span>{row.userId.firstName}</span>
-            </TableRowColumn>);
-          }
-          if (elem === 'lastname') {
-            return (<TableRowColumn
-              key={`row ${index},column${elem}`}
-              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
-            >
-              <span>{row.userId.lastName}</span>
-            </TableRowColumn>);
-          }
-          return (<TableRowColumn
-            key={`row ${index},column${elem}`}
-            style={{ fontSize: '12px', width: '200px', padding: '5px' }}
-          >
-            <span>{row[elem]}</span>
-          </TableRowColumn>);
-        })
-      }
-      </TableRow>
-    ));
+    this.state = {
+      open: false,
+      selDialogOpen: false,
+    };
   }
 
   handleOpen() {
@@ -95,6 +26,10 @@ class UserInfoTable extends React.Component {
 
   handleClose() {
     this.setState({ open: false });
+  }
+
+  toggleSelectionDialog() {
+    this.setState({ selDialogOpen: !this.state.selDialogOpen });
   }
 
   render() {
@@ -110,12 +45,8 @@ class UserInfoTable extends React.Component {
         <RaisedButton
           label="Columns Filter"
           onClick={this.handleOpen}
-          primary={true}
-          style={{
-            marginBottom: '5px',
-            background: this.props.chosenTheme.palette.primary1Color,
-            color: this.props.chosenTheme.palette.alternateTextColor,
-          }}
+          primary
+          style={{ margin: '0 5px 10px 0' }}
         />
         <Dialog
           title="Columns Filter"
@@ -130,30 +61,51 @@ class UserInfoTable extends React.Component {
             updateFields={this.props.updateFields}
           />
         </Dialog>
-        <Table bodyStyle={{ overflow: 'visible' }}>
-          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-            <TableRow style={{ height: '25px' }}>
-              {this.props.options.map((elem) => {
-                return (<TableHeaderColumn
-                  key={elem}
-                  style={{
-                    fontSize: '12px',
-                    width: '200px',
-                    padding: '5px',
-                    height: '25px',
-                  }}
-                >
-                  {this.state[elem]}
-                </TableHeaderColumn>);
-              })}
-            </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false}>
-            {
-              this.generateRows()
-            }
-          </TableBody>
-        </Table>
+        <RaisedButton
+          label="Create a selection"
+          onClick={() => this.toggleSelectionDialog(this.state.selDialogOpen)}
+          primary
+          style={{ margin: '0 5px 10px 0' }}
+        />
+        <Dialog
+          title="Create a selection"
+          modal
+          open={this.state.selDialogOpen}
+          contentStyle={{ textAlign: 'center', margin: '0 auto' }}
+          bodyStyle={{ overflowX: 'hidden', textAlign: 'center' }}
+        >
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const name = document.getElementById('selection-name').value;
+              const description = document.getElementById('selection-description').value;
+              this.props.addSelection(name, description, this.props.statistics);
+              this.toggleSelectionDialog(this.state.selDialogOpen);
+            }}
+          >
+            <TextField
+              hintText="Name"
+              required
+              id="selection-name"
+            /><br />
+            <TextField
+              hintText="Description (optional)"
+              id="selection-description"
+            /><br />
+            <FlatButton
+              label="Cancel"
+              onClick={() => this.toggleSelectionDialog(this.state.selDialogOpen)}
+            />,
+            <FlatButton
+              label="Create"
+              type="submit"
+            />
+          </form>
+        </Dialog>
+        <TableItself
+          statistics={this.props.statistics}
+          options={this.props.options}
+        />
       </div>
     );
   }
@@ -167,4 +119,14 @@ UserInfoTable.propTypes = {
   updateFields: React.PropTypes.func,
 };
 
-export default UserInfoTable;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addSelection: (name, description, users) => {
+      const filteredUsersIds = users.filter(user => user.userId.email).map(user => user.userId._id);
+      const body = JSON.stringify({ name, description, users: filteredUsersIds });
+      return dispatch(addSelection(body));
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(UserInfoTable);

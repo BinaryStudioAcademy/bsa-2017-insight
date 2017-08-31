@@ -20,6 +20,7 @@ import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import styles from './styles.scss';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import WidgetSettings from './WidgetSettings/WidgetSettings';
+import Engage from './Engage/Engage';
 
 injectTapEventPlugin();
 
@@ -81,13 +82,12 @@ class AdminPage extends React.Component {
     if (typeof (arr[0]) === 'object') {
       options = Object.keys(arr[0]);
     }
-    // console.log(this);
     return options;
   }
 
   toggleTheme() {
-    console.log('Current theme:');
-    console.log(this.state.chosenTheme);
+    // console.log('Current theme:');
+    // console.log(this.state.chosenTheme);
     this.setState({
       chosenTheme: this.state.chosenTheme === lightBaseTheme ? darkBaseTheme : lightBaseTheme,
     }, () => {
@@ -133,6 +133,10 @@ class AdminPage extends React.Component {
                           render={() => {
                             const statistics = this.props.usersToRender;
                             const options = this.getStatisticOptions(this.props.usersToRender);
+                            {/* console.log('STATISTICS');
+                            console.log(statistics);
+                            console.log('OPTIONS');
+                            console.log(options); */}
                             return (
                               <div style={{ marginTop: '10px' }}>
                                 <StatisticsFilter chosenTheme={this.state.chosenTheme} />
@@ -163,11 +167,12 @@ class AdminPage extends React.Component {
                         />
                         <Route
                           path={'/admin/engage'}
-                          render={() => {
-                            return (
-                              <div>Engage component is coming soon!</div>
-                            );
-                          }}
+                          render={() => (
+                            <Engage
+                              headerHeight={this.headerHeight}
+                              chosenTheme={this.state.chosenTheme}
+                            />
+                          )}
                         />
                         <Route path={'/admin/widget'} component={WidgetSettings} />
                         <Route component={IncorrectRoute} />

@@ -104,8 +104,10 @@ class UserInfoTable extends React.Component {
   }
 
   handleChange(event, index, value) {
-    this.setState({rowsPerPage : value});
-    this.someFunc();
+    this.setState({
+      rowsPerPage : value,
+      currentPage: 1
+    }, ()=> this.calculateNumOfPages());
   }
 
   changeCurrentPage(event){
@@ -116,15 +118,15 @@ class UserInfoTable extends React.Component {
     }
   }
 
-  someFunc(){
+  calculateNumOfPages(){
     const numOfRows = this.props.statistics.length;
     const numOfPages = Math.ceil(numOfRows/this.state.rowsPerPage);
     this.setState({numOfPages: numOfPages});
-    for (let i = 0; i < this.state.rowsPerPage; i++){
-      let index = (this.state.currentPage-1)*this.state.rowsPerPage;
-      if ((index + i) > numOfRows)
-        break;
-    }
+    // for (let i = 0; i < this.state.rowsPerPage; i++){
+    //   let index = (this.state.currentPage-1)*this.state.rowsPerPage;
+    //   if ((index + i) > numOfRows)
+    //     break;
+    // }
   }
 
   render() {
@@ -188,24 +190,28 @@ class UserInfoTable extends React.Component {
 
 
 
-        <div>
-          <RaisedButton label="Previous" value={Number(this.state.currentPage)-1} onClick={this.changeCurrentPage} />
-          <RaisedButton label="<<" value={1} onClick={this.changeCurrentPage} />
-            {(this.state.currentPage > 2) ? <p style={{ display: 'inline' }}>...</p> : null}
-            {(this.state.currentPage > 1 ) ? <RaisedButton label={Number(this.state.currentPage)-1} value={Number(this.state.currentPage)-1} onClick={this.changeCurrentPage} /> : null}
-            <RaisedButton label={Number(this.state.currentPage)} value={Number(this.state.currentPage)} onClick={this.changeCurrentPage} />
-            {(this.state.currentPage < this.state.numOfPages) ? <RaisedButton label={Number(this.state.currentPage)+1} value={Number(this.state.currentPage)+1} onClick={this.changeCurrentPage} /> : null}
-            {(this.state.currentPage < this.state.numOfPages-1 ) ? <p style={{ display: 'inline' }}>...</p> : null}
-          <RaisedButton label=">>" value={Number(this.state.numOfPages)} onClick={this.changeCurrentPage} />
-          <RaisedButton label="Next" value={Number(this.state.currentPage)+1} onClick={this.changeCurrentPage} />
-          <SelectField
-            floatingLabelText="Number of rows per page"
-            value={this.state.rowsPerPage}
-            onChange={this.handleChange}>
-            <MenuItem value={2} primaryText="2" />
-            <MenuItem value={5} primaryText="5" />
-            <MenuItem value={10} primaryText="10" />
-          </SelectField>
+        <div className={styles.pagination}>
+          <div>
+            <RaisedButton label="Previous" value={Number(this.state.currentPage)-1} onClick={this.changeCurrentPage} />
+            <RaisedButton label="<<" value={1} onClick={this.changeCurrentPage} />
+              {(this.state.currentPage > 2) ? <p style={{ display: 'inline' }}>...</p> : null}
+              {(this.state.currentPage > 1 ) ? <RaisedButton label={Number(this.state.currentPage)-1} value={Number(this.state.currentPage)-1} onClick={this.changeCurrentPage} /> : null}
+              <RaisedButton label={Number(this.state.currentPage)} value={Number(this.state.currentPage)} onClick={this.changeCurrentPage} />
+              {(this.state.currentPage < this.state.numOfPages) ? <RaisedButton label={Number(this.state.currentPage)+1} value={Number(this.state.currentPage)+1} onClick={this.changeCurrentPage} /> : null}
+              {(this.state.currentPage < this.state.numOfPages-1 ) ? <p style={{ display: 'inline' }}>...</p> : null}
+            <RaisedButton label=">>" value={Number(this.state.numOfPages)} onClick={this.changeCurrentPage} />
+            <RaisedButton label="Next" value={Number(this.state.currentPage)+1} onClick={this.changeCurrentPage} />
+          </div>
+          <div>
+            <SelectField
+              floatingLabelText="Number of rows per page"
+              value={this.state.rowsPerPage}
+              onChange={this.handleChange} >
+              <MenuItem value={2} primaryText="2" />
+              <MenuItem value={5} primaryText="5" />
+              <MenuItem value={10} primaryText="10" />
+            </SelectField>
+          </div>
         </div>
       </div>
     );

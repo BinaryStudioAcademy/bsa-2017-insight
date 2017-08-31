@@ -6,3 +6,10 @@
 	width: 79%;
 	float: right;
 }
+
+:local(.pagination) {
+	display: inline-flex !important;
+	justify-content: space-between !important;
+	align-items: flex-end !important;
+	width: 100%;
+}

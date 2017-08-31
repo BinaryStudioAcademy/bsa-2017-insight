@@ -181,7 +181,6 @@ class Chat extends Component {
         className={styles.chat}
         role="presentation"
         onClick={e => this.closeEmojiBlock(e)}
-        style={{ height: this.props.headerHeight }}
       >
         <MessagesList messages={messages} chosenTheme={this.props.chosenTheme} />
         <form className={styles['sending-form']} onSubmit={this.messageSubmit}>

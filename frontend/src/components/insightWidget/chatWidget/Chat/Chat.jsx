@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import styles from './styles.scss';
-import io from './../../../../../node_modules/socket.io-client/dist/socket.io';
+import io from 'socket.io-client/dist/socket.io';
 import ConversationsList from './../ConversationsList/ConversationsList';
 import ChatBody from './../ChatBody/ChatBody';
 import { findItemById, startSocketConnection } from './logic';
-import notifications from '../../notifications/notifications';
+import notifications from '../../../notifications/notifications';
 
 class Chat extends Component {
   constructor(props) {

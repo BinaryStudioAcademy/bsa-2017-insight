@@ -51,8 +51,8 @@ class EnsureAdmin extends React.Component {
 EnsureAdmin.propTypes = {
   children: PropTypes.node,
   currentUser: PropTypes.shape({
-    username: PropTypes.string
-  })
+    username: PropTypes.string,
+  }),
 };
 
 export default EnsureAdmin;

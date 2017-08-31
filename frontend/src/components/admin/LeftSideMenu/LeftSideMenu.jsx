@@ -50,7 +50,8 @@ class LeftSideMenu extends React.Component {
             </IconButton>
           </NavLink>
           <Divider />
-          <PopoverSettings width={this.props.width} />
+          <PopoverSettings width={this.props.width} chosenTheme={this.props.chosenTheme} />
+          <Divider />
         </Drawer>
       </div>
     );
@@ -59,6 +60,11 @@ class LeftSideMenu extends React.Component {
 
 LeftSideMenu.propTypes = {
   width: PropTypes.number,
+  chosenTheme: PropTypes.shape({
+    palette: PropTypes.shape({
+      textColor: PropTypes.string,
+    }),
+  }),
 };
 
 export default LeftSideMenu;

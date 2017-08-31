@@ -1,4 +1,4 @@
-@import './../../../common/styles/variables';
+@import '../../../../common/styles/variables';
 
 :local(.chat) {
   box-sizing: border-box;
@@ -27,7 +27,7 @@
   position: absolute;
   left: 30px;
   top: 25px;
-  
+
   &:hover {
     cursor: pointer;
   }
@@ -106,7 +106,7 @@
   background-size: contain;
   border-radius: 5px;
   outline: none;
-  
+
   &:hover {
     cursor: pointer;
   }

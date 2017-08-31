@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import ChatIcon from './ChatIcon/chatIcon';
 import Chat from './Chat/Chat';
 import Trigger from './Trigger';
+// import styles from './styles.scss';
 
 class ChatWidget extends React.Component {
   constructor(props) {

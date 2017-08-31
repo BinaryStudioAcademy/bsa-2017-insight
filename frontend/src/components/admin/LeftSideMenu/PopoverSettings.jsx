@@ -50,6 +50,7 @@ class PopoverSettings extends React.Component {
             tooltip={'Settings'}
             tooltipPosition={'bottom-right'}
             onClick={this.handleTouchTap}
+            iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
           >
             <ActionSettings />
           </IconButton>
@@ -77,6 +78,11 @@ class PopoverSettings extends React.Component {
 
 PopoverSettings.propTypes = {
   width: PropTypes.number,
+  chosenTheme: PropTypes.shape({
+    palette: PropTypes.shape({
+      textColor: PropTypes.string,
+    }),
+  }),
 };
 
 export default PopoverSettings;

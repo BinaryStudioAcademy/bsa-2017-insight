@@ -1,12 +1,20 @@
 :local(.chat) {
-  padding: 0 10px;
-  // position: relative;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  // outline: 2px solid green;
+  height: 100%;
 }
 
 :local(.sending-form) {
-  margin-top: 30px;
+  margin-bottom: 10px;
   width: 100%;
   display: flex;
+  flex-shrink: 0;
+  * {
+    margin: 0 3px;
+  }
 }
 
 :local(.message-input) {

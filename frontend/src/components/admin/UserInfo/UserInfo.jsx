@@ -31,7 +31,7 @@ const UserInfo = (props) => {
         <List>
           <Subheader>Last visited</Subheader>
           <ListItem primaryText="Current url" secondaryText={statistic.currentUrl} />
-          <ListItem primaryText="Previous urls" secondaryText={lastUrl} />
+          <ListItem primaryText="Previous urls" secondaryText={lastUrl} secondaryTextLines={2} />
         </List>
 
         <Divider />

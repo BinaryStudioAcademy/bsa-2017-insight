@@ -79,7 +79,6 @@ class Respond extends React.Component {
               />
             </div>
             <div
-              className={styles.chat}
               style={{
                 flexShrink: 1,
                 flexGrow: 2,

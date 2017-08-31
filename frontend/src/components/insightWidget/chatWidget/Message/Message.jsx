@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import styles from './styles.scss';
-import EmojiRender from '../../emojiRender';
+import EmojiRender from '../../../emojiRender';
 
 const Message = ({ name, body, messageStyle, isReceived, type, avatar, userMessageColor }) => {
   const messageAuthor = messageStyle === 'force-message' ? null : name;

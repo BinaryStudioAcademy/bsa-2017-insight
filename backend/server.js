@@ -49,7 +49,7 @@ const compiler = webpack(webpackConfig);
 
 app.use(webpackDevMiddleware(compiler, {
   noInfo: true,
-  publicPath: webpackConfig.output.publicPath,
+  publicPath: webpackConfig[0].output.publicPath,
 }));
 
 app.use(webpackHotMiddleware(compiler));
@@ -65,6 +65,13 @@ app.use('/uploads', express.static(path.join(__dirname, '/../uploads')));
 
 app.use((req, res, next) => {
   // console.log(req.session.user);
+  next();
+});
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 

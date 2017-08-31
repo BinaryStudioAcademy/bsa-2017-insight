@@ -14,10 +14,10 @@ class PopoverSettings extends React.Component {
       open: false,
       anchorOrigin: {
         horizontal: 'right',
-        vertical: 'bottom',
+        vertical: 'top',
       },
       targetOrigin: {
-        horizontal: 'right',
+        horizontal: 'left',
         vertical: 'top',
       },
     };
@@ -60,14 +60,13 @@ class PopoverSettings extends React.Component {
           anchorEl={this.state.anchorEl}
           anchorOrigin={this.state.anchorOrigin}
           targetOrigin={this.state.targetOrigin}
-          onRequestClose={this.handleRequestClose}
         >
           <Menu>
             <NavLink to={'/admin/settings/general'}>
-              <MenuItem primaryText="General" />
+              <MenuItem onClick={this.handleRequestClose} primaryText="General" />
             </NavLink>
             <NavLink to={'/admin/settings/widget'}>
-              <MenuItem primaryText="Widget" />
+              <MenuItem onClick={this.handleRequestClose} primaryText="Widget" />
             </NavLink>
           </Menu>
         </Popover>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-// import FlatButton from 'material-ui/FlatButton';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import {
   Table,
@@ -40,9 +41,14 @@ class UserInfoTable extends React.Component {
       username: 'User name',
       firstname: 'First name',
       lastname: 'Last name',
+      rowsPerPage: 2,
+      currentPage: 1,
+      numOfPages: null,
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.changeCurrentPage = this.changeCurrentPage.bind(this);
   }
 
   hoverRow(e) {
@@ -95,6 +101,30 @@ class UserInfoTable extends React.Component {
 
   handleClose() {
     this.setState({ open: false });
+  }
+
+  handleChange(event, index, value) {
+    this.setState({rowsPerPage : value});
+    this.someFunc();
+  }
+
+  changeCurrentPage(event){
+    if ((Number(event.currentTarget.value) >= 1) && (Number(event.currentTarget.value) <= this.state.numOfPages)) {
+      this.setState({
+        currentPage: event.currentTarget.value
+      })
+    }
+  }
+
+  someFunc(){
+    const numOfRows = this.props.statistics.length;
+    const numOfPages = Math.ceil(numOfRows/this.state.rowsPerPage);
+    this.setState({numOfPages: numOfPages});
+    for (let i = 0; i < this.state.rowsPerPage; i++){
+      let index = (this.state.currentPage-1)*this.state.rowsPerPage;
+      if ((index + i) > numOfRows)
+        break;
+    }
   }
 
   render() {
@@ -154,10 +184,36 @@ class UserInfoTable extends React.Component {
             }
           </TableBody>
         </Table>
+
+
+
+
+        <div>
+          <RaisedButton label="Previous" value={Number(this.state.currentPage)-1} onClick={this.changeCurrentPage} />
+          <RaisedButton label="<<" value={1} onClick={this.changeCurrentPage} />
+            {(this.state.currentPage > 2) ? <p style={{ display: 'inline' }}>...</p> : null}
+            {(this.state.currentPage > 1 ) ? <RaisedButton label={Number(this.state.currentPage)-1} value={Number(this.state.currentPage)-1} onClick={this.changeCurrentPage} /> : null}
+            <RaisedButton label={Number(this.state.currentPage)} value={Number(this.state.currentPage)} onClick={this.changeCurrentPage} />
+            {(this.state.currentPage < this.state.numOfPages) ? <RaisedButton label={Number(this.state.currentPage)+1} value={Number(this.state.currentPage)+1} onClick={this.changeCurrentPage} /> : null}
+            {(this.state.currentPage < this.state.numOfPages-1 ) ? <p style={{ display: 'inline' }}>...</p> : null}
+          <RaisedButton label=">>" value={Number(this.state.numOfPages)} onClick={this.changeCurrentPage} />
+          <RaisedButton label="Next" value={Number(this.state.currentPage)+1} onClick={this.changeCurrentPage} />
+          <SelectField
+            floatingLabelText="Number of rows per page"
+            value={this.state.rowsPerPage}
+            onChange={this.handleChange}>
+            <MenuItem value={2} primaryText="2" />
+            <MenuItem value={5} primaryText="5" />
+            <MenuItem value={10} primaryText="10" />
+          </SelectField>
+        </div>
       </div>
     );
   }
 }
+
+var currentPage = 2;
+var numOfPages = 6;
 
 UserInfoTable.propTypes = {
   options: React.PropTypes.arrayOf(React.PropTypes.string),

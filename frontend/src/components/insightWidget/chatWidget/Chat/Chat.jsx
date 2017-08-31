@@ -65,6 +65,7 @@ class Chat extends Component {
     const id = window._injectedData.anonymousId || window._injectedData.userId._id;
     this.props.forceWillBeFalse();
     this.socket.emit('getUserConversations', id);
+    this.socket.emit('switchRoom', '');
     this.setState({ activeChatId: null });
   }
 

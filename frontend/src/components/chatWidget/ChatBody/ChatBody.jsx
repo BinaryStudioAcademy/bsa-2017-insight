@@ -182,6 +182,7 @@ class ChatBody extends Component {
           <button className={styles['submit-button']} type="submit" />
         </form>
         {this.state.showEmojis ? <div
+          tabIndex={0}
           onBlur={this.closeEmojiBlock}
           className={styles['emoji-block']}
         >

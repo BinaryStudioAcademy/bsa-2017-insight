@@ -41,9 +41,8 @@ class UserInfoTable extends React.Component {
       username: 'User name',
       firstname: 'First name',
       lastname: 'Last name',
-      rowsPerPage: 2,
+      rowsPerPage: 5,
       currentPage: 1,
-      numOfPages: null,
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -56,43 +55,51 @@ class UserInfoTable extends React.Component {
   }
 
   generateRows() {
-    return this.props.statistics.map((row, index) => (
-      <TableRow key={`row ${index}`} value={row} style={{ borderBottom: '1px solid #E0F7FA' }}> {
-        this.props.options.map((elem) => {
-          if (elem === 'username') {
+    const numOfRows = this.props.statistics.length;
+    const numOfPages = Math.ceil(numOfRows/this.state.rowsPerPage);
+    if (numOfRows != 0){
+      const startId = (this.state.currentPage-1)*this.state.rowsPerPage;
+      const endId = (this.state.currentPage === numOfPages) ? numOfRows : (this.state.currentPage*this.state.rowsPerPage);
+      const rowsOnThisPage = this.props.statistics.slice(startId, endId);
+      console.log(rowsOnThisPage);
+      return rowsOnThisPage.map((row, index) => (
+        <TableRow key={`row ${index}`} value={row} style={{ borderBottom: '1px solid #E0F7FA' }}> {
+          this.props.options.map((elem) => {
+            if (elem === 'username') {
+              return (<TableRowColumn
+                key={`row ${index},column${elem}`}
+                style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+              >
+                <span>{row.userId.username}</span>
+              </TableRowColumn>);
+            }
+            if (elem === 'firstname') {
+              return (<TableRowColumn
+                key={`row ${index},column${elem}`}
+                style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+              >
+                <span>{row.userId.firstName}</span>
+              </TableRowColumn>);
+            }
+            if (elem === 'lastname') {
+              return (<TableRowColumn
+                key={`row ${index},column${elem}`}
+                style={{ fontSize: '12px', width: '200px', padding: '5px' }}
+              >
+                <span>{row.userId.lastName}</span>
+              </TableRowColumn>);
+            }
             return (<TableRowColumn
               key={`row ${index},column${elem}`}
               style={{ fontSize: '12px', width: '200px', padding: '5px' }}
             >
-              <span>{row.userId.username}</span>
+              <span>{row[elem]}</span>
             </TableRowColumn>);
-          }
-          if (elem === 'firstname') {
-            return (<TableRowColumn
-              key={`row ${index},column${elem}`}
-              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
-            >
-              <span>{row.userId.firstName}</span>
-            </TableRowColumn>);
-          }
-          if (elem === 'lastname') {
-            return (<TableRowColumn
-              key={`row ${index},column${elem}`}
-              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
-            >
-              <span>{row.userId.lastName}</span>
-            </TableRowColumn>);
-          }
-          return (<TableRowColumn
-            key={`row ${index},column${elem}`}
-            style={{ fontSize: '12px', width: '200px', padding: '5px' }}
-          >
-            <span>{row[elem]}</span>
-          </TableRowColumn>);
-        })
-      }
-      </TableRow>
-    ));
+          })
+        }
+        </TableRow>
+      ));
+    }
   }
 
   handleOpen() {
@@ -107,27 +114,25 @@ class UserInfoTable extends React.Component {
     this.setState({
       rowsPerPage : value,
       currentPage: 1
-    }, ()=> this.calculateNumOfPages());
+    });
   }
 
   changeCurrentPage(event){
-    if ((Number(event.currentTarget.value) >= 1) && (Number(event.currentTarget.value) <= this.state.numOfPages)) {
+    const newPageNumber = Number(event.currentTarget.value);
+    const numOfRows = this.props.statistics.length;
+    const numOfPages = Math.ceil(numOfRows/this.state.rowsPerPage);
+    if ((newPageNumber >= 1) && (newPageNumber <= numOfPages)) {
       this.setState({
         currentPage: event.currentTarget.value
       })
     }
   }
 
-  calculateNumOfPages(){
-    const numOfRows = this.props.statistics.length;
-    const numOfPages = Math.ceil(numOfRows/this.state.rowsPerPage);
-    this.setState({numOfPages: numOfPages});
-    // for (let i = 0; i < this.state.rowsPerPage; i++){
-    //   let index = (this.state.currentPage-1)*this.state.rowsPerPage;
-    //   if ((index + i) > numOfRows)
-    //     break;
-    // }
-  }
+  // calculateNumOfPages(){
+  //   const numOfRows = this.props.statistics.length;
+  //   const numOfPages = Math.ceil(numOfRows/this.state.rowsPerPage);
+  //   this.setState({numOfPages: numOfPages});
+  // }
 
   render() {
     const actions = [
@@ -137,6 +142,10 @@ class UserInfoTable extends React.Component {
         onClick={this.handleClose}
       />,
     ];
+    const currPage = Number(this.state.currentPage);
+    // const numOfPages = this.state.numOfPages;
+    const numOfRows = this.props.statistics.length;
+    const numOfPages = Math.ceil(numOfRows/this.state.rowsPerPage);
     return (
       <div className={styles.container} >
         <RaisedButton
@@ -186,30 +195,28 @@ class UserInfoTable extends React.Component {
             }
           </TableBody>
         </Table>
-
-
-
-
         <div className={styles.pagination}>
           <div>
-            <RaisedButton label="Previous" value={Number(this.state.currentPage)-1} onClick={this.changeCurrentPage} />
-            <RaisedButton label="<<" value={1} onClick={this.changeCurrentPage} />
-              {(this.state.currentPage > 2) ? <p style={{ display: 'inline' }}>...</p> : null}
-              {(this.state.currentPage > 1 ) ? <RaisedButton label={Number(this.state.currentPage)-1} value={Number(this.state.currentPage)-1} onClick={this.changeCurrentPage} /> : null}
-              <RaisedButton label={Number(this.state.currentPage)} value={Number(this.state.currentPage)} onClick={this.changeCurrentPage} />
-              {(this.state.currentPage < this.state.numOfPages) ? <RaisedButton label={Number(this.state.currentPage)+1} value={Number(this.state.currentPage)+1} onClick={this.changeCurrentPage} /> : null}
-              {(this.state.currentPage < this.state.numOfPages-1 ) ? <p style={{ display: 'inline' }}>...</p> : null}
-            <RaisedButton label=">>" value={Number(this.state.numOfPages)} onClick={this.changeCurrentPage} />
-            <RaisedButton label="Next" value={Number(this.state.currentPage)+1} onClick={this.changeCurrentPage} />
+            <RaisedButton label="Previous" onClick={this.changeCurrentPage} value={currPage-1}  />
+            <RaisedButton label="<<" onClick={this.changeCurrentPage} value={1} />
+              {(currPage > 2) ? <p>...</p> : null}
+              {(currPage > 1 ) ? <RaisedButton label={currPage-1} onClick={this.changeCurrentPage} value={currPage-1} /> : null}
+              <RaisedButton primary label={currPage} onClick={this.changeCurrentPage} value={currPage} />
+              {(currPage < numOfPages) ? <RaisedButton label={currPage+1} value={currPage+1} onClick={this.changeCurrentPage} /> : null}
+              {(currPage < numOfPages-1 ) ? <p>...</p> : null}
+            <RaisedButton label=">>" onClick={this.changeCurrentPage} value={currPage} />
+            <RaisedButton label="Next" onClick={this.changeCurrentPage} value={currPage+1}  />
           </div>
           <div>
             <SelectField
-              floatingLabelText="Number of rows per page"
+              floatingLabelText="Rows per page"
               value={this.state.rowsPerPage}
               onChange={this.handleChange} >
               <MenuItem value={2} primaryText="2" />
               <MenuItem value={5} primaryText="5" />
               <MenuItem value={10} primaryText="10" />
+              <MenuItem value={25} primaryText="25" />
+              <MenuItem value={50} primaryText="50" />
             </SelectField>
           </div>
         </div>
@@ -217,9 +224,6 @@ class UserInfoTable extends React.Component {
     );
   }
 }
-
-var currentPage = 2;
-var numOfPages = 6;
 
 UserInfoTable.propTypes = {
   options: React.PropTypes.arrayOf(React.PropTypes.string),

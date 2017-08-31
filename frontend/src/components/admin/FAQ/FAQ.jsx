@@ -164,8 +164,8 @@ FAQ.propTypes = {
   modifyFAQ: React.PropTypes.func,
   deleteFAQ: React.PropTypes.func,
   getFAQ: React.PropTypes.func,
-  data: React.PropTypes.arrayOf(PropTypes.objectOf(propTypes.oneOfType([propTypes.number, propTypes.string]))),
-  currentQuestion: React.PropTypes.objectOf(propTypes.oneOfType([propTypes.number, propTypes.string]))
+  data: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]))),
+  currentQuestion: React.PropTypes.objectOf(React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]))
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FAQ);

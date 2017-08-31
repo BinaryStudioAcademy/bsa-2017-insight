@@ -7,6 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import HomeAdminIcon from 'material-ui/svg-icons/action/dashboard';
 import RespondIcon from 'material-ui/svg-icons/communication/chat';
 import EngageIcon from 'material-ui/svg-icons/editor/insert-chart';
+import FAQIcon from 'material-ui/svg-icons/action/question-answer';
 
 class LeftSideMenu extends React.Component {
   render() {
@@ -51,7 +52,7 @@ class LeftSideMenu extends React.Component {
               tooltip={'FAQ'}
               tooltipPosition={'bottom-right'}
             >
-              <EngageIcon />
+              <FAQIcon />
             </IconButton>
           </NavLink>
           <Divider />

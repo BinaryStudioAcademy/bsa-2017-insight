@@ -152,12 +152,12 @@ class ChatBody extends Component {
             onBlur={e => this.blurFromInput(e)}
             id="input"
           />
-          <button
-            onClick={e => this.toggleEmojiBlock(e)}
+          <span
+            onClick={(e) => { e.preventDefault(); this.toggleEmojiBlock(e)}}
             className={styles['main_emo-menu']}
           >
             <i className={styles['emoji-block-icon']} />
-          </button>
+          </span>
           <button className={styles['submit-button']} type="submit">Send</button>
         </form>
         {this.state.showEmojis ? <div

@@ -21,5 +21,9 @@ AdminRepository.findOneAndPopulate = function (id, callback) {
   model.findById({ _id: id }).populate('conversations').exec(callback);
 };
 
+AdminRepository.getAllAdmins = function (callback) {
+  this.model.find({}).exec(callback);
+}
+
 module.exports = AdminRepository;
 

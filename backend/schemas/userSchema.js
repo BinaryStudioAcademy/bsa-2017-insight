@@ -11,7 +11,7 @@ const userSchema = new Schema({
   password: String,
   dateOfBirth: Date,
   company: String,
-  avatar: String,
+  avatar: { type: String, default: 'http://localhost:3000/uploads/avatars/avatar.png' },
   username: { type: String, default: 'Anonymous' },
   gender: String,
   resetPasswordToken: String,

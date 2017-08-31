@@ -67,6 +67,7 @@ class Chat extends Component {
     this.socket.emit('getUserConversations', id);
     this.setState({ activeChatId: null });
   }
+
   onFormSubmit(event, text) {
     const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
     event.preventDefault();
@@ -127,23 +128,31 @@ class Chat extends Component {
     const conversations = this.state.conversations;
     const conversationToRender = conversations.length > 0 ? findItemById(this.state.activeChatId, conversations) : null;
     const messages = conversationToRender ? conversationToRender.item.messages : null;
+    const operator = conversationToRender ?
+      conversationToRender.item.participants.find(participant => participant.userType === 'Admin') :
+      null;
+    const chatStyles = this.props.widgetStyles.widgetPosition === 'right' ?
+      {
+        right: '25px',
+        bottom: '25px',
+      } :
+      {
+        left: '25px',
+        bottom: '25px',
+      };
     return (
-      <div className={styles.chat}>
-        <img
-          alt="close-button"
-          src="https://cdn2.iconfinder.com/data/icons/color-svg-vector-icons-part-2/512/erase_delete_remove_wipe_out-512.png"
-          className={styles['close-button']}
-          onClick={this.props.onChatClose}
-          role="button"
-          tabIndex="0"
-        />
+      <div className={styles.chat} style={chatStyles}>
         {!this.state.activeChatId && <ConversationsList
+          widgetStyles={this.props.widgetStyles}
           conversations={conversations}
           onConversationClick={this.onConversationClick}
           onCreateConversationButtonClick={this.onCreateConversationButtonClick}
+          onChatClose={this.props.onChatClose}
         />}
         {this.state.activeChatId &&
         <ChatBody
+          widgetStyles={this.props.widgetStyles}
+          operator={operator}
           messages={messages}
           onFormSubmit={this.onFormSubmit}
           onReturnButtonClick={this.onReturnButtonClick}
@@ -155,7 +164,11 @@ class Chat extends Component {
 
 Chat.propTypes = {
   onChatClose: propTypes.func.isRequired,
-  force: propTypes.bool,
+  widgetStyles: propTypes.shape({
+    backgroundImage: propTypes.string,
+    primaryColor: propTypes.string,
+    widgetPosition: propTypes.string,
+  }),
   forceWillBeFalse: propTypes.func,
 };
 

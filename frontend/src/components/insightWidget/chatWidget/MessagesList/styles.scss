@@ -1,15 +1,13 @@
 @import '../../../../common/styles/variables';
 
 :local(.messages-list) {
+  box-sizing: border-box;
   padding: 5px;
-  margin: 30px 0 15px;
+  margin: 0;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: white;
   list-style: none;
-  border: 2px solid $landing-red;
-  border-radius: 10px;
 }
 
 

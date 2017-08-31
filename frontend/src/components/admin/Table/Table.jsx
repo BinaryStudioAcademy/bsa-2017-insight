@@ -1,12 +1,12 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import { connect } from 'react-redux';
 import styles from './styles.scss';
 import Filter from '../Filter/Filter';
 import TableItself from './TableItself';
-import TextField from 'material-ui/TextField';
-import { connect } from 'react-redux';
 import { addSelection } from '../../../actions/selectionActions';
 
 class UserInfoTable extends React.Component {
@@ -36,7 +36,7 @@ class UserInfoTable extends React.Component {
     const actions = [
       <RaisedButton
         label="Save"
-        primary={true}
+        primary
         onClick={this.handleClose}
       />,
     ];
@@ -51,7 +51,7 @@ class UserInfoTable extends React.Component {
         <Dialog
           title="Columns Filter"
           actions={actions}
-          modal={true}
+          modal
           open={this.state.open}
           bodyStyle={{ overflowX: 'hidden' }}
         >
@@ -91,11 +91,12 @@ class UserInfoTable extends React.Component {
             <TextField
               hintText="Description (optional)"
               id="selection-description"
+              style={{ marginBottom: 30 }}
             /><br />
             <FlatButton
               label="Cancel"
               onClick={() => this.toggleSelectionDialog(this.state.selDialogOpen)}
-            />,
+            />
             <FlatButton
               label="Create"
               type="submit"
@@ -117,6 +118,7 @@ UserInfoTable.propTypes = {
   statisticOptions: React.PropTypes.arrayOf(React.PropTypes.string),
   selectedFields: React.PropTypes.arrayOf(React.PropTypes.string),
   updateFields: React.PropTypes.func,
+  addSelection: React.PropTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -23,6 +23,7 @@ const Trigger = (OriginalComponent) => {
 
     componentDidUpdate(prevProps) {
       if (prevProps.location.pathname !== this.props.location.pathname) {
+        clearTimeout(this.timer);
         actions.trigger(PATH_CHANGED, [this.timeToggle, this.props.location.pathname]);
       }
     }

@@ -1,17 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import UserInfoTable from './../Table/Table';
 import Filter from './../Filter/Filter';
 import StatisticsFilter from './../StatisticsFilter/StatisticsFilter';
 import StatisticsCharts from './../StatisticsCharts/StatisticsCharts';
 
 class AdminHome extends React.Component {
-
   getStatisticOptions(arr) {
     let options = [];
     if (typeof (arr[0]) === 'object') {
       options = Object.keys(arr[0]);
     }
-    // console.log(this);
     return options;
   }
 
@@ -45,5 +44,11 @@ class AdminHome extends React.Component {
     );
   }
 }
+
+AdminHome.propTypes = {
+  fieldsToDisplay: PropTypes.arrayOf(PropTypes.object),
+  updateFields: PropTypes.arrayOf(PropTypes.object),
+  usersToRender: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default AdminHome;

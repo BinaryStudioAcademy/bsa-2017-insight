@@ -2,12 +2,14 @@ import React from 'react';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import { SketchPicker } from 'react-color';
 import RaisedButton from 'material-ui/RaisedButton';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 import ChatLayout from './ChatLayout';
 import Wallpapers from './Wallpapers';
 import ForceMessage from './ForceMessage';
 
-export default class WidgetSettings extends React.Component {
+class WidgetSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,15 +26,29 @@ export default class WidgetSettings extends React.Component {
     this.setState({ settings: newSettings });
   }
 
+  getSettings() {
+    fetch('/api/widgets/localhost3000', { credentials: 'include', method: 'GET' })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        this.setState({
+          settings: response.options,
+        });
+      });
+  }
   save() {
     this.setState({ info: 'Saving...' });
-
-    fetch('/api/admin/settings', {
+    const dataToSend = {
+      website: 'localhost3000',
+      options: this.state.settings,
+    };
+    fetch('/api/widgets/localhost3000', {
       headers: {
         'Content-Type': 'application/json',
       },
-      method: 'POST',
-      body: JSON.stringify({ element: 'widget', settings: this.state.settings }),
+      method: 'PUT',
+      body: JSON.stringify(dataToSend),
       credentials: 'include',
     }).then((response) => {
       return response.json();
@@ -42,25 +58,6 @@ export default class WidgetSettings extends React.Component {
       }
     });
   }
-
-  getSettings() {
-    const defaultSettings = {
-      bg: 'w1',
-      color: '#4A90E2',
-      forceMessage: 'How can I help you?',
-      timeout: 7
-    };
-    fetch('/api/admin/settings/widget', { credentials: 'include', method: 'GET' })
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        this.setState({
-          settings: response ? response.settings : defaultSettings,
-        });
-      });
-  }
-
   handleChange(value) {
     this.setState({
       activeTab: value,
@@ -76,7 +73,7 @@ export default class WidgetSettings extends React.Component {
           <div>
             <RaisedButton
               label="Save"
-              primary={true}
+              primary
               onClick={this.save}
               style={{ margin: '15px' }}
             /> {this.state.info}
@@ -91,8 +88,16 @@ export default class WidgetSettings extends React.Component {
                 <p>Customize your Messenger’s color to suit your app or site, then choose a background wallpaper.</p>
                 <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start' }}>
                   <div>
-                    <SketchPicker color={this.state.settings.color} onChange={color => this.setSettings('color', color.hex)} />
-                    <Wallpapers set={this.setSettings} active={this.state.settings.bg} />
+                    <SketchPicker color={this.state.settings.primaryColor} onChange={color => this.setSettings('primaryColor', color.hex)} />
+                    <Wallpapers set={this.setSettings} active={this.state.settings.backgroundImage} />
+                    <h5>Widget position:</h5>
+                    <SelectField
+                      value={this.state.settings.widgetPosition}
+                      onChange={(event, index, value) => this.setSettings('widgetPosition', value)}
+                    >
+                      <MenuItem value={'right'} primaryText="right" />
+                      <MenuItem value={'left'} primaryText="left" />
+                    </SelectField>
                   </div>
                   <ChatLayout settings={this.state.settings} />
                 </div>
@@ -115,3 +120,5 @@ export default class WidgetSettings extends React.Component {
     );
   }
 }
+
+export default WidgetSettings;

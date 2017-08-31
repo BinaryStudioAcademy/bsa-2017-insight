@@ -214,12 +214,12 @@ class Chat extends Component {
             onBlur={e => this.blurFromInput(e)}
             id="input"
           />
-          <button
+          <span
             onClick={e => this.toggleEmojiBlock(e)}
             className={styles['main_emo-menu']}
           >
             <i className={styles['emoji-block-icon']} />
-          </button>
+          </span>
           <RaisedButton
             type="submit"
             label="Submit"

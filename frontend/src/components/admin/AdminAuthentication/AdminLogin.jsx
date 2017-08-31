@@ -13,7 +13,7 @@ class AdminLogin extends React.Component {
 
   setInput(e) {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   }
 
@@ -22,23 +22,23 @@ class AdminLogin extends React.Component {
 
     const loginData = {
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
     };
 
     if (!loginData.username || !loginData.password) {
       this.setState({
-        info: 'Enter your username/password'
+        info: 'Enter your username/password',
       });
       return;
     }
 
     fetch('/api/admin/login', {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       method: 'POST',
       body: JSON.stringify(loginData),
-      credentials: 'include'
+      credentials: 'include',
     }).then((response) => {
       if (response.redirected) return window.location.replace(response.url);
       return response.json();

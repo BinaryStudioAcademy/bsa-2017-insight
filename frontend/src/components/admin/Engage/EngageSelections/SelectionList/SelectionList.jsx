@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAllSelections, getSingleSelection } from '../../../../../actions/selectionActions';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
+import { getAllSelections, getSingleSelection } from '../../../../../actions/selectionActions';
 
 class SelectionList extends React.Component {
   constructor() {
@@ -14,9 +15,9 @@ class SelectionList extends React.Component {
     this.props.getSelectionList();
   }
 
-  componentWillReceiveProps(nextProps) {
-    // console.log(nextProps);
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(nextProps);
+  // }
 
   render() {
     return (
@@ -42,6 +43,13 @@ class SelectionList extends React.Component {
     );
   }
 }
+
+SelectionList.propTypes = {
+  getSingleSelection: PropTypes.func,
+  selectionList: PropTypes.arrayOf(PropTypes.object),
+  headerHeight: PropTypes.number,
+  getSelectionList: PropTypes.func,
+};
 
 const mapStateToProps = (state) => {
   return {

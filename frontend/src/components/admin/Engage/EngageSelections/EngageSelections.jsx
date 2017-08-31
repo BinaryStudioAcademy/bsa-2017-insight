@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SelectionList from './SelectionList/SelectionList';
 import Selection from './Selection/Selection';
 
@@ -17,5 +18,10 @@ class EngageSelections extends React.Component {
     );
   }
 }
+
+EngageSelections.propTypes = {
+  headerHeight: PropTypes.number,
+  chosenTheme: PropTypes.shape({}),
+};
 
 export default EngageSelections;

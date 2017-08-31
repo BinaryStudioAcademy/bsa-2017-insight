@@ -5,54 +5,127 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  overflow: auto;
 }
 
-:local(.conversations-list) {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  width: 80%;
+:local(.title-wrapper) {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 80px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+:local(.close-button) {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 30px;
+  height: 30px;
+  z-index: 2;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+:local(.title-span) {
+  color: #ffffff;
+  padding-left: 15%;
+  font-size: 14px;
 }
 
 :local(.title) {
-  font-size: 24px;
-  color: $landing-orange;
+  padding-left: 15%;
+  font-weight: normal;
+  margin: 0;
+  color: #ffffff;
+  font-size: 20px;
+}
+
+:local(.conversations-list) {
+  overflow: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
 :local(.conversation-item) {
-  text-align: center;
-  color: $landing-orange;
-  background-color: #fff;
-  border:2px solid $landing-orange;
-  font-weight: bold;
-  border-radius: 20px;
-  padding: 15px;
-  margin-bottom: 10px;
+  position: relative;
+  min-height: 50px;
+  padding: 5% 5%;
+  background-color: #fefefe;
+  border-bottom: 1px solid #ebebeb;
 
   &:hover {
     cursor: pointer;
-    background-color: $landing-red;
-    color: #fff;
+    background-color: #f2f2f2;
   }
+}
+
+:local(.no-conversation-item) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:local(.author-avatar) {
+  width: 50px;
+  height: 50px;
+  float: left;
+  margin-right: 3%;
+}
+
+:local(.author-name) {
+  color: #707070;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
+:local(.message-body) {
+  color: #686868;
+  font-weight: normal;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+
+:local(.message-time) {
+  color: #707070;
+  font-weight: normal;
+  position: absolute;
+  top: 30px;
+  right: 30px;
 }
 
 :local(.create-conversation-button) {
   position: absolute;
-  bottom: 15px;
-  width: 70%;
+  bottom: 25px;
+  width: 45%;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 18px;
-  border-radius: 15px;
-  padding: 15px;
-  background-color: $landing-orange;
+  font-size: 16px;
+  border-radius: 25px;
+  padding: 15px 5px 15px 35px;
   color: #fff;
-  font-weight: bold;
   cursor: pointer;
   border: none;
 
   &:hover {
-    background-color: $landing-red;
+    opacity: 0.7;
+  }
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+    background: url("http://www.iconsdb.com/icons/preview/white/chat-4-xxl.png") center no-repeat;
+    background-size: cover;
   }
 }

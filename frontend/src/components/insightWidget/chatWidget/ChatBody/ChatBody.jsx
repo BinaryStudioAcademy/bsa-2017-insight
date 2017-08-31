@@ -54,6 +54,7 @@ class ChatBody extends Component {
       this.filesCounter.innerHTML = '';
     }
   }
+
   setTextIntoInput(e) {
     this.setState({ text: e.target.value });
   }
@@ -105,17 +106,36 @@ class ChatBody extends Component {
   }
 
   render() {
+    const operator = this.props.operator;
+    const avatar = operator && (operator.user.avatar === 'avatar.png' ?
+      'https://www.materialist.com/static/new_store/images/avatar_placeholder.svg' :
+      operator.user.avatar);
+    const operatorName = operator ? operator.user.username : 'Conversation hasn\'t been picked up';
+    const headerStyles = { backgroundColor: this.props.widgetStyles.primaryColor };
     return (
       <div onClick={e => this.closeEmojiBlock(e)} role="presentation" className={styles.chat}>
-        <img
-          alt="return-button"
-          src="https://www.shareicon.net/data/512x512/2016/08/18/809860_arrows_512x512.png"
-          className={styles['return-button']}
-          onClick={this.props.onReturnButtonClick}
-          role="button"
-          tabIndex="0"
-        />
-        <MessagesList messages={this.props.messages} />
+        {operator ?
+          <div className={styles['conversation-header']} style={headerStyles}>
+            <img
+              className={styles['return-button']}
+              src="http://www.iconsdb.com/icons/preview/white/arrow-89-xxl.png"
+              alt="return-button"
+              onClick={this.props.onReturnButtonClick}
+            />
+            <img className={styles['operator-avatar']} alt="avatar" src={avatar} />
+            <div className={styles['operator-name']}>{operatorName}</div>
+          </div> :
+          <div className={styles['conversation-header']} style={headerStyles}>
+            <img
+              className={styles['return-button']}
+              src="http://www.iconsdb.com/icons/preview/white/arrow-89-xxl.png"
+              alt="return-button"
+              onClick={this.props.onReturnButtonClick}
+            />
+            <div className={styles['operator-name']}>{operatorName}</div>
+          </div>
+        }
+        <MessagesList messages={this.props.messages} widgetStyles={this.props.widgetStyles} />
         <form
           className={styles['sending-form']}
           onSubmit={(event) => {
@@ -152,16 +172,16 @@ class ChatBody extends Component {
             onBlur={e => this.blurFromInput(e)}
             id="input"
           />
-          <button
+          <span
+            role="presentation"
             onClick={e => this.toggleEmojiBlock(e)}
             className={styles['main_emo-menu']}
           >
             <i className={styles['emoji-block-icon']} />
-          </button>
-          <button className={styles['submit-button']} type="submit">Send</button>
+          </span>
+          <button className={styles['submit-button']} type="submit" />
         </form>
         {this.state.showEmojis ? <div
-          tabIndex={0}
           onBlur={this.closeEmojiBlock}
           className={styles['emoji-block']}
         >
@@ -190,6 +210,15 @@ ChatBody.propTypes = {
   })),
   onReturnButtonClick: propTypes.func.isRequired,
   onFormSubmit: propTypes.func.isRequired,
+  operator: propTypes.shape({
+    userType: propTypes.string,
+    user: propTypes.object,
+  }),
+  widgetStyles: propTypes.shape({
+    backgroundImage: propTypes.string,
+    primaryColor: propTypes.string,
+    widgetPosition: propTypes.string,
+  }),
 };
 
 export default ChatBody;

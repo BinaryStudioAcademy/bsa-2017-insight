@@ -12,7 +12,7 @@ export default class ChatLayout extends React.Component {
     const user = window._injectedData;
     return (
       <div className={'chat-wrapper'}>
-        <div className={'chat-header'} style={{ backgroundColor: this.props.settings.color }}>
+        <div className={'chat-header'} style={{ backgroundColor: this.props.settings.primaryColor }}>
           <IconButton style={{ marginRight: '10px' }}>
             <FontIcon className={'material-icons'} color={'#fff'}>arrow_back</FontIcon>
           </IconButton>
@@ -23,7 +23,7 @@ export default class ChatLayout extends React.Component {
         </div>
         <div
           className={'chat-body'}
-          style={{ backgroundImage: `url(/resources/wallpapers/${this.props.settings.bg}.png)` }}
+          style={{ backgroundImage: `url(${this.props.settings.backgroundImage}.png)` }}
         >
           <ListItem
             leftAvatar={<Avatar src={`/avatars/${user.avatar}`} />}
@@ -32,7 +32,7 @@ export default class ChatLayout extends React.Component {
           />
           <div style={{ width: '85%', margin: '25px auto' }}>
             <div className={'dummy-message'}>
-              <h3 style={{ color: this.props.settings.color }}>
+              <h3 style={{ color: this.props.settings.primaryColor }}>
                 Our best practice guide for staying personal at scale
               </h3>
               <span>Hi, our marketing team created a best practice guide
@@ -42,7 +42,7 @@ export default class ChatLayout extends React.Component {
               style={{ marginTop: '15px' }}
               label="Hi, is there any online version of the book?"
               labelStyle={{ fontSize: '12px', color: '#fff' }}
-              backgroundColor={this.props.settings.color}
+              backgroundColor={this.props.settings.primaryColor}
             />
           </div>
         </div>

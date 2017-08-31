@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteSelection, getAllSelections } from '../../../../../actions/selectionActions';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import { deleteSelection, getAllSelections } from '../../../../../actions/selectionActions';
 // import Table from '../../../Table/TableItself';
 
 class Selection extends React.Component {
@@ -14,7 +15,6 @@ class Selection extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (nextProps.chosenSelection !== this.state.chosenSelection) {
       this.setState({ chosenSelection: nextProps.chosenSelection });
     }
@@ -30,7 +30,12 @@ class Selection extends React.Component {
       }}
       >
         { this.state.chosenSelection ?
-          <Card>
+          <Card
+            containerStyle={{
+              backgroundColor: this.props.chosenTheme.palette.borderColor,
+              padding: 10,
+            }}
+          >
             <CardHeader
               title={this.props.chosenSelection.name}
               subtitle={`${this.props.chosenSelection.users.length} users, ${this.props.chosenSelection.mailings.length} mailings`}
@@ -71,6 +76,24 @@ class Selection extends React.Component {
     );
   }
 }
+
+Selection.propTypes = {
+  headerHeight: PropTypes.number,
+  chosenSelection: PropTypes.shape({
+    users: PropTypes.arrayOf(PropTypes.object),
+    name: PropTypes.string,
+    description: PropTypes.description,
+    mailings: PropTypes.arrayOf(PropTypes.object),
+    _id: PropTypes.string,
+  }),
+  getSelectionList: PropTypes.func,
+  deleteSelection: PropTypes.func,
+  chosenTheme: PropTypes.shape({
+    palette: PropTypes.shape({
+      borderColor: PropTypes.string,
+    }),
+  }),
+};
 
 const mapStateToProps = (state) => {
   return {

@@ -16,7 +16,7 @@ function getParseString(res, handler) {
       if (handler) {
         return <span  onClick={(event) => handler(event) } role="presentation" data-name={e}  key={`${trim(e)}${key}`} style={getStyles(e)} />
       }
-      return <span key={`${trim(e)}${key}`} data-name={e} style={getStyles(e)} />
+      return <span key={`${trim(e)}${key}`} data-name={e} style={getStyles(e)} />;
     }
     return e;
   });
@@ -44,7 +44,7 @@ function get(stringToParse) {
   indexes.reduce((prev, curr) => {
     itemsToRender.push(stringToParse.slice(prev, curr));
     return prev = curr;
-  }); 
+  });
 
 
   const newItemsToRender = itemsToRender.map((e) => {

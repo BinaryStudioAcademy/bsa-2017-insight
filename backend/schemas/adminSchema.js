@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
+
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
 const adminSchema = new Schema({
   globalId: Schema.Types.ObjectId,
-  isSuperUser: Boolean,
+  isSuperUser: { type: Boolean, default: false },
+  moderator: { type: Boolean, default: false },
   username: { type: String, required: true, unique: true },
   password: String,
   email: String,
@@ -14,6 +16,7 @@ const adminSchema = new Schema({
   lastName: String,
   avatar: String,
   gender: String,
+  verified: { type: Boolean, default: false },
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   conversations: [{ type: Schema.Types.ObjectId, ref: 'Conversation' }],

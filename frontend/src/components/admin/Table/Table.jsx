@@ -128,12 +128,6 @@ class UserInfoTable extends React.Component {
     }
   }
 
-  // calculateNumOfPages(){
-  //   const numOfRows = this.props.statistics.length;
-  //   const numOfPages = Math.ceil(numOfRows/this.state.rowsPerPage);
-  //   this.setState({numOfPages: numOfPages});
-  // }
-
   render() {
     const actions = [
       <RaisedButton
@@ -143,34 +137,50 @@ class UserInfoTable extends React.Component {
       />,
     ];
     const currPage = Number(this.state.currentPage);
-    // const numOfPages = this.state.numOfPages;
     const numOfRows = this.props.statistics.length;
     const numOfPages = Math.ceil(numOfRows/this.state.rowsPerPage);
     return (
       <div className={styles.container} >
-        <RaisedButton
-          label="Columns Filter"
-          onClick={this.handleOpen}
-          primary={true}
-          style={{
-            marginBottom: '5px',
-            background: this.props.chosenTheme.palette.primary1Color,
-            color: this.props.chosenTheme.palette.alternateTextColor,
-          }}
-        />
-        <Dialog
-          title="Columns Filter"
-          actions={actions}
-          modal={true}
-          open={this.state.open}
-          bodyStyle={{ overflowX: 'hidden' }}
-        >
-          <Filter
-            selectedFields={this.props.selectedFields}
-            statisticOptions={this.props.statisticOptions}
-            updateFields={this.props.updateFields}
-          />
-        </Dialog>
+        <div className={styles.topPanel}>
+          <div>
+            <RaisedButton
+              label="Columns Filter"
+              onClick={this.handleOpen}
+              primary={true}
+              style={{
+                marginBottom: '5px',
+                background: this.props.chosenTheme.palette.primary1Color,
+                color: this.props.chosenTheme.palette.alternateTextColor,
+              }}
+            />
+            <Dialog
+              title="Columns Filter"
+              actions={actions}
+              modal={true}
+              open={this.state.open}
+              bodyStyle={{ overflowX: 'hidden' }}
+            >
+              <Filter
+                selectedFields={this.props.selectedFields}
+                statisticOptions={this.props.statisticOptions}
+                updateFields={this.props.updateFields}
+              />
+            </Dialog>
+          </div>
+          <div className={styles.rowsPerPage}>
+            <p>Rows per page:</p>
+            <SelectField
+              value={this.state.rowsPerPage}
+              onChange={this.handleChange}
+              style={{ width: '80px' }} >
+              <MenuItem value={2} primaryText="2" />
+              <MenuItem value={5} primaryText="5" />
+              <MenuItem value={10} primaryText="10" />
+              <MenuItem value={25} primaryText="25" />
+              <MenuItem value={50} primaryText="50" />
+            </SelectField>
+          </div>
+        </div>
         <Table bodyStyle={{ overflow: 'visible' }}>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow style={{ height: '25px' }}>
@@ -197,27 +207,46 @@ class UserInfoTable extends React.Component {
         </Table>
         <div className={styles.pagination}>
           <div>
-            <RaisedButton label="Previous" onClick={this.changeCurrentPage} value={currPage-1}  />
-            <RaisedButton label="<<" onClick={this.changeCurrentPage} value={1} />
+            <RaisedButton 
+              label="Previous" 
+              onClick={this.changeCurrentPage} 
+              value={currPage-1} />
+            <RaisedButton 
+              label="<<" 
+              onClick={this.changeCurrentPage} 
+              value={1} 
+              className={styles.raisedButton} />
               {(currPage > 2) ? <p>...</p> : null}
-              {(currPage > 1 ) ? <RaisedButton label={currPage-1} onClick={this.changeCurrentPage} value={currPage-1} /> : null}
-              <RaisedButton primary label={currPage} onClick={this.changeCurrentPage} value={currPage} />
-              {(currPage < numOfPages) ? <RaisedButton label={currPage+1} value={currPage+1} onClick={this.changeCurrentPage} /> : null}
+              {(currPage > 1 ) ? 
+                <RaisedButton 
+                label={currPage-1} 
+                onClick={this.changeCurrentPage} 
+                value={currPage-1} 
+                className={styles.raisedButton} /> 
+              : null}
+              <RaisedButton 
+                primary 
+                label={currPage} 
+                onClick={this.changeCurrentPage} 
+                value={currPage} 
+                className={styles.raisedButton} />
+              {(currPage < numOfPages) ? 
+                <RaisedButton 
+                  label={currPage+1} 
+                  value={currPage+1} 
+                  onClick={this.changeCurrentPage} 
+                  className={styles.raisedButton} /> 
+              : null}
               {(currPage < numOfPages-1 ) ? <p>...</p> : null}
-            <RaisedButton label=">>" onClick={this.changeCurrentPage} value={currPage} />
-            <RaisedButton label="Next" onClick={this.changeCurrentPage} value={currPage+1}  />
-          </div>
-          <div>
-            <SelectField
-              floatingLabelText="Rows per page"
-              value={this.state.rowsPerPage}
-              onChange={this.handleChange} >
-              <MenuItem value={2} primaryText="2" />
-              <MenuItem value={5} primaryText="5" />
-              <MenuItem value={10} primaryText="10" />
-              <MenuItem value={25} primaryText="25" />
-              <MenuItem value={50} primaryText="50" />
-            </SelectField>
+            <RaisedButton 
+              label=">>" 
+              onClick={this.changeCurrentPage} 
+              value={currPage} 
+              className={styles.raisedButton} />
+            <RaisedButton 
+              label="Next" 
+              onClick={this.changeCurrentPage} 
+              value={currPage+1} />
           </div>
         </div>
       </div>

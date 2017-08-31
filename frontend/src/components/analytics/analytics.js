@@ -13,7 +13,7 @@
     screenWidth: screen.width,
     screenHeight: screen.height,
     userAgent: navigator.userAgent,
-    timeZone: -((new Date()).getTimezoneOffset() / 60)
+    timeZone: -((new Date()).getTimezoneOffset() / 60),
   };
 
   function getUserIp() {
@@ -29,10 +29,10 @@
     }
     const requestOptions = {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(userStatistics),
-      method
+      method,
     };
     fetch(url, requestOptions)
       .then(response => response.json())
@@ -41,14 +41,14 @@
 
   function sendUser(id) {
     const userObject = {
-      _id: id
+      _id: id,
     };
     const requestOptions = {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(userObject),
-      method: 'POST'
+      method: 'POST',
     };
     return fetch('http://localhost:3000/api/users', requestOptions);
   }

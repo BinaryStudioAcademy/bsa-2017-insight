@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import propTypes from 'prop-types';
 import { List, ListItem } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import Question from './../Question/Question';
@@ -9,7 +10,6 @@ let uniqueId = 0;
 class FAQList extends Component {
   constructor(props) {
     super(props);
-
     this.setSelectedId = this.setSelectedId.bind(this);
   }
 
@@ -21,12 +21,21 @@ class FAQList extends Component {
     let faqs = (this.props.action === 'search') ? this.props.searchedData : this.props.faqs;
     return (
       <div className={styles['FAQ-list']}>
-        <TextField hintText="Search" id="search" onInput={this.props.searchQuestion} /><br />
+        <TextField 
+          hintText="Search" 
+          id="search" 
+          onInput={this.props.searchQuestion} 
+        />
+        <br />
         <List>
           {faqs && faqs.map((faq) => {
             const highlight = (this.props.selectedId === faq._id);
             return (
-              <ListItem innerDivStyle={{ padding: '0px' }} className={styles['ListItem-highlight-' + `${highlight}`]} key={uniqueId++}>
+              <ListItem 
+                innerDivStyle={{ padding: '0px' }} 
+                className={styles['ListItem-highlight-' + `${highlight}`]} 
+                key={uniqueId++}
+              >
                 <Question
                   setSelectedId={() => this.setSelectedId(faq._id)}
                   key={uniqueId++}
@@ -43,11 +52,21 @@ class FAQList extends Component {
 }
 
 FAQList.propTypes = {
-  faqs: React.PropTypes.arrayOf(),
+  faqs: React.PropTypes.arrayOf(propTypes.shape({
+    _id: propTypes.string.isRequired,
+    answer: propTypes.string.isRequired,
+    question: propTypes.string.isRequired,
+    createdAt : propTypes.any.isRequired
+  })),
   setSelectedId: React.PropTypes.func,
   selectedId: React.PropTypes.string,
   searchQuestion: React.PropTypes.func,
-  searchedData: React.PropTypes.arrayOf(),
+  searchedData: React.PropTypes.arrayOf(propTypes.shape({
+    _id: propTypes.string.isRequired,
+    answer: propTypes.string.isRequired,
+    question: propTypes.string.isRequired,
+    createdAt : propTypes.any.isRequired
+  })),
   action: React.PropTypes.string
 };
 

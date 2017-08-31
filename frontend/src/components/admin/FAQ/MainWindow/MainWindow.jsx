@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import propTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import { List, ListItem } from 'material-ui/List';
 import QuestionAndAnswer from '../QuestionAndAnswer/QuestionAndAnswer';
@@ -99,13 +100,18 @@ class MainWindow extends Component {
 }
 
 MainWindow.propTypes = {
-  addQuestion: React.PropTypes.func,
-  modifyQuestion: React.PropTypes.func,
-  deleteQuestion: React.PropTypes.func,
-  setAction: React.PropTypes.func,
-  action: React.PropTypes.string,
-  faq: React.PropTypes.objectOf(),
-  selectedId: React.PropTypes.string
+  addQuestion: propTypes.func,
+  modifyQuestion: propTypes.func,
+  deleteQuestion: propTypes.func,
+  setAction: propTypes.func,
+  action: propTypes.string,
+  faq: propTypes.shape({
+    _id: propTypes.string.isRequired,
+    answer: propTypes.string.isRequired,
+    question: propTypes.string.isRequired,
+    createdAt : propTypes.any.isRequired
+  }),
+  selectedId: propTypes.string
 };
 
 export default MainWindow;

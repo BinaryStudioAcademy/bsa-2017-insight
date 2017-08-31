@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import styles from './styles.scss';
 
@@ -33,8 +34,13 @@ const QuestionAndAnswer = ({ faq, action }) => {
 };
 
 QuestionAndAnswer.propTypes = {
-  faq: React.PropTypes.objectOf(),
-  action: React.PropTypes.string
+  faq: propTypes.shape({
+    _id: propTypes.string.isRequired,
+    answer: propTypes.string.isRequired,
+    question: propTypes.string.isRequired,
+    createdAt : propTypes.any.isRequired
+  }),
+  action: propTypes.string
 };
 
 export default QuestionAndAnswer;

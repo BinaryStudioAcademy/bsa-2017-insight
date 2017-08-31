@@ -9,12 +9,19 @@ function trim(string) {
   return stringToTrim.slice(1, lastIndex);
 }
 
+function getStyles(emojiName) {
+  const emoji = trim(emojiName);
+  const styles = Object.assign({}, setups.styles);
+  styles.backgroundImage = `url(${setups.link}${emoji}.png)`;
+  return styles;
+}
+
 function getParseString(res, handler) {
   return res.map((e) => {
     if (/:\S[^:]+:/.test(e) || /:\S+:/.test(e)) {
       const key = (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24);
       if (handler) {
-        return <span  onClick={(event) => handler(event) } role="presentation" data-name={e}  key={`${trim(e)}${key}`} style={getStyles(e)} />
+        return <span onClick={(event) => handler(event)} role="presentation" data-name={e} key={`${trim(e)}${key}`} style={getStyles(e)} />
       }
       return <span key={`${trim(e)}${key}`} data-name={e} style={getStyles(e)} />;
     }
@@ -30,7 +37,7 @@ function get(stringToParse) {
   const regExp = /:\S[^:]+:/g;
 
   while (result = regExp.exec(stringToParse)) {
-    indexes.push(result.index,regExp.lastIndex);
+    indexes.push(result.index, regExp.lastIndex);
   }
 
   if (indexes[0] !== 0) {
@@ -76,10 +83,5 @@ function setCategory(arr) {
   });
   return localCat;
 }
-function getStyles(emojiName) {
-  const emoji = trim(emojiName);
-  const styles = Object.assign({}, setups.styles);
-  styles.backgroundImage = `url(${setups.link}${emoji}.png)`;
-  return styles;
-}
+
 export { get, category };

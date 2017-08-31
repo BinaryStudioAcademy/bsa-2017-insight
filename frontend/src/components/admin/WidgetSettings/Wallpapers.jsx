@@ -12,12 +12,14 @@ export default class Wallpapers extends React.Component {
 
   componentDidMount() {
     if (!this.state.active) return;
-    const name = this.state.active && this.state.active.split('/').pop();
+    const arr = this.state.active && this.state.active.split('/');
+    const name = arr[arr.length - 1];
     document.getElementById(name).style.border = '2px solid #000';
   }
 
   changeBackground(e) {
-    const name = this.state.active && this.state.active.split('/').pop();
+    const arr = this.state.active && this.state.active.split('/');
+    const name = arr[arr.length - 1];
     if (e.target.id === this.state.active) return;
     document.getElementById(name).style.border = '1px solid #c9d7df';
     e.target.style.border = '2px solid #000';
@@ -39,25 +41,25 @@ export default class Wallpapers extends React.Component {
           className={'wallpaper'}
           id={'w2'}
           onClick={this.changeBackground}
-          style={{ backgroundImage: 'url(/resources//wallpapers/w2.png)' }}
+          style={{ backgroundImage: 'url(resources/wallpapers/w2.png)' }}
         />
         <div
           className={'wallpaper'}
           id={'w3'}
           onClick={this.changeBackground}
-          style={{ backgroundImage: 'url(/resources//wallpapers/w3.png)' }}
+          style={{ backgroundImage: 'url(resources/wallpapers/w3.png)' }}
         />
         <div
           className={'wallpaper'}
           id={'w4'}
           onClick={this.changeBackground}
-          style={{ backgroundImage: 'url(/resources//wallpapers/w4.png)' }}
+          style={{ backgroundImage: 'url(resources/wallpapers/w4.png)' }}
         />
         <div
           className={'wallpaper'}
           id={'w5'}
           onClick={this.changeBackground}
-          style={{ backgroundImage: 'url(/resources//wallpapers/w5.png)' }}
+          style={{ backgroundImage: 'url(resources/wallpapers/w5.png)' }}
         />
       </div>
     );

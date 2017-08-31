@@ -27,8 +27,7 @@ export default class WidgetSettings extends React.Component {
   }
 
   getSettings() {
-    const adminId = window._injectedData._id;
-    fetch(`/api/widgets/${adminId}`, { credentials: 'include', method: 'GET' })
+    fetch('/api/widgets/localhost3000', { credentials: 'include', method: 'GET' })
       .then((response) => {
         return response.json();
       })
@@ -39,15 +38,12 @@ export default class WidgetSettings extends React.Component {
       });
   }
   save() {
-    const adminId = window._injectedData._id;
     this.setState({ info: 'Saving...' });
     const dataToSend = {
-      admin: adminId,
+      website: 'localhost3000',
       options: this.state.settings,
     };
-    console.log(dataToSend);
-    dataToSend.admin = adminId;
-    fetch(`/api/widgets/${adminId}`, {
+    fetch('/api/widgets/localhost3000', {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -77,7 +73,7 @@ export default class WidgetSettings extends React.Component {
           <div>
             <RaisedButton
               label="Save"
-              primary={true}
+              primary
               onClick={this.save}
               style={{ margin: '15px' }}
             /> {this.state.info}

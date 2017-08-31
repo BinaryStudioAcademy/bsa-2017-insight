@@ -23,7 +23,7 @@ export default class ChatLayout extends React.Component {
         </div>
         <div
           className={'chat-body'}
-          style={{ backgroundImage: `url(/resources/wallpapers/${this.props.settings.backgroundImage}.png)` }}
+          style={{ backgroundImage: `url(${this.props.settings.backgroundImage}.png)` }}
         >
           <ListItem
             leftAvatar={<Avatar src={`/avatars/${user.avatar}`} />}

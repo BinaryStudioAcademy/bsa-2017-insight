@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const widgetSchema = new Schema({
-  admin: { type: Schema.Types.Object, ref: 'Admin' },
+  website: String,
   options: {
     widgetPosition: { type: String, default: 'right' },
     primaryColor: { type: String, default: '#D91111' },

@@ -173,6 +173,7 @@ class ChatBody extends Component {
             id="input"
           />
           <span
+            role="presentation"
             onClick={e => this.toggleEmojiBlock(e)}
             className={styles['main_emo-menu']}
           >

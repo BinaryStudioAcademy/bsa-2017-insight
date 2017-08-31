@@ -61,7 +61,9 @@ Message.propTypes = {
   isReceived: propTypes.bool,
   type: propTypes.string,
   avatar: propTypes.string,
-  userMessageColor: propTypes.string,
+  userMessageColor: propTypes.shape({
+    backgroundColor: propTypes.string,
+  }),
 };
 
 export default Message;

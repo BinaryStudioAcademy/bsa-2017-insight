@@ -19,7 +19,8 @@ import getCurrentUser from '../../actions/getCurrentUserAction';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import styles from './styles.scss';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import WidgetSettings from './WidgetSettings/WidgetSettings';
+import GeneralSettings from './Settings/GeneralSettings';
+import WidgetSettings from './Settings/WidgetSettings/WidgetSettings';
 
 injectTapEventPlugin();
 
@@ -169,7 +170,8 @@ class AdminPage extends React.Component {
                             );
                           }}
                         />
-                        <Route path={'/admin/widget'} component={WidgetSettings} />
+                        <Route path={'/admin/settings/general'} component={GeneralSettings} />
+                        <Route path={'/admin/settings/widget'} component={WidgetSettings} />
                         <Route component={IncorrectRoute} />
                       </Switch>
                     </div>

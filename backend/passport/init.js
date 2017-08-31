@@ -9,7 +9,7 @@ module.exports = function (localPassport) {
       if (err) {
         return done(err);
       }
-      if (!admin || !admin.checkPassword(password)) {
+      if (!admin || !admin.checkPassword(password) || !admin.verified) {
         return done(null, false, 'Admin not found');
       }
       return done(null, admin);

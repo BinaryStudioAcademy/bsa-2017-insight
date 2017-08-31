@@ -9,7 +9,7 @@ import ChatLayout from './ChatLayout';
 import Wallpapers from './Wallpapers';
 import ForceMessage from './ForceMessage';
 
-export default class WidgetSettings extends React.Component {
+class WidgetSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -120,3 +120,5 @@ export default class WidgetSettings extends React.Component {
     );
   }
 }
+
+export default WidgetSettings;

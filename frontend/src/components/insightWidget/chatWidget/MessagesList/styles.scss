@@ -1,0 +1,13 @@
+@import '../../../../common/styles/variables';
+
+:local(.messages-list) {
+  box-sizing: border-box;
+  padding: 15px 5px 5px 5px;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  list-style: none;
+}
+
+

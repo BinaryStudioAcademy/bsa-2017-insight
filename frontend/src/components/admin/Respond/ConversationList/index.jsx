@@ -9,7 +9,13 @@ const ConversationList = (props) => {
         const activeConv = props.nowActive ? props.nowActive : null;
         const handler = activeConv === e._id ? () => props.removeConversations() : () => props.setConversation(e._id);
         return (
-          <SingleConversation key={e._id} handler={handler} setStatistic={props.setStatistic} conversation={e} />
+          <SingleConversation
+            key={e._id}
+            handler={handler}
+            setStatistic={props.setStatistic}
+            conversation={e}
+            chosenTheme={props.chosenTheme}
+          />
         );
       })}
     </div>

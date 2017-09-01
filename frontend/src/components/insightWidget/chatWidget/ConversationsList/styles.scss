@@ -1,0 +1,131 @@
+@import '../../../../common/styles/variables';
+
+:local(.container) {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+:local(.title-wrapper) {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 80px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+:local(.close-button) {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 30px;
+  height: 30px;
+  z-index: 2;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+:local(.title-span) {
+  color: #ffffff;
+  padding-left: 15%;
+  font-size: 14px;
+}
+
+:local(.title) {
+  padding-left: 15%;
+  font-weight: normal;
+  margin: 0;
+  color: #ffffff;
+  font-size: 20px;
+}
+
+:local(.conversations-list) {
+  overflow: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+:local(.conversation-item) {
+  position: relative;
+  min-height: 50px;
+  padding: 5% 5%;
+  background-color: #fefefe;
+  border-bottom: 1px solid #ebebeb;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #f2f2f2;
+  }
+}
+
+:local(.no-conversation-item) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:local(.author-avatar) {
+  width: 50px;
+  height: 50px;
+  float: left;
+  margin-right: 3%;
+}
+
+:local(.author-name) {
+  color: #707070;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
+:local(.message-body) {
+  color: #686868;
+  font-weight: normal;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+
+:local(.message-time) {
+  color: #707070;
+  font-weight: normal;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+}
+
+:local(.create-conversation-button) {
+  position: absolute;
+  bottom: 25px;
+  width: 45%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  border-radius: 25px;
+  padding: 15px 5px 15px 35px;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 15px;
+    top: 13px;
+    width: 23px;
+    height: 23px;
+    background: url("http://localhost:3000/resources/widget/images/chat.png") center no-repeat;
+    background-size: cover;
+  }
+}

@@ -1,8 +1,6 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-// import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
-// import Paper from 'material-ui/Paper';
 import isLength from 'validator/lib/isLength';
 import equals from 'validator/lib/equals';
 import AvatarPreview from '../../landing/AvatarPreview/AvatarPreview';
@@ -18,25 +16,19 @@ class AdminRegistration extends React.Component {
         lastName: '',
         userName: '',
         password1: '',
-        password2: ''
-      }
+        password2: '',
+      },
     };
     this.sendForm = this.sendForm.bind(this);
     this.loadPreview = this.loadPreview.bind(this);
     this.updateImage = this.updateImage.bind(this);
   }
 
-  // componentWillReceiveProps() {
-  //   if (this.props.currentUser) {
-  //     alert('You are already logged in');
-  //   }
-  // }
-
   formValuesSaver(field, filledField) {
     this.setState({
       formValues: Object.assign(this.state.formValues, {
-        [field]: filledField.value.toString()
-      })
+        [field]: filledField.value.toString(),
+      }),
     });
   }
 
@@ -76,10 +68,11 @@ class AdminRegistration extends React.Component {
     this.setState({ info: this.formValidator() }, () => {
       if (this.state.info.length) return;
       const formData = new FormData(e.target);
+      formData.set('avatar', this.state.image);
       fetch('/api/admin/registration/', {
         method: 'POST',
         body: formData,
-        credentials: 'include'
+        credentials: 'include',
       }).then((response) => {
         console.log(response);
         if (response.redirected) return window.location.replace(response.url);
@@ -151,10 +144,6 @@ class AdminRegistration extends React.Component {
             hintText={'Confirm password'}
             onChange={e => this.formValuesSaver('password2', e.target)}
           /><br /><br />
-          {/* <RadioButtonGroup name={'gender'}>
-            <RadioButton value="Male" label={'Male'} style={{ width: '100px', display: 'inline-block' }} />
-            <RadioButton value="Female" label={'Female'} style={{ width: '100px', display: 'inline-block' }} />
-          </RadioButtonGroup><br /> */}
           <RaisedButton
             name={'avatar'}
             label={'Choose your avatar image'}
@@ -172,7 +161,7 @@ class AdminRegistration extends React.Component {
                 left: 0,
                 width: '100%',
                 opacity: 0,
-                zIndex: 10
+                zIndex: 10,
               }}
               onChange={this.loadPreview}
             />

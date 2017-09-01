@@ -1,0 +1,22 @@
+@import '../../../../common/styles/variables';
+
+:local(.chat) {
+  @media (min-width: 1024px) {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50%;
+    border-radius: 10px;
+    background-color: #fff;
+    padding-bottom: 85px;
+    box-shadow: 0 0 34px -2px rgba(87,86,87,1);
+    font-family: 'Ubuntu', sans-serif;
+    width: 40%;
+  }
+
+  @media (min-width: 1400px) {
+    width: 25%;
+  }
+}
+

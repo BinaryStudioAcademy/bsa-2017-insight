@@ -1,5 +1,6 @@
 const UserRepository = require('./../repositories/userRepository');
 const ConversationRepository = require('./../repositories/conversationRepository');
+const AdminRepository = require('./../repositories/adminRepository');
 const mongoose = require('mongoose');
 
 function createConversationAndUpdateUser(conversation, userId, socket) {
@@ -34,6 +35,7 @@ function checkIfAdminIsConversationParticipant(conversationId, adminId) {
     if (!isAdminParticipant) {
       ConversationRepository.model.findOneAndUpdate({ _id: conversationId }, { $push: { participants: adminIdObject } })
         .then();
+      AdminRepository.model.findOneAndUpdate({ _id: adminId }, { $push: { conversations: conversationId } }).then();
     }
   });
 }
@@ -41,5 +43,5 @@ function checkIfAdminIsConversationParticipant(conversationId, adminId) {
 module.exports = {
   createConversationAndUpdateUser,
   checkIfAdminIsConversationParticipant,
-  createForceConversation
+  createForceConversation,
 };

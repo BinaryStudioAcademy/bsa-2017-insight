@@ -2,9 +2,16 @@ const statisticsRepository = require('../repositories/statisticsRepository');
 
 function getFilteredUsers(conditions, callback) {
   const query = {};
+  const userquery = [];
   Object.keys(conditions).forEach((condition) => {
     const value = conditions[condition];
-    if (value.includes('*HAS*')) {
+    if (value.includes('username')) {
+      userquery[userquery.length] = ['username', value.split('*HAS*')[1]];
+    } else if (value.includes('firstname')) {
+      userquery[userquery.length] = ['firstName', value.split('*HAS*')[1]];
+    } else if (value.includes('lastname')) {
+      userquery[userquery.length] = ['lastName', value.split('*HAS*')[1]];
+    } else if (value.includes('*HAS*')) {
       if (value.includes('*AND*')) {
         query[condition] = { $in: value.split('*HAS*')[1].split('*OR*') };
       } else {
@@ -29,8 +36,18 @@ function getFilteredUsers(conditions, callback) {
     }
   });
   statisticsRepository.findByConditions(query, (err, stats) => {
+    let statsFiltered = null;
+    if (userquery.length > 0) {
+      statsFiltered = stats.filter((el) => {
+        let search = null;
+        search = userquery.map((e) => {
+          return el.userId[e[0]] === e[1];
+        });
+        return search.every(item => item === true);
+      });
+    }
     if (!err && stats) {
-      callback(err, stats);
+      callback(err, statsFiltered || stats);
     } else if (!stats) {
       callback();
     } else {

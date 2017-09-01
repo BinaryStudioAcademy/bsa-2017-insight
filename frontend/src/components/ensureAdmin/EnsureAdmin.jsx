@@ -17,7 +17,7 @@ class EnsureAdmin extends React.Component {
     // If current user isn't in the state yet or currentUser is empty
       return (
         <div>
-          <p>Authentication in progress.</p>
+          <h3>Authentication in progress.</h3>
           <p>If you see this message for more than a few seconds
              please make sure that you are logged in as admin and try to reload this page.</p>
         </div>
@@ -51,8 +51,8 @@ class EnsureAdmin extends React.Component {
 EnsureAdmin.propTypes = {
   children: PropTypes.node,
   currentUser: PropTypes.shape({
-    username: PropTypes.string
-  })
+    username: PropTypes.string,
+  }),
 };
 
 export default EnsureAdmin;

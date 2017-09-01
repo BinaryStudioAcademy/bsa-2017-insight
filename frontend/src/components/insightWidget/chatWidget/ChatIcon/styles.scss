@@ -1,0 +1,12 @@
+@import '../../../../common/styles/variables';
+
+:local(.chat-icon) {
+  position: fixed;
+  width: 75px;
+  height: 75px;
+
+
+  &:hover {
+    cursor: pointer;
+  }
+}

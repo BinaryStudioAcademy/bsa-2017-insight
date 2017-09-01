@@ -1,27 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
 import UserInfoTable from './Table/Table';
-import Filter from './Filter/Filter';
 import * as statisticActions from '../../actions/statisticActions';
 import Login from './AdminAuthentication/AdminLogin';
 import Registration from './AdminAuthentication/AdminRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 import Respond from './Respond/index';
 import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
-import getCurrentUser from '../../actions/getCurrentUserAction';
 import StatisticsFilter from './StatisticsFilter/StatisticsFilter';
-
-const muiTheme = getMuiTheme({
-  tooltip: {
-    rippleBackgroundColor: '#333333',
-  },
-});
+import StatisticsCharts from './StatisticsCharts/StatisticsCharts';
+import getCurrentUser from '../../actions/getCurrentUserAction';
+import styles from './styles.scss';
+import Engage from './Engage/Engage';
+import GeneralSettings from './Settings/GeneralSettings';
+import WidgetSettings from './Settings/WidgetSettings/WidgetSettings';
+import FAQ from './FAQ/FAQ';
 
 injectTapEventPlugin();
 
@@ -59,7 +61,11 @@ class AdminPage extends React.Component {
   constructor(props) {
     super(props);
     this.leftMenuWidth = 75;
-    this.state = {};
+    this.headerHeight = 65;
+    this.state = {
+      chosenTheme: lightBaseTheme,
+    };
+    this.toggleTheme = this.toggleTheme.bind(this);
   }
 
   componentWillMount() {
@@ -79,14 +85,32 @@ class AdminPage extends React.Component {
     if (typeof (arr[0]) === 'object') {
       options = Object.keys(arr[0]);
     }
-    // console.log(this);
     return options;
+  }
+
+  toggleTheme() {
+    // console.log('Current theme:');
+    // console.log(this.state.chosenTheme);
+    this.setState({
+      chosenTheme: this.state.chosenTheme === lightBaseTheme ? darkBaseTheme : lightBaseTheme,
+    }, () => {
+      document.documentElement.style = `background-color: ${this.state.chosenTheme.palette.canvasColor}`;
+    });
   }
 
   render() {
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <div style={{ minWidth: '700px', fontFamily: 'Roboto, sans-serif' }}>
+      <MuiThemeProvider muiTheme={getMuiTheme(this.state.chosenTheme)}>
+        <div
+          className={styles['admin-page']}
+          style={{
+            minWidth: '700px',
+            fontFamily: 'Roboto, sans-serif',
+            backgroundColor: this.state.chosenTheme.palette.canvasColor,
+            color: this.state.chosenTheme.palette.textColor,
+            minHeight: 'calc(100vh - 8px)',
+          }}
+        >
           <Switch>
             <Route path={'/admin/login'} component={Login} />
             <Route path={'/admin/registration'} component={Registration} />
@@ -95,38 +119,66 @@ class AdminPage extends React.Component {
                 <EnsureAdmin currentUser={this.state.currentUser}>
                   <LeftSideMenu
                     width={this.leftMenuWidth}
+                    chosenTheme={this.state.chosenTheme}
                   />
-                  <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: '67px' }}>
-                    <Header currentUser={this.state.currentUser} />
-                    <Switch>
-                      <Route
-                        exact
-                        path={'/admin'}
-                        render={() => {
-                          const statistics = this.props.usersToRender;
-                          const options = this.getStatisticOptions(this.props.usersToRender);
-                          return (
-                            <div>
-                          	  <div style={{position: 'relative', height: '64px', zIndex: 1000 }}>
-                              	<Filter selectedFields={this.props.fieldsToDisplay} statisticOptions={options} updateFields={this.props.updateFields}/>
+                  <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: this.leftMenuWidth - 8 }}>
+                    <Header
+                      currentUser={this.state.currentUser}
+                      toggleTheme={this.toggleTheme}
+                      chosenTheme={this.state.chosenTheme}
+                      style={{ height: this.headerHeight }}
+                    />
+                    <div style={{ height: `calc(100vh - ${this.headerHeight + 8}px)`, overflowY: 'scroll' }}>
+                      <Switch>
+                        <Route
+                          exact
+                          path={'/admin'}
+                          render={() => {
+                            const statistics = this.props.usersToRender;
+                            const options = this.getStatisticOptions(this.props.usersToRender);
+                            return (
+                              <div style={{ marginTop: '10px' }}>
+                                <StatisticsFilter chosenTheme={this.state.chosenTheme} />
+                                <UserInfoTable
+                                  options={this.props.fieldsToDisplay}
+                                  statistics={statistics}
+                                  selectedFields={this.props.fieldsToDisplay}
+                                  statisticOptions={options}
+                                  updateFields={this.props.updateFields}
+                                  chosenTheme={this.state.chosenTheme}
+                                />
+                                <StatisticsCharts
+                                  selectedFields={this.props.fieldsToDisplay}
+                                  statistics={statistics}
+                                />
                               </div>
-                              <StatisticsFilter />
-                              <UserInfoTable options={this.props.fieldsToDisplay} statistics={statistics} />
-                            </div>
                             );
-                        }}
-                      />
-                      <Route path="/admin/respond" component={Respond} />
-                      <Route
-                        path={'/admin/engage'}
-                        render={() => {
-                          return (
-                            <div>Engage component is coming soon!</div>
-                          );
-                        }}
-                      />
-                      <Route component={IncorrectRoute} />
-                    </Switch>
+                          }}
+                        />
+                        <Route
+                          path="/admin/respond"
+                          render={() => (
+                            <Respond
+                              headerHeight={this.headerHeight}
+                              chosenTheme={this.state.chosenTheme}
+                            />)
+                          }
+                        />
+                        <Route
+                          path={'/admin/engage'}
+                          render={() => (
+                            <Engage
+                              headerHeight={this.headerHeight}
+                              chosenTheme={this.state.chosenTheme}
+                            />
+                          )}
+                        />
+                        <Route path={'/admin/settings/general'} component={GeneralSettings} />
+                        <Route path={'/admin/faq'} component={FAQ} />
+                        <Route path={'/admin/settings/widget'} component={WidgetSettings} />
+                        <Route component={IncorrectRoute} />
+                      </Switch>
+                    </div>
                   </div>
                 </EnsureAdmin>
               );
@@ -140,9 +192,12 @@ class AdminPage extends React.Component {
 }
 
 AdminPage.propTypes = {
-  getAllStatistic: React.PropTypes.func,
-  allData: React.PropTypes.arrayOf(React.PropTypes.object),
-  usersToRender: React.PropTypes.arrayOf(React.PropTypes.object),
+  getAllStatistic: PropTypes.func,
+  usersToRender: PropTypes.arrayOf(PropTypes.object),
+  getCurrentUser: PropTypes.func,
+  fieldsToDisplay: PropTypes.arrayOf(PropTypes.string),
+  updateFields: PropTypes.func,
+  currentUser: PropTypes.shape(),
 };
 
 const mapStateToProps = (state) => {
@@ -162,8 +217,8 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(getCurrentUser());
     },
     updateFields: (newFields) => {
-      return dispatch({ type: 'UPDATE_FIELDS', payload: newFields })
-    }
+      return dispatch({ type: 'UPDATE_FIELDS', payload: newFields });
+    },
   };
 };
 

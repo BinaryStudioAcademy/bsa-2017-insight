@@ -1,0 +1,149 @@
+@import '../../../../common/styles/variables';
+
+:local(.chat) {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  height: 85%;
+}
+
+:local(.conversation-header) {
+  box-sizing: border-box;
+  padding: 20px 15px;
+  height: 80px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1000;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.3);
+}
+
+:local(.return-button) {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: 30px;
+  top: 25px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+:local(.operator-avatar) {
+  width: 40px;
+  height: 40px;
+  float: left;
+  margin-right: 10px;
+}
+
+:local(.operator-name) {
+  line-height: 40px;
+  color: #ffffff;
+}
+
+:local(.sending-form) {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+:local(.sending-form) :local(.message-input) {
+  box-sizing: border-box;
+  display: block;
+  font-size: 16px;
+  border: none;
+  flex-basis: 100%;
+  height: 60px;
+  padding: 25px 120px 10px 20px;
+  border-radius: 5px;
+  outline: none;
+}
+
+:local(.file-input) {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+:local(.file-input-label) {
+  position: absolute;
+  top: 25px;
+  right: 52px;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  background: url("http://cdn.onlinewebfonts.com/svg/download_522887.png") no-repeat center;
+  background-size: contain;
+}
+
+:local(.selected-files-counter) {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  color: #000000;
+  font-weight: bold;
+  font-size: 1.25rem;
+  top: -10px;
+  right: -14px;
+}
+
+:local(.submit-button) {
+  position: absolute;
+  display: block;
+  border: none;
+  width: 30px;
+  height: 30px;
+  top: 23px;
+  right: 10px;
+  background: url("https://maxcdn.icons8.com/Share/icon/Messaging//sent1600.png") center no-repeat;
+  background-size: contain;
+  border-radius: 5px;
+  outline: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+:local(.main_emo-menu){
+  position: absolute;
+  padding-top: 10px;
+  outline: none;
+  right: 85px;
+  height: 30px;
+  line-height: 40px;
+  background:none;
+  border:none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+:local(.emoji-block-icon){
+  font-size: 30px;
+  line-height: 30px;
+  font-style: normal;
+  font-weight: 400;
+  &:after{
+    content: "☺️"
+  }
+}
+
+:local(.emoji-block) {
+  position: absolute;
+  bottom: 75px;
+  right: 0;
+  border:none;
+  &:focus{
+    border: none;
+  }
+}

@@ -1,3 +1,17 @@
-:local(.project-name) {
-    color: grey;
+:local(.admin-page) {
+    *::-webkit-scrollbar,
+    &::-webkit-scrollbar {
+        width: .3em;
+        height: .3em;
+    }
+
+    *::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    *::-webkit-scrollbar-thumb,
+    &::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+    }
 }

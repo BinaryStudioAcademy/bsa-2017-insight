@@ -33,7 +33,7 @@ conversationRepository.getAllConversations = function (callback) {
 
 conversationRepository.getReceiverByIds = function (conversationId, senderId, senderType, callback) {
   this.model.aggregate([
-    { $match: { _id: mongoose.Types.ObjectId(conversationId) } },
+    { $match: { _id: mongoose.Types.ObjectId(conversationId), participants: { $exists: true } } },
     { $unwind: '$participants' },
     { $match: { 'participants.userType': senderType === 'Admin' ? 'User' : 'Admin' } },
     { $project: {

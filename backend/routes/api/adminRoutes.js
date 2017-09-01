@@ -1,5 +1,6 @@
 const passport = require('passport');
 const adminRepository = require('../../repositories/adminRepository');
+const checkVerification = require('../../services/adminService');
 const multer = require('multer');
 const mime = require('mime');
 
@@ -26,21 +27,31 @@ module.exports = function (app) {
 
   app.post('/api/admin/login/', (req, res, next) => {
     if (req.user) return res.redirect('/');
-
-    passport.authenticate('admin', (err, user, info) => {
-      if (err) {
-        return next(err);
+    checkVerification(req, (data) => {
+      if (data) {
+        adminRepository.getByUsername(data.username, (err, user) => {
+          if (err) return next(err);
+          if (user) return res.json({ text: 'Please, login as general admin' });
+          adminRepository.add(data, (err) => {
+            if (err) return next(err);
+            res.json({ text: 'Please, login as general admin' });
+          });
+        });
+      } else {
+        passport.authenticate('admin', (err, user, info) => {
+          if (err) {
+            return next(err);
+          }
+          if (!user) {
+            return res.json({ text: info });
+          }
+          req.logIn(user, (err) => {
+            if (err) return next(err);
+            res.redirect('/admin');
+          });
+        })(req, res, next);
       }
-
-      if (!user) {
-        return res.json({ text: info });
-      }
-
-      req.logIn(user, (err) => {
-        if (err) return next(err);
-        res.redirect('/admin');
-      });
-    })(req, res, next);
+    });
   });
 
   app.post('/api/admin/registration', upload.single('avatar'), (req, res, next) => {
@@ -62,10 +73,11 @@ module.exports = function (app) {
     //     console.log('before redirect');
     //     res.redirect('/admin/login');
 
+    
     adminRepository.getByUsername(data.username, (err, user) => {
       if (err) return next(err);
       if (user) return res.json({ text: 'User with this username exists' });
-
+      
       adminRepository.add(data, (err) => {
         if (err) return next(err);
         res.redirect('/admin/login');

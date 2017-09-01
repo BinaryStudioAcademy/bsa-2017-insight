@@ -5,7 +5,10 @@ import styles from './styles.scss';
 
 const MessagesList = (props) => {
   return (
-    <ul className={styles['messages-list']}>
+    <ul
+      className={styles['messages-list']}
+      style={{ backgroundColor: props.chosenTheme.palette.canvasColor }}
+    >
       {props.messages && props.messages.map((message) => {
         return (
           <Message
@@ -24,14 +27,19 @@ const MessagesList = (props) => {
 MessagesList.propTypes = {
   messages: propTypes.arrayOf(propTypes.shape({
     conversationId: propTypes.string.isRequired,
-    body: propTypes.string.isRequired,
+    body: propTypes.oneOfType([propTypes.string, propTypes.shape({
+      finalName: propTypes.string,
+      fileName: propTypes.string,
+      fileType: propTypes.string,
+      isImage: propTypes.bool,
+    })]).isRequired,
     author: propTypes.shape({
       item: propTypes.any.isRequired,
-      userType: propTypes.string.isRequired,
+      userType: propTypes.string.isRequired
     }).isRequired,
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
-    editedAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
-  })),
+    editedAt: propTypes.oneOfType([propTypes.number, propTypes.string])
+  }))
 };
 
 export default MessagesList;

@@ -7,6 +7,9 @@ const statisticsRoutes = require('./statisticsRoutes');
 const passwordRoutes = require('./passwordRoutes');
 const uploadRoutes = require('./uploadRoutes');
 const notificationRoutes = require('./notificationRoutes');
+const settingsRoutes = require('./settingsRoutes');
+const selectionRoutes = require('./selectionRoutes');
+const faqRoutes = require('./faqRoutes');
 
 
 module.exports = app => ({
@@ -18,4 +21,8 @@ module.exports = app => ({
   adminRoutes: adminRoutes(app),
   passwordRoutes: passwordRoutes(app),
   notificationRoutes: notificationRoutes(app),
+  uploadRoutes: uploadRoutes(app),
+  settingsRoutes: settingsRoutes(app),
+  selectionRoutes: selectionRoutes(app),
+  faqRoutes: faqRoutes(app),
 });

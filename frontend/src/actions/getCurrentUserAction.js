@@ -1,6 +1,6 @@
 const getCurrentUser = () => {
   return {
-    type: 'GET_CURRENT_USER'
+    type: 'GET_CURRENT_USER',
   };
 };
 

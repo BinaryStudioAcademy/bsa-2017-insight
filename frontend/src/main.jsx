@@ -5,18 +5,17 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import WebFont from 'webfontloader';
 import { store, sagaMiddleware } from './store';
-import rootSaga from './saga/rootSaga';
 import Home from './components/landing/Home';
 import AdminPage from './components/admin/AdminPage';
-// import './components/analytics/analytics';
+import rootSaga from './saga/rootSaga';
+
+sagaMiddleware.run(rootSaga);
 
 WebFont.load({
   google: {
-    families: ['Ubuntu:300,400,700', 'Roboto']
-  }
+    families: ['Ubuntu:300,400,700', 'Roboto:300,400,500,600,700,800'],
+  },
 });
-
-sagaMiddleware.run(rootSaga);
 
 render(
   <Provider store={store}>
@@ -29,4 +28,3 @@ render(
   </Provider>,
   document.getElementById('root'),
 );
-

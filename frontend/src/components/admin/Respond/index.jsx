@@ -35,27 +35,70 @@ class Respond extends React.Component {
     const convToChat = idToRender ? this.conversationToChat(idToRender) : null;
     return (
       <div>
-        {!idToRender ? <div className={styles['big-conversation-list']}>
-          <ConversationList
-            setStatistic={this.getIdForStatistic}
-            conversations={this.props.conversations}
-            setConversation={this.props.setConversation}
-          />
-        </div>
-          : <div className={styles['small-conversation-list']}>
-            <div className={styles.conversations}>
+        {!idToRender ?
+          <div
+            className={styles['big-conversation-list']}
+            style={{
+              height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
+              overflowY: 'scroll',
+              width: '100%',
+            }}
+          >
+            <ConversationList
+              setStatistic={this.getIdForStatistic}
+              conversations={this.props.conversations}
+              setConversation={this.props.setConversation}
+              chosenTheme={this.props.chosenTheme}
+            />
+          </div> :
+          <div
+            className={styles['small-conversation-list']}
+            style={{
+              height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
+              overflowY: 'hidden',
+              display: 'flex',
+              flexWrap: 'nowrap',
+              width: '100%',
+            }}
+          >
+            <div
+              className={styles.conversations}
+              style={{
+                height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
+                overflowY: 'scroll',
+                width: '20vw',
+              }}
+            >
               <ConversationList
                 setStatistic={this.getIdForStatistic}
                 conversations={this.props.conversations}
                 setConversation={this.props.setConversation}
                 nowActive={this.props.conversationToRenderId}
                 removeConversations={this.props.removeConversations}
+                chosenTheme={this.props.chosenTheme}
               />
             </div>
-            <div className={styles.chat}>
-              <Chat conversationToRender={convToChat} dispatch={this.props.dispatch} />
+            <div
+              style={{
+                flexShrink: 1,
+                flexGrow: 2,
+              }}
+            >
+              <Chat
+                conversationToRender={convToChat}
+                dispatch={this.props.dispatch}
+                chosenTheme={this.props.chosenTheme}
+                headerHeight={this.props.headerHeight}
+              />
             </div>
-            <div className={styles.info}>
+            <div
+              className={styles.info}
+              style={{
+                height: `calc(60vh - ${this.props.headerHeight})`,
+                overflowY: 'scroll',
+                width: '20vw',
+              }}
+            >
               <UserInfo statistic={this.props.statisticById} />
             </div>
           </div>
@@ -69,7 +112,7 @@ const mapStateToProps = (state) => {
   return {
     conversations: state.conversationsInfo.conversations,
     conversationToRenderId: state.conversationsInfo.conversationToRenderId,
-    statisticById: state.statistics.statisticById,
+    statisticById: state.statistics.statisticById
   };
 };
 
@@ -98,11 +141,11 @@ Respond.propTypes = {
     _id: propTypes.string.isRequired,
     participants: propTypes.arrayOf(propTypes.shape({
       userType: propTypes.string,
-      user: propTypes.any,
+      user: propTypes.any
     })).isRequired,
     messages: propTypes.arrayOf(propTypes.any).isRequired,
     open: propTypes.bool,
-    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string])
   })),
   conversationToRenderId: propTypes.string,
   setConversation: propTypes.func.isRequired,
@@ -124,8 +167,8 @@ Respond.propTypes = {
     userAgent: propTypes.string,
     timeZone: propTypes.string,
     signedUpDate: propTypes.any,
-    sessionsCounts: propTypes.number,
-  }),
+    sessionsCounts: propTypes.number
+  })
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Respond);

@@ -1,6 +1,6 @@
 const initialState = {
   conversations: [],
-  conversationToRenderId: null,
+  conversationToRenderId: null
 };
 
 function findConversationById(id, conversations) {
@@ -13,7 +13,7 @@ function findConversationById(id, conversations) {
   });
   return {
     conversationItem,
-    index,
+    index
   };
 }
 

@@ -10,14 +10,14 @@ class Filter extends React.Component {
     super(props);
     this.state = {
       radioValue: {
-        Email: 'emailValue',
+        browser: 'emailValue',
         Name: 'nameValue',
-        'Last seen': 'last seen Value',
+        'Last seen': 'last seen Value'
       },
       initiallyOpen: {
         Email: false,
         Name: false,
-        'Last seen': false,
+        'Last seen': false
       },
       checkedCheckboxes: {
         browser: { status: false, alias: 'Browser' },

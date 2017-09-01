@@ -1,0 +1,27 @@
+:local(.FAQ-list) {
+  margin: 10px 0 15px;
+  width: 20%;
+  height: 100vh;
+  overflow: auto;
+  list-style: none;
+  padding: 20px;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+:local(.ListItem-highlight-false) {
+  p{
+    margin: 0px !important;
+    padding: 25px 15px !important;
+  }
+}
+
+
+:local(.ListItem-highlight-true) {
+  background-color: #bcbcbc !important;
+
+  p{
+    margin: 0px !important;
+    padding: 25px 15px !important;
+  }
+}

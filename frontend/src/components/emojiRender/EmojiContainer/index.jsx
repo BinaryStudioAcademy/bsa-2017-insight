@@ -10,7 +10,7 @@ class EmojiContainer extends React.Component {
     this.state = {
       categories: ['People', 'Nature', 'Objects', 'Places', 'Symbols'],
       activeCategory: 'People',
-    }
+    };
     this.clickOnSmile = this.clickOnSmile.bind(this);
     this.setCategory = this.setCategory.bind(this);
   }

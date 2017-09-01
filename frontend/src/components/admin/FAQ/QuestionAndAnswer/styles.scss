@@ -1,0 +1,33 @@
+:local(.text-field-disabled-true) {
+  width: 80% !important;
+  cursor: default !important;
+
+  textarea{
+    color: black !important;
+    cursor: default !important;
+	  border-bottom: none !important;
+  }
+
+  input{
+    cursor: default !important;
+  }
+
+  hr{
+  	width: 0px !important;
+  }
+}
+
+:local(.text-field-disabled-false) {
+  width: 80% !important;
+  cursor: default !important;
+
+  textarea{
+    color: black !important;
+    cursor: default !important;
+    border-bottom: none !important;
+  }
+
+  input{
+    cursor: default !important;
+  }
+}

@@ -118,7 +118,7 @@ class ChatBody extends Component {
           <div className={styles['conversation-header']} style={headerStyles}>
             <img
               className={styles['return-button']}
-              src="http://www.iconsdb.com/icons/preview/white/arrow-89-xxl.png"
+              src="http://localhost:3000/resources/widget/images/back.png"
               alt="return-button"
               onClick={this.props.onReturnButtonClick}
             />
@@ -128,7 +128,7 @@ class ChatBody extends Component {
           <div className={styles['conversation-header']} style={headerStyles}>
             <img
               className={styles['return-button']}
-              src="http://www.iconsdb.com/icons/preview/white/arrow-89-xxl.png"
+              src="http://localhost:3000/resources/widget/images/back.png"
               alt="return-button"
               onClick={this.props.onReturnButtonClick}
             />

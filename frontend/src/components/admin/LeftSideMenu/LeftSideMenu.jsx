@@ -55,6 +55,7 @@ class LeftSideMenu extends React.Component {
               style={{ width: this.props.width }}
               tooltip={'FAQ'}
               tooltipPosition={'bottom-right'}
+              iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
             >
               <FAQIcon />
             </IconButton>

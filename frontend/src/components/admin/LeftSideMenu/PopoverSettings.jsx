@@ -60,6 +60,7 @@ class PopoverSettings extends React.Component {
           anchorEl={this.state.anchorEl}
           anchorOrigin={this.state.anchorOrigin}
           targetOrigin={this.state.targetOrigin}
+          onRequestClose={this.handleRequestClose}
         >
           <Menu>
             <NavLink to={'/admin/settings/general'}>

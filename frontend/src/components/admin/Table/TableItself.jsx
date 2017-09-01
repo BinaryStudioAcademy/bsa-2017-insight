@@ -159,7 +159,7 @@ class TableItself extends React.Component {
             <RaisedButton 
               label=">>" 
               onClick={this.props.changeCurrentPage} 
-              value={currPage} 
+              value={numOfPages} 
               className={styles.raisedButton} />
             <RaisedButton 
               label="Next" 

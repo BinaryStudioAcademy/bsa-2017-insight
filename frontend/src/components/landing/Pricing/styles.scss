@@ -37,7 +37,7 @@ $smallTextFont: 16px;
 		margin: 20px;
 		width: 40%;
 		padding: 20px;
-		text-align: center;	
+		text-align: center;
 
 		p{
 			margin: 50px auto 0px auto;
@@ -50,6 +50,7 @@ $smallTextFont: 16px;
 		margin: 20px;
 		width: $pictureSize;
 		height: $pictureSize;
+		border: 1px solid $greyColor;
 	}
 }
 
@@ -87,6 +88,7 @@ $smallTextFont: 16px;
 
 :local(.price) {
 	font-size: $smallTextFont;
-	margin-bottom: 25%;
-	margin-top: 0px;
+	margin-bottom: 20%;
+	margin-top: 5%;
+	font-weight: bold;
 }

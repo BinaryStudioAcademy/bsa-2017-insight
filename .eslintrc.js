@@ -24,5 +24,6 @@ module.exports = {
     "import/no-extraneous-dependencies": 0,
     "class-methods-use-this": 0,
     "no-useless-concat": 0,
+    'jsx-a11y/no-noninteractive-element-interactions': 0,
   }
 };

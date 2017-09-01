@@ -4,7 +4,8 @@ import styles from './styles.scss';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import HomeContent from './HomeContent/HomeContent';
-import Product from './Product/Product';
+import EngageProduct from './Product/EngageProduct';
+import RespondProduct from './Product/RespondProduct';
 import Pricing from './Pricing/Pricing';
 import IncorrectRoute from './../incorrectRoute/IncorrectRoute';
 import Login from './UserAuthentication/UserLogin';
@@ -21,8 +22,8 @@ class Home extends React.Component {
         <Header />
         <Switch>
           <Route exact path={'/'} component={HomeContent} />
-          <Route path={'/engage'} component={Product} />
-          <Route path={'/respond'} component={Product} />
+          <Route path={'/engage'} component={EngageProduct} />
+          <Route path={'/respond'} component={RespondProduct} />
           <Route path={'/customers'} component={HomeContent} />
           <Route path={'/help'} component={HomeContent} />
           <Route path={'/about'} component={HomeContent} />

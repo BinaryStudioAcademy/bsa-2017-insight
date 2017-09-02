@@ -3,36 +3,58 @@ import propTypes from 'prop-types';
 import Message from './../Message/Message';
 import styles from './styles.scss';
 
-const MessagesList = (props) => {
-  const listStyles = { backgroundImage: `url(${props.widgetStyles.backgroundImage}.png)` };
-  const userMessageColor = { backgroundColor: props.widgetStyles.primaryColor };
-  return (
-    <ul className={styles['messages-list']} style={listStyles}>
-      {props.messages && props.messages.map((message) => {
-        let style;
-        if (message.forceMessage) {
-          style = 'force-message';
-        } else if (message.author.userType === 'Admin') {
-          style = 'admin-message';
-        } else {
-          style = 'user-message';
-        }
-        return (
-          <Message
-            userMessageColor={userMessageColor}
-            messageStyle={style}
-            avatar={message.author ? message.author.item.avatar : ''}
-            key={message._id}
-            body={message.body}
-            name={message.author ? message.author.item.username : ''}
-            isReceived={message.isReceived}
-            type={message.author ? message.author.userType : ''}
-          />
-        );
-      })}
-    </ul>
-  );
-};
+class MessagesList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.scrollToLastMessage = this.scrollToLastMessage.bind(this);
+  }
+  componentDidMount() {
+    this.scrollToLastMessage();
+  }
+  componentDidUpdate() {
+    this.scrollToLastMessage();
+  }
+  scrollToLastMessage() {
+    if (this.list) this.list.scrollTop = this.list.scrollHeight - this.list.clientHeight;
+  }
+  render() {
+    const listStyles = { backgroundImage: `url(${this.props.widgetStyles.backgroundImage}.png)` };
+    const userMessageColor = { backgroundColor: this.props.widgetStyles.primaryColor };
+
+    return (
+      <ul
+        className={styles['messages-list']}
+        style={listStyles}
+        ref={(node) => {
+          this.list = node;
+        }}
+      >
+        {this.props.messages && this.props.messages.map((message) => {
+          let style;
+          if (message.forceMessage) {
+            style = 'force-message';
+          } else if (message.author.userType === 'Admin') {
+            style = 'admin-message';
+          } else {
+            style = 'user-message';
+          }
+          return (
+            <Message
+              userMessageColor={userMessageColor}
+              messageStyle={style}
+              avatar={message.author ? message.author.item.avatar : ''}
+              key={message._id}
+              body={message.body}
+              name={message.author ? message.author.item.username : ''}
+              isReceived={message.isReceived}
+              type={message.author ? message.author.userType : ''}
+            />
+          );
+        })}
+      </ul>
+    );
+  }
+}
 
 MessagesList.propTypes = {
   messages: propTypes.arrayOf(propTypes.shape({

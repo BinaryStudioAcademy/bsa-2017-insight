@@ -4,7 +4,7 @@
   box-sizing: border-box;
   width: 100%;
   margin: 0;
-  height: 85%;
+  height: 90%;
 }
 
 :local(.conversation-header) {
@@ -46,10 +46,13 @@
 }
 
 :local(.sending-form) {
-  position: absolute;
+  box-sizing: border-box;
+  position: relative;
   width: 100%;
+  min-height: 50px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 :local(.sending-form) :local(.message-input) {
@@ -57,9 +60,9 @@
   display: block;
   font-size: 16px;
   border: none;
+  min-height: 50px;
   flex-basis: 100%;
-  height: 60px;
-  padding: 25px 120px 10px 20px;
+  padding: 10px 120px 10px 15px;
   border-radius: 5px;
   outline: none;
 }
@@ -75,24 +78,13 @@
 
 :local(.file-input-label) {
   position: absolute;
-  top: 25px;
+  top: 13px;
   right: 52px;
   cursor: pointer;
   width: 25px;
   height: 25px;
-  background: url("http://cdn.onlinewebfonts.com/svg/download_522887.png") no-repeat center;
+  background: url("http://localhost:3000/resources/widget/images/file-input-icon.png") no-repeat center;
   background-size: contain;
-}
-
-:local(.selected-files-counter) {
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  color: #000000;
-  font-weight: bold;
-  font-size: 1.25rem;
-  top: -10px;
-  right: -14px;
 }
 
 :local(.submit-button) {
@@ -101,9 +93,9 @@
   border: none;
   width: 30px;
   height: 30px;
-  top: 23px;
+  top: 10px;
   right: 10px;
-  background: url("https://maxcdn.icons8.com/Share/icon/Messaging//sent1600.png") center no-repeat;
+  background: url("http://localhost:3000/resources/widget/images/send-message-icon.png") center no-repeat;
   background-size: contain;
   border-radius: 5px;
   outline: none;
@@ -115,7 +107,7 @@
 
 :local(.main_emo-menu){
   position: absolute;
-  padding-top: 10px;
+  top: 8px;
   outline: none;
   right: 85px;
   height: 30px;
@@ -140,7 +132,7 @@
 
 :local(.emoji-block) {
   position: absolute;
-  bottom: 75px;
+  bottom: 50px;
   right: 0;
   border:none;
   &:focus{

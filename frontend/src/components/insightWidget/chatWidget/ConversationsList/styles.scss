@@ -3,6 +3,7 @@
 :local(.container) {
   width: 100%;
   display: flex;
+  padding-bottom: 85px;
   align-items: center;
   flex-direction: column;
 }
@@ -10,7 +11,7 @@
 :local(.title-wrapper) {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  height: 80px;
+  min-height: 80px;
   box-sizing: border-box;
   width: 100%;
   padding: 20px;

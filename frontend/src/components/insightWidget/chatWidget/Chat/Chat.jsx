@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import io from 'socket.io-client/dist/socket.io';
 import styles from './styles.scss';
 import ConversationsList from './../ConversationsList/ConversationsList';
 import ChatBody from './../ChatBody/ChatBody';
 import { findItemById, startSocketConnection } from './logic';
 import notifications from '../../../notifications/notifications';
-import io from 'socket.io-client/dist/socket.io';
 
 class Chat extends Component {
   constructor(props) {
@@ -69,13 +69,12 @@ class Chat extends Component {
     this.setState({ activeChatId: null });
   }
 
-  onFormSubmit(event, text) {
+  onFormSubmit(event, text, files) {
     const userId = window._injectedData.anonymousId || window._injectedData.userId._id;
     event.preventDefault();
     const eventCopy = event;
     const message = text;
-    const files = [...event.target.fileInput.files];
-    if (files.length === 0) {
+    if (!files || files.length === 0) {
       if (message === '') return;
       const messageObj = {
         conversationId: this.state.activeChatId,
@@ -121,7 +120,6 @@ class Chat extends Component {
           });
       });
       eventCopy.target.reset();
-      eventCopy.target.querySelector('span').innerHTML = '';
     }
   }
 

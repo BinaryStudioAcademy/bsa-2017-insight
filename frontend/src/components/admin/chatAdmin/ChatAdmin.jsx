@@ -61,10 +61,21 @@ class Chat extends Component {
 
   componentWillUnmount() {
     this.socket.emit('switchRoom', '');
+    this.socket.close();
   }
 
   setTextIntoInput(e) {
     this.setState({ text: e.target.value });
+  }
+
+  onFileInputChange() {
+    if (this.fileInput.files.length === 1) {
+      this.setState({ filesCounter: this.fileInput.files[0].name });
+    } else if (this.fileInput.files.length > 1) {
+      this.setState({ filesCounter: `Selected files: ${this.fileInput.files.length}` });
+    } else {
+      this.setState({ filesCounter: 'Select file' });
+    }
   }
 
   setEmojiToInput(emojiName) {
@@ -87,16 +98,6 @@ class Chat extends Component {
 
   blurFromInput(e) {
     this.setState({ input: e.target, selectionStart: e.target.selectionStart, selectionEnd: e.target.selectionEnd });
-  }
-
-  onFileInputChange() {
-    if (this.fileInput.files.length === 1) {
-      this.setState({ filesCounter: this.fileInput.files[0].name });
-    } else if (this.fileInput.files.length > 1) {
-      this.setState({ filesCounter: `Selected files: ${this.fileInput.files.length}` });
-    } else {
-      this.setState({ filesCounter: 'Select file' });
-    }
   }
 
   handleMessageSubmit(event, text) {

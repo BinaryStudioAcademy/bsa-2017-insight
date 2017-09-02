@@ -91,6 +91,8 @@
     return (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24);
   }
 
+  window.onload = () => document.documentElement.click(); // ???
+
   window.addEventListener('click', () => {
     const injectedData = window._injectedData;
     if (injectedData.isAdmin) return;

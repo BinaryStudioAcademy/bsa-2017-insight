@@ -73,11 +73,11 @@ module.exports = function (app) {
     //     console.log('before redirect');
     //     res.redirect('/admin/login');
 
-    
+
     adminRepository.getByUsername(data.username, (err, user) => {
       if (err) return next(err);
       if (user) return res.json({ text: 'User with this username exists' });
-      
+
       adminRepository.add(data, (err) => {
         if (err) return next(err);
         res.redirect('/admin/login');

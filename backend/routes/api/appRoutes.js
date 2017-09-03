@@ -1,7 +1,6 @@
 // const passport = require('passport');
 const adminRepository = require('../../repositories/adminRepository');
 const appRepository = require('../../repositories/appRepository');
-// const checkVerification = require('../../services/adminService');
 const multer = require('multer');
 const mime = require('mime');
 
@@ -39,8 +38,6 @@ module.exports = function (app) {
       url: req.body.appUrl,
       description: req.body.appDescription,
     };
-    console.log(`New general admin's username: ${generalAdminData.username}`);
-    console.log(`New app's name: ${appData.username}`);
 
     adminRepository.getByUsername(generalAdminData.username, (admin1Err, admin1Data) => {
       if (admin1Err) return next(admin1Err);
@@ -48,7 +45,7 @@ module.exports = function (app) {
 
       adminRepository.add(generalAdminData, (admin2Err, admin2Data) => {
         if (admin2Err) return next(admin2Err);
-        appData.generalAdminId = admin2Data._id;
+        appData.generalAdmin = admin2Data._id;
         appRepository.add(appData, (appErr, createdAppData) => {
           if (appErr) return next(appErr);
           adminRepository.update(admin2Data._id, { $set: { appId: createdAppData._id } }, (admin3Err, admin3Data) => {
@@ -86,6 +83,18 @@ module.exports = function (app) {
   app.put('/api/apps/:id', (req, res) => {
     const id = req.params.id;
     appRepository.update(id, req.body, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      } else {
+        res.status(200).json(data);
+      }
+    });
+  });
+
+  app.put('/api/apps/:id/toggle', (req, res) => {
+    const id = req.params.id;
+    appRepository.toggleActiveState(id, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);

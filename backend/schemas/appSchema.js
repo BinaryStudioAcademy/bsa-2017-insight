@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 const appSchema = new Schema({
@@ -13,7 +12,7 @@ const appSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  generalAdminId: {
+  generalAdmin: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'Admin',

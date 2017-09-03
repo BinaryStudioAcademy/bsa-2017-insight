@@ -1,5 +1,6 @@
 const passport = require('passport');
 const adminRepository = require('../../repositories/adminRepository');
+const appRepository = require('../../repositories/appRepository');
 const checkVerification = require('../../services/adminService');
 const multer = require('multer');
 const mime = require('mime');
@@ -45,9 +46,16 @@ module.exports = function (app) {
           if (!user) {
             return res.json({ text: info });
           }
-          req.logIn(user, (err) => {
+          appRepository.getById(user.appId, (err, app) => {
             if (err) return next(err);
-            res.redirect('/admin');
+            if (app.isActive === false) {
+              return res.json({ text: 'Sorry, but your app is inactive. If you just added your app, please \
+              wait for a few hours for moderation. Otherwise, contact our support.' });
+            }
+            req.logIn(user, (err) => {
+              if (err) return next(err);
+              res.redirect('/admin');
+            });
           });
         })(req, res, next);
       }
@@ -58,6 +66,7 @@ module.exports = function (app) {
     if (req.user) return res.redirect('/');
 
     const data = {
+      appId: req.body.appId,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       password: req.body.secondPassword,
@@ -77,10 +86,16 @@ module.exports = function (app) {
     adminRepository.getByUsername(data.username, (err, user) => {
       if (err) return next(err);
       if (user) return res.json({ text: 'User with this username exists' });
-
-      adminRepository.add(data, (err) => {
+      appRepository.getById(data.appId, (err, app) => {
         if (err) return next(err);
-        res.redirect('/admin/login');
+        if (!app) {
+          return res.json({ text: 'App with such ID does not exist. \
+          Please, contact another admin of the app to be provided with the correct App ID' });
+        }
+        adminRepository.add(data, (err) => {
+          if (err) return next(err);
+          res.redirect('/admin/login');
+        });
       });
     });
   });
@@ -102,6 +117,9 @@ module.exports = function (app) {
   });
 
   app.get('/api/admins/:id', (req, res) => {
+    console.log('--------');
+    console.log('req.user');
+    console.log(req.user);
     const id = req.params.id;
     adminRepository.findOneAndPopulate(id, (err, data) => {
       if (err) {

@@ -5,7 +5,8 @@ function getFAQ() {
       'Content-Type': 'application/json'
     },
     body: null,
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include',
   };
   return fetch(url, requestOptions)
     .then((response) => {
@@ -23,7 +24,7 @@ function getFAQById(id) {
       'Content-Type': 'application/json'
     },
     body: null,
-    method: 'GET'
+    method: 'GET',
   };
   return fetch(url, requestOptions)
     .then((response) => {
@@ -41,7 +42,7 @@ function addFAQ(Body) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(Body),
-    method: 'POST'
+    method: 'POST',
   };
   return fetch(url, requestOptions)
     .then((response) => {
@@ -60,7 +61,7 @@ function modifyFAQ(id, Body) {
     },
     path: 'http://localhost:3000/api/faq/' + id,
     body: JSON.stringify(Body),
-    method: 'PUT'
+    method: 'PUT',
   };
   return fetch(url, requestOptions)
     .then((response) => {
@@ -75,7 +76,7 @@ function deleteFAQ(id) {
       'Content-Type': 'application/json'
     },
     body: null,
-    method: 'DELETE'
+    method: 'DELETE',
   };
   return fetch(url, requestOptions)
     .then((response) => {

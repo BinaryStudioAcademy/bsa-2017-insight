@@ -8,9 +8,9 @@ statisticsRepository.findOneAndPopulate = function (id, callback) {
   this.model.find({ _id: id }).populate('userId').exec(callback);
 };
 
-statisticsRepository.getAllAndPopulate = function (callback) {
-  this.model.find({}).populate('userId').exec(callback);
-}
+statisticsRepository.getAllAndPopulate = function (appId, callback) {
+  this.model.find({ appId }).populate('userId').exec(callback);
+};
 
 statisticsRepository.updateByUserId = function (id, data) {
   return this.model.update({ userId: id }, data);

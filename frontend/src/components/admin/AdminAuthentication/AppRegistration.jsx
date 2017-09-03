@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import isLength from 'validator/lib/isLength';
+import isURL from 'validator/lib/isURL';
 import equals from 'validator/lib/equals';
 import AvatarPreview from '../../landing/AvatarPreview/AvatarPreview';
 import styles from './styles.scss';
@@ -12,6 +13,8 @@ class AdminRegistration extends React.Component {
     this.state = {
       info: [],
       formValues: {
+        appName: '',
+        appUrl: '',
         firstName: '',
         lastName: '',
         userName: '',
@@ -34,6 +37,10 @@ class AdminRegistration extends React.Component {
 
   formValidator() {
     const errors = [];
+    // App name's length > 2
+    if (!isLength(this.state.formValues.appName, { min: 2 })) {
+      errors.push('App name should be longer than 2 symbols');
+    }
     // First name's length > 2
     if (!isLength(this.state.formValues.firstName, { min: 2 })) {
       errors.push('First name should be longer than 2 symbols');
@@ -69,11 +76,12 @@ class AdminRegistration extends React.Component {
       if (this.state.info.length) return;
       const formData = new FormData(e.target);
       formData.set('avatar', this.state.image);
-      fetch('/api/admin/registration/', {
+      fetch('/api/apps/', {
         method: 'POST',
         body: formData,
         credentials: 'include',
       }).then((response) => {
+        console.log(response);
         if (response.redirected) return window.location.replace(response.url);
         return response.json();
       }).then((response) => {
@@ -97,17 +105,30 @@ class AdminRegistration extends React.Component {
       <div
         style={{ width: '500px', margin: '50px auto', textAlign: 'center' }}
       >
-        <h2>Admin registration</h2>
+        <h2>App registration</h2>
         <form
           onSubmit={this.sendForm}
           encType="multipart/form-data"
         >
+          <h3>App</h3>
           <TextField
             type={'text'}
-            name={'appId'}
+            name={'appName'}
             required
-            hintText={'App ID'}
+            hintText={'Name'}
+            onChange={e => this.formValuesSaver('appName', e.target)}
           /><br />
+          <TextField
+            type={'text'}
+            name={'appUrl'}
+            hintText={'URL (optional)'}
+          /><br />
+          <TextField
+            type={'text'}
+            name={'appDescription'}
+            hintText={'Description (optional)'}
+          /><br />
+          <h3>General admin</h3>
           <TextField
             type={'text'}
             name={'username'}

@@ -13,6 +13,7 @@ import UserInfoTable from './Table/Table';
 import * as statisticActions from '../../actions/statisticActions';
 import Login from './AdminAuthentication/AdminLogin';
 import Registration from './AdminAuthentication/AdminRegistration';
+import AppRegistration from './AdminAuthentication/AppRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 import Respond from './Respond/index';
 import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
@@ -24,6 +25,7 @@ import Engage from './Engage/Engage';
 import GeneralSettings from './Settings/GeneralSettings';
 import WidgetSettings from './Settings/WidgetSettings/WidgetSettings';
 import FAQ from './FAQ/FAQ';
+import AppList from './AppList/Apps';
 
 injectTapEventPlugin();
 
@@ -114,12 +116,14 @@ class AdminPage extends React.Component {
           <Switch>
             <Route path={'/admin/login'} component={Login} />
             <Route path={'/admin/registration'} component={Registration} />
+            <Route path={'/app/registration'} component={AppRegistration} />
             <Route render={() => {
               return (
                 <EnsureAdmin currentUser={this.state.currentUser}>
                   <LeftSideMenu
                     width={this.leftMenuWidth}
                     chosenTheme={this.state.chosenTheme}
+                    currentUser={this.props.currentUser}
                   />
                   <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: this.leftMenuWidth - 8 }}>
                     <Header
@@ -176,6 +180,15 @@ class AdminPage extends React.Component {
                         <Route path={'/admin/settings/general'} component={GeneralSettings} />
                         <Route path={'/admin/faq'} component={FAQ} />
                         <Route path={'/admin/settings/widget'} component={WidgetSettings} />
+                        <Route
+                          path={'/admin/apps'}
+                          render={() => (
+                            <AppList
+                              headerHeight={this.headerHeight}
+                              chosenTheme={this.state.chosenTheme}
+                            />
+                          )}
+                        />
                         <Route component={IncorrectRoute} />
                       </Switch>
                     </div>

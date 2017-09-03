@@ -1,5 +1,6 @@
 (function () {
   const userStatistics = {
+    appId: window._injectedData.currentAppId,
     userId: null,
     viewedUrls: null,
     currentUrl: location.href,
@@ -42,6 +43,7 @@
   function sendUser(id) {
     const userObject = {
       _id: id,
+      appId: window._injectedData.currentAppId,
     };
     const requestOptions = {
       headers: {

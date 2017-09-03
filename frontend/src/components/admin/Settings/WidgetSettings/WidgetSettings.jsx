@@ -27,7 +27,7 @@ class WidgetSettings extends React.Component {
   }
 
   getSettings() {
-    fetch('/api/widgets/localhost3000', { credentials: 'include', method: 'GET' })
+    fetch(`/api/widgets/${window._injectedData.appId}`, { credentials: 'include', method: 'GET' })
       .then((response) => {
         return response.json();
       })
@@ -40,10 +40,10 @@ class WidgetSettings extends React.Component {
   save() {
     this.setState({ info: 'Saving...' });
     const dataToSend = {
-      website: 'localhost3000',
+      appId: window._injectedData.appId,
       options: this.state.settings,
     };
-    fetch('/api/widgets/localhost3000', {
+    fetch(`/api/widgets/${window._injectedData.appId}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -111,7 +111,7 @@ class WidgetSettings extends React.Component {
             </Tab>
             <Tab label="Install the Messenger" value="install">
               <h2>Install the Messenger</h2>
-              <p>You’ll need to add a bit of code or configure an integration to see the 
+              <p>You’ll need to add a bit of code or configure an integration to see the
               Insight Messenger appear on your website or app.</p>
             </Tab>
           </Tabs>

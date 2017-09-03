@@ -24,8 +24,8 @@ conversationRepository.getConversationsByUserId = function (id) {
     }).exec();
 };
 
-conversationRepository.getAllConversations = function (callback) {
-  this.model.find({}).populate('participants.user').populate({
+conversationRepository.getAllConversations = function (appId, callback) {
+  this.model.find({ appId }).populate('participants.user').populate({
     path: 'messages',
     populate: { path: 'author.item' },
   }).exec(callback);

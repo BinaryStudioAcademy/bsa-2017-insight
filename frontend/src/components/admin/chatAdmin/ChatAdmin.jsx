@@ -64,10 +64,6 @@ class Chat extends Component {
     this.socket.close();
   }
 
-  setTextIntoInput(e) {
-    this.setState({ text: e.target.value });
-  }
-
   onFileInputChange() {
     if (this.fileInput.files.length === 1) {
       this.setState({ filesCounter: this.fileInput.files[0].name });
@@ -76,6 +72,10 @@ class Chat extends Component {
     } else {
       this.setState({ filesCounter: 'Select file' });
     }
+  }
+
+  setTextIntoInput(e) {
+    this.setState({ text: e.target.value });
   }
 
   setEmojiToInput(emojiName) {

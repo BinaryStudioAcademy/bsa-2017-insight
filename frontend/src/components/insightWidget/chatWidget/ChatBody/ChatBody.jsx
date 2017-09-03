@@ -118,7 +118,6 @@ class ChatBody extends Component {
   }
 
   render() {
-    console.log('FILES:', this.state.selectedFiles);
     const operator = this.props.operator;
     const avatar = operator && (operator.user.avatar === 'avatar.png' ?
       'https://www.materialist.com/static/new_store/images/avatar_placeholder.svg' :

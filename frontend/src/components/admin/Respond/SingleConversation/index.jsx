@@ -1,9 +1,10 @@
 import React from 'react';
-import { List, ListItem } from 'material-ui/List';
+import { ListItem } from 'material-ui/List';
 import propTypes from 'prop-types';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import EmojiRender from '../../../emojiRender';
+import styles from './styles.scss';
 
 const SingleConversation = (props) => {
   const messages = props.conversation.messages;
@@ -12,12 +13,14 @@ const SingleConversation = (props) => {
   const userName = author ? author.item.username : 'avatar.png';
   const userAvatar = author ? author.item.avatar : 'avatar.png';
 
-  return (<div>
-    <List>
+  return (
+    <div>
       {!messages.length ? <ListItem
+        className={styles['no-messages-conversation-item']}
         primaryText={'No messages in conversation'}
-        leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
       /> : <ListItem
+        style={{ padding: '0px' }}
+        className={styles['conversation-item']}
         onClick={() => {
           props.handler();
           props.setStatistic(props.conversation);
@@ -30,8 +33,7 @@ const SingleConversation = (props) => {
         secondaryTextLines={2}
       />}
       <Divider inset />
-    </List>
-  </div>);
+    </div>);
 };
 
 SingleConversation.propTypes = {

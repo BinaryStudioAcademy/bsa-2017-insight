@@ -53,7 +53,7 @@ class Header extends React.Component {
                     color: this.props.chosenTheme.palette.textColor,
                   }}
                   nestedItems={[
-                    <ListItem primaryText={'Log out'} innerDivStyle={{ padding: '7px' }} onClick={this.logout} />,
+                    <ListItem primaryText={'Log out'} key="log-out" innerDivStyle={{ padding: '7px' }} onClick={this.logout} />,
                   ]}
                 />
               </ToolbarGroup>

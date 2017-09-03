@@ -130,7 +130,7 @@ const mapDispatchToProps = (dispatch) => {
     getStatisticById: (id) => {
       dispatch(StatisticActions.getStatisticById(id));
     },
-    dispatch
+    dispatch,
   };
 };
 
@@ -141,7 +141,7 @@ Respond.propTypes = {
     _id: propTypes.string.isRequired,
     participants: propTypes.arrayOf(propTypes.shape({
       userType: propTypes.string,
-      user: propTypes.any
+      user: propTypes.any,
     })).isRequired,
     messages: propTypes.arrayOf(propTypes.any).isRequired,
     open: propTypes.bool,
@@ -167,8 +167,8 @@ Respond.propTypes = {
     userAgent: propTypes.string,
     timeZone: propTypes.string,
     signedUpDate: propTypes.any,
-    sessionsCounts: propTypes.number
-  })
+    sessionsCounts: propTypes.number,
+  }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Respond);

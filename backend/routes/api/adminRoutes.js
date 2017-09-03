@@ -117,9 +117,6 @@ module.exports = function (app) {
   });
 
   app.get('/api/admins/:id', (req, res) => {
-    console.log('--------');
-    console.log('req.user');
-    console.log(req.user);
     const id = req.params.id;
     adminRepository.findOneAndPopulate(id, (err, data) => {
       if (err) {

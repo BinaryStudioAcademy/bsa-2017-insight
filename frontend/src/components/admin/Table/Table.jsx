@@ -170,7 +170,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addSelection: (name, description, users) => {
       const filteredUsersIds = users.filter(user => user.userId.email).map(user => user.userId._id);
-      const body = JSON.stringify({ name, description, users: filteredUsersIds });
+      const body = JSON.stringify({ name, description, users: filteredUsersIds, appId: window._injectedData.appId });
       return dispatch(addSelection(body));
     },
   };

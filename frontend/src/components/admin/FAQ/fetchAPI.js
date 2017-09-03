@@ -39,9 +39,9 @@ function addFAQ(Body) {
   const url = 'http://localhost:3000/api/faq';
   const requestOptions = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(Body),
+    body: JSON.stringify(Object.assign(Body, { appId: window._injectedData.appId })),
     method: 'POST',
   };
   return fetch(url, requestOptions)

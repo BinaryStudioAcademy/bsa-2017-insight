@@ -3,6 +3,10 @@ const statisticsService = require('../../services/statisticsService');
 
 module.exports = (app) => {
   app.get('/api/statistics/', (req, res) => {
+    if (!req.user) {
+      res.status(204);
+      return;
+    }
     statisticsRepository.getAllAndPopulate(req.user.appId, (err, data) => {
       if (err) {
         console.log(err);

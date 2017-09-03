@@ -79,7 +79,7 @@ module.exports = (app) => {
         }
       });
     } else {
-      getFilteredUsers(req.query, (err, data) => {
+      getFilteredUsers(req.user.appId, req.query, (err, data) => {
         if (err) {
           console.log(err);
           res.sendStatus(400);

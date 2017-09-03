@@ -1,7 +1,7 @@
 const statisticsRepository = require('../repositories/statisticsRepository');
 
-function getFilteredUsers(conditions, callback) {
-  const query = {};
+function getFilteredUsers(appId, conditions, callback) {
+  const query = { appId };
   const userquery = [];
   Object.keys(conditions).forEach((condition) => {
     const value = conditions[condition];

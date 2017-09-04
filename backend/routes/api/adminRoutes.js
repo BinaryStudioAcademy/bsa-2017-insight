@@ -106,7 +106,7 @@ module.exports = function (app) {
   });
 
   app.get('/api/admins/', (req, res) => {
-    adminRepository.getAll((err, data) => {
+    adminRepository.getAllAdmins(req.user.appId, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);

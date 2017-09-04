@@ -33,6 +33,7 @@ class SelectionList extends React.Component {
           return (
             <ListItem
               primaryText={selection.name}
+              key={selection._id}
               onClick={() => {
                 this.props.getSingleSelection(selection._id);
               }}

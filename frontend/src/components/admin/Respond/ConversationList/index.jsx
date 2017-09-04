@@ -3,6 +3,12 @@ import propTypes from 'prop-types';
 import SingleConversation from '../SingleConversation';
 
 const ConversationList = (props) => {
+  if (props.conversations === null) {
+    return <h3 style={{ margin: '10px' }}>Loading...</h3>;
+  } else if (!props.conversations.length) {
+    return <h3 style={{ margin: '10px' }}>Conversations list is empty now</h3>;
+  }
+
   return (
     <div>
       {props.conversations.map((e) => {

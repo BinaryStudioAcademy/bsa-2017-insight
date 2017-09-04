@@ -18,11 +18,13 @@ class UserInfoTable extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
+    this.updateFields = this.updateFields.bind(this);
+
     this.state = {
       open: false,
       selDialogOpen: false,
       rowsPerPage: 5,
-      currentPage: 1,
+      currentPage: 1
     };
   }
 
@@ -32,6 +34,7 @@ class UserInfoTable extends React.Component {
 
   handleClose() {
     this.setState({ open: false });
+    this.props.updateFields(this.state.fieldsToUpdate);
   }
 
   handleChangeRowsPerPage(event, index, value) {
@@ -56,6 +59,9 @@ class UserInfoTable extends React.Component {
     this.setState({ selDialogOpen: !this.state.selDialogOpen });
   }
 
+  updateFields(fields) {
+    this.setState({ fieldsToUpdate: fields });
+  }
 
   render() {
     const actions = [
@@ -85,7 +91,7 @@ class UserInfoTable extends React.Component {
               <Filter
                 selectedFields={this.props.selectedFields}
                 statisticOptions={this.props.statisticOptions}
-                updateFields={this.props.updateFields}
+                updateFields={this.updateFields}
               />
             </Dialog>
             <RaisedButton

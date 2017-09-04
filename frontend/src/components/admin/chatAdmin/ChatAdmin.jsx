@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import styles from './styles.scss';
 import MessagesList from './MessagesList/MessagesList';
 import { startSocketConnection } from './logic';
-import notifications from '../../notifications/notifications';
+// import notifications from '../../notifications/notifications';
 import EmojiContainer from '../../emojiRender/EmojiContainer';
 
 class Chat extends Component {
@@ -44,19 +44,19 @@ class Chat extends Component {
       this.socket.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
     }
     // Notifications
-    const messageNumProps = nextProps.conversationToRender.messages.length;
-    if (this.state.messageNum === 0) {
-      this.setState({ messageNum: messageNumProps });
-    } else if (this.state.messageNum !== messageNumProps) {
-      const newMessage = nextProps.conversationToRender.messages[messageNumProps - 1];
-      const currentUser = window._injectedData.userId ?
-        window._injectedData.userId.username : window._injectedData.username;
-      this.setState({ messageNum: messageNumProps });
-      if (newMessage.author.item.username !== currentUser) {
-        notifications.api(newMessage);
-        notifications.title();
-      }
-    }
+    // const messageNumProps = nextProps.conversationToRender.messages.length;
+    // if (this.state.messageNum === 0) {
+    //   this.setState({ messageNum: messageNumProps });
+    // } else if (this.state.messageNum !== messageNumProps) {
+    //   const newMessage = nextProps.conversationToRender.messages[messageNumProps - 1];
+    //   const currentUser = window._injectedData.userId ?
+    //     window._injectedData.userId.username : window._injectedData.username;
+    //   this.setState({ messageNum: messageNumProps });
+    //   if (newMessage.author.item.username !== currentUser) {
+    //     notifications.api(newMessage);
+    //     notifications.title();
+    //   }
+    // }
   }
 
   componentWillUnmount() {
@@ -117,7 +117,7 @@ class Chat extends Component {
         isReceived: false,
       };
       this.socket.emit('newMessage', messageObj);
-      notifications.email(messageObj);
+      // notifications.email(messageObj);
     } else if (files.length > 0 && message === '') {
       files.forEach((file) => {
         const formData = new FormData();
@@ -246,13 +246,19 @@ Chat.propTypes = {
     _id: propTypes.string.isRequired,
     participants: propTypes.arrayOf(propTypes.shape({
       userType: propTypes.string,
-      user: propTypes.any
+      user: propTypes.any,
     })).isRequired,
     messages: propTypes.arrayOf(propTypes.any).isRequired,
     open: propTypes.bool,
-    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string])
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
   }),
-  dispatch: propTypes.func
+  dispatch: propTypes.func,
+  chosenTheme: propTypes.shape({
+    borderRadius: propTypes.number,
+    fontFamily: propTypes.string,
+    pallete: propTypes.object,
+    spacing: propTypes.object,
+  }),
 };
 
 export default Chat;

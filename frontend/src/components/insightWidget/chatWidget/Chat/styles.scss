@@ -1,7 +1,7 @@
 @import '../../../../common/styles/variables';
 
 :local(.chat) {
-  @media (min-width: 1024px) {
+  @media (min-width: 1000px) {
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -16,7 +16,7 @@
   }
 
   @media (min-width: 1400px) {
-    width: 25%;
+    width: 30%;
   }
 }
 

@@ -111,7 +111,7 @@ class WidgetSettings extends React.Component {
             </Tab>
             <Tab label="Install the Messenger" value="install">
               <h2>Install the Messenger</h2>
-              <p>You’ll need to add a bit of code or configure an integration to see the 
+              <p>You’ll need to add a bit of code or configure an integration to see the
               Insight Messenger appear on your website or app.</p>
             </Tab>
           </Tabs>

@@ -1,7 +1,13 @@
 :local(.filter-wrapper) {
-  width: 19%;
-  box-sizing: border-box;
-  float: left;
+  @media (min-width: 1000px) {
+    width: 23%;
+    box-sizing: border-box;
+    float: left;
+  }
+
+  @media (min-width: 1400px) {
+    width: 19%;
+  }
 }
 
 :local(.filter-title) {

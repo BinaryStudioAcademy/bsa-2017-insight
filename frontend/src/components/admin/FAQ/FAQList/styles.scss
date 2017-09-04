@@ -9,9 +9,19 @@
   display: inline-block;
 }
 
+:local(.search-input) {
+  @media (min-width: 1000px) {
+    width: 90% !important;
+  }
+}
+
+:local(.ListItem-highlight-) {
+
+}
+
 :local(.ListItem-highlight-false) {
   p{
-    margin: 0px !important;
+    margin: 0 !important;
     padding: 25px 15px !important;
   }
 }
@@ -21,7 +31,7 @@
   background-color: #bcbcbc !important;
 
   p{
-    margin: 0px !important;
+    margin: 0 !important;
     padding: 25px 15px !important;
   }
 }

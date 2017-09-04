@@ -63,10 +63,19 @@ class Chat extends Component {
     this.socket.emit('switchRoom', '');
   }
 
+  onFileInputChange() {
+    if (this.fileInput.files.length === 1) {
+      this.setState({ filesCounter: this.fileInput.files[0].name });
+    } else if (this.fileInput.files.length > 1) {
+      this.setState({ filesCounter: `Selected files: ${this.fileInput.files.length}` });
+    } else {
+      this.setState({ filesCounter: 'Select file' });
+    }
+  }
+
   setTextIntoInput(e) {
     this.setState({ text: e.target.value });
   }
-
   setEmojiToInput(emojiName) {
     const startSelIndex = this.state.selectionStart;
     const endSelIndex = this.state.selectionEnd;
@@ -87,16 +96,6 @@ class Chat extends Component {
 
   blurFromInput(e) {
     this.setState({ input: e.target, selectionStart: e.target.selectionStart, selectionEnd: e.target.selectionEnd });
-  }
-
-  onFileInputChange() {
-    if (this.fileInput.files.length === 1) {
-      this.setState({ filesCounter: this.fileInput.files[0].name });
-    } else if (this.fileInput.files.length > 1) {
-      this.setState({ filesCounter: `Selected files: ${this.fileInput.files.length}` });
-    } else {
-      this.setState({ filesCounter: 'Select file' });
-    }
   }
 
   handleMessageSubmit(event, text) {
@@ -245,13 +244,13 @@ Chat.propTypes = {
     _id: propTypes.string.isRequired,
     participants: propTypes.arrayOf(propTypes.shape({
       userType: propTypes.string,
-      user: propTypes.any
+      user: propTypes.any,
     })).isRequired,
     messages: propTypes.arrayOf(propTypes.any).isRequired,
     open: propTypes.bool,
-    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string])
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
   }),
-  dispatch: propTypes.func
+  dispatch: propTypes.func,
 };
 
 export default Chat;

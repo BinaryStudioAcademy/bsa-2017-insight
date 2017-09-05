@@ -4,9 +4,11 @@
 }
 
 :local(.small-conversation-list) {
-  // display: flex;
-  // width: 100%;
-  // background: yellow;
+   span > div > div > div {
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+   }
 }
 
 :local(.conversations) {

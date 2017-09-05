@@ -12,17 +12,18 @@
   font-family: 'Ubuntu', sans-serif;
   left: 0;
   top: 0;
+
   @media (min-width: 1000px) {
     height: 50%;
+    min-height: 470px;
     border-radius: 10px;
-    padding-bottom: 85px;
     width: 40%;
     top: auto;
     left: auto;
   }
 
-  @media (min-width: 1400px) {
-    width: 30%;
+  @media (min-width: 1500px) {
+    width: 25%;
   }
 }
 

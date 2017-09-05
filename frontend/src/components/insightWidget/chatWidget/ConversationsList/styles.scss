@@ -3,12 +3,13 @@
 :local(.container) {
   width: 100%;
   display: flex;
+  padding-bottom: 85px;
   align-items: center;
   flex-direction: column;
 }
 
 :local(.title-wrapper) {
-  height: 80px;
+  min-height: 80px;
   box-sizing: border-box;
   width: 100%;
   padding: 20px;
@@ -47,11 +48,15 @@
 }
 
 :local(.conversations-list) {
+  box-sizing: border-box;
   overflow: auto;
   list-style: none;
   padding: 0;
   margin: 0;
   width: 100%;
+  @media (min-width: 1000px) {
+    height: 305px;
+  }
 }
 
 :local(.conversation-item) {
@@ -98,8 +103,13 @@
   color: #707070;
   font-weight: normal;
   position: absolute;
-  top: 30px;
-  right: 30px;
+  top: 45px;
+  right: 47px;
+
+  @media (min-width: 1000px) {
+    top: 25px;
+    right: 30px;
+  }
 }
 
 :local(.create-conversation-button) {

@@ -12,9 +12,6 @@
   width: 100%;
   display: flex;
   flex-shrink: 0;
-  * {
-    margin: 0 3px;
-  }
 }
 
 :local(.message-input) {
@@ -39,11 +36,17 @@
 }
 
 :local(.emoji-block-icon){
-  font-size: 20px;
+  display: block;
+  margin-top: -4px;
+  height: 40px;
+  font-size: 40px;
+  line-height: 40px;
   font-style: normal;
   font-weight: 400;
   &:after{
-    content: "☺️"
+    font-size: 40px;
+    line-height: 40px;
+    content: "☺️";
   }
 }
 
@@ -58,7 +61,6 @@
 }
 
 :local(.file-input) {
-  cursor: pointer;
   position: absolute;
   top: 0;
   bottom: 0;

@@ -1,5 +1,5 @@
 const options = {
-  email: true,
+  email: false,
   api: true,
   title: true,
 };

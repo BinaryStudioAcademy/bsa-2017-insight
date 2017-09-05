@@ -1,5 +1,5 @@
 const initialState = {
-  conversations: [],
+  conversations: null,
   conversationToRenderId: null
 };
 

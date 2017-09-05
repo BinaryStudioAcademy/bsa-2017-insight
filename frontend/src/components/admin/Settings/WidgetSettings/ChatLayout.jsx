@@ -11,7 +11,7 @@ export default class ChatLayout extends React.Component {
   render() {
     const user = window._injectedData;
     return (
-      <div className={'chat-wrapper'}>
+      <div className={'chat-display-wrapper'}>
         <div className={'chat-header'} style={{ backgroundColor: this.props.settings.primaryColor }}>
           <IconButton style={{ marginRight: '10px' }}>
             <FontIcon className={'material-icons'} color={'#fff'}>arrow_back</FontIcon>

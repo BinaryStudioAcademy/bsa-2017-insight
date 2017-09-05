@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import { deleteSelection, getAllSelections } from '../../../../../actions/selectionActions';
+import styles from './styles.scss';
 // import Table from '../../../Table/TableItself';
 
 class Selection extends React.Component {
@@ -54,14 +55,17 @@ class Selection extends React.Component {
             </CardText>
             <CardActions>
               <RaisedButton
+                className={styles['selection-button']}
                 label="User list"
                 onClick={() => alert('Click')}
               />
               <RaisedButton
+                className={styles['selection-button']}
                 label="Apply mailing"
                 onClick={() => alert('Click')}
               />
               <RaisedButton
+                className={styles['selection-button']}
                 label="Delete selection"
                 onClick={() => {
                   this.props.deleteSelection(this.props.chosenSelection._id);

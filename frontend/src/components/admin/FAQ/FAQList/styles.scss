@@ -1,12 +1,16 @@
 :local(.FAQ-list) {
   margin: 10px 0 15px;
-  width: 20%;
+  width: 30%;
   height: 100vh;
   overflow: auto;
   list-style: none;
   padding: 20px;
   box-sizing: border-box;
   display: inline-block;
+
+  @media (min-width: 1000px) {
+    width: 20%;
+  }
 }
 
 :local(.search-input) {

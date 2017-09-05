@@ -1,14 +1,22 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-.chat-wrapper {
+.chat-display-wrapper {
   transform: scale(.77);
-  margin-top: -60px;
   cursor: default;
-  width: 370px;
-  height: 578px;
+  max-width: 500px;
+  max-height: 578px;
+  margin-top: -30px;
   border-radius: 10px;
   box-shadow: 0 2px 32px 0 rgba(0, 0, 0, .14), 0 1px 6px 0 rgba(0, 0, 0, .06);
   overflow: hidden;
+
+  @media (min-width: 900px) {
+    margin-top: -100px;
+  }
+
+  @media (min-width: 1859px) {
+    margin-top: -100px;
+  }
 
   .chat-header {
     position: relative;
@@ -43,7 +51,90 @@
   }
 }
 
+:local(.navigation-tabs-wrapper) {
+  width: 95%;
+  margin-top: 20px;
+
+  @media (min-width: 900px) {
+    width: 75%;
+  }
+
+  @media (min-width: 1100px) {
+    width: 65%;
+  }
+
+  @media (min-width: 1400px) {
+    width: 45%;
+  }
+}
+
+:local(.settings-content-wrapper) {
+  display: flex;
+  justify-content: center;
+}
+
+:local(.settings-wrapper) {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  & > div:first-child {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  @media (min-width: 1400px) {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+}
+
+:local(.chat-settings) {
+}
+
+:local(.customize-title) {
+  text-align: center;
+}
+
+:local(.customize-text) {
+  box-sizing: border-box;
+  height: 60px;
+  margin-bottom: 0;
+}
+
+:local(.wallpapers-title) {
+  text-align: center;
+}
+
+:local(.force-content-wrapper) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 35px;
+  padding-top: 35px;
+
+  @media (min-width: 900px) {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+}
+
+:local(.force-message-form) {
+  margin-left: 30px;
+  margin-top: -35px;
+}
+
 .wallpapers {
+  min-width: 352px;
 
   .wallpaper {
     cursor: pointer;
@@ -59,5 +150,6 @@
 }
 
 :local(.question-button) {
-  margin-top: 15px;
+  display: block !important;
+  margin: 15px auto 0;
 }

@@ -1,5 +1,6 @@
 :local(.message-item) {
   max-width: 40%;
+  width: auto;
   border-radius: 18px;
   padding: 20px 20px 15px;
   word-wrap: break-word;
@@ -39,8 +40,9 @@
 }
 
 :local(.user-name) {
+  display: block;
+  word-wrap: normal;
   color: #A5A5A5;
   font-size: 14px;
   margin-top: 7px;
-  display: block;
 }

@@ -62,7 +62,7 @@ class ConversationsList extends Component {
           className={styles['create-conversation-button']}
           onClick={this.props.onCreateConversationButtonClick}
         >
-          New Conversation
+          <span>New Conversation</span>
         </button>
       </div>
     );

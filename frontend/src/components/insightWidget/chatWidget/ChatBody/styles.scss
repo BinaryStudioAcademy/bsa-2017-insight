@@ -11,14 +11,17 @@
   box-sizing: border-box;
   padding: 20px 15px;
   height: 80px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
   display: flex;
   text-align: center;
   justify-content: center;
   position: relative;
   z-index: 1000;
-  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
+
+  @media (min-width: 1000px) {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
 }
 
 :local(.return-button) {
@@ -113,27 +116,27 @@
   }
 }
 
-:local(.main_emo-menu){
+:local(.main_emo-menu) {
   position: absolute;
   padding-top: 10px;
   outline: none;
   right: 85px;
   height: 30px;
   line-height: 40px;
-  background:none;
-  border:none;
+  background: none;
+  border: none;
 
   &:hover {
     cursor: pointer;
   }
 }
 
-:local(.emoji-block-icon){
+:local(.emoji-block-icon) {
   font-size: 30px;
   line-height: 30px;
   font-style: normal;
   font-weight: 400;
-  &:after{
+  &:after {
     content: "☺️"
   }
 }
@@ -142,8 +145,8 @@
   position: absolute;
   bottom: 75px;
   right: 0;
-  border:none;
-  &:focus{
+  border: none;
+  &:focus {
     border: none;
   }
 }

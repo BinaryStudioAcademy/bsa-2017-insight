@@ -110,6 +110,18 @@ function connectionHandler(socket) {
         });
     }
   });
+
+  socket.on('introduced', (data) => {
+    UserRepository.update(data.id, data.body, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        const dataToSendBack = { id: data.id, body: data.body };
+        socket.emit('introducedd', dataToSendBack);
+        socket.broadcast.emit('introducedd', dataToSendBack);
+      }
+    });
+  });
 }
 
 module.exports = connectionHandler;

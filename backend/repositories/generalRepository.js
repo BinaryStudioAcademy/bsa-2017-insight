@@ -42,9 +42,9 @@ Repository.prototype.getByUsername = function (username, callback) {
   query.exec(callback);
 };
 
-Repository.prototype.getByEmail = function (email, callback) {
+Repository.prototype.getByEmail = function (email, callback, isIntroduced = false) {
   const model = this.model;
-  const query = model.findOne({ email });
+  const query = model.findOne({ email, isIntroduced });
   query.exec(callback);
 };
 

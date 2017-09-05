@@ -14,7 +14,7 @@ const MessagesList = (props) => {
           <Message
             key={message._id}
             body={message.body}
-            name={message.author.item.username}
+            name={message.author.item.firstName || message.author.item.username}
             type={message.author.userType}
             isReceived={message.isReceived}
           />

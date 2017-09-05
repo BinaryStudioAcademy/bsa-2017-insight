@@ -152,6 +152,7 @@ class Chat extends Component {
         />}
         {this.state.activeChatId &&
         <ChatBody
+          socket={this.socket}
           widgetStyles={this.props.widgetStyles}
           operator={operator}
           messages={messages}

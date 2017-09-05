@@ -1,5 +1,5 @@
 (function () {
-  const userStatistics = {
+ const userStatistics = {
     userId: null,
     viewedUrls: null,
     currentUrl: location.href,

@@ -9,7 +9,7 @@ const SingleConversation = (props) => {
   const messages = props.conversation.messages;
   const author = !!messages.length && messages[messages.length - 1].author ?
     messages[messages.length - 1].author : null;
-  const userName = author ? author.item.username : 'avatar.png';
+  const userName = author ? (author.item.firstName || author.item.username) : null;
   const userAvatar = author ? author.item.avatar : 'avatar.png';
 
   return (<div>

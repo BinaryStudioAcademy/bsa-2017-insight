@@ -12,6 +12,18 @@ function findItemById(id, arrOfObjects) {
   };
 }
 
+const isIntroduced = {
+  add(variable) {
+    this.invoke = () => {
+      return variable;
+    };
+  },
+  skip() {
+    this.skipped = true;
+  },
+  skipped: false,
+};
+
 function getForceMessage(conversation) {
   const forceMessage = {
     _id: (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24),
@@ -121,9 +133,13 @@ function startSocketConnection(socket) {
       activeChatId: conversation._id,
     });
   });
+  this.socket.on('introducedd', (data) => {
+    isIntroduced.add(data.body.isIntroduced);
+  });
 }
 
 export {
   findItemById,
   startSocketConnection,
+  isIntroduced,
 };

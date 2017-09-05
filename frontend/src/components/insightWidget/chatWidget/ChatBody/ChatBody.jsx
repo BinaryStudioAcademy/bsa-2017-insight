@@ -5,6 +5,7 @@ import styles from './styles.scss';
 import notifications from '../../../notifications/notifications';
 import EmojiContainer from '../../../emojiRender/EmojiContainer';
 
+
 class ChatBody extends Component {
   constructor(props) {
     super(props);
@@ -135,7 +136,12 @@ class ChatBody extends Component {
             <div className={styles['operator-name']}>{operatorName}</div>
           </div>
         }
-        <MessagesList messages={this.props.messages} widgetStyles={this.props.widgetStyles} />
+        <MessagesList 
+          socket={this.props.socket}
+          messages={this.props.messages}
+          isIntroduced={this.props.isIntroduced}
+          widgetStyles={this.props.widgetStyles} 
+        />
         <form
           className={styles['sending-form']}
           onSubmit={(event) => {

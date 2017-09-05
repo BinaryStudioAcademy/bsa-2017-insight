@@ -78,6 +78,9 @@
 :local(.admin-message) {
   justify-content: flex-end;
   padding-right: 20px;
+   &:first-of-type{
+    padding-top: 15px;
+  }
 
   :local(.message-body-text) {
     background-color: #e6e9eb !important;
@@ -99,6 +102,9 @@
 
 :local(.user-message) {
   padding-left: 20px;
+  &:first-of-type{
+    padding-top: 15px;
+  }
 
   :local(.message-body-text) {
     color: #ffffff;

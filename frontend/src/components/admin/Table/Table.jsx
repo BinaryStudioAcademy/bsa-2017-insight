@@ -101,7 +101,9 @@ class UserInfoTable extends React.Component {
               contentStyle={{ textAlign: 'center', margin: '0 auto' }}
               bodyStyle={{ overflowX: 'hidden', textAlign: 'center' }}
             >
+              <span>Warning: Selection will only include users with email avaible</span>
               <form
+                style={{ margin: '20px 0 0' }}
                 onSubmit={(e) => {
                   e.preventDefault();
                   const name = document.getElementById('selection-name').value;

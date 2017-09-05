@@ -25,10 +25,12 @@ document.documentElement.appendChild(document.createElement('div')).id = 'insigh
 
 render(
   <BrowserRouter>
-    <Switch>
-      <Route path={'/admin'} />
-      <Route component={ChatWidget} />
-    </Switch>
+    { !window._injectedData.isAdmin ?
+      <Switch>
+        <Route path={'/admin'} />
+        <Route component={ChatWidget} />
+      </Switch> : <div />
+    }
   </BrowserRouter>,
   document.getElementById('insight-widget'),
 );

@@ -41,10 +41,13 @@
   }
 
   function sendUser(id) {
-    const userObject = {
+    let userObject = {
       _id: id,
       appId: window._injectedData.currentAppId,
     };
+    if (typeof window._injectedData.userId === 'object') {
+      userObject = Object.assign(userObject, window._injectedData.userId);
+    }
     const requestOptions = {
       headers: {
         'Content-Type': 'application/json',

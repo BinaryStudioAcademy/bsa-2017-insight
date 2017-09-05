@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 function createConversationAndUpdateUser(conversation, userId, socket) {
   ConversationRepository.model.create(conversation).then((conversationData) => {
-    const update = { $push: { conversations: conversationData._id } };
+    const update = { $push: { conversations: conversationData._id }, $unset: { anonymousCreatedAt: true } };
     socket.emit('newConversationCreated', conversationData);
     socket.room = conversationData._id.toString();
     socket.join(conversationData._id.toString());

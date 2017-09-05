@@ -15,8 +15,10 @@ class SingleApp extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.chosenApp !== this.state.chosenApp) {
+      // this.props.getSingleApp(nextProps.chosenApp);
       this.setState({ chosenApp: nextProps.chosenApp });
     }
+    console.log(this.props.chosenApp);
   }
 
   render() {
@@ -40,9 +42,6 @@ class SingleApp extends React.Component {
               titleStyle={{ fontSize: 20 }}
               subtitle={this.props.chosenApp.url}
             />
-            {/* <CardText>
-              {this.props.chosenApp.description}
-            </CardText> */}
             { this.props.chosenApp.generalAdmin &&
               <CardHeader
                 title={this.props.chosenApp.generalAdmin.firstName + ' '
@@ -54,11 +53,12 @@ class SingleApp extends React.Component {
             }
             <CardActions>
               <Toggle
-                label={`${this.props.chosenApp.isActive ? 'Disable' : 'Enable'} this app`}
+                label={`App is ${this.props.chosenApp.isActive ? 'working' : 'disabled'}`}
                 style={{ width: 200 }}
                 toggled={this.props.chosenApp.isActive}
                 onClick={() => {
                   this.props.toggleApp(this.props.chosenApp._id);
+                  this.setState({ chosenApp: this.props.chosenApp });
                 }}
               />
             </CardActions>

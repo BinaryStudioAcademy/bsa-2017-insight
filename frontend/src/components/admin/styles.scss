@@ -1,17 +1,28 @@
 :local(.admin-page) {
-    *::-webkit-scrollbar,
-    &::-webkit-scrollbar {
-        width: .3em;
-        height: .3em;
-    }
+  *::-webkit-scrollbar,
+  &::-webkit-scrollbar {
+    width: .3em;
+    height: .3em;
+  }
 
-    *::-webkit-scrollbar-track,
-    &::-webkit-scrollbar-track {
-        background: transparent;
-    }
+  *::-webkit-scrollbar-track,
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-    *::-webkit-scrollbar-thumb,
-    &::-webkit-scrollbar-thumb {
-        background-color: darkgrey;
-    }
+  *::-webkit-scrollbar-thumb,
+  &::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+  }
+}
+
+:local(.statistics-content-wrapper) {
+  box-sizing: border-box;
+  padding: 0 10px;
+  width: 100%;
+  margin-top: 10px;
+
+  @media (min-width: 1000px) {
+    padding: 0;
+  }
 }

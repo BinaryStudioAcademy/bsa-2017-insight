@@ -86,6 +86,7 @@
 }
 
 :local(.author-name) {
+  position: relative;
   color: #707070;
   font-weight: normal;
   margin-bottom: 10px;
@@ -103,13 +104,8 @@
   color: #707070;
   font-weight: normal;
   position: absolute;
-  top: 45px;
-  right: 47px;
-
-  @media (min-width: 1000px) {
-    top: 25px;
-    right: 30px;
-  }
+  top: 0;
+  right: 0;
 }
 
 :local(.create-conversation-button) {

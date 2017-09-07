@@ -12,7 +12,7 @@ const SingleConversation = (props) => {
     messages[messages.length - 1].author : null;
   const userName = author ? author.item.username : 'avatar.png';
   const userAvatar = author ? author.item.avatar : 'avatar.png';
-
+  const active = props.active ? 'conversation-item-active' : '';
   return (
     <div>
       {!messages.length ? <ListItem
@@ -20,7 +20,7 @@ const SingleConversation = (props) => {
         primaryText={'No messages in conversation'}
       /> : <ListItem
         style={{ padding: '0px' }}
-        className={styles['conversation-item']}
+        className={`${styles['conversation-item']} ${styles[active]}`}
         onClick={() => {
           props.handler();
           props.setStatistic(props.conversation);
@@ -42,12 +42,13 @@ SingleConversation.propTypes = {
     _id: propTypes.string.isRequired,
     participants: propTypes.arrayOf(propTypes.shape({
       userType: propTypes.string,
-      user: propTypes.any
+      user: propTypes.any,
     })).isRequired,
     messages: propTypes.arrayOf(propTypes.any).isRequired,
     open: propTypes.bool,
-    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string])
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
   }),
-  handler: propTypes.func
+  handler: propTypes.func,
+  active: propTypes.bool,
 };
 export default SingleConversation;

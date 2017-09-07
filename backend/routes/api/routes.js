@@ -11,6 +11,7 @@ const settingsRoutes = require('./settingsRoutes');
 const selectionRoutes = require('./selectionRoutes');
 const faqRoutes = require('./faqRoutes');
 const appRoutes = require('./appRoutes');
+const mailchimpRoutes = require('./mailchimpRoutes');
 
 
 module.exports = app => ({
@@ -27,4 +28,5 @@ module.exports = app => ({
   selectionRoutes: selectionRoutes(app),
   faqRoutes: faqRoutes(app),
   appRoutes: appRoutes(app),
+  mailchimpRoutes: mailchimpRoutes(app),
 });

@@ -113,7 +113,6 @@ class UserInfoTable extends React.Component {
                 onSubmit={(e) => {
                   e.preventDefault();
                   const name = document.getElementById('selection-name').value;
-                  const description = document.getElementById('selection-description').value;
                   this.props.addSelection(name, description, this.props.statistics);
                   this.toggleSelectionDialog(this.state.selDialogOpen);
                 }}
@@ -122,11 +121,6 @@ class UserInfoTable extends React.Component {
                   hintText="Name"
                   required
                   id="selection-name"
-                /><br />
-                <TextField
-                  hintText="Description (optional)"
-                  id="selection-description"
-                  style={{ marginBottom: 30 }}
                 /><br />
                 <FlatButton
                   label="Cancel"

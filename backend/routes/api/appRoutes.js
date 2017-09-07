@@ -1,6 +1,7 @@
 // const passport = require('passport');
 const adminRepository = require('../../repositories/adminRepository');
 const appRepository = require('../../repositories/appRepository');
+const mailchimpSettingsRepository = require('../../repositories/mailchimpSettingsRepository');
 const multer = require('multer');
 const mime = require('mime');
 
@@ -50,7 +51,10 @@ module.exports = function (app) {
           if (appErr) return next(appErr);
           adminRepository.update(admin2Data._id, { $set: { appId: createdAppData._id } }, (admin3Err, admin3Data) => {
             if (admin3Err) return next(admin3Err);
-            res.redirect('/admin/login');
+            mailchimpSettingsRepository.add({ appId: createdAppData._id }, (mailchimpErr, mailchimpData) => {
+              if (mailchimpErr) return next(mailchimpErr);
+              res.redirect('/admin/login');
+            });
           });
         });
       });

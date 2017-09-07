@@ -38,14 +38,14 @@ class Selection extends React.Component {
           >
             <CardHeader
               title={this.props.chosenSelection.name}
-              subtitle={`${this.props.chosenSelection.users.length} users, ${this.props.chosenSelection.mailings.length} mailings`}
+              subtitle={`${this.props.chosenSelection.stats.member_count} users, ${this.props.chosenSelection.stats.campaign_count} mailings`}
             />
-            <CardText>
+            {/* <CardText>
               {this.props.chosenSelection.description}
-            </CardText>
-            <CardText>
+            </CardText> */}
+            {/* <CardText>
               {this.props.chosenSelection.mailings}
-            </CardText>
+            </CardText> */}
             <CardText expandable>
               {/* <Table
                 options={this.props.fieldsToDisplay}
@@ -64,7 +64,7 @@ class Selection extends React.Component {
               <RaisedButton
                 label="Delete selection"
                 onClick={() => {
-                  this.props.deleteSelection(this.props.chosenSelection._id);
+                  this.props.deleteSelection(this.props.chosenSelection.id);
                   this.setState({ chosenSelection: null });
                   this.props.getSelectionList();
                 }}

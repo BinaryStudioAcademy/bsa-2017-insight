@@ -69,6 +69,9 @@ class PopoverSettings extends React.Component {
            <NavLink to={'/admin/settings/widget'}>
              <MenuItem onClick={this.handleRequestClose} primaryText="Widget" />
            </NavLink>
+           <NavLink to={'/admin/settings/mailchimp'}>
+             <MenuItem onClick={this.handleRequestClose} primaryText="MailChimp" />
+           </NavLink>
          </Menu>
        </Popover>
      </div>

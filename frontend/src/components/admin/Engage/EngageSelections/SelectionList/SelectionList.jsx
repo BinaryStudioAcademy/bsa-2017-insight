@@ -15,9 +15,9 @@ class SelectionList extends React.Component {
     this.props.getSelectionList();
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(nextProps);
-  // }
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+  }
 
   render() {
     return (
@@ -33,9 +33,9 @@ class SelectionList extends React.Component {
           return (
             <ListItem
               primaryText={selection.name}
-              key={selection._id}
+              key={selection.id}
               onClick={() => {
-                this.props.getSingleSelection(selection._id);
+                this.props.getSingleSelection(selection.id);
               }}
             />
           );

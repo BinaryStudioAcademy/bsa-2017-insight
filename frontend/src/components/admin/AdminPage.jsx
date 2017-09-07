@@ -24,6 +24,7 @@ import styles from './styles.scss';
 import Engage from './Engage/Engage';
 import GeneralSettings from './Settings/GeneralSettings';
 import WidgetSettings from './Settings/WidgetSettings/WidgetSettings';
+import MailChimpSettings from './Settings/MailChimpSettings/MailChimpSettings';
 import FAQ from './FAQ/FAQ';
 import AppList from './AppList/Apps';
 
@@ -177,9 +178,10 @@ class AdminPage extends React.Component {
                             />
                           )}
                         />
-                        <Route path={'/admin/settings/general'} component={GeneralSettings} />
                         <Route path={'/admin/faq'} component={FAQ} />
+                        <Route path={'/admin/settings/general'} component={GeneralSettings} />
                         <Route path={'/admin/settings/widget'} component={WidgetSettings} />
+                        <Route path={'/admin/settings/mailchimp'} component={MailChimpSettings} />
                         <Route
                           path={'/admin/apps'}
                           render={() => (

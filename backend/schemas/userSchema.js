@@ -24,6 +24,7 @@ const userSchema = new Schema({
   anonymousCreatedAt: {
     type: Date,
   },
+  appId: { type: Schema.Types.ObjectId, required: false }, // CHANGE TO "TRUE" LATER
 });
 
 userSchema.methods.checkPassword = function (plainPassword, callback) {

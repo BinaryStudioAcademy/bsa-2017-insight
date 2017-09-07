@@ -3,26 +3,39 @@ import propTypes from 'prop-types';
 import Message from './../Message/Message';
 import styles from './styles.scss';
 
-const MessagesList = (props) => {
-  return (
-    <ul
-      className={styles['messages-list']}
-      style={{ backgroundColor: props.chosenTheme.palette.canvasColor }}
-    >
-      {props.messages && props.messages.map((message) => {
-        return (
-          <Message
-            key={message._id}
-            body={message.body}
-            name={message.author.item.firstName || message.author.item.username}
-            type={message.author.userType}
-            isReceived={message.isReceived}
-          />
-        );
-      })}
-    </ul>
-  );
-};
+class MessagesList extends React.Component {
+  componentDidMount() {
+    if (this.list) this.list.scrollTop = this.list.scrollHeight - this.list.clientHeight;
+  }
+
+  componentDidUpdate() {
+    if (this.list) this.list.scrollTop = this.list.scrollHeight - this.list.clientHeight;
+  }
+
+  render() {
+    return (
+      <ul
+        ref={(node) => {
+          this.list = node;
+        }}
+        className={styles['messages-list']}
+        style={{ backgroundColor: this.props.chosenTheme.palette.canvasColor }}
+      >
+        {this.props.messages && this.props.messages.map((message) => {
+          return (
+            <Message
+              key={message._id}
+              body={message.body}
+              name={message.author.item.firstName || message.author.item.username}
+              type={message.author.userType}
+              isReceived={message.isReceived}
+            />
+          );
+        })}
+      </ul>
+    );
+  }
+}
 
 MessagesList.propTypes = {
   messages: propTypes.arrayOf(propTypes.shape({
@@ -35,11 +48,17 @@ MessagesList.propTypes = {
     })]).isRequired,
     author: propTypes.shape({
       item: propTypes.any.isRequired,
-      userType: propTypes.string.isRequired
+      userType: propTypes.string.isRequired,
     }).isRequired,
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]).isRequired,
-    editedAt: propTypes.oneOfType([propTypes.number, propTypes.string])
-  }))
+    editedAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
+  })),
+  chosenTheme: propTypes.shape({
+    borderRadius: propTypes.number,
+    fontFamily: propTypes.string,
+    palette: propTypes.object,
+    spacing: propTypes.object,
+  }),
 };
 
 export default MessagesList;

@@ -35,7 +35,7 @@ function startSocketConnection(dispatch, messages, conversationId) {
   this.socket.on('unreadNewMessage', (message) => {
     dispatch(fetchMessage(message));
   });
-  this.socket.on('introducedd', (data) => {
+  this.socket.on('introduced', (data) => {
     dispatch(getAllConversations());
     dispatch(getStatisticById(data.id));
   });

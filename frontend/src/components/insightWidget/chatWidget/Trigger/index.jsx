@@ -17,23 +17,29 @@ const Trigger = (OriginalComponent) => {
       this.forceWillBeFalse = this.forceWillBeFalse.bind(this);
       this.timer = null;
     }
+
     componentDidMount() {
       actions.add(PATH_CHANGED, this, checkPath);
+      window.addEventListener('click', () => {
+        if (window._injectedData.urlHistory) {
+          const url = window._injectedData.urlHistory;
+          if (window.location.href !== url[url.length - 1]) {
+            clearTimeout(this.timer);
+            actions.trigger(PATH_CHANGED, [this.timeToggle, window.location.pathname]);
+          }
+        }
+      });
     }
 
-    componentDidUpdate(prevProps) {
-      if (prevProps.location.pathname !== this.props.location.pathname) {
-        clearTimeout(this.timer);
-        actions.trigger(PATH_CHANGED, [this.timeToggle, this.props.location.pathname]);
-      }
-    }
     toggleChat() {
       this.setState({ isOpen: !this.state.isOpen, force: false });
       clearTimeout(this.timer);
     }
+
     forceWillBeFalse() {
       this.setState({ force: false });
     }
+
     timeToggle(time) {
       if (!this.state.isOpen) {
         this.timer = setTimeout(() => {
@@ -44,6 +50,7 @@ const Trigger = (OriginalComponent) => {
         console.log('timer started');
       }
     }
+
     render() {
       return (<OriginalComponent
         toggleChat={this.toggleChat}

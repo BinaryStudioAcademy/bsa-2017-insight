@@ -6,7 +6,7 @@ const conversationRepository = Object.create(Repository.prototype);
 conversationRepository.model = Conversation;
 
 conversationRepository.findOneAndPopulate = function (id, callback) {
-  this.model.findById({ _id: id })
+  this.model.findById(id)
     .populate('participants.user')
     .populate({
       path: 'messages',
@@ -16,7 +16,7 @@ conversationRepository.findOneAndPopulate = function (id, callback) {
 
 conversationRepository.getConversationsByUserId = function (id) {
   const model = this.model;
-  return model.find({ 'participants.user': id }) // query под вопросом
+  return model.find({ 'participants.user': id })
     .populate('participants.user')
     .populate({
       path: 'messages',
@@ -24,8 +24,8 @@ conversationRepository.getConversationsByUserId = function (id) {
     }).exec();
 };
 
-conversationRepository.getAllConversations = function (callback) {
-  this.model.find({}).populate('participants.user').populate({
+conversationRepository.getAllConversations = function (appId, callback) {
+  this.model.find({ $where: 'this.messages.length > 0', appId }).populate('participants.user').populate({
     path: 'messages',
     populate: { path: 'author.item' },
   }).exec(callback);
@@ -38,8 +38,8 @@ conversationRepository.getReceiverByIds = function (conversationId, senderId, se
     { $match: { 'participants.userType': senderType === 'Admin' ? 'User' : 'Admin' } },
     { $project: {
       'participants.user': 1,
-      _id: 0
-    } }
+      _id: 0,
+    } },
   ]).exec(callback);
 };
 

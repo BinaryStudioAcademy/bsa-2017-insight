@@ -14,12 +14,25 @@ class MessagesList extends React.Component {
     this.introductionIsOpen = this.introductionIsOpen.bind(this);
     this.introductionIsClose = this.introductionIsClose.bind(this);
     this.checkIfIntroduced = this.checkIfIntroduced.bind(this);
+    this.scrollToLastMessage = this.scrollToLastMessage.bind(this);
+  }
+
+  componentDidMount() {
+    this.scrollToLastMessage();
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.messages.length > 0 && !isIntroduced.skipped) {
       this.setState({ isIntroductionOpen: true });
     }
+  }
+
+  componentDidUpdate() {
+    this.scrollToLastMessage();
+  }
+
+  scrollToLastMessage() {
+    if (this.list) this.list.scrollTop = this.list.scrollHeight - this.list.clientHeight;
   }
 
   introductionIsOpen(e) {
@@ -45,7 +58,13 @@ class MessagesList extends React.Component {
     const userMessageColor = { backgroundColor: this.props.widgetStyles.primaryColor };
 
     return (
-      <ul className={styles['messages-list']} style={listStyles}>
+      <ul
+        className={styles['messages-list']}
+        style={listStyles}
+        ref={(node) => {
+          this.list = node;
+        }}
+      >
         {this.state.isIntroductionOpen && !this.checkIfIntroduced() && <IntroductionForm
           socket={this.props.socket}
           introductionIsClose={this.introductionIsClose}

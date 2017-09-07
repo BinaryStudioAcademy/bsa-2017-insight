@@ -8,6 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import ChatLayout from './ChatLayout';
 import Wallpapers from './Wallpapers';
 import ForceMessage from './ForceMessage';
+import styles from './styles.scss';
 
 class WidgetSettings extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class WidgetSettings extends React.Component {
   }
 
   getSettings() {
-    fetch('/api/widgets/localhost3000', { credentials: 'include', method: 'GET' })
+    fetch(`/api/widgets/${window._injectedData.appId}`, { credentials: 'include', method: 'GET' })
       .then((response) => {
         return response.json();
       })
@@ -40,10 +41,10 @@ class WidgetSettings extends React.Component {
   save() {
     this.setState({ info: 'Saving...' });
     const dataToSend = {
-      website: 'localhost3000',
+      appId: window._injectedData.appId,
       options: this.state.settings,
     };
-    fetch('/api/widgets/localhost3000', {
+    fetch(`/api/widgets/${window._injectedData.appId}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -68,8 +69,8 @@ class WidgetSettings extends React.Component {
     if (!this.state.settings) return <h3 style={{ textAlign: 'center' }}>Loading...</h3>;
 
     return (
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ width: '70%', marginTop: '20px' }}>
+      <div className={styles['settings-content-wrapper']}>
+        <div className={styles['navigation-tabs-wrapper']}>
           <div>
             <RaisedButton
               label="Save"
@@ -84,10 +85,10 @@ class WidgetSettings extends React.Component {
           >
             <Tab label="Customize appearance" value="appearance">
               <div>
-                <h3>Customize appearance</h3>
-                <p>Customize your Messenger’s color to suit your app or site, then choose a background wallpaper.</p>
-                <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start' }}>
-                  <div>
+                <h3 className={styles['customize-title']}>Customize appearance</h3>
+                <p className={styles['customize-text']}>Customize your Messenger’s color to suit your app or site, then choose a background wallpaper.</p>
+                <div className={styles['settings-wrapper']}>
+                  <div className={styles['chat-settings']}>
                     <SketchPicker color={this.state.settings.primaryColor} onChange={color => this.setSettings('primaryColor', color.hex)} />
                     <Wallpapers set={this.setSettings} active={this.state.settings.backgroundImage} />
                     <h5>Widget position:</h5>
@@ -104,14 +105,14 @@ class WidgetSettings extends React.Component {
               </div>
             </Tab>
             <Tab label="Force message" value="localize">
-              <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', marginTop: '35px' }} >
+              <div className={styles['force-content-wrapper']}>
                 <ForceMessage set={this.setSettings} settings={this.state.settings} />
                 <ChatLayout settings={this.state.settings} />
               </div>
             </Tab>
             <Tab label="Install the Messenger" value="install">
               <h2>Install the Messenger</h2>
-              <p>You’ll need to add a bit of code or configure an integration to see the 
+              <p>You’ll need to add a bit of code or configure an integration to see the
               Insight Messenger appear on your website or app.</p>
             </Tab>
           </Tabs>

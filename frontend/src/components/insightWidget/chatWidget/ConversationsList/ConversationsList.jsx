@@ -42,12 +42,13 @@ class ConversationsList extends Component {
                 >
                   <img className={styles['author-avatar']} src={avatar} alt="avatar" />
                   <div className={styles['author-name']}>
-                    {lastMessage.author.item.firstName || lastMessage.author.item.username}</div>
+                    {lastMessage.author.item.username}
+                    <span className={styles['message-time']}>{`${passedTime}m ago`}</span>
+                  </div>
                   <div className={styles['message-body']}>{typeof lastMessage.body === 'object' ?
                     `${lastMessage.body.fileName}.${lastMessage.body.fileType}` :
                     lastMessage.body}
                   </div>
-                  <span className={styles['message-time']}>{`${passedTime}m ago`}</span>
                 </li> :
                 <li
                   className={`${styles['conversation-item']} ${styles['no-conversation-item']}`}
@@ -64,7 +65,7 @@ class ConversationsList extends Component {
           className={styles['create-conversation-button']}
           onClick={this.props.onCreateConversationButtonClick}
         >
-          New Conversation
+          <span>New Conversation</span>
         </button>
       </div>
     );

@@ -7,6 +7,7 @@ const faqSchema = new Schema({
   question: String,
   answer: String,
   createdAt: Date,
+  appId: { type: Schema.Types.ObjectId, required: false }, // CHANGE TO "TRUE" LATER
 });
 
 module.exports = mongoose.model('FAQ', faqSchema);

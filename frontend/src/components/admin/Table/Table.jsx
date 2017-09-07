@@ -18,6 +18,8 @@ class UserInfoTable extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
+    this.updateFields = this.updateFields.bind(this);
+
     this.state = {
       open: false,
       selDialogOpen: false,
@@ -32,23 +34,24 @@ class UserInfoTable extends React.Component {
 
   handleClose() {
     this.setState({ open: false });
+    this.props.updateFields(this.state.fieldsToUpdate);
   }
 
   handleChangeRowsPerPage(event, index, value) {
     this.setState({
-      rowsPerPage : value,
-      currentPage: 1
+      rowsPerPage: value,
+      currentPage: 1,
     });
   }
 
-  changeCurrentPage(event){
+  changeCurrentPage(event) {
     const newPageNumber = Number(event.currentTarget.value);
     const numOfRows = this.props.statistics.length;
-    const numOfPages = Math.ceil(numOfRows/this.state.rowsPerPage);
+    const numOfPages = Math.ceil(numOfRows / this.state.rowsPerPage);
     if ((newPageNumber >= 1) && (newPageNumber <= numOfPages)) {
       this.setState({
-        currentPage: event.currentTarget.value
-      })
+        currentPage: event.currentTarget.value,
+      });
     }
   }
 
@@ -56,6 +59,9 @@ class UserInfoTable extends React.Component {
     this.setState({ selDialogOpen: !this.state.selDialogOpen });
   }
 
+  updateFields(fields) {
+    this.setState({ fieldsToUpdate: fields });
+  }
 
   render() {
     const actions = [
@@ -68,7 +74,7 @@ class UserInfoTable extends React.Component {
     return (
       <div className={styles.container} >
         <div className={styles.topPanel}>
-          <div>
+          <div className={styles['table-buttons-wrapper']}>
             <RaisedButton
               label="Columns Filter"
               onClick={this.handleOpen}
@@ -85,7 +91,7 @@ class UserInfoTable extends React.Component {
               <Filter
                 selectedFields={this.props.selectedFields}
                 statisticOptions={this.props.statisticOptions}
-                updateFields={this.props.updateFields}
+                updateFields={this.updateFields}
               />
             </Dialog>
             <RaisedButton
@@ -101,7 +107,9 @@ class UserInfoTable extends React.Component {
               contentStyle={{ textAlign: 'center', margin: '0 auto' }}
               bodyStyle={{ overflowX: 'hidden', textAlign: 'center' }}
             >
+              <span>Warning: Selection will only include users with email avaible</span>
               <form
+                style={{ margin: '20px 0 0' }}
                 onSubmit={(e) => {
                   e.preventDefault();
                   const name = document.getElementById('selection-name').value;
@@ -136,7 +144,8 @@ class UserInfoTable extends React.Component {
             <SelectField
               value={this.state.rowsPerPage}
               onChange={this.handleChangeRowsPerPage}
-              style={{ width: '80px' }} >
+              style={{ width: '80px' }}
+            >
               <MenuItem value={2} primaryText="2" />
               <MenuItem value={5} primaryText="5" />
               <MenuItem value={10} primaryText="10" />
@@ -170,7 +179,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addSelection: (name, description, users) => {
       const filteredUsersIds = users.filter(user => user.userId.email).map(user => user.userId._id);
-      const body = JSON.stringify({ name, description, users: filteredUsersIds });
+      const body = JSON.stringify({ name, description, users: filteredUsersIds, appId: window._injectedData.appId });
       return dispatch(addSelection(body));
     },
   };

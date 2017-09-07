@@ -1,5 +1,7 @@
 export function getConversations() {
-  return fetch('http://localhost:3000/api/conversations')
+  return fetch('http://localhost:3000/api/conversations', {
+    credentials: 'include',
+  })
     .then((response) => {
       return response.json();
     })

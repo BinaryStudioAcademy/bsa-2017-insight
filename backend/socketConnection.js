@@ -117,8 +117,8 @@ function connectionHandler(socket) {
         console.log(err);
       } else {
         const dataToSendBack = { id: data.id, body: data.body };
-        socket.emit('introducedd', dataToSendBack);
-        socket.broadcast.emit('introducedd', dataToSendBack);
+        socket.emit('introduced', dataToSendBack);
+        socket.broadcast.emit('introduced', dataToSendBack);
       }
     });
   });

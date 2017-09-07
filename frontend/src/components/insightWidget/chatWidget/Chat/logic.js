@@ -75,7 +75,6 @@ function startSocketConnection(socket) {
       this.onForceConversation();
     }
     if (window._injectedData.forceConvId && this.props.force) {
-      console.log('11111111111111111111:', this.props.force);
       const convWithForceMessage = getForceMessage(conversations);
       this.socket.emit('switchRoom', window._injectedData.forceConvId);
       this.setState({ conversations: convWithForceMessage, activeChatId: window._injectedData.forceConvId });
@@ -133,7 +132,7 @@ function startSocketConnection(socket) {
       activeChatId: conversation._id,
     });
   });
-  this.socket.on('introducedd', (data) => {
+  this.socket.on('introduced', (data) => {
     isIntroduced.add(data.body.isIntroduced);
   });
 }

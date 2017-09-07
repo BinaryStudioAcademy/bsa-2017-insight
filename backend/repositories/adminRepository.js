@@ -6,6 +6,12 @@ const bcrypt = require('bcrypt-nodejs');
 const AdminRepository = Object.create(Repository.prototype);
 AdminRepository.model = Admin;
 
+// AdminRepository.getAll = function (callback) {
+//   const model = this.model;
+//   const query = model.find();
+//   query.exec(callback);
+// };
+
 AdminRepository.add = function (data, callback) {
   data.salt = bcrypt.genSaltSync(10);
   bcrypt.hash(data.password, data.salt, null, (err, hash) => {
@@ -21,9 +27,9 @@ AdminRepository.findOneAndPopulate = function (id, callback) {
   model.findById({ _id: id }).populate('conversations').exec(callback);
 };
 
-AdminRepository.getAllAdmins = function (callback) {
-  this.model.find({}).exec(callback);
-}
+AdminRepository.getAllAdmins = function (appId, callback) {
+  this.model.find({ appId }).exec(callback);
+};
 
 module.exports = AdminRepository;
 

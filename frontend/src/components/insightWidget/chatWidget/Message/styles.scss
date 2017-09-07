@@ -30,6 +30,7 @@
   border-radius: 10px;
   width: auto;
   max-width: 70%;
+  word-break:break-all;
 
   a {
     color: #ffffff;
@@ -40,9 +41,9 @@
   }
 
   div {
-    height: 20px;
     display: flex;
     align-items: center;
+    min-height: 20px;
   }
 
   div span {

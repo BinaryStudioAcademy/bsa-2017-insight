@@ -28,8 +28,10 @@ class Filter extends React.Component {
         country: { status: false, alias: 'Country' },
         currentUrl: { status: false, alias: 'Current URL' },
         deviceType: { status: false, alias: 'Device Type' },
+        firstname: { status: false, alias: 'First name' },
         geoLocation: { status: false, alias: 'Geolocation' },
         _id: { status: false, alias: 'ID' },
+        lastname: { status: false, alias: 'Last name' },
         online: { status: false, alias: 'Online' },
         os: { status: false, alias: 'OS' },
         screenHeight: { status: false, alias: 'Screen Height' },
@@ -38,10 +40,8 @@ class Filter extends React.Component {
         userAgent: { status: false, alias: 'User Agent' },
         userId: { status: false, alias: 'User ID' },
         userIpAddress: { status: false, alias: 'IP Address' },
-        viewedUrls: { status: false, alias: 'Viewed URLs' },
         username: { status: false, alias: 'User name' },
-        firstname: { status: false, alias: 'First name' },
-        lastname: { status: false, alias: 'Last name' },
+        viewedUrls: { status: false, alias: 'Viewed URLs' },
       },
     };
     this.onChangeRadio = this.onChangeRadio.bind(this);
@@ -134,7 +134,7 @@ class Filter extends React.Component {
     });
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'space-between', height: '300px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', height: '300px' }}>
         {nestedItems}
       </div>
     );

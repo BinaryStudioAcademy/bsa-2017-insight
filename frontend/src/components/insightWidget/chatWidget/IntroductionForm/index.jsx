@@ -30,6 +30,7 @@ class IntroductionForm extends React.Component {
         email: '',
         phone: '',
       });
+      this.props.introductionIsClose(e);
     } else {
       console.log('Type something');
     }

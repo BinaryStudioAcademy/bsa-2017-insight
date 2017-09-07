@@ -136,11 +136,11 @@ class ChatBody extends Component {
             <div className={styles['operator-name']}>{operatorName}</div>
           </div>
         }
-        <MessagesList 
+        <MessagesList
           socket={this.props.socket}
           messages={this.props.messages}
           isIntroduced={this.props.isIntroduced}
-          widgetStyles={this.props.widgetStyles} 
+          widgetStyles={this.props.widgetStyles}
         />
         <form
           className={styles['sending-form']}

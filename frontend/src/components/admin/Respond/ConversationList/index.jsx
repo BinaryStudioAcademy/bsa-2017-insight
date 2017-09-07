@@ -1,5 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { List } from 'material-ui/List';
 import SingleConversation from '../SingleConversation';
 
 const ConversationList = (props) => {
@@ -10,7 +11,7 @@ const ConversationList = (props) => {
   }
 
   return (
-    <div>
+    <List style={{ padding: '0px' }}>
       {props.conversations.map((e) => {
         const activeConv = props.nowActive ? props.nowActive : null;
         const handler = activeConv === e._id ? () => props.removeConversations() : () => props.setConversation(e._id);
@@ -24,7 +25,7 @@ const ConversationList = (props) => {
           />
         );
       })}
-    </div>
+    </List>
   );
 };
 

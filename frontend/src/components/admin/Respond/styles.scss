@@ -1,12 +1,76 @@
 :local(.big-conversation-list) {
-  // display: block;
-  // width: 100%;
+
 }
 
 :local(.small-conversation-list) {
-  // display: flex;
-  // width: 100%;
-  // background: yellow;
+  position: relative;
+
+  :local(.return-to-conversations-button) {
+    box-sizing: border-box;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    max-height: 50px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 16px 16px 40px;
+    margin-left: 20px;
+    outline: none;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #dddddd;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #00BCD4;
+      border-color: #c7c7c7;
+      color: #ffffff;
+
+      &:before {
+        background-image: url("http://localhost:3000/resources/widget/images/two-left-arrows-white.png");
+      }
+    }
+    
+    &:before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      width: 25px;
+      height: 25px;
+      background: url("http://localhost:3000/resources/widget/images/two-left-arrows.png") center no-repeat;
+      background-size: contain;
+    }
+
+    @media (min-width: 1100px) {
+      display: none;
+    }
+  }
+
+  span > div > div > div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :local(.conversations) {
+    display: none;
+    @media (min-width: 1100px) {
+      display: flex;
+    }
+  }
+}
+
+:local(.chat-wrapper) {
+  flex-shrink: 1;
+  flex-grow: 2;
+  padding-top: 70px;
+
+  @media (min-width: 1100px) {
+    padding-top: 0;
+  }
 }
 
 :local(.conversations) {
@@ -17,6 +81,11 @@
   // flex-basis: 55%
 }
 
-:local(.info) {
-  // flex-basis: 20%
+:local(.info-wrapper) {
+  width: 25vw;
+  overflow-y: scroll;
+
+  @media (min-width: 1100px) {
+    width: 20vw;
+  }
 }

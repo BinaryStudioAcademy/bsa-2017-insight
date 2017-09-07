@@ -1,7 +1,20 @@
 :local(.filter-wrapper) {
-  width: 19%;
   box-sizing: border-box;
-  float: left;
+  width: 100%;
+  margin-left: 0 !important;
+  min-height: 400px;
+  margin-bottom: 25px;
+
+  @media (min-width: 1000px) {
+    margin-bottom: 0;
+    margin-left: 15px !important;
+    width: 23%;
+    float: left;
+  }
+
+  @media (min-width: 1400px) {
+    width: 19%;
+  }
 }
 
 :local(.filter-title) {
@@ -10,10 +23,33 @@
 
 :local(.filter-form) {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+
+  & > div {
+    width: 50%;
+  }
+
+  @media (min-width: 1000px) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    & > div {
+      width: 100%;
+    }
+  }
+}
+
+:local(.submit-button-container) {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 :local(.submit-button) {
-  width: 60%;
+  width: 35%;
   margin: 10px auto 5px;
+
+  @media (min-width: 1000px) {
+    width: 60%;
+  }
 }

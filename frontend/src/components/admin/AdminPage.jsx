@@ -106,7 +106,6 @@ class AdminPage extends React.Component {
         <div
           className={styles['admin-page']}
           style={{
-            minWidth: '700px',
             fontFamily: 'Roboto, sans-serif',
             backgroundColor: this.state.chosenTheme.palette.canvasColor,
             color: this.state.chosenTheme.palette.textColor,
@@ -132,7 +131,8 @@ class AdminPage extends React.Component {
                       chosenTheme={this.state.chosenTheme}
                       style={{ height: this.headerHeight }}
                     />
-                    <div style={{ height: `calc(100vh - ${this.headerHeight + 8}px)`, overflowY: 'scroll' }}>
+                    {/*style={{ height: `calc(100vh - ${this.headerHeight + 8}px)`, overflowY: 'scroll' }}*/}
+                    <div >
                       <Switch>
                         <Route
                           exact
@@ -141,7 +141,7 @@ class AdminPage extends React.Component {
                             const statistics = this.props.usersToRender;
                             const options = this.getStatisticOptions(this.props.usersToRender);
                             return (
-                              <div style={{ marginTop: '10px' }}>
+                              <div className={styles['statistics-content-wrapper']}>
                                 <StatisticsFilter chosenTheme={this.state.chosenTheme} />
                                 <UserInfoTable
                                   options={this.props.fieldsToDisplay}

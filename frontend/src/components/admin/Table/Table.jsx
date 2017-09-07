@@ -24,7 +24,7 @@ class UserInfoTable extends React.Component {
       open: false,
       selDialogOpen: false,
       rowsPerPage: 5,
-      currentPage: 1
+      currentPage: 1,
     };
   }
 
@@ -39,19 +39,19 @@ class UserInfoTable extends React.Component {
 
   handleChangeRowsPerPage(event, index, value) {
     this.setState({
-      rowsPerPage : value,
-      currentPage: 1
+      rowsPerPage: value,
+      currentPage: 1,
     });
   }
 
-  changeCurrentPage(event){
+  changeCurrentPage(event) {
     const newPageNumber = Number(event.currentTarget.value);
     const numOfRows = this.props.statistics.length;
-    const numOfPages = Math.ceil(numOfRows/this.state.rowsPerPage);
+    const numOfPages = Math.ceil(numOfRows / this.state.rowsPerPage);
     if ((newPageNumber >= 1) && (newPageNumber <= numOfPages)) {
       this.setState({
-        currentPage: event.currentTarget.value
-      })
+        currentPage: event.currentTarget.value,
+      });
     }
   }
 
@@ -74,7 +74,7 @@ class UserInfoTable extends React.Component {
     return (
       <div className={styles.container} >
         <div className={styles.topPanel}>
-          <div>
+          <div className={styles['table-buttons-wrapper']}>
             <RaisedButton
               label="Columns Filter"
               onClick={this.handleOpen}
@@ -144,7 +144,8 @@ class UserInfoTable extends React.Component {
             <SelectField
               value={this.state.rowsPerPage}
               onChange={this.handleChangeRowsPerPage}
-              style={{ width: '80px' }} >
+              style={{ width: '80px' }}
+            >
               <MenuItem value={2} primaryText="2" />
               <MenuItem value={5} primaryText="5" />
               <MenuItem value={10} primaryText="10" />

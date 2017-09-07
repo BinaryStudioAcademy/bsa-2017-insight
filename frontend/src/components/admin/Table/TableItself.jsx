@@ -124,46 +124,47 @@ class TableItself extends React.Component {
           </TableBody>
         </Table>
         <div className={styles.pagination}>
-          <div>
-            <RaisedButton 
-              label="Previous" 
-              onClick={this.props.changeCurrentPage} 
+          <div className={styles['pagination-buttons-wrapper']}>
+            <RaisedButton
+              className={styles.raisedButton}
+              label="Previous"
+              onClick={this.props.changeCurrentPage}
               value={currPage-1} />
-            <RaisedButton 
-              label="<<" 
-              onClick={this.props.changeCurrentPage} 
-              value={1} 
+            <RaisedButton
+              label="<<"
+              onClick={this.props.changeCurrentPage}
+              value={1}
               className={styles.raisedButton} />
               {(currPage > 2) ? <p>...</p> : null}
-              {(currPage > 1 ) ? 
-                <RaisedButton 
-                label={currPage-1} 
-                onClick={this.props.changeCurrentPage} 
-                value={currPage-1} 
-                className={styles.raisedButton} /> 
-              : null}
-              <RaisedButton 
-                primary 
-                label={currPage} 
-                onClick={this.props.changeCurrentPage} 
-                value={currPage} 
+              {(currPage > 1 ) ?
+                <RaisedButton
+                label={currPage-1}
+                onClick={this.props.changeCurrentPage}
+                value={currPage-1}
                 className={styles.raisedButton} />
-              {(currPage < numOfPages) ? 
-                <RaisedButton 
-                  label={currPage+1} 
-                  value={currPage+1} 
-                  onClick={this.props.changeCurrentPage} 
-                  className={styles.raisedButton} /> 
+              : null}
+              <RaisedButton
+                primary
+                label={currPage}
+                onClick={this.props.changeCurrentPage}
+                value={currPage}
+                className={styles.raisedButton} />
+              {(currPage < numOfPages) ?
+                <RaisedButton
+                  label={currPage+1}
+                  value={currPage+1}
+                  onClick={this.props.changeCurrentPage}
+                  className={styles.raisedButton} />
               : null}
               {(currPage < numOfPages-1 ) ? <p>...</p> : null}
-            <RaisedButton 
-              label=">>" 
-              onClick={this.props.changeCurrentPage} 
-              value={currPage} 
+            <RaisedButton
+              label=">>"
+              onClick={this.props.changeCurrentPage}
+              value={currPage}
               className={styles.raisedButton} />
-            <RaisedButton 
-              label="Next" 
-              onClick={this.props.changeCurrentPage} 
+            <RaisedButton
+              label="Next"
+              onClick={this.props.changeCurrentPage}
               value={currPage+1} />
           </div>
         </div>

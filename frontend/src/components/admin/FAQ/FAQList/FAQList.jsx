@@ -18,22 +18,23 @@ class FAQList extends Component {
   }
 
   render() {
-    let faqs = (this.props.action === 'search') ? this.props.searchedData : this.props.faqs;
+    const faqs = (this.props.action === 'search') ? this.props.searchedData : this.props.faqs;
     return (
       <div className={styles['FAQ-list']}>
-        <TextField 
-          hintText="Search" 
-          id="search" 
-          onInput={this.props.searchQuestion} 
+        <TextField
+          hintText="Search"
+          id="search"
+          onInput={this.props.searchQuestion}
+          className={styles['search-input']}
         />
         <br />
         <List>
           {faqs && faqs.map((faq) => {
             const highlight = (this.props.selectedId === faq._id);
             return (
-              <ListItem 
-                innerDivStyle={{ padding: '0px' }} 
-                className={styles['ListItem-highlight-' + `${highlight}`]} 
+              <ListItem
+                innerDivStyle={{ padding: '0px' }}
+                className={styles['ListItem-highlight-' + `${highlight}`]}
                 key={uniqueId++}
               >
                 <Question
@@ -56,7 +57,7 @@ FAQList.propTypes = {
     _id: propTypes.string.isRequired,
     answer: propTypes.string.isRequired,
     question: propTypes.string.isRequired,
-    createdAt : propTypes.any.isRequired
+    createdAt: propTypes.any.isRequired,
   })),
   setSelectedId: React.PropTypes.func,
   selectedId: React.PropTypes.string,
@@ -65,9 +66,9 @@ FAQList.propTypes = {
     _id: propTypes.string.isRequired,
     answer: propTypes.string.isRequired,
     question: propTypes.string.isRequired,
-    createdAt : propTypes.any.isRequired
+    createdAt: propTypes.any.isRequired,
   })),
-  action: React.PropTypes.string
+  action: React.PropTypes.string,
 };
 
 export default FAQList;

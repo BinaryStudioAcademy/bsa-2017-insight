@@ -323,7 +323,9 @@ class StatisticsFilter extends React.Component {
                 displayChildren: this.state['viewedUrls-includes'],
               }]}
           />
-          <RaisedButton type="submit" label="Search" primary className={styles['submit-button']} />
+          <div className={styles['submit-button-container']}>
+            <RaisedButton type="submit" label="Search" primary className={styles['submit-button']} />
+          </div>
         </form>
       </List>
     );

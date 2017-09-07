@@ -1,5 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import styles from './styles.scss';
 
 export default class Wallpapers extends React.Component {
   constructor(props) {
@@ -30,32 +31,37 @@ export default class Wallpapers extends React.Component {
   render() {
     return (
       <div className={'wallpapers'}>
-        <h5>Choose background image</h5>
+        <h5 className={styles['wallpapers-title']}>Choose background image</h5>
         <div
+          role="presentation"
           className={'wallpaper'}
           id={'w1'}
           onClick={this.changeBackground}
           style={{ backgroundColor: '#fff' }}
         />
         <div
+          role="presentation"
           className={'wallpaper'}
           id={'w2'}
           onClick={this.changeBackground}
           style={{ backgroundImage: 'url(resources/wallpapers/w2.png)' }}
         />
         <div
+          role="presentation"
           className={'wallpaper'}
           id={'w3'}
           onClick={this.changeBackground}
           style={{ backgroundImage: 'url(resources/wallpapers/w3.png)' }}
         />
         <div
+          role="presentation"
           className={'wallpaper'}
           id={'w4'}
           onClick={this.changeBackground}
           style={{ backgroundImage: 'url(resources/wallpapers/w4.png)' }}
         />
         <div
+          role="presentation"
           className={'wallpaper'}
           id={'w5'}
           onClick={this.changeBackground}

@@ -20,6 +20,7 @@ const selectionSchema = new Schema({
     default: [],
     ref: 'Mailing',
   },
+  appId: { type: Schema.Types.ObjectId, required: false }, // CHANGE TO "TRUE" LATER
 });
 
 module.exports = mongoose.model('Selection', selectionSchema);

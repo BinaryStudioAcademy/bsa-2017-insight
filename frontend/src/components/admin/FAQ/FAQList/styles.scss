@@ -3,20 +3,33 @@ $searchFieldHeight: 48px;
 $addQuestionHeight: 66px;
 $padding: 20px;
 
-:local(.container) {
-  width: 20vw !important;
-  height: calc(100vh - 80px) !important;
+:local(.container) {                     
+  margin: 10px 0 15px;
+  width: 29%;
+  height: calc(100vh - #{$headerHeight});
   list-style: none;
   padding: $padding;
   box-sizing: border-box;
   display: inline-flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media (min-width: 1000px) {
+    width: 20%;
+  }
+}
+
+:local(.search) {
+  width: 90% !important;
+
+  @media (min-width: 1000px) {
+    width: 90% !important;
+  }
 }
 
 :local(.ListItem-highlight-false) {
   p{
-    margin: 0px !important;
+    margin: 0 !important;
     padding: 25px 15px !important;
   }
 }
@@ -26,7 +39,7 @@ $padding: 20px;
   background-color: #bcbcbc !important;
 
   p{
-    margin: 0px !important;
+    margin: 0 !important;
     padding: 25px 15px !important;
   }
 }
@@ -40,8 +53,4 @@ $padding: 20px;
 :local(.addButton) {
   padding: 20px 0px 10px 0px; 
   margin: auto;
-}
-
-:local(.search) {
-  width: 100% !important;
 }

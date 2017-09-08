@@ -1,9 +1,10 @@
 const widgetRepository = require('../../repositories/widgetRepository');
 
 module.exports = (app) => {
-  app.get('/api/widgets/:name', (req, res) => {
-    const websiteName = req.params.name;
-    widgetRepository.findByWebsiteName(websiteName, (err, data) => {
+  app.get('/api/widgets/:id', (req, res) => {
+    // const websiteName = req.params.name;
+    const appId = req.params.id;
+    widgetRepository.findByAppId(appId, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -24,9 +25,9 @@ module.exports = (app) => {
     });
   });
 
-  app.put('/api/widgets/:name', (req, res) => {
-    const websiteName = req.params.name;
-    widgetRepository.updateOrCreateByWebsiteName(websiteName, req.body, (err, data) => {
+  app.put('/api/widgets/:id', (req, res) => {
+    const appId = req.params.id;
+    widgetRepository.updateOrCreateByAppId(appId, req.body, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);

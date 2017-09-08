@@ -23,7 +23,7 @@ class FAQList extends Component {
   }
 
   render() {
-    let faqs = (this.props.action === 'search') ? this.props.searchedData : this.props.faqs;
+    const faqs = (this.props.action === 'search') ? this.props.searchedData : this.props.faqs;
     return (
       <div className={styles.container}>
         <div>
@@ -71,7 +71,7 @@ FAQList.propTypes = {
     _id: propTypes.string.isRequired,
     answer: propTypes.string.isRequired,
     question: propTypes.string.isRequired,
-    createdAt : propTypes.any.isRequired
+    createdAt: propTypes.any.isRequired,
   })),
   setSelectedId: React.PropTypes.func,
   selectedId: React.PropTypes.string,
@@ -80,9 +80,9 @@ FAQList.propTypes = {
     _id: propTypes.string.isRequired,
     answer: propTypes.string.isRequired,
     question: propTypes.string.isRequired,
-    createdAt : propTypes.any.isRequired
+    createdAt: propTypes.any.isRequired,
   })),
-  action: React.PropTypes.string
+  action: React.PropTypes.string,
 };
 
 export default FAQList;

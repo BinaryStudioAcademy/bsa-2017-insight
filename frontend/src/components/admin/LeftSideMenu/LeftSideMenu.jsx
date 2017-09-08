@@ -7,6 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import HomeAdminIcon from 'material-ui/svg-icons/action/dashboard';
 import RespondIcon from 'material-ui/svg-icons/communication/chat';
 import EngageIcon from 'material-ui/svg-icons/editor/insert-chart';
+import AppsIcon from 'material-ui/svg-icons/action/list';
 import FAQIcon from 'material-ui/svg-icons/action/question-answer';
 import PopoverSettings from './PopoverSettings';
 
@@ -63,6 +64,21 @@ class LeftSideMenu extends React.Component {
           <Divider />
           <PopoverSettings width={this.props.width} chosenTheme={this.props.chosenTheme} />
           <Divider />
+          {this.props.currentUser.isServiceAdmin ?
+            <div>
+              <NavLink to={'/admin/apps'}>
+                <IconButton
+                  style={{ width: this.props.width }}
+                  tooltip={'Apps'}
+                  tooltipPosition={'bottom-right'}
+                  iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
+                >
+                  <AppsIcon />
+                </IconButton>
+              </NavLink>
+              <Divider />
+            </div> : ''
+          }
         </Drawer>
       </div>
     );

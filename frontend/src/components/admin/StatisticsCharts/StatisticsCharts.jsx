@@ -2,6 +2,7 @@ import React from 'react';
 import Toggle from 'material-ui/Toggle';
 import { BarChart, Bar, PieChart, Pie, XAxis, Tooltip, Legend, Cell } from 'recharts';
 import randomColor from 'random-material-color';
+import styles from './styles.scss';
 
 class StatisticsCharts extends React.Component {
   constructor() {
@@ -107,9 +108,10 @@ class StatisticsCharts extends React.Component {
 
   render() {
     return (
-      <div style={{ marginTop: 40, padding: '0 10px', float: 'right', width: '78%' }}>
+      <div className={styles['charts-container']}>
         {/* <h2 style={{ width: 400 }}>Charts</h2> */}
         <Toggle
+          className={styles['charts-toggle']}
           style={{ float: 'right', width: 190 }}
           label={`Switch to "${this.state.chartType === 'pie' ? 'bar' : 'pie'}" style`}
           onToggle={() => this.switchChartType(this.state)}

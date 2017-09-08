@@ -1,12 +1,26 @@
+$headerHeight: 73px;
+
 :local(.mainWindow) {
-  width: 70vw;
-  height: calc(100vh - 80px) !important;
+  margin: 10px 0 15px;
+  width: 70%;
+  height: calc(100vh - #{$headerHeight});
   border-left: 1px solid #E0E0E0;
+  border-right: 1px solid #E0E0E0;
   overflow: auto;
   display: inline-flex;
   flex-direction: column;
   padding: 20px;
   box-sizing: border-box;
+
+  @media (min-width: 1000px) {
+    width: 80%;
+  }
+
+  .list-item{
+    &:hover{
+      background-color: white !important;
+    }
+  }
 }
 
 :local(.raisedButton) {

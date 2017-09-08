@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const statisticsSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
+  appId: { type: Schema.Types.ObjectId, required: false }, // CHANGE TO "TRUE" LATER
   currentUrl: String,
   viewedUrls: [String],
   browserLanguage: String,

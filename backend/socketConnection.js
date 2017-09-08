@@ -9,7 +9,9 @@ const mongoose = require('mongoose');
 
 function connectionHandler(socket) {
   let user;
+  const socketObj = socket;
   socket.emit('user connected');
+
   socket.on('userId', (userObj) => {
     if (userObj.type === 'User') {
       UserRepository.model.findOne({ _id: userObj.id })
@@ -18,6 +20,7 @@ function connectionHandler(socket) {
           socket.emit('userData', data);
         });
     }
+
     if (userObj.type === 'Admin') {
       AdminRepository.model.findOne({ _id: userObj.id })
         .then((data) => {
@@ -26,25 +29,30 @@ function connectionHandler(socket) {
         });
     }
   });
+
   socket.on('adminConnectedToRoom', (conversationId) => {
-    socket.room = conversationId;
+    socketObj.room = conversationId;
     socket.join(conversationId);
   });
+
   socket.on('getUserConversations', (id) => {
     const objectId = mongoose.Types.ObjectId(id);
     ConversationRepository.getConversationsByUserId(objectId).then((data) => {
       socket.emit('returnUserConversations', data);
     });
   });
+
   socket.on('newMessage', (message) => {
     const room = socket.room;
     MessageRepository.model.create(message)
       .then((data) => {
         console.log('message added succesfully');
         const messageToSend = data;
+
         if (message.author.userType === 'Admin') {
           checkIfAdminIsConversationParticipant(message.conversationId, message.author.item);
         }
+
         if (messageToSend.author.item.toString() === user._id.toString()) {
           messageToSend._doc.author.item = user;
         }
@@ -56,19 +64,24 @@ function connectionHandler(socket) {
           .then();
       });
   });
+
   socket.on('createNewConversation', (conversationData, creatorId) => {
     createConversationAndUpdateUser(conversationData, creatorId, socket);
   });
+
   socket.on('createForceConversation', (conversationData, creatorId) => {
     createForceConversation(conversationData, creatorId, socket);
   });
+
   socket.on('switchRoom', (conversationId) => {
     if (socket.room) socket.leave(socket.room);
-    socket.room = conversationId;
+    socketObj.room = conversationId;
     socket.join(conversationId);
   });
+
   socket.on('messagesReceived', (data) => {
     const room = socket.room;
+
     if (data.type === 'Admin') {
       const searchObj = {
         conversationId: data.messages[0].conversationId,
@@ -84,8 +97,10 @@ function connectionHandler(socket) {
       });
     }
   });
+
   socket.on('newMessageReceived', (data) => {
     const room = socket.room;
+
     if (data.type === 'Admin') {
       MessageRepository.model.findOneAndUpdate({ _id: data.id }, { isReceived: true }, { new: true })
         .populate('author.item')
@@ -94,6 +109,18 @@ function connectionHandler(socket) {
           socket.broadcast.to(room).emit('newMessageReceived', updatedMessage);
         });
     }
+  });
+
+  socket.on('introduced', (data) => {
+    UserRepository.update(data.id, data.body, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        const dataToSendBack = { id: data.id, body: data.body };
+        socket.emit('introduced', dataToSendBack);
+        socket.broadcast.emit('introduced', dataToSendBack);
+      }
+    });
   });
 }
 

@@ -1,0 +1,30 @@
+:local(.no-messages-conversation-item) {
+  user-select: none;
+  height: 92px;
+  display: flex !important;
+  align-items: center !important;
+}
+
+:local(.conversation-item) {
+  user-select: none;
+  height: 92px;
+  & > div {
+    padding-top: 10px;
+  }
+  div > div:first-child {
+    padding-bottom: 10px !important;
+  }
+  div > div:first-child > div {
+    display: flex;
+    align-items: center;
+
+    span {
+      height: 24px !important;
+      width: 24px !important;
+    }
+  }
+}
+
+:local(.conversation-item-active) {
+  background-color: #e3e3e3 !important;
+}

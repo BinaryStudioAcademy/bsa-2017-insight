@@ -75,7 +75,8 @@ class AdminLogin extends React.Component {
         >Login</RaisedButton>
         <br /><br />
         <div style={{ margin: '10px 0', lineHeight: '1.6em' }}>
-          <NavLink to={'/admin/registration'}>Registration</NavLink><br />
+          <NavLink to={'/admin/registration'}>Admin Registration</NavLink><br />
+          <NavLink to={'/app/registration'}>App Registration</NavLink><br />
           <NavLink to={'/forgot/admin'}>Restore my password</NavLink><br />
         </div>
         {this.state.info ? <hr /> : ''}

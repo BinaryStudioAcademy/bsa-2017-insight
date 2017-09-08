@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import styles from './styles.scss';
 import FAQList from './FAQList/FAQList';
 import MainWindow from './MainWindow/MainWindow';
 import * as faqActions from '../../../actions/faqActions';
@@ -81,7 +80,7 @@ class FAQ extends Component {
 
   render() {
     return (
-      <div className={styles.container}>
+      <div>
         <FAQList
           faqs={this.props.data}
           action={this.state.action}

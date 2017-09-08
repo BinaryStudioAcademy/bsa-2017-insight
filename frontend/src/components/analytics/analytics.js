@@ -1,5 +1,6 @@
 (function () {
   const userStatistics = {
+    appId: window._injectedData.currentAppId,
     userId: null,
     viewedUrls: null,
     currentUrl: location.href,
@@ -40,9 +41,13 @@
   }
 
   function sendUser(id) {
-    const userObject = {
+    let userObject = {
       _id: id,
+      appId: window._injectedData.currentAppId,
     };
+    if (typeof window._injectedData.userId === 'object') {
+      userObject = Object.assign(userObject, window._injectedData.userId);
+    }
     const requestOptions = {
       headers: {
         'Content-Type': 'application/json',
@@ -90,6 +95,8 @@
   function generateId() {
     return (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24);
   }
+
+  window.onload = () => document.documentElement.click(); // ???
 
   window.addEventListener('click', () => {
     const injectedData = window._injectedData;

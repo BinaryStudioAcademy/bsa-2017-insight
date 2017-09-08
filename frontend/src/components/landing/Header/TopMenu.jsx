@@ -7,7 +7,7 @@ class TopMenu extends React.Component {
   render() {
     const user = window._injectedData.userId;
     const greeting = (user && !user.isAdmin) ? <Greeting name={user.firstName} /> : null;
-    
+
     return (
       <ul className={styles['top-menu']}>
         <TopMenuItem

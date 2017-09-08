@@ -2,17 +2,19 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ConversationList from './ConversationList';
-import { getAllConversations, setConversation, removeConversations } from '../../../actions/conversationsActions';
+import { getAllConversations, setConversation, removeConversations, updateConversations } from '../../../actions/conversationsActions';
 import * as StatisticActions from '../../../actions/statisticActions';
 import Chat from './../chatAdmin/ChatAdmin';
 import UserInfo from './../UserInfo/UserInfo';
 import styles from './styles.scss';
+import ConversationFilter from './ConversationFilter/ConversationFilter';
 
 class Respond extends React.Component {
   constructor() {
     super();
     this.conversationToChat = this.conversationToChat.bind(this);
     this.getIdForStatistic = this.getIdForStatistic.bind(this);
+    this.applyFilters = this.applyFilters.bind(this);
   }
 
   componentWillMount() {
@@ -30,11 +32,16 @@ class Respond extends React.Component {
     });
   }
 
+  applyFilters(conversations) {
+    this.props.removeConversations();
+    this.props.updateConversations(conversations);
+  }
   render() {
     const idToRender = this.props.conversationToRenderId || null;
     const convToChat = idToRender ? this.conversationToChat(idToRender) : null;
     return (
       <div>
+        <ConversationFilter setFilteredConversations={this.applyFilters} />
         {!idToRender ?
           <div
             className={styles['big-conversation-list']}
@@ -129,6 +136,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getStatisticById: (id) => {
       dispatch(StatisticActions.getStatisticById(id));
+    },
+    updateConversations: (newConversations) => {
+      dispatch(updateConversations(newConversations));
     },
     dispatch
   };

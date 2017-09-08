@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.conversation-filter {
+  overflow: hidden;
+  .date-tab {
+    .date-type {
+      margin: 10px 0;
+    }
+  }
+  .tab-name {
+    width: 100%;
+    margin-top: 15px;
+    padding: 8px;
+    background-color: #eff0f1;
+    color: #084a8c;
+    border-radius: 5px;
+  }
+}
+
+.conv-filter-dialog {
+  .dialog-btn {
+    margin: 0 5px;
+  }
+}

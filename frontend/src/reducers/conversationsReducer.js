@@ -38,6 +38,8 @@ const conversationsReducer = (state = initialState, action) => {
     }
     case 'REMOVE_CONVERSATION':
       return Object.assign({}, state, { conversationToRenderId: null });
+    case 'UPDATE_CONVERSATIONS':
+      return Object.assign({}, state, { conversations: action.payload });
     default: {
       return state;
     }

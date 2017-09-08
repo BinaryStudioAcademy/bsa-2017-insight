@@ -107,7 +107,7 @@ class StatisticsCharts extends React.Component {
 
   render() {
     return (
-      <div style={{ marginTop: 40, padding: '0 10px', float: 'right', width: '78%' }}>
+      <div style={{ marginTop: 40, padding: '0 10px', float: 'right', width: this.props.width }}>
         {/* <h2 style={{ width: 400 }}>Charts</h2> */}
         <Toggle
           style={{ float: 'right', width: 190 }}

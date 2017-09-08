@@ -60,38 +60,6 @@ class Filter extends React.Component {
     this.setState({ radioValue: newRadioValue });
   }
 
-  // getNestedItems(obj, groupName) {
-  //   const nested = [];
-  //   for (const elem in obj) {
-  //     for (const elemKey in obj[elem]) {
-  //       nested.push(
-  //         <ListItem
-  //           style={{ fontSize: '14px' }}
-  //           key={elemKey}
-  //           primaryText={elemKey}
-  //           initiallyOpen={false}
-  //           primaryTogglesNestedList
-  //           rightIcon={<EmptyPlace />}
-  //           leftCheckbox={
-  //             <Checkbox
-  //               onCheck={() => this.onChangeRadio(elemKey, groupName)}
-  //               checked={this.state.radioValue[groupName] === elemKey}
-  //               checkedIcon={<RadioChecked />}
-  //               uncheckedIcon={<RadioUnchecked />}
-  //             />
-  //           }
-  //           nestedItems={[
-  //             <ListItem key={obj[elem][elemKey]}>
-  //               <input type="text" style={{ width: '70px', marginRight: '10px' }} />
-  //               <p style={{ fontSize: '14px', display: 'inline-block' }}>{obj[elem][elemKey]}</p>
-  //             </ListItem>
-  //           ]}
-  //         />);
-  //     }
-  //   }
-  //   return nested;
-  // }
-
   handleTap(groupName) {
     const newInitiallyOpen = this.state.initiallyOpen;
     newInitiallyOpen[groupName] = (!newInitiallyOpen[groupName]);
@@ -115,8 +83,8 @@ class Filter extends React.Component {
   render() {
     let nestedItems = Object.keys(this.state.checkedCheckboxes).map((elem) => {
     return (<ListItem
-        style={{ fontSize: '14px', width: '160px' }}
-        innerDivStyle={{ width: '160px', padding: '16px 0 16px 38px' }}
+        style={{ fontSize: '14px' }}
+        innerDivStyle={{padding: '16px 0 16px 38px' }}
         leftCheckbox={
           <Checkbox
             onCheck={() => this.handleCheck(elem)}
@@ -129,12 +97,13 @@ class Filter extends React.Component {
         initiallyOpen={this.state.initiallyOpen[elem]}
         onClick={() => this.handleTap(elem)}
         primaryTogglesNestedList
-        // nestedItems={this.getNestedItems(statisticOptions[elem], elem)}
       />);
     });
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'space-between', height: '300px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', 
+      justifyContent: 'space-between',height: `calc(100vh - 80px - 48px - 58px)`,
+      overflow:'auto' }}>
         {nestedItems}
       </div>
     );

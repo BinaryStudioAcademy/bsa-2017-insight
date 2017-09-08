@@ -1,16 +1,7 @@
-:local(.filter-wrapper) {
-  width: 19%;
-  box-sizing: border-box;
-  float: left;
-}
-
-:local(.filter-title) {
-  text-align: center;
-}
-
 :local(.filter-form) {
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 
 :local(.submit-button) {

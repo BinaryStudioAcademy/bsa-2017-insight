@@ -113,7 +113,18 @@ class WidgetSettings extends React.Component {
             <Tab label="Install the Messenger" value="install">
               <h2>Install the Messenger</h2>
               <p>You’ll need to add a bit of code or configure an integration to see the
-              Insight Messenger appear on your website or app.</p>
+              InSight Messenger appear on your website or app. Just a little bit...</p>
+              <ol>
+                <li>To integrate chat to your app/website just add the following lines to your site code before the <code>{'</body>'}</code> tag
+                  <code className={styles.code}>
+                    {`<script>window._injectedData = { currentAppId: '${window._injectedData.appId}'}</script>`}<br />
+                    {'<script src="http://localhost:3000/resources/widget/insight-widget.js"></script>'}
+                  </code>
+                </li>
+                <li>
+                  And... That's it!
+                </li>
+              </ol>
             </Tab>
           </Tabs>
         </div>

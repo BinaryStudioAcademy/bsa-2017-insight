@@ -153,3 +153,11 @@
   display: block !important;
   margin: 15px auto 0;
 }
+
+:local(.code) {
+  margin: 15px;
+  padding: 15px 25px;
+  border: 1px solid #ccc;
+  display: block;
+  line-height: 1.8em;
+}

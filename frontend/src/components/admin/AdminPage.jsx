@@ -26,38 +26,9 @@ import GeneralSettings from './Settings/GeneralSettings';
 import WidgetSettings from './Settings/WidgetSettings/WidgetSettings';
 import FAQ from './FAQ/FAQ';
 import AppList from './AppList/Apps';
+import Homepage from './Homepage/Homepage'
 
 injectTapEventPlugin();
-
-// const statisticOptions = {
-//   items: ['Name', 'Email', 'Last seen'],
-//   Name: [
-//     {
-//       'Name 1': 'name-option1',
-//     },
-//     {
-//       'Name 2': 'name-option2',
-//     }],
-//   Email: [
-//     {
-//       'email 1': 'email-option1',
-//     },
-//     {
-//       'email 2': 'email-option2',
-//     },
-//   ],
-//   'Last seen': [
-//     {
-//       'more than': 'days ago',
-//     },
-//     {
-//       exactly: 'days ago',
-//     },
-//     {
-//       'less than': 'days ago',
-//     },
-//   ],
-// };
 
 class AdminPage extends React.Component {
   constructor(props) {
@@ -142,18 +113,12 @@ class AdminPage extends React.Component {
                             const options = this.getStatisticOptions(this.props.usersToRender);
                             return (
                               <div className={styles['statistics-content-wrapper']}>
-                                <StatisticsFilter chosenTheme={this.state.chosenTheme} />
-                                <UserInfoTable
-                                  options={this.props.fieldsToDisplay}
-                                  statistics={statistics}
-                                  selectedFields={this.props.fieldsToDisplay}
-                                  statisticOptions={options}
-                                  updateFields={this.props.updateFields}
+                                <Homepage 
                                   chosenTheme={this.state.chosenTheme}
-                                />
-                                <StatisticsCharts
-                                  selectedFields={this.props.fieldsToDisplay}
+                                  fieldsToDisplay={this.props.fieldsToDisplay}
                                   statistics={statistics}
+                                  statisticOptions={options}
+                                  updateFields={this.props.updateFields}  
                                 />
                               </div>
                             );

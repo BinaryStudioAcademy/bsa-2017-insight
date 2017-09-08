@@ -17,14 +17,12 @@
   }
 }
 
-:local(.filter-title) {
-  text-align: center;
-}
-
 :local(.filter-form) {
   display: flex;
   flex-wrap: wrap;
   padding-bottom: 10px;
+  height: calc(100vh - 80px - 48px - 48px) !important;
+  overflow: auto;
 
   & > div {
     width: 50%;

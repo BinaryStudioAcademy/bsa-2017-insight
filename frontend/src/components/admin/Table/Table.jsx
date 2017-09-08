@@ -72,28 +72,9 @@ class UserInfoTable extends React.Component {
       />,
     ];
     return (
-      <div className={styles.container} >
+      <div className={styles.container} style={{ width: '74vw' }}>
         <div className={styles.topPanel}>
           <div className={styles['table-buttons-wrapper']}>
-            <RaisedButton
-              label="Columns Filter"
-              onClick={this.handleOpen}
-              primary
-              style={{ margin: '0 5px 10px 0' }}
-            />
-            <Dialog
-              title="Columns Filter"
-              actions={actions}
-              modal
-              open={this.state.open}
-              bodyStyle={{ overflowX: 'hidden' }}
-            >
-              <Filter
-                selectedFields={this.props.selectedFields}
-                statisticOptions={this.props.statisticOptions}
-                updateFields={this.updateFields}
-              />
-            </Dialog>
             <RaisedButton
               label="Create a selection"
               onClick={() => this.toggleSelectionDialog(this.state.selDialogOpen)}
@@ -144,9 +125,8 @@ class UserInfoTable extends React.Component {
             <SelectField
               value={this.state.rowsPerPage}
               onChange={this.handleChangeRowsPerPage}
-              style={{ width: '80px' }}
+              style={{ width: '80px' }} 
             >
-              <MenuItem value={2} primaryText="2" />
               <MenuItem value={5} primaryText="5" />
               <MenuItem value={10} primaryText="10" />
               <MenuItem value={25} primaryText="25" />

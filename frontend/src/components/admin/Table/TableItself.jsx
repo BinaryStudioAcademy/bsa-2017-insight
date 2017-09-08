@@ -95,24 +95,26 @@ class TableItself extends React.Component {
     const numOfPages = Math.ceil(numOfRows/this.props.rowsPerPage);
     return (
       <div className={styles.table} >
-        <table>
-          <thead className={styles.tableHeader}>
-            <tr>
-              {this.props.options.map((elem) => {
-                return (<th
-                  key={elem}
-                >
-                  {this.state[elem]}
-                </th>);
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            {
-              this.generateRows()
-            }
-          </tbody>
-        </table>
+        <div className={styles.tableItself}>
+          <table>
+            <thead className={styles.tableHeader}>
+              <tr>
+                {this.props.options.map((elem) => {
+                  return (<th
+                    key={elem}
+                  >
+                    {this.state[elem]}
+                  </th>);
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {
+                this.generateRows()
+              }
+            </tbody>
+          </table>
+        </div>
         <div className={styles.pagination}>
           <div className={styles['pagination-buttons-wrapper']}>
             <RaisedButton

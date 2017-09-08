@@ -72,7 +72,7 @@ class UserInfoTable extends React.Component {
       />,
     ];
     return (
-      <div className={styles.container} style={{ width: '70vw' }}>
+      <div className={styles.container} style={{ width: '74vw' }}>
         <div className={styles.topPanel}>
           <div className={styles['table-buttons-wrapper']}>
             <RaisedButton

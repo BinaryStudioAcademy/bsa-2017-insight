@@ -8,3 +8,11 @@
     display: inline-block;
     vertical-align: top;
 }
+
+:local(.nested-items) {
+	display: flex;
+	flex-direction: column;
+    justify-content: space-between;
+    height: calc(100vh - 80px - 48px - 58px) !important;
+    overflow: auto;
+}

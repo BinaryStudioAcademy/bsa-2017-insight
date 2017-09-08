@@ -54,41 +54,37 @@ class TableItself extends React.Component {
       const endId = (currPage === numOfPages) ? numOfRows : (currPage*rowsPerPage);
       const rowsOnThisPage = this.props.statistics.slice(startId, endId);
       return rowsOnThisPage.map((row, index) => (
-        <TableRow key={`row ${index}`} value={row} style={{ borderBottom: '1px solid #E0F7FA' }}> {
+        <tr key={`row ${index}`} value={row} className={styles.rows}  style={{ borderBottom: '1px solid #E0F7FA' }}> {
           this.props.options.map((elem) => {
             if (elem === 'username') {
-              return (<TableRowColumn
+              return (<td
                 key={`row ${index},column${elem}`}
-                style={{ fontSize: '12px', width: '200px', padding: '5px' }}
               >
                 <span>{row.userId.username}</span>
-              </TableRowColumn>);
+              </td>);
             }
             if (elem === 'firstname') {
-              return (<TableRowColumn
+              return (<td
                 key={`row ${index},column${elem}`}
-                style={{ fontSize: '12px', width: '200px', padding: '5px' }}
               >
                 <span>{row.userId.firstName}</span>
-              </TableRowColumn>);
+              </td>);
             }
             if (elem === 'lastname') {
-              return (<TableRowColumn
+              return (<td
                 key={`row ${index},column${elem}`}
-                style={{ fontSize: '12px', width: '200px', padding: '5px' }}
               >
                 <span>{row.userId.lastName}</span>
-              </TableRowColumn>);
+              </td>);
             }
-            return (<TableRowColumn
+            return (<td
               key={`row ${index},column${elem}`}
-              style={{ fontSize: '12px', width: '200px', padding: '5px' }}
             >
               <span>{row[elem]}</span>
-            </TableRowColumn>);
+            </td>);
           })
         }
-        </TableRow>
+        </tr>
       ));
     }
   }
@@ -99,30 +95,24 @@ class TableItself extends React.Component {
     const numOfPages = Math.ceil(numOfRows/this.props.rowsPerPage);
     return (
       <div className={styles.table} >
-        <Table bodyStyle={{ overflow: 'visible' }}>
-          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-            <TableRow style={{ height: '25px' }}>
+        <table>
+          <thead className={styles.tableHeader}>
+            <tr>
               {this.props.options.map((elem) => {
-                return (<TableHeaderColumn
+                return (<th
                   key={elem}
-                  style={{
-                    fontSize: '12px',
-                    width: '200px',
-                    padding: '5px',
-                    height: '25px',
-                  }}
                 >
                   {this.state[elem]}
-                </TableHeaderColumn>);
+                </th>);
               })}
-            </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false}>
+            </tr>
+          </thead>
+          <tbody>
             {
               this.generateRows()
             }
-          </TableBody>
-        </Table>
+          </tbody>
+        </table>
         <div className={styles.pagination}>
           <div>
             <RaisedButton 

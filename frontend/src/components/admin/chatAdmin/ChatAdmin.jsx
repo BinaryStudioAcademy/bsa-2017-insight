@@ -74,27 +74,6 @@ class Chat extends Component {
     }
   }
 
-  onFileInputChange() {
-    if (this.fileInput.files.length === 1) {
-      this.setState({ filesCounter: this.fileInput.files[0].name });
-    } else if (this.fileInput.files.length > 1) {
-      this.setState({ filesCounter: `Selected files: ${this.fileInput.files.length}` });
-    } else {
-      this.setState({ filesCounter: 'Select file' });
-    }
-  }
-
-
-  onFileInputChange() {
-    if (this.fileInput.files.length === 1) {
-      this.setState({ filesCounter: this.fileInput.files[0].name });
-    } else if (this.fileInput.files.length > 1) {
-      this.setState({ filesCounter: `Selected files: ${this.fileInput.files.length}` });
-    } else {
-      this.setState({ filesCounter: 'Select file' });
-    }
-  }
-
   setTextIntoInput(e) {
     this.setState({ text: e.target.value });
   }

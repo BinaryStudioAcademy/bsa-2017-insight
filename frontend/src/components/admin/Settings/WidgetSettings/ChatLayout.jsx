@@ -11,7 +11,7 @@ export default class ChatLayout extends React.Component {
   render() {
     const user = window._injectedData;
     return (
-      <div className={'chat-wrapper'}>
+      <div className={'chat-display-wrapper'}>
         <div className={'chat-header'} style={{ backgroundColor: this.props.settings.primaryColor }}>
           <IconButton style={{ marginRight: '10px' }}>
             <FontIcon className={'material-icons'} color={'#fff'}>arrow_back</FontIcon>
@@ -39,7 +39,7 @@ export default class ChatLayout extends React.Component {
               for staying personal at scale using Intercom.</span>
             </div>
             <RaisedButton
-              style={{ marginTop: '15px' }}
+              className={styles['question-button']}
               label="Hi, is there any online version of the book?"
               labelStyle={{ fontSize: '12px', color: '#fff' }}
               backgroundColor={this.props.settings.primaryColor}
@@ -55,5 +55,9 @@ export default class ChatLayout extends React.Component {
 }
 
 ChatLayout.propTypes = {
-  settings: propTypes.object,
+  settings: propTypes.shape({
+    backgroundImage: propTypes.string,
+    primaryColor: propTypes.string,
+    widgetPosition: propTypes.string,
+  }),
 };

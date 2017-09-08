@@ -2,7 +2,9 @@ import { takeEvery, put } from 'redux-saga/effects';
 
 const fetchSelectionAPI = {
   allSelections: () => {
-    return fetch('/api/selections')
+    return fetch('/api/selections', {
+      credentials: 'include',
+    })
       .then(res => res.json())
       .then(selections => selections)
       .catch(err => console.log(`Can't load the list of selections: ${err}`));

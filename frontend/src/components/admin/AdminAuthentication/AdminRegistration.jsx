@@ -74,7 +74,6 @@ class AdminRegistration extends React.Component {
         body: formData,
         credentials: 'include',
       }).then((response) => {
-        console.log(response);
         if (response.redirected) return window.location.replace(response.url);
         return response.json();
       }).then((response) => {
@@ -86,7 +85,7 @@ class AdminRegistration extends React.Component {
   }
 
   loadPreview(e) {
-    this.setState({ image: e.target.files[0] })
+    this.setState({ image: e.target.files[0] });
   }
 
   updateImage(newImage) {
@@ -103,6 +102,12 @@ class AdminRegistration extends React.Component {
           onSubmit={this.sendForm}
           encType="multipart/form-data"
         >
+          <TextField
+            type={'text'}
+            name={'appId'}
+            required
+            hintText={'App ID'}
+          /><br />
           <TextField
             type={'text'}
             name={'username'}
@@ -168,7 +173,7 @@ class AdminRegistration extends React.Component {
           </RaisedButton>
           <br /><br />
           <div className={styles['avatar-preview']}>
-            <AvatarPreview image={this.state.image} update={this.updateImage}/>
+            <AvatarPreview image={this.state.image} update={this.updateImage} />
           </div>
           <br /><br />
           <RaisedButton

@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
   conversationId: Schema.Types.ObjectId,
+  appId: { type: Schema.Types.ObjectId, required: false }, // CHANGE TO "TRUE" LATER
   body: Schema.Types.Mixed,
   author: {
     item: { type: Schema.Types.ObjectId, refPath: 'author.userType' },

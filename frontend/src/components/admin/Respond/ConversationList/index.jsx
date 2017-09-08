@@ -1,26 +1,57 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { List } from 'material-ui/List';
 import SingleConversation from '../SingleConversation';
 
-const ConversationList = (props) => {
-  return (
-    <div>
-      {props.conversations.map((e) => {
-        const activeConv = props.nowActive ? props.nowActive : null;
-        const handler = activeConv === e._id ? () => props.removeConversations() : () => props.setConversation(e._id);
-        return (
-          <SingleConversation
-            key={e._id}
-            handler={handler}
-            setStatistic={props.setStatistic}
-            conversation={e}
-            chosenTheme={props.chosenTheme}
-          />
-        );
-      })}
-    </div>
-  );
-};
+class ConversationList extends React.Component {
+  componentDidMount() {
+    if (this.anchor) this.anchor.scrollIntoView();
+  }
+  render() {
+    if (this.props.conversations === null) {
+      return <h3 style={{ margin: '10px' }}>Loading...</h3>;
+    } else if (!this.props.conversations.length) {
+      return <h3 style={{ margin: '10px' }}>Conversations list is empty now</h3>;
+    }
+    return (
+      <List style={{ padding: '0px' }}>
+        {this.props.conversations.map((e) => {
+          const activeConv = this.props.nowActive ? this.props.nowActive : null;
+          const handler = activeConv === e._id ?
+            () => this.props.removeConversations() :
+            () => this.props.setConversation(e._id);
+          if (activeConv && activeConv === e._id) {
+            return (
+              <div key={e._id}>
+                <div
+                  ref={(node) => {
+                    this.anchor = node;
+                  }}
+                />
+                <SingleConversation
+                  active
+                  handler={handler}
+                  setStatistic={this.props.setStatistic}
+                  conversation={e}
+                  chosenTheme={this.props.chosenTheme}
+                />
+              </div>
+            );
+          }
+          return (
+            <SingleConversation
+              key={e._id}
+              handler={handler}
+              setStatistic={this.props.setStatistic}
+              conversation={e}
+              chosenTheme={this.props.chosenTheme}
+            />
+          );
+        })}
+      </List>
+    );
+  }
+}
 
 
 ConversationList.propTypes = {
@@ -36,6 +67,14 @@ ConversationList.propTypes = {
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
   })),
   nowActive: propTypes.string,
+  removeConversations: propTypes.func,
+  setConversation: propTypes.func,
+  chosenTheme: propTypes.shape({
+    borderRadius: propTypes.number,
+    fontFamily: propTypes.string,
+    palette: propTypes.object,
+    spacing: propTypes.object,
+  }),
 };
 
 export default ConversationList;

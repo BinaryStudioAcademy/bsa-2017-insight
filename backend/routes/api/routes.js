@@ -10,6 +10,7 @@ const notificationRoutes = require('./notificationRoutes');
 const settingsRoutes = require('./settingsRoutes');
 const selectionRoutes = require('./selectionRoutes');
 const faqRoutes = require('./faqRoutes');
+const appRoutes = require('./appRoutes');
 
 
 module.exports = app => ({
@@ -25,4 +26,5 @@ module.exports = app => ({
   settingsRoutes: settingsRoutes(app),
   selectionRoutes: selectionRoutes(app),
   faqRoutes: faqRoutes(app),
+  appRoutes: appRoutes(app),
 });

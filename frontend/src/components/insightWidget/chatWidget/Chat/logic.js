@@ -12,6 +12,18 @@ function findItemById(id, arrOfObjects) {
   };
 }
 
+const isIntroduced = {
+  add(variable) {
+    this.invoke = () => {
+      return variable;
+    };
+  },
+  skip() {
+    this.skipped = true;
+  },
+  skipped: false,
+};
+
 function getForceMessage(conversation) {
   const forceMessage = {
     _id: (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24),
@@ -63,7 +75,6 @@ function startSocketConnection(socket) {
       this.onForceConversation();
     }
     if (window._injectedData.forceConvId && this.props.force) {
-      console.log('11111111111111111111:', this.props.force);
       const convWithForceMessage = getForceMessage(conversations);
       this.socket.emit('switchRoom', window._injectedData.forceConvId);
       this.setState({ conversations: convWithForceMessage, activeChatId: window._injectedData.forceConvId });
@@ -121,9 +132,13 @@ function startSocketConnection(socket) {
       activeChatId: conversation._id,
     });
   });
+  this.socket.on('introduced', (data) => {
+    isIntroduced.add(data.body.isIntroduced);
+  });
 }
 
 export {
   findItemById,
   startSocketConnection,
+  isIntroduced,
 };

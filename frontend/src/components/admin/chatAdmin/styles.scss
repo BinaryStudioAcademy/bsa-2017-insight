@@ -8,13 +8,12 @@
 }
 
 :local(.sending-form) {
+  box-sizing: border-box;
   margin-bottom: 10px;
   width: 100%;
   display: flex;
   flex-shrink: 0;
-  * {
-    margin: 0 3px;
-  }
+  padding: 0 10px;
 }
 
 :local(.message-input) {
@@ -35,15 +34,22 @@
   height:40px;
   line-height: 40px;
   background:none;
-  border:none
+  border:none;
+  outline: none;
 }
 
 :local(.emoji-block-icon){
-  font-size: 20px;
+  display: block;
+  margin-top: -4px;
+  height: 40px;
+  font-size: 40px;
+  line-height: 40px;
   font-style: normal;
   font-weight: 400;
   &:after{
-    content: "☺️"
+    font-size: 40px;
+    line-height: 40px;
+    content: "☺️";
   }
 }
 
@@ -58,7 +64,6 @@
 }
 
 :local(.file-input) {
-  cursor: pointer;
   position: absolute;
   top: 0;
   bottom: 0;

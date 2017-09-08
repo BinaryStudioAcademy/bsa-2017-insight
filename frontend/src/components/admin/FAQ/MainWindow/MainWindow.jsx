@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
-import { List, ListItem } from 'material-ui/List';
 import QuestionAndAnswer from '../QuestionAndAnswer/QuestionAndAnswer';
 import styles from './styles.scss';
 
@@ -15,8 +14,6 @@ class MainWindow extends Component {
   }
 
   deleteQuestion() {
-    console.log('delete');
-    console.log(this.props.currentQuestion._id);
     if (this.props.currentQuestion._id != null) {
       this.props.setAction('delete');
       this.props.deleteQuestion(this.props.currentQuestion._id);
@@ -44,13 +41,6 @@ class MainWindow extends Component {
     this.document.body.removeChild(div);
   }
 
-  handleAction(action) {
-    this.setState({
-      disabled: false
-    });
-    this.props.setAction(action);
-  }
-
   submit() {
     this.setState({
       disabled: true
@@ -73,16 +63,23 @@ class MainWindow extends Component {
 
   render() {
     return (
-      <div className={styles['main-window']}>
+      <div className={styles.mainWindow}>
         <div>
-          <List>
-            <ListItem open={this.state.open} disableKeyboardFocus>
-              <RaisedButton onClick={() => this.handleAction('modify')} label="Modify" style={{ margin: '10px' }} />
-              <RaisedButton onClick={() => this.copyToClipboard()} label="Copy" style={{ margin: '10px' }} />
-              <RaisedButton onClick={() => this.deleteQuestion()} label="Delete" style={{ margin: '10px' }} />
-              <RaisedButton onClick={() => this.handleAction('add')} label="Add question" style={{ marginLeft: '40%' }} />
-            </ListItem>
-          </List>
+          <RaisedButton 
+            onClick={() => this.props.handleAction('modify')} 
+            label="Modify"
+            className={styles.raisedButton} 
+          />
+          <RaisedButton 
+            onClick={() => this.copyToClipboard()} 
+            label="Copy"
+            className={styles.raisedButton} 
+          />
+          <RaisedButton 
+            onClick={() => this.deleteQuestion()} 
+            label="Delete"
+            className={styles.raisedButton} 
+          />
         </div>
         <div>
           {
@@ -110,8 +107,7 @@ MainWindow.propTypes = {
     answer: propTypes.string.isRequired,
     question: propTypes.string.isRequired,
     createdAt : propTypes.any.isRequired
-  }),
-  selectedId: propTypes.string
+  })
 };
 
 export default MainWindow;

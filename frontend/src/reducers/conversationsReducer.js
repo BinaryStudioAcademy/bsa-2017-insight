@@ -1,6 +1,6 @@
 const initialState = {
   conversations: [],
-  conversationToRenderId: null
+  conversationToRenderId: null,
 };
 
 function findConversationById(id, conversations) {
@@ -13,7 +13,7 @@ function findConversationById(id, conversations) {
   });
   return {
     conversationItem,
-    index
+    index,
   };
 }
 
@@ -23,8 +23,8 @@ const conversationsReducer = (state = initialState, action) => {
       const { index, conversationItem } = findConversationById(action.payload.conversationId, state.conversations);
       conversationItem.messages = [...conversationItem.messages, action.payload];
       const oldConversations = [...state.conversations];
-      oldConversations.splice(index, 1);
-      const newConversations = [...oldConversations, conversationItem];
+      oldConversations.splice(index, 1, conversationItem);
+      const newConversations = [...oldConversations];
       return { ...state, conversations: newConversations };
     }
     case 'GET_CONVERSATIONS_SUCCESS':

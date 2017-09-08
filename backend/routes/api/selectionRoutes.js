@@ -3,7 +3,7 @@ const selectionRepository = require('../../repositories/selectionRepository');
 module.exports = (app) => {
 
   app.get('/api/selections', (req, res, next) => {
-    selectionRepository.getAll((err, data) => {
+    selectionRepository.getAll(req.user.appId, (err, data) => {
       if (err) return next(err);
       return res.status(200).json(data);
     });

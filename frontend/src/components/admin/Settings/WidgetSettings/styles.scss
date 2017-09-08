@@ -119,8 +119,6 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
-  margin-top: 35px;
-  padding-top: 35px;
 
   @media (min-width: 900px) {
     flex-wrap: nowrap;
@@ -129,8 +127,9 @@
 }
 
 :local(.force-message-form) {
+  width: 40%;
   margin-left: 30px;
-  margin-top: -35px;
+  margin-top: 20px;
 }
 
 .wallpapers {
@@ -160,4 +159,31 @@
   border: 1px solid #ccc;
   display: block;
   line-height: 1.8em;
+}
+
+:local(.force-message-form-header) {
+  text-align: center;
+  font-size: 22px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+:local(.force-message-input) {
+  width: 100% !important;
+  margin-bottom: 15px;
+}
+
+:local(.conditions-header) {
+  text-align: center;
+}
+
+:local(.add-button-wrapper) {
+  width: 60%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+:local(.add-force-message-button) {
+  width: 80% !important;
 }

@@ -19,7 +19,14 @@ const Trigger = (OriginalComponent) => {
     }
 
     componentDidMount() {
-      actions.add(PATH_CHANGED, this, checkPath);
+      fetch(`http://localhost:3000/api/force-messages/all/${window._injectedData.currentAppId}`)
+        .then(response => response.json())
+        .then((forceMessages) => {
+          actions.add(PATH_CHANGED, this, (data) => {
+            checkPath(data, forceMessages);
+          });
+        });
+
       window.addEventListener('click', () => {
         if (window._injectedData.urlHistory) {
           const url = window._injectedData.urlHistory;

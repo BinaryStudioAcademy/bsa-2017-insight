@@ -71,19 +71,19 @@ class WidgetSettings extends React.Component {
     return (
       <div className={styles['settings-content-wrapper']}>
         <div className={styles['navigation-tabs-wrapper']}>
-          <div>
-            <RaisedButton
-              label="Save"
-              primary
-              onClick={this.save}
-              style={{ margin: '15px' }}
-            /> {this.state.info}
-          </div>
           <Tabs
             value={this.state.activeTab}
             onChange={this.handleChange}
           >
             <Tab label="Customize appearance" value="appearance">
+              <div>
+                <RaisedButton
+                  label="Save"
+                  primary
+                  onClick={this.save}
+                  style={{ margin: '15px' }}
+                /> {this.state.info}
+              </div>
               <div>
                 <h3 className={styles['customize-title']}>Customize appearance</h3>
                 <p className={styles['customize-text']}>Customize your Messenger’s color to suit your app or site, then choose a background wallpaper.</p>
@@ -106,8 +106,7 @@ class WidgetSettings extends React.Component {
             </Tab>
             <Tab label="Force message" value="localize">
               <div className={styles['force-content-wrapper']}>
-                <ForceMessage set={this.setSettings} settings={this.state.settings} />
-                <ChatLayout settings={this.state.settings} />
+                <ForceMessage settings={this.state.settings} />
               </div>
             </Tab>
             <Tab label="Install the Messenger" value="install">

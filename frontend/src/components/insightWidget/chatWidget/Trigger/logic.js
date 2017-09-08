@@ -1,19 +1,21 @@
-const settings = {
-  '/respond': { path: '/respond', time: 11000 },
-  '/engage': { path: '/engage', time: 11000 },
-};
+// const settings = {
+//   '/respond': { path: '/respond', time: 11000 },
+//   '/engage': { path: '/engage', time: 11000 },
+// };
 
-const checkPath = (data) => {
+const checkPath = (data, settings) => {
   const [callback, pathName] = data;
-  const path = settings[pathName] ? settings[pathName].path : null;
-  switch (pathName) {
-    case path:
-      console.log(`widget will open after ${settings[pathName].time / 1000}sec`);
-      return callback(settings[pathName].time);
-    default:
-      console.log('widget will open after 5sec');
-      return callback(5000);
-  }
+  settings.forEach((forceMessage, i) => {
+    const path = pathName === settings[i].page ? settings[i].page : null;
+    switch (pathName) {
+      case path:
+        console.log(`widget will open after ${settings[i].conditions.timer / 1000}sec`);
+        return callback(settings[i].conditions.timer);
+      default:
+        console.log('not opening');
+        return null;
+    }
+  });
 };
 
 export default checkPath;

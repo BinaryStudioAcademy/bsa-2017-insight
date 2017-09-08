@@ -13,6 +13,7 @@ import UserInfoTable from './Table/Table';
 import * as statisticActions from '../../actions/statisticActions';
 import Login from './AdminAuthentication/AdminLogin';
 import Registration from './AdminAuthentication/AdminRegistration';
+import AppRegistration from './AdminAuthentication/AppRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 import Respond from './Respond/index';
 import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
@@ -24,38 +25,10 @@ import Engage from './Engage/Engage';
 import GeneralSettings from './Settings/GeneralSettings';
 import WidgetSettings from './Settings/WidgetSettings/WidgetSettings';
 import FAQ from './FAQ/FAQ';
+import AppList from './AppList/Apps';
+import Homepage from './Homepage/Homepage'
 
 injectTapEventPlugin();
-
-// const statisticOptions = {
-//   items: ['Name', 'Email', 'Last seen'],
-//   Name: [
-//     {
-//       'Name 1': 'name-option1',
-//     },
-//     {
-//       'Name 2': 'name-option2',
-//     }],
-//   Email: [
-//     {
-//       'email 1': 'email-option1',
-//     },
-//     {
-//       'email 2': 'email-option2',
-//     },
-//   ],
-//   'Last seen': [
-//     {
-//       'more than': 'days ago',
-//     },
-//     {
-//       exactly: 'days ago',
-//     },
-//     {
-//       'less than': 'days ago',
-//     },
-//   ],
-// };
 
 class AdminPage extends React.Component {
   constructor(props) {
@@ -104,7 +77,6 @@ class AdminPage extends React.Component {
         <div
           className={styles['admin-page']}
           style={{
-            minWidth: '700px',
             fontFamily: 'Roboto, sans-serif',
             backgroundColor: this.state.chosenTheme.palette.canvasColor,
             color: this.state.chosenTheme.palette.textColor,
@@ -114,12 +86,14 @@ class AdminPage extends React.Component {
           <Switch>
             <Route path={'/admin/login'} component={Login} />
             <Route path={'/admin/registration'} component={Registration} />
+            <Route path={'/app/registration'} component={AppRegistration} />
             <Route render={() => {
               return (
                 <EnsureAdmin currentUser={this.state.currentUser}>
                   <LeftSideMenu
                     width={this.leftMenuWidth}
                     chosenTheme={this.state.chosenTheme}
+                    currentUser={this.props.currentUser}
                   />
                   <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: this.leftMenuWidth - 8 }}>
                     <Header
@@ -128,7 +102,8 @@ class AdminPage extends React.Component {
                       chosenTheme={this.state.chosenTheme}
                       style={{ height: this.headerHeight }}
                     />
-                    <div style={{ height: `calc(100vh - ${this.headerHeight + 8}px)`, overflowY: 'scroll' }}>
+                    {/*style={{ height: `calc(100vh - ${this.headerHeight + 8}px)`, overflowY: 'scroll' }}*/}
+                    <div >
                       <Switch>
                         <Route
                           exact
@@ -137,19 +112,13 @@ class AdminPage extends React.Component {
                             const statistics = this.props.usersToRender;
                             const options = this.getStatisticOptions(this.props.usersToRender);
                             return (
-                              <div style={{ marginTop: '10px' }}>
-                                <StatisticsFilter chosenTheme={this.state.chosenTheme} />
-                                <UserInfoTable
-                                  options={this.props.fieldsToDisplay}
-                                  statistics={statistics}
-                                  selectedFields={this.props.fieldsToDisplay}
-                                  statisticOptions={options}
-                                  updateFields={this.props.updateFields}
+                              <div className={styles['statistics-content-wrapper']}>
+                                <Homepage 
                                   chosenTheme={this.state.chosenTheme}
-                                />
-                                <StatisticsCharts
-                                  selectedFields={this.props.fieldsToDisplay}
+                                  fieldsToDisplay={this.props.fieldsToDisplay}
                                   statistics={statistics}
+                                  statisticOptions={options}
+                                  updateFields={this.props.updateFields}  
                                 />
                               </div>
                             );
@@ -176,6 +145,15 @@ class AdminPage extends React.Component {
                         <Route path={'/admin/settings/general'} component={GeneralSettings} />
                         <Route path={'/admin/faq'} component={FAQ} />
                         <Route path={'/admin/settings/widget'} component={WidgetSettings} />
+                        <Route
+                          path={'/admin/apps'}
+                          render={() => (
+                            <AppList
+                              headerHeight={this.headerHeight}
+                              chosenTheme={this.state.chosenTheme}
+                            />
+                          )}
+                        />
                         <Route component={IncorrectRoute} />
                       </Switch>
                     </div>

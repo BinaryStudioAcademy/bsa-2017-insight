@@ -7,6 +7,7 @@ function getStatisticsByQuery(query) {
     },
     body: null,
     method: 'GET',
+    credentials: 'include',
   };
   return fetch(url, requestOptions)
     .then((response) => {

@@ -1,20 +1,19 @@
-:local(.main-window) {
-  padding: 0;
+$headerHeight: 73px;
+
+:local(.mainWindow) {
   margin: 10px 0 15px;
-  width: 80%;
-  height: 100vh;
+  width: 70%;
+  height: calc(100vh - #{$headerHeight});
   border-left: 1px solid #E0E0E0;
   border-right: 1px solid #E0E0E0;
   overflow: auto;
-  background-color: white;
-  list-style: none;
-  display: inline-block;
+  display: inline-flex;
   flex-direction: column;
   padding: 20px;
   box-sizing: border-box;
 
-  button{
-    margin: 10px;
+  @media (min-width: 1000px) {
+    width: 80%;
   }
 
   .list-item{
@@ -22,4 +21,8 @@
       background-color: white !important;
     }
   }
+}
+
+:local(.raisedButton) {
+    margin: 10px !important;
 }

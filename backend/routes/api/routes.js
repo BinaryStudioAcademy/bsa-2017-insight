@@ -11,6 +11,7 @@ const settingsRoutes = require('./settingsRoutes');
 const selectionRoutes = require('./selectionRoutes');
 const faqRoutes = require('./faqRoutes');
 const conversationFilterRoutes = require('./conversationFilterRoutes');
+const appRoutes = require('./appRoutes');
 
 module.exports = app => ({
   messageRoutes: messageRoutes(app),
@@ -26,4 +27,5 @@ module.exports = app => ({
   selectionRoutes: selectionRoutes(app),
   faqRoutes: faqRoutes(app),
   conversationFilterRoutes: conversationFilterRoutes(app),
+  appRoutes: appRoutes(app),
 });

@@ -5,6 +5,8 @@ import GpsFixed from 'material-ui/svg-icons/device/gps-fixed';
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import Time from 'material-ui/svg-icons/device/access-time';
+import Drafts from 'material-ui/svg-icons/content/drafts';
+import Phone from 'material-ui/svg-icons/hardware/phone-iphone';
 import Subheader from 'material-ui/Subheader';
 import styles from './styles.scss';
 
@@ -24,6 +26,8 @@ const UserInfo = (props) => {
           <ListItem primaryText={user.username} secondaryText={isOnline} leftAvatar={<Avatar src={`avatars/${user.avatar}`} />} />
           <ListItem primaryText={statistic.country} secondaryText={statistic.city} leftIcon={<GpsFixed />} />
           <ListItem primaryText={statistic.timeZone} leftIcon={<Time />} />
+          {user.email && <ListItem primaryText={user.email} leftIcon={<Drafts />} />}
+          {user.phone && <ListItem primaryText={user.phone} leftIcon={<Phone />} />}
         </List>
 
         <Divider />

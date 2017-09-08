@@ -36,6 +36,7 @@ class StatisticsFilter extends React.Component {
       viewedUrls: false,
       'viewedUrls-exact': false,
       'viewedUrls-includes': false,
+      opened: false,
     };
     this.onCustomInputClick = this.onCustomInputClick.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
@@ -117,215 +118,196 @@ class StatisticsFilter extends React.Component {
 
   render() {
     return (
-      <List
-        className={styles['filter-wrapper']}
-        style={{
-          padding: 0,
-          border: `1px solid ${this.props.chosenTheme.palette.primary1Color}`,
-          overflow: 'hidden',
-          marginLeft: '13px',
-        }}
-      >
-        <h4
-          className={styles['filter-title']}
-          style={{
-            backgroundColor: this.props.chosenTheme.palette.primary1Color,
-            color: this.props.chosenTheme.palette.alternateTextColor,
-            margin: 0,
-            height: '48px',
-            lineHeight: '48px',
-          }}
-        >Users Filter</h4>
-        <form className={styles['filter-form']} onSubmit={this.onFormSubmit}>
-          <CustomInput
-            type="single"
-            text="Username:"
-            matching="username"
-            displayChildren={this.state.username}
-            onCustomInputClick={this.onCustomInputClick}
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-          />
-          <CustomInput
-            type="single"
-            text="First name:"
-            matching="firstname"
-            displayChildren={this.state.firstname}
-            onCustomInputClick={this.onCustomInputClick}
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-          />
-          <CustomInput
-            type="single"
-            text="Last name:"
-            matching="lastname"
-            displayChildren={this.state.lastname}
-            onCustomInputClick={this.onCustomInputClick}
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-          />
-          <CustomInput
-            type="multiple"
-            text="Current URL:"
-            matching="currentUrl"
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-            onCustomInputClick={this.onCustomInputClick}
-            displayChildren={this.state.currentUrl}
-            childs={[
-              {
-                text: 'Exact :',
-                matching: 'currentUrl-exact',
-                displayChildren: this.state['currentUrl-exact'],
-              }, {
-                text: 'Includes :',
-                matching: 'currentUrl-includes',
-                displayChildren: this.state['currentUrl-includes'],
-              }]}
-          />
-          <CustomInput
-            type="single"
-            text="Browser Language:"
-            matching="browserLanguage"
-            displayChildren={this.state.browserLanguage}
-            onCustomInputClick={this.onCustomInputClick}
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-          />
-          <CustomInput
-            type="single"
-            text="Country:"
-            matching="country"
-            displayChildren={this.state.country}
-            onCustomInputClick={this.onCustomInputClick}
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-          />
-          <CustomInput
-            type="single"
-            text="City:"
-            matching="city"
-            displayChildren={this.state.city}
-            onCustomInputClick={this.onCustomInputClick}
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-          />
-          <CustomInput
-            type="multiple"
-            text="Screen Width:"
-            matching="screenWidth"
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-            onCustomInputClick={this.onCustomInputClick}
-            displayChildren={this.state.screenWidth}
-            childs={[
-              {
-                text: 'Exact :',
-                matching: 'screenWidth-exact',
-                displayChildren: this.state['screenWidth-exact'],
-              }, {
-                text: 'Lower than :',
-                matching: 'screenWidth-lowerThan',
-                displayChildren: this.state['screenWidth-lowerThan'],
-              }, {
-                text: 'Greater than :',
-                matching: 'screenWidth-greaterThan',
-                displayChildren: this.state['screenWidth-greaterThan'],
-              }]}
-          />
-          <CustomInput
-            type="multiple"
-            text="Screen Height:"
-            matching="screenHeight"
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-            onCustomInputClick={this.onCustomInputClick}
-            displayChildren={this.state.screenHeight}
-            childs={[
-              {
-                text: 'Exact :',
-                matching: 'screenHeight-exact',
-                displayChildren: this.state['screenHeight-exact'],
-              }, {
-                text: 'Lower than :',
-                matching: 'screenHeight-lowerThan',
-                displayChildren: this.state['screenHeight-lowerThan'],
-              }, {
-                text: 'Greater than :',
-                matching: 'screenHeight-greaterThan',
-                displayChildren: this.state['screenHeight-greaterThan'],
-              }]}
-          />
-          <CustomInput
-            type="single"
-            text="User IP:"
-            matching="userIpAddress"
-            displayChildren={this.state.userIpAddress}
-            onCustomInputClick={this.onCustomInputClick}
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-          />
-          <CustomInput
-            type="single"
-            text="Time Zone:"
-            matching="timeZone"
-            displayChildren={this.state.timeZone}
-            onCustomInputClick={this.onCustomInputClick}
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-          />
-          <CustomInput
-            type="single"
-            text="Browser:"
-            matching="browser"
-            displayChildren={this.state.browser}
-            onCustomInputClick={this.onCustomInputClick}
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-          />
-          <CustomInput
-            type="single"
-            text="Operation System:"
-            matching="os"
-            displayChildren={this.state.os}
-            onCustomInputClick={this.onCustomInputClick}
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-          />
-          <CustomInput
-            type="select"
-            id="deviceType"
-            text="Device Type: "
-            matching="deviceType"
-            options={['desktop', 'tablet', 'mobile']}
-            displayChildren={this.state.deviceType}
-            onUnmount={this.onInputUnmount}
-            onInputChange={this.onInputChange}
-            onCustomInputClick={this.onCustomInputClick}
-          />
-
-          <CustomInput
-            type="multiple"
-            text="Viewed URLs:"
-            matching="viewedUrls"
-            onInputChange={this.onInputChange}
-            onUnmount={this.onInputUnmount}
-            onCustomInputClick={this.onCustomInputClick}
-            displayChildren={this.state.viewedUrls}
-            childs={[
-              {
-                text: 'Exact :',
-                matching: 'viewedUrls-exact',
-                displayChildren: this.state['viewedUrls-exact'],
-              }, {
-                text: 'Includes :',
-                matching: 'viewedUrls-includes',
-                displayChildren: this.state['viewedUrls-includes'],
-              }]}
-          />
+      <form className={styles['filter-form']} onSubmit={this.onFormSubmit}>
+        <CustomInput
+          type="single"
+          text="Username:"
+          matching="username"
+          displayChildren={this.state.username}
+          onCustomInputClick={this.onCustomInputClick}
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+        />
+        <CustomInput
+          type="single"
+          text="First name:"
+          matching="firstname"
+          displayChildren={this.state.firstname}
+          onCustomInputClick={this.onCustomInputClick}
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+        />
+        <CustomInput
+          type="single"
+          text="Last name:"
+          matching="lastname"
+          displayChildren={this.state.lastname}
+          onCustomInputClick={this.onCustomInputClick}
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+        />
+        <CustomInput
+          type="multiple"
+          text="Current URL:"
+          matching="currentUrl"
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+          onCustomInputClick={this.onCustomInputClick}
+          displayChildren={this.state.currentUrl}
+          childs={[
+            {
+              text: 'Exact :',
+              matching: 'currentUrl-exact',
+              displayChildren: this.state['currentUrl-exact'],
+            }, {
+              text: 'Includes :',
+              matching: 'currentUrl-includes',
+              displayChildren: this.state['currentUrl-includes'],
+            }]}
+        />
+        <CustomInput
+          type="single"
+          text="Browser Language:"
+          matching="browserLanguage"
+          displayChildren={this.state.browserLanguage}
+          onCustomInputClick={this.onCustomInputClick}
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+        />
+        <CustomInput
+          type="single"
+          text="Country:"
+          matching="country"
+          displayChildren={this.state.country}
+          onCustomInputClick={this.onCustomInputClick}
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+        />
+        <CustomInput
+          type="single"
+          text="City:"
+          matching="city"
+          displayChildren={this.state.city}
+          onCustomInputClick={this.onCustomInputClick}
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+        />
+        <CustomInput
+          type="multiple"
+          text="Screen Width:"
+          matching="screenWidth"
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+          onCustomInputClick={this.onCustomInputClick}
+          displayChildren={this.state.screenWidth}
+          childs={[
+            {
+              text: 'Exact :',
+              matching: 'screenWidth-exact',
+              displayChildren: this.state['screenWidth-exact'],
+            }, {
+              text: 'Lower than :',
+              matching: 'screenWidth-lowerThan',
+              displayChildren: this.state['screenWidth-lowerThan'],
+            }, {
+              text: 'Greater than :',
+              matching: 'screenWidth-greaterThan',
+              displayChildren: this.state['screenWidth-greaterThan'],
+            }]}
+        />
+        <CustomInput
+          type="multiple"
+          text="Screen Height:"
+          matching="screenHeight"
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+          onCustomInputClick={this.onCustomInputClick}
+          displayChildren={this.state.screenHeight}
+          childs={[
+            {
+              text: 'Exact :',
+              matching: 'screenHeight-exact',
+              displayChildren: this.state['screenHeight-exact'],
+            }, {
+              text: 'Lower than :',
+              matching: 'screenHeight-lowerThan',
+              displayChildren: this.state['screenHeight-lowerThan'],
+            }, {
+              text: 'Greater than :',
+              matching: 'screenHeight-greaterThan',
+              displayChildren: this.state['screenHeight-greaterThan'],
+            }]}
+        />
+        <CustomInput
+          type="single"
+          text="User IP:"
+          matching="userIpAddress"
+          displayChildren={this.state.userIpAddress}
+          onCustomInputClick={this.onCustomInputClick}
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+        />
+        <CustomInput
+          type="single"
+          text="Time Zone:"
+          matching="timeZone"
+          displayChildren={this.state.timeZone}
+          onCustomInputClick={this.onCustomInputClick}
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+        />
+        <CustomInput
+          type="single"
+          text="Browser:"
+          matching="browser"
+          displayChildren={this.state.browser}
+          onCustomInputClick={this.onCustomInputClick}
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+        />
+        <CustomInput
+          type="single"
+          text="Operation System:"
+          matching="os"
+          displayChildren={this.state.os}
+          onCustomInputClick={this.onCustomInputClick}
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+        />
+        <CustomInput
+          type="select"
+          id="deviceType"
+          text="Device Type: "
+          matching="deviceType"
+          options={['desktop', 'tablet', 'mobile']}
+          displayChildren={this.state.deviceType}
+          onUnmount={this.onInputUnmount}
+          onInputChange={this.onInputChange}
+          onCustomInputClick={this.onCustomInputClick}
+        />
+        <CustomInput
+          type="multiple"
+          text="Viewed URLs:"
+          matching="viewedUrls"
+          onInputChange={this.onInputChange}
+          onUnmount={this.onInputUnmount}
+          onCustomInputClick={this.onCustomInputClick}
+          displayChildren={this.state.viewedUrls}
+          childs={[
+            {
+              text: 'Exact :',
+              matching: 'viewedUrls-exact',
+              displayChildren: this.state['viewedUrls-exact'],
+            }, {
+              text: 'Includes :',
+              matching: 'viewedUrls-includes',
+              displayChildren: this.state['viewedUrls-includes'],
+            }]}
+        />
+        <div className={styles['submit-button-container']}>
           <RaisedButton type="submit" label="Search" primary className={styles['submit-button']} />
-        </form>
-      </List>
+        </div>
+      </form>
     );
   }
 }

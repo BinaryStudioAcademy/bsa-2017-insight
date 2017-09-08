@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { List, ListItem } from 'material-ui/List';
+import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Question from './../Question/Question';
 import styles from './styles.scss';
@@ -17,35 +18,49 @@ class FAQList extends Component {
     this.props.setSelectedId(id);
   }
 
+  addQuestion(){
+    this.props.handleAction("add");
+  }
+
   render() {
-    let faqs = (this.props.action === 'search') ? this.props.searchedData : this.props.faqs;
+    const faqs = (this.props.action === 'search') ? this.props.searchedData : this.props.faqs;
     return (
-      <div className={styles['FAQ-list']}>
-        <TextField 
-          hintText="Search" 
-          id="search" 
-          onInput={this.props.searchQuestion} 
-        />
-        <br />
-        <List>
-          {faqs && faqs.map((faq) => {
-            const highlight = (this.props.selectedId === faq._id);
-            return (
-              <ListItem 
-                innerDivStyle={{ padding: '0px' }} 
-                className={styles['ListItem-highlight-' + `${highlight}`]} 
-                key={uniqueId++}
-              >
-                <Question
-                  setSelectedId={() => this.setSelectedId(faq._id)}
+      <div className={styles.container}>
+        <div>
+          <TextField 
+            hintText="Search" 
+            id="search" 
+            onInput={this.props.searchQuestion}
+            className={styles.search} 
+          />
+          <br />
+          <List className={styles.list} style={{}}>
+            {faqs && faqs.map((faq) => {
+              const highlight = (this.props.selectedId === faq._id);
+              return (
+                <ListItem 
+                  innerDivStyle={{ padding: '0px' }} 
+                  className={styles['ListItem-highlight-' + `${highlight}`]} 
                   key={uniqueId++}
-                  question={faq.question}
-                  highlight={highlight}
-                />
-              </ListItem>
-            );
-          })}
-        </List>
+                >
+                  <Question
+                    setSelectedId={() => this.setSelectedId(faq._id)}
+                    key={uniqueId++}
+                    question={faq.question}
+                    highlight={highlight}
+                  />
+                </ListItem>
+              );
+            })}
+          </List>
+        </div>
+        <div className={styles.addButton}>
+          <RaisedButton 
+            primary
+            onClick={()=> this.addQuestion()} 
+            label="Add question" 
+          />
+        </div>
       </div>
     );
   }
@@ -56,7 +71,7 @@ FAQList.propTypes = {
     _id: propTypes.string.isRequired,
     answer: propTypes.string.isRequired,
     question: propTypes.string.isRequired,
-    createdAt : propTypes.any.isRequired
+    createdAt: propTypes.any.isRequired,
   })),
   setSelectedId: React.PropTypes.func,
   selectedId: React.PropTypes.string,
@@ -65,9 +80,9 @@ FAQList.propTypes = {
     _id: propTypes.string.isRequired,
     answer: propTypes.string.isRequired,
     question: propTypes.string.isRequired,
-    createdAt : propTypes.any.isRequired
+    createdAt: propTypes.any.isRequired,
   })),
-  action: React.PropTypes.string
+  action: React.PropTypes.string,
 };
 
 export default FAQList;

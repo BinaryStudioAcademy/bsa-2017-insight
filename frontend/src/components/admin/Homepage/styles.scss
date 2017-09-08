@@ -1,0 +1,21 @@
+@import './frontend/src/common/styles/variables.scss';
+
+:local(.accordion){
+	margin: 0px 10px;
+	display: inline-block;
+	padding: 0;
+    border: 1px solid #00bcd4;
+	box-sizing: border-box;
+    width: calc(17vw - 1px) !important;
+    overflow: auto;
+}
+
+:local(.filter-title) {
+    background-color: #00bcd4 !important;
+    color: white !important;
+    margin: 0;
+    padding-left: 10px;
+    height: 48px;
+    line-height: 48px;
+    width: 16vw;
+}

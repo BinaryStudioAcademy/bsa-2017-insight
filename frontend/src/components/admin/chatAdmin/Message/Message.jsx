@@ -17,7 +17,7 @@ const Message = ({ name, body, type }) => {
       message = <a href={body.path}>{body.fileName}.{body.fileType}</a>;
     }
   } else {
-    message = <span><EmojiRender text={body} /></span>;
+    message = <EmojiRender text={body} />;
   }
   return (
     <li className={`${styles[messageAlign]} ${styles['message-item']}`}>

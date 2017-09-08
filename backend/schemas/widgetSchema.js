@@ -9,6 +9,7 @@ const widgetSchema = new Schema({
     primaryColor: { type: String, default: '#D91111' },
     backgroundImage: { type: String, default: 'http://localhost:3000/frontend/src/common/resources/wallpapers/w1' },
   },
+  appId: { type: Schema.Types.ObjectId, required: false }, // CHANGE TO "TRUE" LATER
 });
 
 module.exports = mongoose.model('Widget', widgetSchema);

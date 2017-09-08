@@ -22,6 +22,7 @@ render(
     <BrowserRouter>
       <Switch>
         <Route path={'/admin'} component={AdminPage} />
+        <Route path={'/app'} component={AdminPage} />
         <Route component={Home} />
       </Switch>
     </BrowserRouter>

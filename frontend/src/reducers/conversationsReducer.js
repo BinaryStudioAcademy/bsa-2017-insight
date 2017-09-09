@@ -28,6 +28,7 @@ const conversationsReducer = (state = initialState, action) => {
       return { ...state, conversations: newConversations };
     }
     case 'GET_CONVERSATIONS_SUCCESS':
+      console.log('get all conversations from reducer')
       return Object.assign({}, state, { conversations: action.payload });
     case 'GET_CONVERSATION_BY_ID_SUCCESS': {
       const { index } = findConversationById(action.payload.conversation._id, state.conversations);

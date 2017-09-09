@@ -32,7 +32,7 @@ class Chat extends Component {
 
   componentDidMount() {
     const conversation = this.props.conversationToRender;
-    startSocketConnection.call(this, this.props.dispatch, conversation.messages, conversation._id);
+    startSocketConnection.call(this,this.props.socket, this.props.dispatch, conversation.messages, conversation._id);
     const input = document.getElementById('input');
     this.setState({ input });
   }
@@ -40,8 +40,8 @@ class Chat extends Component {
   componentWillReceiveProps(nextProps) {
     const oldConversationId = this.props.conversationToRender._id;
     if (nextProps.conversationToRender._id !== oldConversationId) {
-      if (nextProps.conversationToRender._id) this.socket.emit('switchRoom', nextProps.conversationToRender._id);
-      this.socket.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
+      if (nextProps.conversationToRender._id) this.props.socket.emit('switchRoom', nextProps.conversationToRender._id);
+      this.props.socket.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
     }
     // Notifications
     const messageNumProps = nextProps.conversationToRender.messages.length;
@@ -60,7 +60,7 @@ class Chat extends Component {
   }
 
   componentWillUnmount() {
-    this.socket.emit('switchRoom', '');
+    this.props.socket.emit('switchRoom', '');
   }
 
   setTextIntoInput(e) {
@@ -115,7 +115,7 @@ class Chat extends Component {
         },
         isReceived: false,
       };
-      this.socket.emit('newMessage', messageObj);
+      this.props.socket.emit('newMessage', messageObj);
       notifications.email(messageObj);
     } else if (files.length > 0 && message === '') {
       files.forEach((file) => {
@@ -141,7 +141,7 @@ class Chat extends Component {
               },
               isReceived: false,
             };
-            this.socket.emit('newMessage', messageObj);
+            this.props.socket.emit('newMessage', messageObj);
           });
       });
       eventCopy.target.reset();

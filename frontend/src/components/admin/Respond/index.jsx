@@ -1,12 +1,14 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import io from './../../../../../node_modules/socket.io-client/dist/socket.io';
 import ConversationList from './ConversationList';
 import { getAllConversations, setConversation, removeConversations } from '../../../actions/conversationsActions';
 import * as StatisticActions from '../../../actions/statisticActions';
 import Chat from './../chatAdmin/ChatAdmin';
 import UserInfo from './../UserInfo/UserInfo';
 import styles from './styles.scss';
+
 
 class Respond extends React.Component {
   constructor() {
@@ -18,6 +20,14 @@ class Respond extends React.Component {
   componentWillMount() {
     this.props.getAllConversations();
   }
+
+  componentDidMount() {
+    this.socket = io('http://localhost:3000');
+    this.socket.on('newMessageToRespond', (message) => {
+       this.props.getAllConversations();
+    })
+  }
+
   getIdForStatistic(conversation) {
     const userObj = conversation.participants.find((user) => {
       return user.userType === 'User';
@@ -88,6 +98,7 @@ class Respond extends React.Component {
                 conversationToRender={convToChat}
                 dispatch={this.props.dispatch}
                 chosenTheme={this.props.chosenTheme}
+                socket={this.socket}
                 headerHeight={this.props.headerHeight}
               />
             </div>

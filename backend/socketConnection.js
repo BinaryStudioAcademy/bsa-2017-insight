@@ -11,7 +11,7 @@ function connectionHandler(socket) {
   let user;
   const socketObj = socket;
   socket.emit('user connected');
-
+     
   socket.on('userId', (userObj) => {
     if (userObj.type === 'User') {
       UserRepository.model.findOne({ _id: userObj.id })
@@ -58,6 +58,7 @@ function connectionHandler(socket) {
         }
         const id = data._id;
         socket.emit('newMessage', messageToSend);
+        socket.broadcast.emit('newMessageToRespond');
         socket.broadcast.to(room).emit('newMessage', messageToSend);
         ConversationRepository.model
           .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) } })

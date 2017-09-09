@@ -5,6 +5,7 @@ import getCurrentUserSaga from './currentUserSaga';
 import selectionsSaga from './selectionsSaga';
 import faqSaga from './faqSaga';
 import appsSaga from './appsSaga';
+import forceMessagesSaga from './forceMessagesSaga';
 
 
 function* rootSaga() {
@@ -15,6 +16,7 @@ function* rootSaga() {
     fork(selectionsSaga),
     fork(faqSaga),
     fork(appsSaga),
+    fork(forceMessagesSaga),
   ];
 }
 

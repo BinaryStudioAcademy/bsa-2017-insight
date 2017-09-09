@@ -9,8 +9,8 @@ const checkPath = (data, settings) => {
     const path = pathName === settings[i].page ? settings[i].page : null;
     switch (pathName) {
       case path:
-        console.log(`widget will open after ${settings[i].conditions.timer / 1000}sec`);
-        return callback(settings[i].conditions.timer);
+        console.log(`widget will open after ${settings[i].timer / 1000}sec`);
+        return callback(settings[i].timer);
       default:
         console.log('not opening');
         return null;

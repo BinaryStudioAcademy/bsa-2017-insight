@@ -6,8 +6,8 @@ const forceMessageSchema = new Schema({
   appId: { type: Schema.Types.ObjectId, required: false }, // CHANGE TO "TRUE" LATER
   page: String,
   body: String,
+  timer: Number,
   conditions: {
-    timer: Number,
     visitedURLS: [String],
   },
 });

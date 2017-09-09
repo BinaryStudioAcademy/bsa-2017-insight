@@ -105,7 +105,7 @@ class WidgetSettings extends React.Component {
               </div>
             </Tab>
             <Tab label="Force message" value="localize">
-              <div className={styles['force-content-wrapper']}>
+              <div>
                 <ForceMessage settings={this.state.settings} />
               </div>
             </Tab>

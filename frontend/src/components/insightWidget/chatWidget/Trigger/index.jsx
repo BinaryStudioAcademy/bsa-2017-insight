@@ -26,7 +26,6 @@ const Trigger = (OriginalComponent) => {
             checkPath(data, forceMessages);
           });
         });
-
       window.addEventListener('click', () => {
         if (window._injectedData.urlHistory) {
           const url = window._injectedData.urlHistory;

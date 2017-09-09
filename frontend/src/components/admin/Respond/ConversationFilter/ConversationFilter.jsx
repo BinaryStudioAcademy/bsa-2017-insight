@@ -19,6 +19,7 @@ export default class ConversationFilter extends React.Component {
       activeDateFilter: 'range',
       isFilterApplied: false,
       filters: {
+        activeGroup: 'all',
         date: {},
       },
       dialogOpen: false,
@@ -31,23 +32,20 @@ export default class ConversationFilter extends React.Component {
     this.setSelectValue = this.setSelectValue.bind(this);
     this.applyFilters = this.applyFilters.bind(this);
     this.removeFilters = this.removeFilters.bind(this);
+    this.changeGroup = this.changeGroup.bind(this);
   }
 
   setTextValue(e) {
     const newFilters = { ...this.state.filters };
     newFilters[e.target.id] = e.target.value;
-
     this.setState({
       filters: newFilters,
-    }, () => {
-      console.log(this.state);
     });
   }
 
   setSelectValue(type, value) {
     const newFilters = { ...this.state.filters };
     newFilters[type] = value;
-
     this.setState({
       filters: newFilters,
     });
@@ -56,11 +54,8 @@ export default class ConversationFilter extends React.Component {
   setDate(type, date) {
     const newFilters = { ...this.state.filters };
     newFilters.date[type] = date;
-
     this.setState({
       filters: newFilters
-    }, () => {
-      console.log(this.state);
     });
   }
 
@@ -74,7 +69,7 @@ export default class ConversationFilter extends React.Component {
   }
 
   getConversations(callback) {
-    console.log(this.state.filters);
+    console.log(this.state);
     fetch('/api/conversations/filter', {
       headers: {
         'Content-Type': 'application/json',
@@ -103,6 +98,7 @@ export default class ConversationFilter extends React.Component {
     this.setState({
       filters: {
         date: {},
+        activeGroup: this.state.filters.activeGroup,
       },
     });
   }
@@ -115,11 +111,29 @@ export default class ConversationFilter extends React.Component {
 
   removeFilters(e) {
     e.preventDefault();
-
     this.setState({
-      isFilterApplied: false
+      isFilterApplied: false,
+      filters: {
+        date: {},
+        activeGroup: this.state.filters.activeGroup,
+      },
+    }, () => {
+      this.getConversations();
     });
-    this.getConversations();
+  }
+
+  changeGroup(e) {
+    e.preventDefault();
+    const newFilters = { ...this.state.filters };
+    newFilters.activeGroup = e.target.id;
+
+    this[this.state.filters.activeGroup].classList.remove('active');
+    this.setState({
+      filters: newFilters,
+    }, () => {
+      this[this.state.filters.activeGroup].classList.add('active');
+      this.getConversations();
+    });
   }
 
   render() {
@@ -146,16 +160,41 @@ export default class ConversationFilter extends React.Component {
     ];
     return (
       <div>
-        <IconButton
-          iconClassName="material-icons"
-          onClick={() => this.setState({ dialogOpen:true })}
-          label={'Filter'}
-          tooltip="Filters"
-          iconStyle={ this.state.isFilterApplied ? { color: '#fbc110' } : {} }
-        >
-          filter_list
-        </IconButton>
-        { this.state.isFilterApplied && <a onClick={this.removeFilters} href={'#'} style={{ fontSize: '12px', textDecoration: 'none', borderBottom: '1px dotted #fb9a9a', color: '#fb9a9a' }}>remove filters</a> }
+        <div className={'filter-panel'}>
+          <IconButton
+            iconClassName="material-icons"
+            onClick={() => this.setState({ dialogOpen:true })}
+            label={'Filter'}
+            tooltip="Filters"
+            iconStyle={ this.state.isFilterApplied ? { color: '#fbc110' } : {} }
+          >
+            filter_list
+          </IconButton>
+          {
+            this.state.isFilterApplied && 
+            <a onClick={this.removeFilters} href={'#'} className={'remove-filter'}>remove filters</a>
+          }
+          <span style={{ margin: '0 5px' }}>|</span>
+          <span>show conversations:</span>
+          <a
+            className={'filter-panel-link active'}
+            id={'all'}
+            onClick={this.changeGroup}
+            ref={(el) => this.all = el}
+          >all</a>
+          <a
+            className={'filter-panel-link'}
+            id={'mine'}
+            onClick={this.changeGroup}
+            ref={(el) => this.mine = el}
+          >mine</a>
+          <a
+            className={'filter-panel-link'}
+            id={'unpicked'}
+            onClick={this.changeGroup}
+            ref={(el) => this.unpicked = el}
+          >unpicked</a>
+        </div>
         <Dialog
           actions={actions}
           modal={false}
@@ -242,16 +281,6 @@ export default class ConversationFilter extends React.Component {
                   id={'email'}
                   style={{ width: '150px', marginRight: '20px' }}
                 />
-                <SelectField
-                  onChange={(e, i, value) => this.setSelectValue('userType', value)}
-                  id={'userType'}
-                  value={this.state.filters.userType}
-                  floatingLabelText="User type"
-                  style={{ width: '150px', marginRight: '20px' }}
-                >
-                  <MenuItem value={'User'} primaryText="User" />
-                  <MenuItem value={'Admin'} primaryText="Admin" />
-                </SelectField>
               </div>
             </div>
             <div className={'conv-tab'}>

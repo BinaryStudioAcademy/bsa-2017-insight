@@ -1,47 +1,126 @@
-@import './frontend/src/common/styles/variables.scss';
+@import './../../../../src/common/styles/variables';
 
 :local(.container) {
+  width: 100%;
+  @media (min-width: 1000px) {
     color: $landing-darkgrey;
-	display: inline-block;
-	width: 79%;
-	float: right;
+    display: inline-block;
+    width: 75%;
+    float: right;
+  }
+  @media (min-width: 1400px) {
+    width: 79%;
+  }
+}
+
+:local(.topPanel) {
+  display: inline-flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  width: 100%;
+  flex-wrap: wrap;
+
+  p {
+    display: inline !important;
+    vertical-align: middle !important;
+  }
+}
+
+:local(.table-buttons-wrapper) {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  @media (min-width: 740px) {
+    width: 60%;
+    justify-content: flex-start;
+  }
+}
+
+:local(.rowsPerPage) {
+  display: inline-flex;
+  width: 100%;
+  justify-content: flex-end !important;
+
+  p {
+    margin-right: 15px;
+  }
+
+  @media (min-width: 740px) {
+    width: 40%;
+  }
+  @media (min-width: 1000px) {
+    width: 30%;
+    margin-right: 40px;
+  }
 }
 
 :local(.table) {
-	margin-top: 10px;
-	width: 99%;
-	border: 1px solid #ccc;
+  margin-top: 10px;
 }
 
-:local(.topPanel){
-	display: inline-flex !important;
-	justify-content: space-between !important;
-	align-items: flex-start !important;
-	width: 100%;
-
-	p{
-		display: inline !important;
-		vertical-align: middle !important;
-	}
+:local(.tableItself) {
+  width: 99% !important;
+  border: 1px solid #ccc;
+  overflow: auto !important;
 }
 
-:local(.rowsPerPage){
-	margin: 0px 40px;
-	display: inline-flex;
-	width: 250px;
-	justify-content: space-between !important;
+:local(.rows){
 
+  td {
+    font-size: 14px !important;
+    border-top: 1px solid $landing-lightgrey !important;
+    padding: 15px;
+    min-width: 80px !important;
+  }
 }
 
-:local(.pagination){
-	margin: 10px 0px;
-
-	p{
-		display: inline !important;
-	}
+:local(.tableHeader){
+  th {
+    font-size: 14px !important;
+    font-weight: normal !important;
+    color: $landing-middlegrey !important;
+    text-align: left !important;
+    padding: 15px;
+    min-width: 80px !important;
+  }
 }
 
-:local(.raisedButton){
-	width: 40px !important;
-	margin: 5px;
+:local(.pagination) {
+  margin: 10px 0px;
+
+  p {
+    display: inline !important;
+  }
+}
+
+:local(.pagination-buttons-wrapper) {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: center;
+
+  @media (min-width: 900px) {
+    justify-content: flex-start;
+  }
+}
+
+:local(.raisedButton) {
+  width: 40px !important;
+
+  @media (min-width: 900px) {
+    margin: 0 5px;
+  }
+}
+
+@keyframes sync-icon {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-180deg);
+  }
+}
+
+:local(.sync-icon) {
+  animation: sync-icon 1s ease-in-out infinite
 }

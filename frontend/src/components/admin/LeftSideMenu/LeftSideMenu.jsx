@@ -4,9 +4,9 @@ import { NavLink } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
-import HomeAdminIcon from 'material-ui/svg-icons/action/dashboard';
+import HomeAdminIcon from 'material-ui/svg-icons/editor/insert-chart';
 import RespondIcon from 'material-ui/svg-icons/communication/chat';
-import EngageIcon from 'material-ui/svg-icons/editor/insert-chart';
+import EngageIcon from 'material-ui/svg-icons/social/group';
 import AppsIcon from 'material-ui/svg-icons/action/list';
 import FAQIcon from 'material-ui/svg-icons/action/question-answer';
 import PopoverSettings from './PopoverSettings';
@@ -29,10 +29,10 @@ class LeftSideMenu extends React.Component {
             </IconButton>
           </NavLink>
           <Divider />
-          <NavLink to={'/admin/respond'}>
+          <NavLink to={'/admin/messager'}>
             <IconButton
               style={{ width: this.props.width }}
-              tooltip={'Respond'}
+              tooltip={'Messager'}
               tooltipPosition={'bottom-right'}
               iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
             >
@@ -40,10 +40,10 @@ class LeftSideMenu extends React.Component {
             </IconButton>
           </NavLink>
           <Divider />
-          <NavLink to={'/admin/engage'}>
+          <NavLink to={'/admin/selections'}>
             <IconButton
               style={{ width: this.props.width }}
-              tooltip={'Engage'}
+              tooltip={'Selections'}
               tooltipPosition={'bottom-right'}
               iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
             >

@@ -61,6 +61,12 @@ class Respond extends React.Component {
               width: '100%',
             }}
           >
+            <button
+              onClick={this.props.removeConversations}
+              className={styles['return-to-conversations-button']}
+            >
+              Return to conversations list
+            </button>
             <div
               className={styles.conversations}
               style={{
@@ -79,10 +85,7 @@ class Respond extends React.Component {
               />
             </div>
             <div
-              style={{
-                flexShrink: 1,
-                flexGrow: 2,
-              }}
+              className={styles['chat-wrapper']}
             >
               <Chat
                 conversationToRender={convToChat}
@@ -92,12 +95,8 @@ class Respond extends React.Component {
               />
             </div>
             <div
-              className={styles.info}
-              style={{
-                height: `calc(60vh - ${this.props.headerHeight})`,
-                overflowY: 'scroll',
-                width: '20vw',
-              }}
+              className={styles['info-wrapper']}
+              style={{ height: `calc(60vh - ${this.props.headerHeight})` }}
             >
               <UserInfo statistic={this.props.statisticById} />
             </div>
@@ -130,7 +129,7 @@ const mapDispatchToProps = (dispatch) => {
     getStatisticById: (id) => {
       dispatch(StatisticActions.getStatisticById(id));
     },
-    dispatch
+    dispatch,
   };
 };
 
@@ -141,7 +140,7 @@ Respond.propTypes = {
     _id: propTypes.string.isRequired,
     participants: propTypes.arrayOf(propTypes.shape({
       userType: propTypes.string,
-      user: propTypes.any
+      user: propTypes.any,
     })).isRequired,
     messages: propTypes.arrayOf(propTypes.any).isRequired,
     open: propTypes.bool,
@@ -167,8 +166,8 @@ Respond.propTypes = {
     userAgent: propTypes.string,
     timeZone: propTypes.string,
     signedUpDate: propTypes.any,
-    sessionsCounts: propTypes.number
-  })
+    sessionsCounts: propTypes.number,
+  }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Respond);

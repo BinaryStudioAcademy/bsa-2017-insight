@@ -1,23 +1,26 @@
 import React from 'react';
-import { List, ListItem } from 'material-ui/List';
+import { ListItem } from 'material-ui/List';
 import propTypes from 'prop-types';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import EmojiRender from '../../../emojiRender';
+import styles from './styles.scss';
 
 const SingleConversation = (props) => {
   const messages = props.conversation.messages;
   const author = !!messages.length && messages[messages.length - 1].author ?
     messages[messages.length - 1].author : null;
-  const userName = author ? author.item.username : 'avatar.png';
+  const userName = author ? (author.item.firstName || author.item.username) : null;
   const userAvatar = author ? author.item.avatar : 'avatar.png';
-
-  return (<div>
-    <List>
+  const active = props.active ? 'conversation-item-active' : '';
+  return (
+    <div>
       {!messages.length ? <ListItem
+        className={styles['no-messages-conversation-item']}
         primaryText={'No messages in conversation'}
-        leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
       /> : <ListItem
+        style={{ padding: '0px' }}
+        className={`${styles['conversation-item']} ${styles[active]}`}
         onClick={() => {
           props.handler();
           props.setStatistic(props.conversation);
@@ -30,8 +33,7 @@ const SingleConversation = (props) => {
         secondaryTextLines={2}
       />}
       <Divider inset />
-    </List>
-  </div>);
+    </div>);
 };
 
 SingleConversation.propTypes = {
@@ -40,12 +42,13 @@ SingleConversation.propTypes = {
     _id: propTypes.string.isRequired,
     participants: propTypes.arrayOf(propTypes.shape({
       userType: propTypes.string,
-      user: propTypes.any
+      user: propTypes.any,
     })).isRequired,
     messages: propTypes.arrayOf(propTypes.any).isRequired,
     open: propTypes.bool,
-    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string])
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
   }),
-  handler: propTypes.func
+  handler: propTypes.func,
+  active: propTypes.bool,
 };
 export default SingleConversation;

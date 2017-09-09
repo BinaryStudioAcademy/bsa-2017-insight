@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import { deleteSelection, getAllSelections } from '../../../../../actions/selectionActions';
+import { List, ListItem } from 'material-ui/List';
+import EmailIcon from 'material-ui/svg-icons/communication/email';
+import styles from './styles.scss';
 // import Table from '../../../Table/TableItself';
 
 class Selection extends React.Component {
@@ -11,6 +12,7 @@ class Selection extends React.Component {
     super();
     this.state = {
       chosenSelection: null,
+      membersExpanded: false,
     };
   }
 
@@ -29,8 +31,10 @@ class Selection extends React.Component {
         padding: '20px',
       }}
       >
+        <emailIcon />
         { this.state.chosenSelection ?
           <Card
+            expanded={this.state.membersExpanded}
             containerStyle={{
               backgroundColor: this.props.chosenTheme.palette.borderColor,
               padding: 10,
@@ -43,33 +47,42 @@ class Selection extends React.Component {
             {/* <CardText>
               {this.props.chosenSelection.description}
             </CardText> */}
-            {/* <CardText>
-              {this.props.chosenSelection.mailings}
-            </CardText> */}
+            <CardActions>
+              <RaisedButton
+                className={styles['selection-button']}
+                label="User list"
+                onClick={() => this.setState({ membersExpanded: !this.state.membersExpanded })}
+              />
+              <RaisedButton
+                className={styles['selection-button']}
+                label="Go to MailChimp"
+                onClick={() => window.open('http://mailchimp.com')}
+              />
+              <RaisedButton
+                className={styles['selection-button']}
+                label="Delete selection"
+                onClick={() => {
+                  this.props.deleteSelection(this.props.chosenSelection.id, this.props.getSelectionList);
+                  this.setState({ chosenSelection: null });
+                }}
+              />
+            </CardActions>
             <CardText expandable>
               {/* <Table
                 options={this.props.fieldsToDisplay}
                 statistics={statistics}
-              />  */}
+              /> */}
+              <List>
+                { this.props.chosenSelection.members.map(selection => {
+                  return (<ListItem
+                    key={selection.id}
+                    primaryText={selection.email_address}
+                    leftIcon={<div><EmailIcon /></div>}
+                  />);
+                },
+                ) }
+              </List>
             </CardText>
-            <CardActions>
-              <RaisedButton
-                label="User list"
-                onClick={() => alert('Click')}
-              />
-              <RaisedButton
-                label="Apply mailing"
-                onClick={() => alert('Click')}
-              />
-              <RaisedButton
-                label="Delete selection"
-                onClick={() => {
-                  this.props.deleteSelection(this.props.chosenSelection.id);
-                  this.setState({ chosenSelection: null });
-                  this.props.getSelectionList();
-                }}
-              />
-            </CardActions>
           </Card> :
           'Choose a selection first' }
       </div>
@@ -95,21 +108,4 @@ Selection.propTypes = {
   }),
 };
 
-const mapStateToProps = (state) => {
-  return {
-    chosenSelection: state.selection.chosenSelection,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteSelection: (id) => {
-      return dispatch(deleteSelection(id));
-    },
-    getSelectionList: () => {
-      return dispatch(getAllSelections());
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Selection);
+export default Selection;

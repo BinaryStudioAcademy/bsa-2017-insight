@@ -36,7 +36,7 @@ const fetchSelectionAPI = {
 //       .catch(err => console.log(`Houston, we'we got a problem: ${err}`));
 //   },
   allSelections: () => {
-    return fetch('/api/mailchimp/lists', {
+    return fetch('/api/selections', {
       credentials: 'include',
     })
       .then(res => res.json())
@@ -44,33 +44,37 @@ const fetchSelectionAPI = {
       .catch(err => console.log(`Can't load the list of selections: ${err}`));
   },
   singleSelection: (id) => {
-    return fetch(`/api/mailchimp/lists/${id}`, {
+    return fetch(`/api/selections/${id}`, {
       credentials: 'include',
     })
       .then(res => res.json())
       .then(selection => selection)
       .catch(err => console.log(`Can't load a single conversation: ${err}`));
   },
-  addSelection: (body) => {
+  addSelection: (body, cb) => {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return fetch('/api/mailchimp/lists', {
+    return fetch('/api/selections', {
       credentials: 'include',
       method: 'post',
       headers,
       body,
     })
       .then(res => res.json())
-      .then(selection => selection)
+      .then((selection) => {
+        cb();
+        return selection;
+      })
       .catch(err => console.log(`Houston, we'we got a problem: ${err}`));
   },
-  deleteSelection: (id) => {
-    return fetch(`/api/mailchimp/lists/${id}`, {
+  deleteSelection: (id, cb) => {
+    return fetch(`/api/selections/${id}`, {
       credentials: 'include',
       method: 'delete',
     })
+      .then(() => cb())
       .then(res => res.json())
-      .then(selection => selection)
+      .then(data => data)
       .catch(err => console.log(`Houston, we'we got a problem: ${err}`));
   },
 };
@@ -86,12 +90,12 @@ function* getSingleSelection(action) {
 }
 
 function* addSelection(action) {
-  const result = yield fetchSelectionAPI.addSelection(action.payload.body);
+  const result = yield fetchSelectionAPI.addSelection(action.payload.body, action.payload.cb);
   yield put({ type: 'ADD_SELECTION_SUCCESS', payload: result });
 }
 
 function* deleteSelection(action) {
-  const result = yield fetchSelectionAPI.deleteSelection(action.payload.id);
+  const result = yield fetchSelectionAPI.deleteSelection(action.payload.id, action.payload.cb);
   yield put({ type: 'DELETE_SELECTION_SUCCESS', payload: result });
 }
 

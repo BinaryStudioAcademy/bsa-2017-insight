@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 const bcrypt = require('bcrypt-nodejs');
 
+
 const userSchema = new Schema({
   firstName: String,
   lastName: String,
@@ -11,6 +12,8 @@ const userSchema = new Schema({
   password: String,
   dateOfBirth: Date,
   company: String,
+  phone: String,
+  isIntroduced: Boolean,
   avatar: { type: String, default: 'http://localhost:3000/uploads/avatars/avatar.png' },
   username: { type: String, default: 'Anonymous' },
   gender: String,

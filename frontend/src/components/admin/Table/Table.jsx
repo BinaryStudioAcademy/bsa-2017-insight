@@ -10,6 +10,7 @@ import styles from './styles.scss';
 import Filter from '../Filter/Filter';
 import TableItself from './TableItself';
 import { addSelection } from '../../../actions/selectionActions';
+import SyncIcon from 'material-ui/svg-icons/notification/sync';
 
 class UserInfoTable extends React.Component {
   constructor() {
@@ -23,8 +24,9 @@ class UserInfoTable extends React.Component {
     this.state = {
       open: false,
       selDialogOpen: false,
+      selDialogPending: false,
       rowsPerPage: 5,
-      currentPage: 1
+      currentPage: 1,
     };
   }
 
@@ -39,19 +41,19 @@ class UserInfoTable extends React.Component {
 
   handleChangeRowsPerPage(event, index, value) {
     this.setState({
-      rowsPerPage : value,
-      currentPage: 1
+      rowsPerPage: value,
+      currentPage: 1,
     });
   }
 
-  changeCurrentPage(event){
+  changeCurrentPage(event) {
     const newPageNumber = Number(event.currentTarget.value);
     const numOfRows = this.props.statistics.length;
-    const numOfPages = Math.ceil(numOfRows/this.state.rowsPerPage);
+    const numOfPages = Math.ceil(numOfRows / this.state.rowsPerPage);
     if ((newPageNumber >= 1) && (newPageNumber <= numOfPages)) {
       this.setState({
-        currentPage: event.currentTarget.value
-      })
+        currentPage: event.currentTarget.value,
+      });
     }
   }
 
@@ -72,28 +74,9 @@ class UserInfoTable extends React.Component {
       />,
     ];
     return (
-      <div className={styles.container} >
+      <div className={styles.container} style={{ width: '74vw' }}>
         <div className={styles.topPanel}>
-          <div>
-            <RaisedButton
-              label="Columns Filter"
-              onClick={this.handleOpen}
-              primary
-              style={{ margin: '0 5px 10px 0' }}
-            />
-            <Dialog
-              title="Columns Filter"
-              actions={actions}
-              modal
-              open={this.state.open}
-              bodyStyle={{ overflowX: 'hidden' }}
-            >
-              <Filter
-                selectedFields={this.props.selectedFields}
-                statisticOptions={this.props.statisticOptions}
-                updateFields={this.updateFields}
-              />
-            </Dialog>
+          <div className={styles['table-buttons-wrapper']}>
             <RaisedButton
               label="Create a selection"
               onClick={() => this.toggleSelectionDialog(this.state.selDialogOpen)}
@@ -113,8 +96,15 @@ class UserInfoTable extends React.Component {
                 onSubmit={(e) => {
                   e.preventDefault();
                   const name = document.getElementById('selection-name').value;
-                  this.props.addSelection(name, description, this.props.statistics);
-                  this.toggleSelectionDialog(this.state.selDialogOpen);
+                  this.setState({ selDialogPending: true });
+                  this.props.addSelection(
+                    name,
+                    this.props.statistics,
+                    () => {
+                      this.toggleSelectionDialog(this.state.selDialogOpen);
+                      this.setState({ selDialogPending: false });
+                    },
+                  );
                 }}
               >
                 <TextField
@@ -127,8 +117,9 @@ class UserInfoTable extends React.Component {
                   onClick={() => this.toggleSelectionDialog(this.state.selDialogOpen)}
                 />
                 <FlatButton
-                  label="Create"
-                  type="submit"
+                  type={this.state.selDialogPending ? 'button' : 'submit'}
+                  label={this.state.selDialogPending ? '' : 'Create'}
+                  icon={this.state.selDialogPending ? <SyncIcon className={styles['sync-icon']} /> : ''}
                 />
               </form>
             </Dialog>
@@ -138,8 +129,8 @@ class UserInfoTable extends React.Component {
             <SelectField
               value={this.state.rowsPerPage}
               onChange={this.handleChangeRowsPerPage}
-              style={{ width: '80px' }} >
-              <MenuItem value={2} primaryText="2" />
+              style={{ width: '80px' }}
+            >
               <MenuItem value={5} primaryText="5" />
               <MenuItem value={10} primaryText="10" />
               <MenuItem value={25} primaryText="25" />
@@ -170,10 +161,11 @@ UserInfoTable.propTypes = {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addSelection: (name, description, users) => {
-      const filteredUsersIds = users.filter(user => user.userId.email).map(user => user.userId._id);
-      const body = JSON.stringify({ name, description, users: filteredUsersIds, appId: window._injectedData.appId });
-      return dispatch(addSelection(body));
+    addSelection: (name, users, cb) => {
+      // const filteredUsersIds = users.filter(user => user.userId.email).map(user => user.userId._id);
+      const filteredUsersIds = users.filter(user => user.userId.email);
+      const body = JSON.stringify({ name, users: filteredUsersIds, appId: window._injectedData.appId });
+      return dispatch(addSelection(body, cb));
     },
   };
 };

@@ -1,5 +1,6 @@
 import io from './../../../../../node_modules/socket.io-client/dist/socket.io';
-import { fetchMessage } from './../../../actions/conversationsActions';
+import { fetchMessage, getAllConversations } from './../../../actions/conversationsActions';
+import { getStatisticById } from './../../../actions/statisticActions';
 
 // function checkUserMessagesReceived(messages) {
 //   messages.forEach((message) => {
@@ -16,7 +17,7 @@ function startSocketConnection(dispatch, messages, conversationId) {
   this.socket.emit('adminConnectedToRoom', conversationId);
   const userObj = {
     type: 'Admin',
-    id
+    id,
   };
   this.socket.emit('messagesReceived', { type: 'Admin', messages });
   // checkUserMessagesReceived(messages);
@@ -34,9 +35,13 @@ function startSocketConnection(dispatch, messages, conversationId) {
   this.socket.on('unreadNewMessage', (message) => {
     dispatch(fetchMessage(message));
   });
+  this.socket.on('introduced', (data) => {
+    dispatch(getAllConversations());
+    dispatch(getStatisticById(data.id));
+  });
 }
 
 export {
-  startSocketConnection
+  startSocketConnection,
 };
 

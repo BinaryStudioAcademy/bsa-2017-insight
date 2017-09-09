@@ -27,38 +27,9 @@ import WidgetSettings from './Settings/WidgetSettings/WidgetSettings';
 import MailChimpSettings from './Settings/MailChimpSettings/MailChimpSettings';
 import FAQ from './FAQ/FAQ';
 import AppList from './AppList/Apps';
+import Homepage from './Homepage/Homepage'
 
 injectTapEventPlugin();
-
-// const statisticOptions = {
-//   items: ['Name', 'Email', 'Last seen'],
-//   Name: [
-//     {
-//       'Name 1': 'name-option1',
-//     },
-//     {
-//       'Name 2': 'name-option2',
-//     }],
-//   Email: [
-//     {
-//       'email 1': 'email-option1',
-//     },
-//     {
-//       'email 2': 'email-option2',
-//     },
-//   ],
-//   'Last seen': [
-//     {
-//       'more than': 'days ago',
-//     },
-//     {
-//       exactly: 'days ago',
-//     },
-//     {
-//       'less than': 'days ago',
-//     },
-//   ],
-// };
 
 class AdminPage extends React.Component {
   constructor(props) {
@@ -107,7 +78,6 @@ class AdminPage extends React.Component {
         <div
           className={styles['admin-page']}
           style={{
-            minWidth: '700px',
             fontFamily: 'Roboto, sans-serif',
             backgroundColor: this.state.chosenTheme.palette.canvasColor,
             color: this.state.chosenTheme.palette.textColor,
@@ -133,7 +103,8 @@ class AdminPage extends React.Component {
                       chosenTheme={this.state.chosenTheme}
                       style={{ height: this.headerHeight }}
                     />
-                    <div style={{ height: `calc(100vh - ${this.headerHeight + 8}px)`, overflowY: 'scroll' }}>
+                    {/*style={{ height: `calc(100vh - ${this.headerHeight + 8}px)`, overflowY: 'scroll' }}*/}
+                    <div >
                       <Switch>
                         <Route
                           exact
@@ -142,26 +113,20 @@ class AdminPage extends React.Component {
                             const statistics = this.props.usersToRender;
                             const options = this.getStatisticOptions(this.props.usersToRender);
                             return (
-                              <div style={{ marginTop: '10px' }}>
-                                <StatisticsFilter chosenTheme={this.state.chosenTheme} />
-                                <UserInfoTable
-                                  options={this.props.fieldsToDisplay}
+                              <div className={styles['statistics-content-wrapper']}>
+                                <Homepage
+                                  chosenTheme={this.state.chosenTheme}
+                                  fieldsToDisplay={this.props.fieldsToDisplay}
                                   statistics={statistics}
-                                  selectedFields={this.props.fieldsToDisplay}
                                   statisticOptions={options}
                                   updateFields={this.props.updateFields}
-                                  chosenTheme={this.state.chosenTheme}
-                                />
-                                <StatisticsCharts
-                                  selectedFields={this.props.fieldsToDisplay}
-                                  statistics={statistics}
                                 />
                               </div>
                             );
                           }}
                         />
                         <Route
-                          path="/admin/respond"
+                          path="/admin/messager"
                           render={() => (
                             <Respond
                               headerHeight={this.headerHeight}
@@ -170,7 +135,7 @@ class AdminPage extends React.Component {
                           }
                         />
                         <Route
-                          path={'/admin/engage'}
+                          path={'/admin/selections'}
                           render={() => (
                             <Engage
                               headerHeight={this.headerHeight}

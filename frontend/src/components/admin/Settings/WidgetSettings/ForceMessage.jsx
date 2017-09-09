@@ -1,6 +1,7 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import propTypes from 'prop-types';
+import styles from './styles.scss';
 
 export default class ForceMessage extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ export default class ForceMessage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className={styles['force-message-form']}>
         <div>Force message:</div>
         <TextField
           hintText={'Force message'}

@@ -1,20 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-import { getAllSelections, getSingleSelection } from '../../../../../actions/selectionActions';
+// import { getAllSelections, getSingleSelection } from '../../../../../actions/selectionActions';
 
 class SelectionList extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
-  componentWillMount() {
-    this.props.getSelectionList();
-  }
-
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
   }
@@ -29,17 +20,19 @@ class SelectionList extends React.Component {
         }}
       >
         <Subheader>Selections</Subheader>
-        {this.props.selectionList.map((selection) => {
-          return (
-            <ListItem
-              primaryText={selection.name}
-              key={selection.id}
-              onClick={() => {
-                this.props.getSingleSelection(selection.id);
-              }}
-            />
-          );
-        })}
+        {this.props.selectionList ?
+          this.props.selectionList.map((selection) => {
+            return (
+              <ListItem
+                primaryText={selection.name}
+                key={selection.id}
+                onClick={() => {
+                  this.props.getSingleSelection(selection.id);
+                }}
+              />
+            );
+          })
+          : <div style={{ marginLeft: 20 }}>Loading...</div>}
       </List>
     );
   }
@@ -52,22 +45,5 @@ SelectionList.propTypes = {
   getSelectionList: PropTypes.func,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    selectionList: state.selection.selections,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getSelectionList: () => {
-      return dispatch(getAllSelections());
-    },
-    getSingleSelection: (id) => {
-      return dispatch(getSingleSelection(id));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SelectionList);
+export default SelectionList;
 

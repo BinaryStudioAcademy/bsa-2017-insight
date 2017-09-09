@@ -26,13 +26,22 @@ module.exports = (app) => {
   });
 
   app.post('/api/force-messages/', (req, res) => {
-    console.log('WHRE IS MY FORCE-MESSAGE:', req.body);
-    ForceMessageRepository.add(req.body, (err, data) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(400);
+    ForceMessageRepository.checkIfPathExists(req.body.page).then((data) => {
+      if (data) {
+        ForceMessageRepository.updateForceMessage(data._id, req.body).then((updateInfo) => {
+          if (updateInfo.nModified === 1) {
+            res.status(204).end();
+          }
+        });
       } else {
-        res.status(201).json(data);
+        ForceMessageRepository.add(req.body, (err, data) => {
+          if (err) {
+            console.log(err);
+            res.sendStatus(400);
+          } else {
+            res.status(201).json(data);
+          }
+        });
       }
     });
   });

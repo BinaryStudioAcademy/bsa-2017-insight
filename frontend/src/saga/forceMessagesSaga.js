@@ -22,9 +22,18 @@ function* createForceMessageSaga(action) {
     body: JSON.stringify(action.payload),
   };
   const result = yield fetch('http://localhost:3000/api/force-messages', requestOptions)
-    .then(response => response.json())
+    .then((response) => {
+      if (response.status === 204) {
+        return null;
+      }
+      return response.json();
+    })
     .then(data => data);
-  if (result) yield put({ type: 'CREATE_FORCE_MESSAGE_LOCAL', payload: result });
+  if (result) {
+    yield put({ type: 'CREATE_FORCE_MESSAGE_LOCAL', payload: result });
+  } else {
+    yield put({ type: 'UPDATE_FORCE_MESSAGE', payload: action.payload });
+  }
 }
 
 function* deleteForceMessageSaga(action) {

@@ -9,4 +9,19 @@ ForceMessageRepository.getAllByAppId = function (id, callback) {
   model.find({ appId: id }).exec(callback);
 };
 
+ForceMessageRepository.checkIfPathExists = function (page) {
+  const model = this.model;
+  return model.findOne({ page }).exec();
+};
+
+ForceMessageRepository.updateForceMessage = function (id, updateData) {
+  const model = this.model;
+  const updateObj = {
+    body: updateData.body,
+    timer: updateData.timer,
+    'conditions.visitedURLS': updateData.conditions.visitedURLS,
+  };
+  return model.update({ _id: id }, { $set: updateObj }).exec();
+};
+
 module.exports = ForceMessageRepository;

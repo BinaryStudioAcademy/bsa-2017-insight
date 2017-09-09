@@ -12,7 +12,7 @@ class ForceMessage extends React.Component {
     super(props);
     this.state = {
       page: '',
-      body: '',
+      body: 'How can I help you?',
       timer: '10',
       visitedURLS: '',
     };
@@ -43,7 +43,7 @@ class ForceMessage extends React.Component {
     this.props.dispatch(createForceMessage(forceMessage));
     this.setState({
       page: '',
-      body: '',
+      body: 'How can I help you?',
       timer: '10',
       visitedURLS: '',
     });

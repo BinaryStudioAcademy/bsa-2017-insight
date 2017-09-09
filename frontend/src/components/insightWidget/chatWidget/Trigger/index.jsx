@@ -11,6 +11,7 @@ const Trigger = (OriginalComponent) => {
       this.state = {
         isOpen: false,
         force: null,
+        body: '',
       };
       this.toggleChat = this.toggleChat.bind(this);
       this.timeToggle = this.timeToggle.bind(this);
@@ -25,6 +26,7 @@ const Trigger = (OriginalComponent) => {
           actions.add(PATH_CHANGED, this, (data) => {
             checkPath(data, forceMessages);
           });
+          actions.trigger(PATH_CHANGED, [this.timeToggle, window.location.pathname]);
         });
       window.addEventListener('click', () => {
         if (window._injectedData.urlHistory) {
@@ -46,12 +48,12 @@ const Trigger = (OriginalComponent) => {
       this.setState({ force: false });
     }
 
-    timeToggle(time) {
+    timeToggle(time, messageBody) {
       if (!this.state.isOpen) {
         this.timer = setTimeout(() => {
           clearTimeout(this.timer);
           console.log('timer cleared');
-          this.setState({ isOpen: !this.state.isOpen, force: true });
+          this.setState({ isOpen: !this.state.isOpen, force: true, body: messageBody });
         }, time);
         console.log('timer started');
       }
@@ -62,6 +64,7 @@ const Trigger = (OriginalComponent) => {
         toggleChat={this.toggleChat}
         isOpen={this.state.isOpen}
         force={this.state.force}
+        messageBody={this.state.body}
         forceWillBeFalse={this.forceWillBeFalse}
       />);
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import io from './../../../../../node_modules/socket.io-client/dist/socket.io';
 import ConversationList from './ConversationList';
 import { getAllConversations, setConversation, removeConversations } from '../../../actions/conversationsActions';
 import * as StatisticActions from '../../../actions/statisticActions';
@@ -14,9 +15,12 @@ class Respond extends React.Component {
     this.conversationToChat = this.conversationToChat.bind(this);
     this.getIdForStatistic = this.getIdForStatistic.bind(this);
   }
-
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAllConversations();
+    this.socket = io('http://localhost:3000');
+    this.socket.on('newMessageToRespond', () => {
+      this.props.getAllConversations();
+    });
   }
   getIdForStatistic(conversation) {
     const userObj = conversation.participants.find((user) => {
@@ -88,6 +92,7 @@ class Respond extends React.Component {
               className={styles['chat-wrapper']}
             >
               <Chat
+                socket={this.socket}
                 conversationToRender={convToChat}
                 dispatch={this.props.dispatch}
                 chosenTheme={this.props.chosenTheme}

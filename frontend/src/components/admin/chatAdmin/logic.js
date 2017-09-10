@@ -1,4 +1,3 @@
-import io from './../../../../../node_modules/socket.io-client/dist/socket.io';
 import { fetchMessage, getAllConversations } from './../../../actions/conversationsActions';
 import { getStatisticById } from './../../../actions/statisticActions';
 
@@ -11,31 +10,30 @@ import { getStatisticById } from './../../../actions/statisticActions';
 //   });
 // }
 
-function startSocketConnection(dispatch, messages, conversationId) {
+function startSocketConnection(socket, dispatch, messages, conversationId) {
   const id = window._injectedData._id;
-  this.socket = io('http://localhost:3000');
-  this.socket.emit('adminConnectedToRoom', conversationId);
+  socket.emit('adminConnectedToRoom', conversationId);
   const userObj = {
     type: 'Admin',
     id,
   };
-  this.socket.emit('messagesReceived', { type: 'Admin', messages });
+  socket.emit('messagesReceived', { type: 'Admin', messages });
   // checkUserMessagesReceived(messages);
-  this.socket.emit('userId', userObj);
-  this.socket.on('newMessage', (message) => {
+  socket.emit('userId', userObj);
+  socket.on('newMessage', (message) => {
     if (message.author.userType === 'User') {
       const messageCopy = { ...message };
       messageCopy.isReceived = true;
-      this.socket.emit('newMessageReceived', { type: 'Admin', id: message._id });
+      socket.emit('newMessageReceived', { type: 'Admin', id: message._id });
       dispatch(fetchMessage(messageCopy));
     } else {
       dispatch(fetchMessage(message));
     }
   });
-  this.socket.on('unreadNewMessage', (message) => {
+  socket.on('unreadNewMessage', (message) => {
     dispatch(fetchMessage(message));
   });
-  this.socket.on('introduced', (data) => {
+  socket.on('introduced', (data) => {
     dispatch(getAllConversations());
     dispatch(getStatisticById(data.id));
   });

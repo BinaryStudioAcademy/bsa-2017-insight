@@ -5,6 +5,7 @@ import currentUserReducer from './currentUserReducer';
 import selectionReducer from './selectionReducer';
 import faqReducer from './faqReducer';
 import appReducer from './appReducer';
+import mailchimpSettingsReducer from './mailchimpSettingsReducer';
 
 export default combineReducers({
   statistics: statisticReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   selection: selectionReducer,
   faq: faqReducer,
   app: appReducer,
+  mailchimpSettings: mailchimpSettingsReducer,
 });

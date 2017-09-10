@@ -4,67 +4,63 @@ const Schema = mongoose.Schema;
 const mailchimpSettingsSchema = new Schema({
   appId: {
     type: Schema.Types.ObjectId,
-    required: true, // CHANGE TO "TRUE" LATER
+    required: true,
   },
   apiKey: {
     type: String,
     default: '',
-    // required: true,
   },
-  company: {
-    type: String,
-    default: '',
-    // required: true,
+  contact: {
+    company: {
+      type: String,
+      default: 'undefined',
+    },
+    address: {
+      type: String,
+      default: 'Far Far Away',
+    },
+    city: {
+      type: String,
+      default: 'Far Far Away',
+    },
+    state: {
+      type: String,
+      default: 'Far Far Away',
+    },
+    zip: {
+      type: String,
+      default: '1337',
+    },
+    country: {
+      type: String,
+      default: 'Far Far Away',
+    },
   },
-  address: {
+  permission_reminder: {
     type: String,
-    default: '',
-    // required: true,
+    default: 'You were subscribed to InSight mailings',
   },
-  city: {
-    type: String,
-    default: '',
-    // required: true,
+  campaign_defaults: {
+    fromName: {
+      type: String,
+      default: 'undefined',
+    },
+    fromEmail: {
+      type: String,
+      default: 'mail@server.net',
+    },
+    subject: {
+      type: String,
+      default: 'Message from us',
+    },
+    language: {
+      type: String,
+      default: 'English',
+    },
   },
-  state: {
-    type: String,
-    default: '',
-    // required: true,
-  },
-  zip: {
-    type: String,
-    default: '',
-    // required: true,
-  },
-  country: {
-    type: String,
-    default: '',
-    // required: true,
-  },
-  permissionReminder: {
-    type: String,
-    default: '',
-    // required: true,
-  },
-  fromName: {
-    type: String,
-    default: '',
-    // required: true,
-  },
-  fromEmail: {
-    type: String,
-    default: '',
-    // required: true,
-  },
-  subject: {
-    type: String,
-    default: '',
-    // required: true,
-  },
-  language: {
-    type: String,
-    default: '',
-    // required: true,
+  email_type_option: {
+    type: Boolean,
+    default: true,
   },
 });
 

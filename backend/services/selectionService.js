@@ -1,16 +1,19 @@
 const Mailchimp = require('mailchimp-api-v3');
 const mailchimpSettingsRepository = require('../repositories/mailchimpSettingsRepository');
-const selectionRepository = require('../repositories/selectionRepository');
+// const selectionRepository = require('../repositories/selectionRepository');
 
-
-function getAllSelections (appId, callback) {
+function getSettings(appId, callback) {
   mailchimpSettingsRepository.findByConditions({ appId }, (err, settings) => {
-    if (err)
-      return callback(err);
-    if (!settings[0].apiKey)
-      return callback(null, null);
+    if (err) return callback(err);
+    callback(settings[0]);
+  });
+}
+
+function getAllSelections(appId, callback) {
+  getSettings(appId, (settings) => {
+    if (!settings.apiKey) return callback(null, { noApiKey: true });
     // settings = [{ apiKey: 'c117176003b911e12952879f7654b476-us16' }]
-    const mailchimp = new Mailchimp(settings[0].apiKey);
+    const mailchimp = new Mailchimp(settings.apiKey);
     mailchimp.get('/lists')
       .then((data) => {
         const filteredLists = data.lists.filter(list => list.name.indexOf('InSight-') === 0);
@@ -25,17 +28,13 @@ function getAllSelections (appId, callback) {
   });
 }
 
-function getSingleSelection (appId, selId, callback) {
-  mailchimpSettingsRepository.findByConditions({ appId }, (err, settings) => {
-    if (err)
-      return callback(err);
-    if (!settings[0].apiKey)
-      return callback(null, null);
-    const mailchimp = new Mailchimp(settings[0].apiKey);
+function getSingleSelection(appId, selId, callback) {
+  getSettings(appId, (settings) => {
+    if (!settings.apiKey) return callback(null, { noApiKey: true });
+    const mailchimp = new Mailchimp(settings.apiKey);
     mailchimp.get(`/lists/${selId}`)
       .then((selection) => {
         selection.name = selection.name.substring(8, undefined);
-        // callback(null, selection);
         mailchimp.get(`/lists/${selId}/members`).then((members) => {
           members.members.forEach(member => console.log(member.merge_fields));
           const fullSelection = Object.assign(selection, members);
@@ -49,9 +48,6 @@ function getSingleSelection (appId, selId, callback) {
 }
 
 function addSelection (appId, selection, callback) {
-  selection.name = `InSight-${selection.name}`;
-  // console.log('ADD SELECTION SERVICE');
-  // console.log(selection);
   selection = Object.assign({
     contact: {
       company: 'InSight',
@@ -70,20 +66,17 @@ function addSelection (appId, selection, callback) {
     },
     email_type_option: true,
   }, selection);
-  mailchimpSettingsRepository.findByConditions({ appId }, (err, settings) => {
-    if (err)
-      return callback(err);
-    if (!settings[0].apiKey)
-      return callback(null, null);
-    const mailchimp = new Mailchimp(settings[0].apiKey);
+  getSettings(appId, (settings) => {
+    // console.log('settings');
+    // console.log(settings);
+    console.log('selection');
+    console.log(Object.assign(settings, selection));
+    selection.name = `InSight-${selection.name}`;
+    // selection = Object.assign(settings, selection);
+    if (!settings.apiKey) return callback(null, null);
+    const mailchimp = new Mailchimp(settings.apiKey);
     mailchimp.post('/lists', selection)
       .then((data) => {
-        // console.log('-----');
-        // console.log('data.id');
-        // console.log(data.id);
-        // console.log('data.name');
-        // console.log(data.name);
-        // console.log('-----');
         const members = selection.users.map(user => {
           return {
             email_address: user.userId.email,
@@ -91,12 +84,9 @@ function addSelection (appId, selection, callback) {
             merge_fields: {
               FNAME: user.userId.firstName,
               LNAME: user.userId.lastName,
-              DBID: '123',
             },
           };
         });
-        console.log('members');
-        // members.forEach(member => console.log(member.userId));
         return mailchimp.post(`/lists/${data.id}`, { members });
       })
       .then((data) => {

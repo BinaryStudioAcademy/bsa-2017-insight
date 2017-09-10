@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getMailchimpSettings, updateMailchimpSettings } from '../../../../actions/mailchimpSettingsActions';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import styles from './styles.scss';
 
 class MailChimpSettings extends React.Component {
   constructor(props) {
@@ -9,56 +12,113 @@ class MailChimpSettings extends React.Component {
     this.state = {};
   }
 
-  componentWillMount() {}
+  componentWillMount() {
+    this.props.getMailchimpSettings();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(JSON.stringify(nextProps.mailChimpSettings));
+    // console.log(nextProps.mailChimpSettings);
+  }
 
   componentWillUpdate(nextProps, nextState) {}
 
   render() {
     return (
       <div>
-        <form style={{ textAlign: 'center', margin: '20px auto' }}>
+        <form
+          className={styles['mailchimp-settings-form']}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const values = {
+              email_type_option: true,
+
+              from_email: document.getElementById('settings-from_email').value || undefined,
+              from_name: document.getElementById('settings-from_name').value || undefined,
+              language: document.getElementById('settings-language').value || undefined,
+              subject: document.getElementById('settings-subject').value || undefined,
+
+              permission_reminder: document.getElementById('settings-permission_reminder').value || undefined,
+
+              country: document.getElementById('settings-country').value || undefined,
+              zip: document.getElementById('settings-zip').value || undefined,
+              state: document.getElementById('settings-state').value || undefined,
+              city: document.getElementById('settings-city').value || undefined,
+              address: document.getElementById('settings-address').value || undefined,
+              company: document.getElementById('settings-company').value || undefined,
+
+              apiKey: document.getElementById('settings-apiKey').value || undefined,
+            };
+            this.props.updateMailchimpSettings(values);
+          }}
+        >
           <h3>Info for MailChimp mailings</h3>
           <TextField
-            hintText="API key"
-            required
-            id="api-key"
+            floatingLabelText="API key"
+            id="settings-apiKey"
+            hintText={`currently: ${this.props.mailChimpSettings ? this.props.mailChimpSettings.apiKey : ''}`}
           /><br />
           <TextField
-            hintText="Company"
-            id="selection-company"
-            style={{ marginBottom: 30 }}
+            floatingLabelText="Company"
+            id="settings-company"
+            hintText={`currently: ${this.props.mailChimpSettings ? this.props.mailChimpSettings.contact.company : ''}`}
           /><br />
           <TextField
-            hintText='Address ("Far Far Away" by default)'
-            id="selection-address"
-            style={{ marginBottom: 30 }}
+            floatingLabelText="Address"
+            id="settings-address"
+            hintText={`currently: ${this.props.mailChimpSettings ? this.props.mailChimpSettings.contact.address : ''}`}
           /><br />
           <TextField
-            hintText='City ("Far Far Away" by default)'
-            id="selection-city"
-            style={{ marginBottom: 30 }}
+            floatingLabelText="City"
+            id="settings-city"
+            hintText={`currently: ${this.props.mailChimpSettings ? this.props.mailChimpSettings.contact.city : ''}`}
           /><br />
           <TextField
-            hintText="State (optional)"
-            id="selection-state"
-            style={{ marginBottom: 30 }}
+            floatingLabelText="State"
+            id="settings-state"
+            hintText={`currently: ${this.props.mailChimpSettings ? this.props.mailChimpSettings.contact.state : ''}`}
           /><br />
           <TextField
-            hintText="ZIP (optional)"
-            id="selection-zip"
-            style={{ marginBottom: 30 }}
+            floatingLabelText="ZIP"
+            id="settings-zip"
+            hintText={`currently: ${this.props.mailChimpSettings ? this.props.mailChimpSettings.contact.zip : ''}`}
           /><br />
           <TextField
-            hintText="Country (optional)"
-            id="selection-country"
-            style={{ marginBottom: 30 }}
+            floatingLabelText="Country"
+            id="settings-country"
+            hintText={`currently: ${this.props.mailChimpSettings ? this.props.mailChimpSettings.contact.country : ''}`}
           /><br />
+          <TextField
+            floatingLabelText="Permission reminder"
+            id="settings-permission_reminder"
+            hintText={`currently: ${this.props.mailChimpSettings ? this.props.mailChimpSettings.permission_reminder : ''}`}
+          /><br />
+          <TextField
+            floatingLabelText="Language"
+            id="settings-language"
+            hintText={`currently: ${this.props.mailChimpSettings ? this.props.mailChimpSettings.campaign_defaults.language : ''}`}
+          /><br />
+          <TextField
+            floatingLabelText="Subject"
+            id="settings-subject"
+            hintText={`currently: ${this.props.mailChimpSettings ? this.props.mailChimpSettings.campaign_defaults.subject : ''}`}
+          /><br />
+          <TextField
+            floatingLabelText="From email"
+            id="settings-from_email"
+            type="email"
+            hintText={`currently: ${this.props.mailChimpSettings ? this.props.mailChimpSettings.campaign_defaults.from_email : ''}`}
+          /><br />
+          <TextField
+            floatingLabelText="From name"
+            id="settings-from_name"
+            hintText={`currently: ${this.props.mailChimpSettings ? this.props.mailChimpSettings.campaign_defaults.from_name : ''}`}
+          /><br />
+          <br />
+          <br />
           <RaisedButton
-            label="Cancel"
-            onClick={() => this.toggleSelectionDialog(this.state.selDialogOpen)}
-          />
-          <RaisedButton
-            label="Create"
+            label="Update"
+            primary
             type="submit"
           />
         </form>
@@ -70,4 +130,19 @@ class MailChimpSettings extends React.Component {
 MailChimpSettings.propTypes = {
 };
 
-export default MailChimpSettings;
+const mapStateToProps = (state) => {
+  return {
+    mailChimpSettings: state.mailchimpSettings.mailchimpSettings,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getMailchimpSettings: () => dispatch(getMailchimpSettings()),
+    updateMailchimpSettings: body => dispatch(updateMailchimpSettings(body)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MailChimpSettings);
+
+// export default MailChimpSettings;

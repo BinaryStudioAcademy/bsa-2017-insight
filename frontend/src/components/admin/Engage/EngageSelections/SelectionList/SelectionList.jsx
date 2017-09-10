@@ -7,7 +7,7 @@ import Subheader from 'material-ui/Subheader';
 
 class SelectionList extends React.Component {
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    // console.log(nextProps);
   }
 
   render() {

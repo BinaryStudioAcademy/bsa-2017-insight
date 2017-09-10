@@ -11,6 +11,7 @@ module.exports = function (app) {
   });
 
   app.put('/api/mailchimp/settings', (req, res, next) => {
+    // console.log(req.body);
     mailchimpSettingsRepository.update(req.user.appId, req.body, (err, data) => {
       if (err) return next(err);
       res.json(data);

@@ -40,7 +40,12 @@ const fetchSelectionAPI = {
       credentials: 'include',
     })
       .then(res => res.json())
-      .then(selections => selections)
+      .then((selections) => {
+        if (!selections || selections.noApiKey) {
+          alert('Please, provide an API key for MailChimp in settings');
+        }
+        return selections;
+      })
       .catch(err => console.log(`Can't load the list of selections: ${err}`));
   },
   singleSelection: (id) => {
@@ -48,7 +53,12 @@ const fetchSelectionAPI = {
       credentials: 'include',
     })
       .then(res => res.json())
-      .then(selection => selection)
+      .then((selection) => {
+        if (!selection || selection.noApiKey) {
+          alert('Please, provide an API key for MailChimp in settings');
+        }
+        return selection;
+      })
       .catch(err => console.log(`Can't load a single conversation: ${err}`));
   },
   addSelection: (body, cb) => {
@@ -62,6 +72,9 @@ const fetchSelectionAPI = {
     })
       .then(res => res.json())
       .then((selection) => {
+        if (!selection || selection.noApiKey) {
+          alert('Please, provide an API key for MailChimp in settings');
+        }
         cb();
         return selection;
       })
@@ -74,7 +87,12 @@ const fetchSelectionAPI = {
     })
       .then(() => cb())
       .then(res => res.json())
-      .then(data => data)
+      .then((data) => {
+        if (!data || data.noApiKey) {
+          alert('Please, provide an API key for MailChimp in settings');
+        }
+        return data;
+      })
       .catch(err => console.log(`Houston, we'we got a problem: ${err}`));
   },
 };

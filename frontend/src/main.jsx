@@ -17,6 +17,10 @@ WebFont.load({
   },
 });
 
+
+if (!window._injectedData) window._injectedData = { text: 'injectedData' };
+window._injectedData.insightHost = 'http://localhost:3000';
+
 render(
   <Provider store={store}>
     <BrowserRouter>

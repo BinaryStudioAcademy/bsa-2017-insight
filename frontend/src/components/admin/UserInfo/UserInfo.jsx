@@ -23,7 +23,7 @@ const UserInfo = (props) => {
         className={styles['user-info']}
       >
         <List>
-          <ListItem primaryText={user.username} secondaryText={isOnline} leftAvatar={<Avatar src={`avatars/${user.avatar}`} />} />
+          <ListItem primaryText={user.username} secondaryText={isOnline} leftAvatar={<Avatar src={`${user.avatar}`} />} />
           <ListItem primaryText={statistic.country} secondaryText={statistic.city} leftIcon={<GpsFixed />} />
           <ListItem primaryText={statistic.timeZone} leftIcon={<Time />} />
           {user.email && <ListItem primaryText={user.email} leftIcon={<Drafts />} />}

@@ -86,7 +86,7 @@
   cursor: pointer;
   width: 25px;
   height: 25px;
-  background: url("http://localhost:3000/resources/widget/images/file-input-icon.png") no-repeat center;
+  background: url("/resources/widget/images/file-input-icon.png") no-repeat center;
   background-size: contain;
 }
 
@@ -98,7 +98,7 @@
   height: 30px;
   top: 10px;
   right: 10px;
-  background: url("http://localhost:3000/resources/widget/images/send-message-icon.png") center no-repeat;
+  background: url("/resources/widget/images/send-message-icon.png") center no-repeat;
   background-size: contain;
   border-radius: 5px;
   outline: none;

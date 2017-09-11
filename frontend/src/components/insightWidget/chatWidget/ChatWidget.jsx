@@ -12,7 +12,7 @@ class ChatWidget extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:3000/api/widgets/${window._injectedData.currentAppId}`)
+    fetch(`${window._injectedData.insightHost}/api/widgets/${window._injectedData.currentAppId}`)
       .then(response => response.json())
       .then((data) => {
         this.setState({ widgetStyles: data.options });

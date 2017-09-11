@@ -131,7 +131,7 @@ class ChatBody extends Component {
           <div className={styles['conversation-header']} style={headerStyles}>
             <img
               className={styles['return-button']}
-              src="http://localhost:3000/resources/widget/images/back.png"
+              src={`${window._injectedData.insightHost}/resources/widget/images/back.png`}
               alt="return-button"
               onClick={this.props.onReturnButtonClick}
             />
@@ -141,7 +141,7 @@ class ChatBody extends Component {
           <div className={styles['conversation-header']} style={headerStyles}>
             <img
               className={styles['return-button']}
-              src="http://localhost:3000/resources/widget/images/back.png"
+              src={`${window._injectedData.insightHost}/resources/widget/images/back.png`}
               alt="return-button"
               onClick={this.props.onReturnButtonClick}
             />

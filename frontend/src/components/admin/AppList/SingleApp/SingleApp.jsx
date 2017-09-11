@@ -48,7 +48,7 @@ class SingleApp extends React.Component {
                 + this.props.chosenApp.generalAdmin.lastName + ' @ '
                 + this.props.chosenApp.generalAdmin.username}
                 subtitle={this.props.chosenApp.generalAdmin.email}
-                avatar={'http://localhost:3000/uploads/avatars/' + this.props.chosenApp.generalAdmin.avatar}
+                avatar={`${window._injectedData.insightHost}/uploads/avatars/${this.props.chosenApp.generalAdmin.avatar}`}
               />
             }
             <CardActions>

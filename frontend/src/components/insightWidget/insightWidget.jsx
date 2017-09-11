@@ -13,7 +13,9 @@ if (!window._injectedData) {
   window._injectedData = { text: 'injectedData' };
 }
 
-// window._injectedData.insightHost = 'http://localhost:3000';
+window._injectedData.insightHost = 'http://localhost:3000';
+console.log(window._injectedData.insightHost);
+console.log(process.env);
 
 WebFont.load({
   google: {

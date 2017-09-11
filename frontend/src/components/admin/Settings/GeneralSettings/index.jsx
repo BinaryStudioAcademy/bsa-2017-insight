@@ -24,7 +24,7 @@ class GeneralSettings extends React.Component {
   }
 
   fetchAdmins() {
-    fetch('/api/admins', { credentials: 'include', method: 'GET' })
+    fetch(`${window._injectedData.insightHost}/api/admins`, { credentials: 'include', method: 'GET' })
       .then((response) => {
         return response.json();
       })

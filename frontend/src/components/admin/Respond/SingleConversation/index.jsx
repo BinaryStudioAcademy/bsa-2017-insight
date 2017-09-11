@@ -33,7 +33,7 @@ const SingleConversation = (props) => {
             props.handler();
             props.setStatistic(props.conversation);
           }}
-          leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
+          leftAvatar={<Avatar src={`${userAvatar}`} />}
           primaryText={typeof messages[messages.length - 1].body === 'object' ?
             `${messages[messages.length - 1].body.fileName}.${messages[messages.length - 1].body.fileType}` :
             <EmojiRender text={messages[messages.length - 1].body} />}

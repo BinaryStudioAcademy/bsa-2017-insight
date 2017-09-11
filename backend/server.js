@@ -85,4 +85,11 @@ const io = require('socket.io').listen(server);
 
 io.on('connection', socketConnectionHandler);
 
+console.log('--------');
+console.log('ENV');
+console.log(process.env.NODE_ENV);
+console.log('hostname');
+console.log(server.address());
+console.log('--------');
+
 module.exports = app;

@@ -2,7 +2,7 @@ import { takeEvery, put } from 'redux-saga/effects';
 
 const fetchSettingsAPI = {
   getSettings: () => {
-    return fetch('/api/mailchimp/settings', {
+    return fetch(`${window._injectedData.insightHost}/api/mailchimp/settings`, {
       credentials: 'include',
     })
       .then(res => res.json())
@@ -12,7 +12,7 @@ const fetchSettingsAPI = {
   updateSettings: (body) => {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return fetch('/api/mailchimp/settings', {
+    return fetch(`${window._injectedData.insightHost}/api/mailchimp/settings`, {
       credentials: 'include',
       method: 'put',
       headers,

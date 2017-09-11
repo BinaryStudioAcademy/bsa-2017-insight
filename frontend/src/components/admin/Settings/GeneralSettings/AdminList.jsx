@@ -64,7 +64,7 @@ class AdminList extends React.Component {
 
   save() {
     const id = this.props._id;
-    fetch(`/api/admins/${id}`, {
+    fetch(`${window._injectedData.insightHost}/api/admins/${id}`, {
       headers: {
         'Content-Type': 'application/json',
       },

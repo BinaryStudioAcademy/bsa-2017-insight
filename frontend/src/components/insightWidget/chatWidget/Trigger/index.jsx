@@ -20,7 +20,7 @@ const Trigger = (OriginalComponent) => {
     }
 
     componentDidMount() {
-      fetch(`http://localhost:3000/api/force-messages/all/${window._injectedData.currentAppId}`)
+      fetch(`${window._injectedData.insightHost}/api/force-messages/all/${window._injectedData.currentAppId}`)
         .then(response => response.json())
         .then((forceMessages) => {
           actions.add(PATH_CHANGED, this, (data) => {

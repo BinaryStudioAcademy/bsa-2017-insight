@@ -3,7 +3,7 @@ import { DELETE_FORCE_MESSAGE, FETCH_FORCE_MESSAGES, CREATE_FORCE_MESSAGE } from
 
 function fetchForceMessages() {
   const requestOptions = { credentials: 'include' };
-  return fetch(`http://localhost:3000/api/force-messages/all/${window._injectedData.currentAppId}`, requestOptions)
+  return fetch(`${window._injectedData.insightHost}/api/force-messages/all/${window._injectedData.currentAppId}`, requestOptions)
     .then(response => response.json())
     .then(forceMessages => forceMessages);
 }
@@ -21,7 +21,7 @@ function* createForceMessageSaga(action) {
     method: 'POST',
     body: JSON.stringify(action.payload),
   };
-  const result = yield fetch('http://localhost:3000/api/force-messages', requestOptions)
+  const result = yield fetch(`${window._injectedData.insightHost}/api/force-messages`, requestOptions)
     .then((response) => {
       if (response.status === 204) {
         return null;
@@ -40,7 +40,7 @@ function* deleteForceMessageSaga(action) {
   const requestOptions = {
     method: 'DELETE',
   };
-  const result = yield fetch(`http://localhost:3000/api/force-messages/${action.id}`, requestOptions)
+  const result = yield fetch(`${window._injectedData.insightHost}/api/force-messages/${action.id}`, requestOptions)
     .then(response => response);
   if (result.status === 200) yield put({ type: 'DELETE_FORCE_MESSAGE_LOCAL', payload: action.id });
 }

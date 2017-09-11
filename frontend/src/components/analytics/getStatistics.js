@@ -1,5 +1,5 @@
 function getStatisticsByQuery(query) {
-  let url = 'http://localhost:3000/api/statistics';
+  let url = `http://localhost:3000/api/statistics`;
   if (query && query !== '') url = `http://localhost:3000/api/users?${query}`;
   const requestOptions = {
     headers: {

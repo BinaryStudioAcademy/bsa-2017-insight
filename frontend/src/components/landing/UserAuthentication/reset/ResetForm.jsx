@@ -9,7 +9,7 @@ class ResetForm extends React.Component {
     this.state = {
       firstPassword: '',
       secondPassword: '',
-      info: ''
+      info: '',
     };
   }
 
@@ -25,10 +25,10 @@ class ResetForm extends React.Component {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password: this.state.secondPassword }),
-      credentials: 'include'
+      credentials: 'include',
     };
 
-    return fetch(`/api/reset/${this.props.match.params.userType}/${this.props.match.params.token}`, options)
+    return fetch(`${window._injectedData.insightHost}/api/reset/${this.props.match.params.userType}/${this.props.match.params.token}`, options)
       .then((response) => {
         if (response.redirected) return window.location.replace(response.url);
         return response.json();

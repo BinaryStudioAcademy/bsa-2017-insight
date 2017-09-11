@@ -86,10 +86,10 @@ class UserRegistration extends React.Component {
       if (this.state.info.length) return;
       const formData = new FormData(e.target);
       formData.set('avatar', this.state.image);
-      fetch('/api/user/registration/', {
+      fetch(`${window._injectedData.insightHost}/api/user/registration/`, {
         method: 'POST',
         body: formData,
-        credentials: 'include'
+        credentials: 'include',
       }).then((response) => {
         if (response.redirected) return window.location.replace(response.url);
         return response.json();

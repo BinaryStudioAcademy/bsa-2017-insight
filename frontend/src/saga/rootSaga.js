@@ -8,7 +8,6 @@ import appsSaga from './appsSaga';
 import mailchimpSettingsSaga from './mailchimpSettingsSaga';
 import forceMessagesSaga from './forceMessagesSaga';
 
-
 function* rootSaga() {
   yield [
     fork(statisticSaga),

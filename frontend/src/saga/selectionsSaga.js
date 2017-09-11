@@ -2,7 +2,7 @@ import { takeEvery, put } from 'redux-saga/effects';
 
 const fetchSelectionAPI = {
   allSelections: () => {
-    return fetch('/api/selections', {
+    return fetch(`${window._injectedData.insightHost}/api/selections`, {
       credentials: 'include',
     })
       .then(res => res.json())
@@ -15,7 +15,7 @@ const fetchSelectionAPI = {
       .catch(err => console.log(`Can't load the list of selections: ${err}`));
   },
   singleSelection: (id) => {
-    return fetch(`/api/selections/${id}`, {
+    return fetch(`${window._injectedData.insightHost}/api/selections/${id}`, {
       credentials: 'include',
     })
       .then(res => res.json())
@@ -30,7 +30,7 @@ const fetchSelectionAPI = {
   addSelection: (body, cb) => {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return fetch('/api/selections', {
+    return fetch(`${window._injectedData.insightHost}/api/selections`, {
       credentials: 'include',
       method: 'post',
       headers,
@@ -47,7 +47,7 @@ const fetchSelectionAPI = {
       .catch(err => console.log(`Houston, we'we got a problem: ${err}`));
   },
   deleteSelection: (id, cb) => {
-    return fetch(`/api/selections/${id}`, {
+    return fetch(`${window._injectedData.insightHost}/api/selections/${id}`, {
       credentials: 'include',
       method: 'delete',
     })

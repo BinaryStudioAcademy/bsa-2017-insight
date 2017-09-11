@@ -4,12 +4,10 @@ const options = {
   title: true,
 };
 
-const hostname = 'http://localhost:3000';
-
 const notifications = {
   email(message) {
     if (options.email) {
-      fetch(`${hostname}/api/notification/email`, {
+      fetch(`${window._injectedData.insightHost}/api/notification/email`, {
         headers: {
           'Content-Type': 'application/json',
         },

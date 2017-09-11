@@ -19,7 +19,7 @@ class RestoreForm extends React.Component {
       body: JSON.stringify({ email: this.state.email, userType })
     };
 
-    fetch('/api/forgot', options)
+    fetch(`${window._injectedData.insightHost}/api/forgot`, options)
       .then((response) => {
         return response.json();
       })

@@ -36,7 +36,7 @@ injectTapEventPlugin();
 class AdminPage extends React.Component {
   constructor(props) {
     super(props);
-    this.leftMenuWidth = 75;
+    this.leftMenuWidth = 80;
     this.headerHeight = 65;
     this.state = {
       chosenTheme: lightBaseTheme,
@@ -69,7 +69,7 @@ class AdminPage extends React.Component {
         notification.onclick = () => {
           this.props.navigateToConversation('unpicked', data.conversation._id)
           this.props.getStatisticById(data.conversation.participants[0].user);
-          this.context.router.history.replace('/admin/respond');
+          this.context.router.history.replace('/admin/messenger');
           notification.close();
         };
       }
@@ -153,7 +153,7 @@ class AdminPage extends React.Component {
                           }}
                         />
                         <Route
-                          path="/admin/messager"
+                          path="/admin/messenger"
                           render={() => (
                             <Respond
                               headerHeight={this.headerHeight}

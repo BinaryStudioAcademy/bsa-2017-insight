@@ -22,7 +22,7 @@ const ForceMessagesTable = (props) => {
               <td className={styles['force-messages-table-cell']}>{forceMessage.timer / 1000} s</td>
               <td className={styles['force-messages-table-delete-cell']}>
                 <img
-                  src="http://localhost:3000/resources/force-messages/delete-force-message.png"
+                  src={`${window._injectedData.insightHost}/resources/force-messages/delete-force-message.png`}
                   alt="delete"
                   onClick={() => props.onDeleteButtonClick(forceMessage._id)}
                 />

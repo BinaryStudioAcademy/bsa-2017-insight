@@ -1,40 +1,6 @@
 import { takeEvery, put } from 'redux-saga/effects';
 
 const fetchSelectionAPI = {
-//   allSelections: () => {
-//     return fetch('/api/selections', {
-//       credentials: 'include',
-//     })
-//       .then(res => res.json())
-//       .then(selections => selections)
-//       .catch(err => console.log(`Can't load the list of selections: ${err}`));
-//   },
-//   singleSelection: (id) => {
-//     return fetch(`/api/selections/${id}`)
-//       .then(res => res.json())
-//       .then(selection => selection)
-//       .catch(err => console.log(`Can't load a single conversation: ${err}`));
-//   },
-//   addSelection: (body) => {
-//     const headers = new Headers();
-//     headers.append('Content-Type', 'application/json');
-//     return fetch('/api/selections', {
-//       method: 'post',
-//       headers,
-//       body,
-//     })
-//       .then(res => res.json())
-//       .then(selection => selection)
-//       .catch(err => console.log(`Houston, we'we got a problem: ${err}`));
-//   },
-//   deleteSelection: (id) => {
-//     return fetch(`/api/selections/${id}`, {
-//       method: 'delete',
-//     })
-//       .then(res => res.json())
-//       .then(selection => selection)
-//       .catch(err => console.log(`Houston, we'we got a problem: ${err}`));
-//   },
   allSelections: () => {
     return fetch('/api/selections', {
       credentials: 'include',

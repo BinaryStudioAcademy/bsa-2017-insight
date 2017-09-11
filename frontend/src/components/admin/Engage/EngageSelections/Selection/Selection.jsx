@@ -5,7 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { List, ListItem } from 'material-ui/List';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
 import styles from './styles.scss';
-// import Table from '../../../Table/TableItself';
 
 class Selection extends React.Component {
   constructor() {
@@ -44,9 +43,6 @@ class Selection extends React.Component {
               title={this.props.chosenSelection.name}
               subtitle={`${this.props.chosenSelection.stats.member_count} users, ${this.props.chosenSelection.stats.campaign_count} mailings`}
             />
-            {/* <CardText>
-              {this.props.chosenSelection.description}
-            </CardText> */}
             <CardActions>
               <RaisedButton
                 className={styles['selection-button']}
@@ -68,10 +64,6 @@ class Selection extends React.Component {
               />
             </CardActions>
             <CardText expandable>
-              {/* <Table
-                options={this.props.fieldsToDisplay}
-                statistics={statistics}
-              /> */}
               <List>
                 { this.props.chosenSelection.members.map(selection => {
                   return (<ListItem

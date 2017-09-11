@@ -82,6 +82,10 @@ function connectionHandler(socket) {
   socket.on('messagesReceived', (data) => {
     const room = socket.room;
 
+    if(!data.messages.length) {
+      return socket.broadcast.to(room).emit('messagesReceived', []);
+    }
+
     if (data.type === 'Admin') {
       const searchObj = {
         conversationId: data.messages[0].conversationId,

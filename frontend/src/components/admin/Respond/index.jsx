@@ -14,12 +14,17 @@ class Respond extends React.Component {
     super();
     this.conversationToChat = this.conversationToChat.bind(this);
     this.getIdForStatistic = this.getIdForStatistic.bind(this);
-    this.applyFilters = this.applyFilters.bind(this);
   }
 
   componentWillMount() {
-    this.props.getAllConversations();
+    this.props.setConversationFilters(this.props.conversationFilters);
   }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.conversations) return;
+    this.props.setConversationFilters(nextProps.conversationFilters);
+  }
+
   getIdForStatistic(conversation) {
     const userObj = conversation.participants.find((user) => {
       return user.userType === 'User';
@@ -32,16 +37,37 @@ class Respond extends React.Component {
     });
   }
 
-  applyFilters(conversations) {
-    this.props.removeConversations();
-    this.props.updateConversations(conversations);
-  }
   render() {
+    const filters = (
+      <ConversationFilter
+        filters={this.props.conversationFilters}
+        setConversationFilters={this.props.setConversationFilters}
+        removeConversations={this.props.removeConversations}
+      />
+    );
+    if (this.props.conversations === null) {
+      return (
+        <div>
+          {filters}
+          <h3 style={{ margin: '10px' }}>Loading...</h3>
+        </div>
+      );
+    } else if (!this.props.conversations.length) {
+      return (
+        <div>
+          {filters}
+          <h3 style={{ margin: '10px' }}>Conversations list is empty now</h3>
+        </div>
+      );
+    }
+
     const idToRender = this.props.conversationToRenderId || null;
     const convToChat = idToRender ? this.conversationToChat(idToRender) : null;
+    
     return (
       <div>
-        <ConversationFilter setFilteredConversations={this.applyFilters} />
+        {filters}
+
         {!idToRender ?
           <div
             className={styles['big-conversation-list']}
@@ -99,6 +125,7 @@ class Respond extends React.Component {
                 dispatch={this.props.dispatch}
                 chosenTheme={this.props.chosenTheme}
                 headerHeight={this.props.headerHeight}
+                socketConnection={this.props.socketConnection}
               />
             </div>
             <div
@@ -118,7 +145,8 @@ const mapStateToProps = (state) => {
   return {
     conversations: state.conversationsInfo.conversations,
     conversationToRenderId: state.conversationsInfo.conversationToRenderId,
-    statisticById: state.statistics.statisticById
+    statisticById: state.statistics.statisticById,
+    conversationFilters: state.conversationsInfo.conversationFilters,
   };
 };
 
@@ -138,6 +166,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateConversations: (newConversations) => {
       dispatch(updateConversations(newConversations));
+    },
+    setConversationFilters: (newFilters) => {
+      dispatch({ type: 'SET_CONVERSATION_FILTERS', payload: newFilters });
     },
     dispatch
   };

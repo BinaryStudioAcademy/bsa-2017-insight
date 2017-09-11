@@ -19,3 +19,16 @@ export function getConversationById(id) {
       return conversation;
     });
 }
+
+export function getConversationsByFilters(filters) {
+  return fetch('/api/conversations/filter', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(filters),
+    }).then(response => response.json()).then(conversations => {
+      return conversations;
+  });
+}

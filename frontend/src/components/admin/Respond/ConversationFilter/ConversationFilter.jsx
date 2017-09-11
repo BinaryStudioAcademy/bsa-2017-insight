@@ -1,11 +1,9 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import Checkbox from 'material-ui/Checkbox';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import MenuItem from 'material-ui/MenuItem';
-import {Tabs, Tab} from 'material-ui/Tabs';
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import DatePicker from 'material-ui/DatePicker';
 import SelectField from 'material-ui/SelectField';
 import IconButton from 'material-ui/IconButton';
@@ -16,23 +14,28 @@ export default class ConversationFilter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeDateFilter: 'range',
-      isFilterApplied: false,
-      filters: {
-        activeGroup: 'all',
-        date: {},
-      },
+      filters: this.props.filters,
       dialogOpen: false,
     };
     this.setTextValue = this.setTextValue.bind(this);
     this.setDate = this.setDate.bind(this);
     this.changeDateFilter = this.changeDateFilter.bind(this);
     this.resetForms = this.resetForms.bind(this);
-    this.handleClose = this.handleClose.bind(this)
+    this.handleClose = this.handleClose.bind(this);
     this.setSelectValue = this.setSelectValue.bind(this);
     this.applyFilters = this.applyFilters.bind(this);
     this.removeFilters = this.removeFilters.bind(this);
     this.changeGroup = this.changeGroup.bind(this);
+  }
+
+  componentDidMount() {
+    this[this.state.filters.activeGroup].classList.add('active');
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      filters: nextProps.filters,
+    });
   }
 
   setTextValue(e) {
@@ -55,42 +58,28 @@ export default class ConversationFilter extends React.Component {
     const newFilters = { ...this.state.filters };
     newFilters.date[type] = date;
     this.setState({
-      filters: newFilters
+      filters: newFilters,
     });
   }
 
   changeDateFilter(e, value) {
     const newFilters = { ...this.state.filters };
     newFilters.date = {};
+    newFilters.activeDateFilter = value;
     this.setState({
-      activeDateFilter: value,
       filters: newFilters,
     });
   }
 
-  getConversations(callback) {
-    console.log(this.state);
-    fetch('/api/conversations/filter', {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify(this.state.filters),
-    }).then(response => response.json()).then(response => {
-      this.props.setFilteredConversations(response);
-      if(callback) {
-        callback();
-      }
-    });
-  }
-
   applyFilters() {
-    this.getConversations(() => {
-      this.setState({
-        dialogOpen: false,
-        isFilterApplied: true,
-      });
+    const newFilters = { ...this.state.filters };
+    newFilters.isFilterApplied = true;
+
+    this.setState({
+      dialogOpen: false,
+      filters: newFilters,
+    }, () => {
+      this.props.setConversationFilters(this.state.filters);
     });
   }
 
@@ -98,6 +87,8 @@ export default class ConversationFilter extends React.Component {
     this.setState({
       filters: {
         date: {},
+        isFilterApplied: this.state.filters.isFilterApplied,
+
         activeGroup: this.state.filters.activeGroup,
       },
     });
@@ -105,7 +96,7 @@ export default class ConversationFilter extends React.Component {
 
   handleClose() {
     this.setState({
-      dialogOpen: false
+      dialogOpen: false,
     });
   }
 
@@ -116,23 +107,24 @@ export default class ConversationFilter extends React.Component {
       filters: {
         date: {},
         activeGroup: this.state.filters.activeGroup,
+        activeDateFilter: this.state.filters.activeDateFilter,
       },
     }, () => {
-      this.getConversations();
+      this.props.setConversationFilters(this.state.filters);
     });
   }
 
   changeGroup(e) {
     e.preventDefault();
-    const newFilters = { ...this.state.filters };
-    newFilters.activeGroup = e.target.id;
+    const newFilters = { ...this.state.filters, activeGroup: e.target.id };
 
     this[this.state.filters.activeGroup].classList.remove('active');
     this.setState({
       filters: newFilters,
     }, () => {
       this[this.state.filters.activeGroup].classList.add('active');
-      this.getConversations();
+      this.props.removeConversations();
+      this.props.setConversationFilters(this.state.filters);
     });
   }
 
@@ -140,44 +132,43 @@ export default class ConversationFilter extends React.Component {
     const actions = [
       <FlatButton
         label="Reset"
-        primary={true}
+        primary
         onClick={this.resetForms}
         className={'dialog-btn'}
       />,
       <FlatButton
         label="Cancel"
-        primary={true}
+        primary
         onClick={this.handleClose}
         className={'dialog-btn'}
       />,
       <FlatButton
         label="Submit"
-        primary={true}
-        keyboardFocused={true}
+        primary
         onClick={this.applyFilters}
         className={'dialog-btn'}
-      />
+      />,
     ];
     return (
       <div>
         <div className={'filter-panel'}>
           <IconButton
             iconClassName="material-icons"
-            onClick={() => this.setState({ dialogOpen:true })}
+            onClick={() => this.setState({ dialogOpen: true })}
             label={'Filter'}
             tooltip="Filters"
-            iconStyle={ this.state.isFilterApplied ? { color: '#fbc110' } : {} }
+            iconStyle={this.state.filters.isFilterApplied ? { color: '#fbc110' } : {}}
           >
             filter_list
           </IconButton>
           {
-            this.state.isFilterApplied && 
+            this.state.filters.isFilterApplied &&
             <a onClick={this.removeFilters} href={'#'} className={'remove-filter'}>remove filters</a>
           }
           <span style={{ margin: '0 5px' }}>|</span>
           <span>show conversations:</span>
           <a
-            className={'filter-panel-link active'}
+            className={'filter-panel-link'}
             id={'all'}
             onClick={this.changeGroup}
             ref={(el) => this.all = el}
@@ -186,7 +177,7 @@ export default class ConversationFilter extends React.Component {
             className={'filter-panel-link'}
             id={'mine'}
             onClick={this.changeGroup}
-            ref={(el) => this.mine = el}
+            ref={el => this.mine = el}
           >mine</a>
           <a
             className={'filter-panel-link'}
@@ -208,7 +199,7 @@ export default class ConversationFilter extends React.Component {
               <div className={'date-type'}>
                 <RadioButtonGroup
                   name={'dateFilter'}
-                  defaultSelected={this.state.activeDateFilter}
+                  defaultSelected={this.state.filters.activeDateFilter}
                   onChange={this.changeDateFilter}
                 >
                   <RadioButton
@@ -235,36 +226,36 @@ export default class ConversationFilter extends React.Component {
               </div>
               <div className={'content-body'}>
                 {
-                  this.state.activeDateFilter === 'range' ?
-                  <div>
-                    <DatePicker 
-                      hintText="from"
-                      onChange={(e, date) => this.setDate('from', date)}
-                      value={this.state.filters.date.from}
-                      style={{ width: '170px', display: 'inline-block', marginRight: '20px' }}
-                      textFieldStyle={{ width: '170px' }}
-                    />
+                  this.state.filters.activeDateFilter === 'range' ?
+                    <div>
+                      <DatePicker 
+                        hintText="from"
+                        onChange={(e, date) => this.setDate('from', date)}
+                        value={this.state.filters.date.from}
+                        style={{ width: '170px', display: 'inline-block', marginRight: '20px' }}
+                        textFieldStyle={{ width: '170px' }}
+                      />
+                      <DatePicker
+                        hintText="to"
+                        onChange={(e, date) => this.setDate('to', date)}
+                        value={this.state.filters.date.to}
+                        style={{ width: '170px', display: 'inline-block' }}
+                        textFieldStyle={{ width: '170px' }}
+                      />
+                    </div>
+                    :
                     <DatePicker
-                      hintText="to"
-                      onChange={(e, date) => this.setDate('to', date)}
-                      value={this.state.filters.date.to}
-                      style={{ width: '170px', display: 'inline-block' }}
+                      hintText="choose date"
+                      onChange={(e, date) => this.setDate(this.state.filters.activeDateFilter, date)}
+                      value={this.state.filters.date[this.state.filters.activeDateFilter]}
                       textFieldStyle={{ width: '170px' }}
                     />
-                  </div>
-                  :
-                  <DatePicker
-                    hintText="choose date"
-                    onChange={(e, date) => this.setDate(this.state.activeDateFilter, date)}
-                    value={this.state.filters.date[this.state.activeDateFilter]}
-                    textFieldStyle={{ width: '170px' }}
-                  />
                 }
               </div>
             </div>
             <div className={'user-tab'}>
               <div className={'tab-name'}>User info</div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center'}}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                 <TextField
                   hintText={'Username'}
                   floatingLabelText="Username"

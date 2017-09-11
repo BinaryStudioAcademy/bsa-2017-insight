@@ -1,6 +1,12 @@
 const initialState = {
-  conversations: [],
+  conversations: null,
   conversationToRenderId: null,
+  conversationFilters: {
+    date: {},
+    activeGroup: 'all',
+    activeDateFilter: 'range',
+    isFilterApplied: false,
+  }
 };
 
 function findConversationById(id, conversations) {
@@ -31,6 +37,7 @@ const conversationsReducer = (state = initialState, action) => {
       return Object.assign({}, state, { conversations: action.payload });
     case 'GET_CONVERSATION_BY_ID_SUCCESS': {
       const { index } = findConversationById(action.payload.conversation._id, state.conversations);
+      console.log(index);
       const oldConversation = [...state.conversations];
       oldConversation.splice(index, 1, action.payload.conversation);
       const newConversations = [...oldConversation];
@@ -40,6 +47,21 @@ const conversationsReducer = (state = initialState, action) => {
       return Object.assign({}, state, { conversationToRenderId: null });
     case 'UPDATE_CONVERSATIONS':
       return Object.assign({}, state, { conversations: action.payload });
+    case 'FILTERS_SET_SUCCESS': {
+      return Object.assign({}, state, {
+        conversationFilters: action.payload.conversationFilters,
+        conversations: action.payload.conversations,
+      });
+    }
+    case 'NAVIGATE_TO_CONVERSATION': {
+      const filters = { ...state.conversationFilters };
+      filters.activeGroup = action.payload.group;
+      return Object.assign({}, state, {
+        conversationFilters: filters,
+        conversationToRenderId: action.payload.id,
+        conversations: null,
+      });
+    }
     default: {
       return state;
     }

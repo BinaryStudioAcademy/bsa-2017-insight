@@ -25,7 +25,7 @@ class Chat extends Component {
     this.socket = io('http://localhost:3000');
     const id = window._injectedData.anonymousId || window._injectedData.userId._id;
     this.socket.emit('getUserConversations', id);
-    startSocketConnection.call(this, this.socket);
+    startSocketConnection.call(this, this.socket, this.props.messageBody);
   }
 
   onForceConversation() {
@@ -163,6 +163,7 @@ Chat.propTypes = {
     widgetPosition: propTypes.string,
   }),
   forceWillBeFalse: propTypes.func,
+  messageBody: propTypes.string,
 };
 
 export default Chat;

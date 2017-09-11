@@ -59,7 +59,7 @@ function returnNewState(messages, conversationId, conversations) {
 function startSocketConnection(socket, forceMessageBody) {
   const id = window._injectedData.anonymousId || window._injectedData.userId._id;
   socket.on('user connected', () => {
-    console.log('connected to the server succesfully');
+    console.log('connected to the server successfully');
   });
   const userObj = {
     type: 'User',
@@ -124,7 +124,6 @@ function startSocketConnection(socket, forceMessageBody) {
   });
   socket.on('forceConversationCreated', (conversation) => {
     const convWithForceMessage = getForceMessage(conversation, forceMessageBody);
-    console.log('convWithForceMessage:', convWithForceMessage);
     const newConversations = [...this.state.conversations, convWithForceMessage];
     window._injectedData.forceConvId = conversation._id;
     this.setState({

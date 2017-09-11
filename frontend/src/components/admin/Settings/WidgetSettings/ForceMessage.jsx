@@ -14,7 +14,6 @@ class ForceMessage extends React.Component {
       page: '',
       body: 'How can I help you?',
       timer: '10',
-      visitedURLS: '',
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -36,16 +35,12 @@ class ForceMessage extends React.Component {
       page: this.state.page,
       body: this.state.body,
       timer: Number(this.state.timer) * 1000,
-      conditions: {
-        visitedURLS: this.state.visitedURLS.split(',').map(path => path.trim()),
-      },
     };
     this.props.dispatch(createForceMessage(forceMessage));
     this.setState({
       page: '',
       body: 'How can I help you?',
       timer: '10',
-      visitedURLS: '',
     });
   }
 
@@ -88,15 +83,6 @@ class ForceMessage extends React.Component {
             id="timer"
             value={this.state.timer}
             onChange={e => this.onInputChange(e, 'timer')}
-          />
-          <h3 className={styles['conditions-header']}>Conditions</h3>
-          <div>Visited pages</div>
-          <TextField
-            className={styles['force-message-input']}
-            hintText="List of pages user has already visited"
-            id="visitedURLS"
-            value={this.state.visitedURLS}
-            onChange={e => this.onInputChange(e, 'visitedURLS')}
           />
           <div className={styles['add-button-wrapper']}>
             <RaisedButton

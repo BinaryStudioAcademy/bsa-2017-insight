@@ -10,7 +10,6 @@ const ForceMessagesTable = (props) => {
           <th>Page</th>
           <th>Message</th>
           <th>Timeout</th>
-          <th>Viewed pages</th>
           <th className={styles['delete-button-th']} />
         </tr>
       </thead>
@@ -21,7 +20,6 @@ const ForceMessagesTable = (props) => {
               <td className={styles['force-messages-table-cell']}>{forceMessage.page}</td>
               <td className={styles['force-messages-table-cell']}>{forceMessage.body}</td>
               <td className={styles['force-messages-table-cell']}>{forceMessage.timer / 1000} s</td>
-              <td className={styles['force-messages-table-cell']}>{forceMessage.conditions.visitedURLS.join(', ')}</td>
               <td className={styles['force-messages-table-delete-cell']}>
                 <img
                   src="http://localhost:3000/resources/force-messages/delete-force-message.png"

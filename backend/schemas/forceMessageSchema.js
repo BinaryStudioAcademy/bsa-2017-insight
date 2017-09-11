@@ -7,9 +7,7 @@ const forceMessageSchema = new Schema({
   page: String,
   body: String,
   timer: Number,
-  conditions: {
-    visitedURLS: [String],
-  },
+  conditions: {},
 });
 
 module.exports = mongoose.model('ForceMessage', forceMessageSchema);

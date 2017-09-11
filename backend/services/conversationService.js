@@ -2,6 +2,7 @@ const UserRepository = require('./../repositories/userRepository');
 const ConversationRepository = require('./../repositories/conversationRepository');
 const AdminRepository = require('./../repositories/adminRepository');
 const mongoose = require('mongoose');
+const async = require('async');
 
 function createConversationAndUpdateUser(conversation, userId, socket) {
   ConversationRepository.model.create(conversation).then((conversationData) => {
@@ -41,8 +42,46 @@ function checkIfAdminIsConversationParticipant(conversationId, adminId) {
   });
 }
 
+function pickConversation(conversationId, adminId, callback) {
+  async.waterfall([
+    (done) => {
+      ConversationRepository.getById(conversationId, (err, conversation) => {
+        if(err) {
+          return done(err);
+        }
+        if(conversation.participants.length > 1) {
+          return done(new Error('Conversation is already picked'));
+        }
+        done();
+      });
+    },
+    (done) => {
+      ConversationRepository.update(conversationId, { $push: { participants: {
+        userType: 'Admin',
+        user: mongoose.Types.ObjectId(adminId),
+      }}}, (err, result) => {
+        if(err) {
+          return done(err);
+        }
+        done();
+      });
+    },
+    (done) => {
+      AdminRepository.update(adminId, { $push: { conversations: conversationId } }, (err, result) => {
+        if(err) {
+          return done(err);
+        }
+        done();
+      });
+    }
+  ], (err, data) => {
+    callback(err, data);
+  });
+}
+
 module.exports = {
   createConversationAndUpdateUser,
   checkIfAdminIsConversationParticipant,
   createForceConversation,
+  pickConversation,
 };

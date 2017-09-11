@@ -36,6 +36,8 @@ export default class ConversationFilter extends React.Component {
     this.setState({
       filters: nextProps.filters,
     });
+    this[this.state.filters.activeGroup].classList.remove('active');
+    this[nextProps.filters.activeGroup].classList.add('active');
   }
 
   setTextValue(e) {

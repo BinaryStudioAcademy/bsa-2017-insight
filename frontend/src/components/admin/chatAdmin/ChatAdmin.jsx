@@ -27,22 +27,53 @@ class Chat extends Component {
     this.focusToInput = this.focusToInput.bind(this);
     this.messageSubmit = this.messageSubmit.bind(this);
     this.onFileInputChange = this.onFileInputChange.bind(this);
+    this.pickConversation = this.pickConversation.bind(this);
   }
 
   componentDidMount() {
     const conversation = this.props.conversationToRender;
+    const currentAdmin = window._injectedData;
+
     this.props.socketConnection.emit('adminConnectedToRoom', conversation._id);
     this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: conversation.messages });
     const input = document.getElementById('input');
     this.setState({ input });
+
+    let isParticipant = conversation.participants.find((participant) => {
+      return participant.user._id === currentAdmin._id;
+    });
+
+    this.setState({
+      isInputEnabled: isParticipant ? true : false,
+      showPickBtn: conversation.participants.length === 1 ? true : false,
+    }, () => {
+      console.log(this.state);
+    });
+
   }
 
   componentWillReceiveProps(nextProps) {
     const oldConversationId = this.props.conversationToRender._id;
+    const newConversation = nextProps.conversationToRender;
+    const currentAdmin = window._injectedData;
+
     if (nextProps.conversationToRender._id !== oldConversationId) {
       if (nextProps.conversationToRender._id) this.props.socketConnection.emit('switchRoom', nextProps.conversationToRender._id);
       this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
     }
+
+    let isParticipant = newConversation.participants.find((participant) => {
+      return participant.user._id === currentAdmin._id;
+    });
+    console.log(newConversation, isParticipant);
+    this.setState({
+      isInputEnabled: isParticipant ? true : false,
+      showPickBtn: newConversation.participants.length === 1 ? true : false,
+      info: '',
+    }, () => {
+      console.log(this.state);
+    });
+
     // Notifications
     // const messageNumProps = nextProps.conversationToRender.messages.length;
     // if (this.state.messageNum === 0) {
@@ -172,6 +203,31 @@ class Chat extends Component {
     this.setState({ text: '' });
   }
 
+  pickConversation() {
+    fetch('/api/conversations/pick', {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({ id: this.props.conversationToRender._id }),
+    }).then(response => response.json()).then(response => {
+      if(response.ok) {
+        this.props.conversationToRender.participants.push({ user: { _id: window._injectedData._id } });
+        this.setState({
+          isInputEnabled: true,
+          showPickBtn: false,
+          info: 'Conversation has been picked',
+        });
+      } else {
+        this.setState({
+          showPickBtn: false,
+          info: response.message,
+        });
+      }
+    });
+  }
+
   render() {
     const conversationToRender = this.props.conversationToRender;
     const messages = conversationToRender ? conversationToRender.messages : null;
@@ -182,6 +238,17 @@ class Chat extends Component {
         onClick={e => this.closeEmojiBlock(e)}
       >
         <MessagesList messages={messages} chosenTheme={this.props.chosenTheme} />
+        <div style={{ margin: '5px 10px' }}>
+          <RaisedButton
+            label={'Pick'}
+            onClick={this.pickConversation}
+            secondary
+            style={this.state.showPickBtn ? { display: 'block', width: '100px' } : { display: 'none' }}
+          />
+          {
+            this.state.info
+          }
+        </div>
         <form className={styles['sending-form']} onSubmit={this.messageSubmit}>
           <RaisedButton
             className={styles['selected-files-counter']}
@@ -202,6 +269,7 @@ class Chat extends Component {
               className={styles['file-input']}
               onChange={this.onFileInputChange}
               multiple
+              disabled={!this.state.isInputEnabled}
             />
           </RaisedButton>
           <input
@@ -212,6 +280,7 @@ class Chat extends Component {
             value={this.state.text}
             onBlur={e => this.blurFromInput(e)}
             id="input"
+            disabled={!this.state.isInputEnabled}
           />
           <span
             role="button"
@@ -227,6 +296,7 @@ class Chat extends Component {
             primary
             className={styles['submit-button']}
             style={{ height: '39px' }}
+            disabled={!this.state.isInputEnabled}
           />
         </form>
         {this.state.showEmojis ? <div

@@ -15,23 +15,31 @@ const SingleConversation = (props) => {
   const active = props.active ? 'conversation-item-active' : '';
   return (
     <div>
-      {!messages.length ? <ListItem
-        className={styles['no-messages-conversation-item']}
-        primaryText={'No messages in conversation'}
-      /> : <ListItem
-        style={{ padding: '0px' }}
-        className={`${styles['conversation-item']} ${styles[active]}`}
-        onClick={() => {
-          props.handler();
-          props.setStatistic(props.conversation);
-        }}
-        leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
-        primaryText={typeof messages[messages.length - 1].body === 'object' ?
-          `${messages[messages.length - 1].body.fileName}.${messages[messages.length - 1].body.fileType}` :
-          <EmojiRender text={messages[messages.length - 1].body} />}
-        secondaryText={userName}
-        secondaryTextLines={2}
-      />}
+      {!messages.length ?
+        <ListItem
+          style={{ padding: '0px' }}
+          className={`${styles['conversation-item']} ${styles[active]}`}
+          onClick={() => {
+            props.handler();
+            props.setStatistic(props.conversation);
+          }}
+          primaryText={'No messages in conversation'}
+        />
+        :
+        <ListItem
+          style={{ padding: '0px' }}
+          className={`${styles['conversation-item']} ${styles[active]}`}
+          onClick={() => {
+            props.handler();
+            props.setStatistic(props.conversation);
+          }}
+          leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
+          primaryText={typeof messages[messages.length - 1].body === 'object' ?
+            `${messages[messages.length - 1].body.fileName}.${messages[messages.length - 1].body.fileType}` :
+            <EmojiRender text={messages[messages.length - 1].body} />}
+          secondaryText={userName}
+          secondaryTextLines={2}
+        />}
       <Divider inset />
     </div>);
 };

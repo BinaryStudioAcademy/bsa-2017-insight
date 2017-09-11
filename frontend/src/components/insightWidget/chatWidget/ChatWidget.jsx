@@ -28,6 +28,7 @@ class ChatWidget extends React.Component {
             onChatClose={this.props.toggleChat}
             force={this.props.force}
             forceWillBeFalse={this.props.forceWillBeFalse}
+            messageBody={this.props.messageBody}
           /> :
           <ChatIcon onChatIconClick={this.props.toggleChat} widgetStyles={this.state.widgetStyles} />}
       </div>
@@ -40,6 +41,7 @@ ChatWidget.propTypes = {
   toggleChat: propTypes.func,
   force: propTypes.bool,
   forceWillBeFalse: propTypes.func,
+  messageBody: propTypes.string,
 };
 
 

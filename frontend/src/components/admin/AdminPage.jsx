@@ -27,7 +27,9 @@ import WidgetSettings from './Settings/WidgetSettings/WidgetSettings';
 import MailChimpSettings from './Settings/MailChimpSettings/MailChimpSettings';
 import FAQ from './FAQ/FAQ';
 import AppList from './AppList/Apps';
-import Homepage from './Homepage/Homepage'
+import Homepage from './Homepage/Homepage';
+import startSocketConnection from './startSocketConnection';
+import { setConversation, getAllConversations } from '../../actions/conversationsActions';
 
 injectTapEventPlugin();
 
@@ -47,6 +49,31 @@ class AdminPage extends React.Component {
   }
 
   componentDidMount() {
+    startSocketConnection.call(this, this.props.dispatch);
+    this.socket.on('newConversationCreated', (data) => {
+      let notification;
+      this.props.getAllConversations();
+      if (!('Notification' in window)) {
+        return console.log('Notifications are not supported');
+      } else if (Notification.permission === 'granted') {
+        notification = new Notification('New unpicked conversation. Click to open');
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission((permission) => {
+          if (permission === 'granted') {
+            notification = new Notification('New unpicked conversation. Click to open');
+          }
+        });
+      }
+
+      if (notification) {
+        notification.onclick = () => {
+          this.props.navigateToConversation('unpicked', data.conversation._id)
+          this.props.getStatisticById(data.conversation.participants[0].user);
+          this.context.router.history.replace('/admin/respond');
+          notification.close();
+        };
+      }
+    });
     this.props.getAllStatistic();
   }
 
@@ -104,7 +131,7 @@ class AdminPage extends React.Component {
                       style={{ height: this.headerHeight }}
                     />
                     {/*style={{ height: `calc(100vh - ${this.headerHeight + 8}px)`, overflowY: 'scroll' }}*/}
-                    <div >
+                    <div>
                       <Switch>
                         <Route
                           exact
@@ -131,6 +158,7 @@ class AdminPage extends React.Component {
                             <Respond
                               headerHeight={this.headerHeight}
                               chosenTheme={this.state.chosenTheme}
+                              socketConnection={this.socket}
                             />)
                           }
                         />
@@ -178,6 +206,15 @@ AdminPage.propTypes = {
   fieldsToDisplay: PropTypes.arrayOf(PropTypes.string),
   updateFields: PropTypes.func,
   currentUser: PropTypes.shape(),
+  getAllConversations: PropTypes.func,
+  getStatisticById: PropTypes.func,
+  navigateToConversation: PropTypes.func,
+};
+
+AdminPage.contextTypes = {
+  router: React.PropTypes.shape({
+    history: React.PropTypes.object.isRequired,
+  }),
 };
 
 const mapStateToProps = (state) => {
@@ -190,6 +227,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getAllConversations: () => {
+      dispatch(getAllConversations());
+    },
     getAllStatistic: () => {
       return dispatch(statisticActions.getAllStatistics());
     },
@@ -199,6 +239,16 @@ const mapDispatchToProps = (dispatch) => {
     updateFields: (newFields) => {
       return dispatch({ type: 'UPDATE_FIELDS', payload: newFields });
     },
+    setConversation: (id) => {
+      dispatch(setConversation(id));
+    },
+    getStatisticById: (id) => {
+      dispatch(statisticActions.getStatisticById(id));
+    },
+    navigateToConversation: (group, id) => {
+      dispatch({ type: 'NAVIGATE_TO_CONVERSATION', payload: { group, id } });
+    },
+    dispatch,
   };
 };
 

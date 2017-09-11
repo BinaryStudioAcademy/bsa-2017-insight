@@ -6,6 +6,7 @@ import selectionsSaga from './selectionsSaga';
 import faqSaga from './faqSaga';
 import appsSaga from './appsSaga';
 import mailchimpSettingsSaga from './mailchimpSettingsSaga';
+import forceMessagesSaga from './forceMessagesSaga';
 
 
 function* rootSaga() {
@@ -17,6 +18,7 @@ function* rootSaga() {
     fork(faqSaga),
     fork(appsSaga),
     fork(mailchimpSettingsSaga),
+    fork(forceMessagesSaga),
   ];
 }
 

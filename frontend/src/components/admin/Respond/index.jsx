@@ -63,7 +63,6 @@ class Respond extends React.Component {
 
     const idToRender = this.props.conversationToRenderId || null;
     const convToChat = idToRender ? this.conversationToChat(idToRender) : null;
-    
     return (
       <div>
         {filters}

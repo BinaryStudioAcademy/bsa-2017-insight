@@ -27,6 +27,9 @@ function startSocketConnection(dispatch) {
     dispatch(getAllConversations());
     dispatch(getStatisticById(data.id));
   });
+  this.socket.on('newMessageToRespond', () => {
+    this.props.getAllConversations();
+  });
 }
 
 export default startSocketConnection;

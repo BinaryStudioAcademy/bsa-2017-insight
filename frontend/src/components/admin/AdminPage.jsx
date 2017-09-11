@@ -28,8 +28,7 @@ import FAQ from './FAQ/FAQ';
 import AppList from './AppList/Apps';
 import Homepage from './Homepage/Homepage';
 import startSocketConnection from './startSocketConnection';
-import { setConversation } from '../../actions/conversationsActions';
-import { getStatisticById } from '../../actions/statisticActions';
+import { setConversation, getAllConversations } from '../../actions/conversationsActions';
 
 injectTapEventPlugin();
 
@@ -52,25 +51,28 @@ class AdminPage extends React.Component {
     startSocketConnection.call(this, this.props.dispatch);
     this.socket.on('newConversationCreated', (data) => {
       let notification;
-      if (!("Notification" in window)) {
+      this.props.getAllConversations();
+      if (!('Notification' in window)) {
         return console.log('Notifications are not supported');
-      } else if (Notification.permission === "granted") {
-          notification = new Notification('New unpicked conversation. Click to open');
+      } else if (Notification.permission === 'granted') {
+        notification = new Notification('New unpicked conversation. Click to open');
       } else if (Notification.permission !== 'denied') {
-          Notification.requestPermission(function (permission) { 
-            if (permission === "granted") {
-              notification = new Notification('New unpicked conversation. Click to open');
-            }
-          });
+        Notification.requestPermission((permission) => {
+          if (permission === 'granted') {
+            notification = new Notification('New unpicked conversation. Click to open');
+          }
+        });
       }
 
-      notification.onclick = () => {
-        this.props.navigateToConversation('unpicked', data.conversation._id)
-        this.props.getStatisticById(data.conversation.participants[0].user);
-        this.context.router.history.replace('/admin/respond');
-        notification.close();
+      if (notification) {
+        notification.onclick = () => {
+          this.props.navigateToConversation('unpicked', data.conversation._id)
+          this.props.getStatisticById(data.conversation.participants[0].user);
+          this.context.router.history.replace('/admin/respond');
+          notification.close();
+        };
       }
-    })
+    });
     this.props.getAllStatistic();
   }
 
@@ -128,7 +130,7 @@ class AdminPage extends React.Component {
                       style={{ height: this.headerHeight }}
                     />
                     {/*style={{ height: `calc(100vh - ${this.headerHeight + 8}px)`, overflowY: 'scroll' }}*/}
-                    <div >
+                    <div>
                       <Switch>
                         <Route
                           exact
@@ -138,12 +140,12 @@ class AdminPage extends React.Component {
                             const options = this.getStatisticOptions(this.props.usersToRender);
                             return (
                               <div className={styles['statistics-content-wrapper']}>
-                                <Homepage 
+                                <Homepage
                                   chosenTheme={this.state.chosenTheme}
                                   fieldsToDisplay={this.props.fieldsToDisplay}
                                   statistics={statistics}
                                   statisticOptions={options}
-                                  updateFields={this.props.updateFields}  
+                                  updateFields={this.props.updateFields}
                                 />
                               </div>
                             );
@@ -202,6 +204,9 @@ AdminPage.propTypes = {
   fieldsToDisplay: PropTypes.arrayOf(PropTypes.string),
   updateFields: PropTypes.func,
   currentUser: PropTypes.shape(),
+  getAllConversations: PropTypes.func,
+  getStatisticById: PropTypes.func,
+  navigateToConversation: PropTypes.func,
 };
 
 AdminPage.contextTypes = {
@@ -220,6 +225,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getAllConversations: () => {
+      dispatch(getAllConversations());
+    },
     getAllStatistic: () => {
       return dispatch(statisticActions.getAllStatistics());
     },
@@ -233,7 +241,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setConversation(id));
     },
     getStatisticById: (id) => {
-      dispatch(getStatisticById(id));
+      dispatch(statisticActions.getStatisticById(id));
     },
     navigateToConversation: (group, id) => {
       dispatch({ type: 'NAVIGATE_TO_CONVERSATION', payload: { group, id } });

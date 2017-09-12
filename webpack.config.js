@@ -1,9 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 
-// const NODE_ENV = process.env.NODE_ENV || 'development';
-// const NODE_ENV = process.env.NODE_ENV || 'development';
-
 module.exports = [{
   devtool: 'eval-source-map',
   entry: ['whatwg-fetch', './src/main.jsx'],

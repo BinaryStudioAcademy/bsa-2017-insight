@@ -88,7 +88,7 @@ class AdminList extends React.Component {
         <CardHeader
           title={this.props.username}
           subtitle={usersProfile}
-          avatar={this.props.avatar}
+          avatar={`${window._injectedData.insightHost}/uploads/avatars/${this.props.avatar}`}
           actAsExpander
           showExpandableButton
         />

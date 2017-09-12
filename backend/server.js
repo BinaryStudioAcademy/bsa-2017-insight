@@ -79,17 +79,11 @@ const apiRoutes = require('./routes/api/routes')(app);
 const viewRoutes = require('./routes/view/routes')(app);
 
 console.log(`app runs on port: ${port}`);
+console.log(`NODE_ENV=${process.env.NODE_ENV}`);
 
 const server = app.listen(port);
 const io = require('socket.io').listen(server);
 
 io.on('connection', socketConnectionHandler);
-
-console.log('--------');
-console.log('ENV');
-console.log(process.env.NODE_ENV);
-console.log('hostname');
-console.log(server.address());
-console.log('--------');
 
 module.exports = app;

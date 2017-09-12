@@ -32,7 +32,7 @@ class AdminLogin extends React.Component {
       return;
     }
 
-    fetch(`${window._injectedData}$/api/admin/login`, {
+    fetch(`${window._injectedData.insightHost}/api/admin/login`, {
       headers: {
         'Content-Type': 'application/json',
       },

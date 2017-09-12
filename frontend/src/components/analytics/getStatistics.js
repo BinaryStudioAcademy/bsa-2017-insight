@@ -1,6 +1,6 @@
 function getStatisticsByQuery(query) {
-  let url = `http://localhost:3000/api/statistics`;
-  if (query && query !== '') url = `http://localhost:3000/api/users?${query}`;
+  let url = `${window._injectedData.insightHost}/api/statistics`;
+  if (query && query !== '') url = `${window._injectedData.insightHost}/api/users?${query}`;
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ function getStatisticsByQuery(query) {
 }
 
 function getStatisticById(id) {
-  return fetch(`http://localhost:3000/api/statistics/by-user/${id}`)
+  return fetch(`${window._injectedData.insightHost}/api/statistics/by-user/${id}`)
     .then(response => response.json())
     .then(statistic => statistic);
 }

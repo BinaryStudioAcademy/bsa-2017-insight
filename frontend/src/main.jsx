@@ -19,7 +19,8 @@ WebFont.load({
 
 
 if (!window._injectedData) window._injectedData = { text: 'injectedData' };
-window._injectedData.insightHost = 'http://localhost:3000';
+window._injectedData.insightHost = process.env.NODE_ENV === 'development' ?
+  'http://localhost:3000' : 'http://78.129.225.86';
 
 render(
   <Provider store={store}>

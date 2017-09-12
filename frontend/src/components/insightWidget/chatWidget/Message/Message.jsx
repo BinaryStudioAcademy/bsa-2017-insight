@@ -11,9 +11,9 @@ const Message = ({ name, body, messageStyle, isReceived, type, avatar, userMessa
   } else {
     status = '';
   }
-  const avatarSrc = avatar === 'avatar.png' ?
-    'https://www.materialist.com/static/new_store/images/avatar_placeholder.svg' :
-    avatar;
+  const avatarSrc = avatar === 'http://localhost:3000/uploads/avatars/avatar.png' ?
+    'http://localhost:3000/uploads/avatars/avatar.png' :
+    `http://localhost:3000/uploads/avatars/${avatar}`;
   const statusSpan = <span className={styles['message-status']}>{status}</span>;
   const senderAvatar = <img className={styles['sender-avatar']} src={avatarSrc} alt="sender-avatar" />;
   let message;

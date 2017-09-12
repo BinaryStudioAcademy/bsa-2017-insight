@@ -12,6 +12,9 @@ const SingleConversation = (props) => {
     messages[messages.length - 1].author : null;
   const userName = author ? (author.item.firstName || author.item.username) : null;
   const userAvatar = author ? author.item.avatar : 'avatar.png';
+  const avatarSrc = userAvatar === 'http://localhost:3000/uploads/avatars/avatar.png' ?
+    'http://localhost:3000/uploads/avatars/avatar.png' :
+    `http://localhost:3000/uploads/avatars/${userAvatar}`;
   const active = props.active ? 'conversation-item-active' : '';
   return (
     <div>
@@ -33,7 +36,7 @@ const SingleConversation = (props) => {
             props.handler();
             props.setStatistic(props.conversation);
           }}
-          leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
+          leftAvatar={<Avatar src={avatarSrc} />}
           primaryText={typeof messages[messages.length - 1].body === 'object' ?
             `${messages[messages.length - 1].body.fileName}.${messages[messages.length - 1].body.fileType}` :
             <EmojiRender text={messages[messages.length - 1].body} />}

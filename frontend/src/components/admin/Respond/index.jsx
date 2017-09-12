@@ -169,7 +169,7 @@ const mapDispatchToProps = (dispatch) => {
     setConversationFilters: (newFilters) => {
       dispatch({ type: 'SET_CONVERSATION_FILTERS', payload: newFilters });
     },
-    dispatch
+    dispatch,
   };
 };
 

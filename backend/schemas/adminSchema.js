@@ -15,7 +15,7 @@ const adminSchema = new Schema({
   isAdmin: Boolean,
   firstName: String,
   lastName: String,
-  avatar: String,
+  avatar: { type: String, default: 'http://localhost:3000/uploads/avatars/avatar.png' },
   gender: String,
   verified: { type: Boolean, default: false },
   resetPasswordToken: String,

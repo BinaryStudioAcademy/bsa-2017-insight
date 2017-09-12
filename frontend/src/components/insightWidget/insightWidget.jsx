@@ -28,6 +28,7 @@ render(
     { !window._injectedData.isAdmin ?
       <Switch>
         <Route path={'/admin'} />
+        <Route path={'/app'} />
         <Route component={ChatWidget} />
       </Switch> : <div />
     }

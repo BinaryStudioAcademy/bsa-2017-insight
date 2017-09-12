@@ -93,6 +93,7 @@ class TableItself extends React.Component {
     const currPage = Number(this.props.currentPage);
     const numOfRows = this.props.statistics.length;
     const numOfPages = Math.ceil(numOfRows/this.props.rowsPerPage);
+    console.log(this.props);
     return (
       <div className={styles.table} >
         <div className={styles.tableItself}>
@@ -149,10 +150,10 @@ class TableItself extends React.Component {
                   className={styles.raisedButton} />
               : null}
               {(currPage < numOfPages-1 ) ? <p>...</p> : null}
-            <RaisedButton 
-              label=">>" 
-              onClick={this.props.changeCurrentPage} 
-              value={numOfPages} 
+            <RaisedButton
+              label=">>"
+              onClick={this.props.changeCurrentPage}
+              value={numOfPages}
               className={styles.raisedButton} />
             <RaisedButton
               label="Next"

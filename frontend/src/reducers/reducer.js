@@ -5,6 +5,7 @@ import currentUserReducer from './currentUserReducer';
 import selectionReducer from './selectionReducer';
 import faqReducer from './faqReducer';
 import appReducer from './appReducer';
+import mailchimpSettingsReducer from './mailchimpSettingsReducer';
 import forceMessagesReducer from './forceMessagesReducer';
 
 export default combineReducers({
@@ -14,5 +15,6 @@ export default combineReducers({
   selection: selectionReducer,
   faq: faqReducer,
   app: appReducer,
+  mailchimpSettings: mailchimpSettingsReducer,
   forceMessages: forceMessagesReducer,
 });

@@ -27,7 +27,6 @@ class ConversationsList extends Component {
         <ul className={styles['conversations-list']}>
           {conversations && conversations.map((conversation) => {
             const lastMessage = conversation.messages[conversation.messages.length - 1];
-            console.log(lastMessage)
             const lastMessageDate = lastMessage && new Date(lastMessage.createdAt);
             const passedTime = lastMessage && ((Date.now() - lastMessageDate.valueOf()) / 60000).toFixed();
             const avatar = lastMessage && (lastMessage.author.item.avatar === 'avatar.png' ?

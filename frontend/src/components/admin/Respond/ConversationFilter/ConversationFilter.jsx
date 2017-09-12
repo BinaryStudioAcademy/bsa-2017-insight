@@ -1,16 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import DatePicker from 'material-ui/DatePicker';
 import SelectField from 'material-ui/SelectField';
 import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
-import styles from './styles.scss';
 
-export default class ConversationFilter extends React.Component {
+class ConversationFilter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -171,19 +170,28 @@ export default class ConversationFilter extends React.Component {
             className={'filter-panel-link'}
             id={'all'}
             onClick={this.changeGroup}
-            ref={(el) => this.all = el}
+            ref={(el) => {
+              this.all = el;
+              return undefined;
+            }}
           >all</a>
           <a
             className={'filter-panel-link'}
             id={'mine'}
             onClick={this.changeGroup}
-            ref={el => this.mine = el}
+            ref={(el) => {
+              this.mine = el;
+              return undefined;
+            }}
           >mine</a>
           <a
             className={'filter-panel-link'}
             id={'unpicked'}
             onClick={this.changeGroup}
-            ref={(el) => this.unpicked = el}
+            ref={(el) => {
+              this.unpicked = el;
+              return undefined;
+            }}
           >unpicked</a>
         </div>
         <Dialog
@@ -228,7 +236,7 @@ export default class ConversationFilter extends React.Component {
                 {
                   this.state.filters.activeDateFilter === 'range' ?
                     <div>
-                      <DatePicker 
+                      <DatePicker
                         hintText="from"
                         onChange={(e, date) => this.setDate('from', date)}
                         value={this.state.filters.date.from}
@@ -275,7 +283,7 @@ export default class ConversationFilter extends React.Component {
               </div>
             </div>
             <div className={'conv-tab'}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center'}}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                 <div className={'tab-name'}>Conversations options</div>
                 <TextField
                   hintText={'Limit'}
@@ -314,3 +322,11 @@ export default class ConversationFilter extends React.Component {
     );
   }
 }
+
+ConversationFilter.propTypes = {
+  removeConversations: PropTypes.func,
+  setConversationFilters: PropTypes.func,
+  filters: PropTypes.func,
+};
+
+export default ConversationFilter;

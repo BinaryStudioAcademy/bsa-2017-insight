@@ -1,8 +1,6 @@
 import React from 'react';
 import * as setups from '../settings';
 
-const categories = setCategory(setups.categories);
-
 function trim(string) {
   const stringToTrim = string;
   const lastIndex = stringToTrim.lastIndexOf(':');
@@ -21,7 +19,7 @@ function getParseString(res, handler) {
     if (/:\S[^:]+:/.test(e) || /:\S+:/.test(e)) {
       const key = (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24);
       if (handler) {
-        return <span onClick={(event) => handler(event)} role="presentation" data-name={e} key={`${trim(e)}${key}`} style={getStyles(e)} />
+        return <span onClick={event => handler(event)} role="presentation" data-name={e} key={`${trim(e)}${key}`} style={getStyles(e)} />;
       }
       return <span key={`${trim(e)}${key}`} data-name={e} style={getStyles(e)} />;
     }
@@ -68,12 +66,6 @@ function get(stringToParse) {
   return getParseString(newItemsToRender);
 }
 
-function category(categoryFromComp, handler) {
-  const cat = categoryFromComp.toLowerCase();
-  const categoryExist = categories[cat] ? categories[cat] : false;
-  return categoryExist ? getParseString(categoryExist, handler) : getParseString(Object.keys(setups.map), handler);
-}
-
 function setCategory(arr) {
   const localCat = {};
   arr.forEach((cat) => {
@@ -82,6 +74,14 @@ function setCategory(arr) {
     });
   });
   return localCat;
+}
+
+const categories = setCategory(setups.categories);
+
+function category(categoryFromComp, handler) {
+  const cat = categoryFromComp.toLowerCase();
+  const categoryExist = categories[cat] ? categories[cat] : false;
+  return categoryExist ? getParseString(categoryExist, handler) : getParseString(Object.keys(setups.map), handler);
 }
 
 export { get, category };

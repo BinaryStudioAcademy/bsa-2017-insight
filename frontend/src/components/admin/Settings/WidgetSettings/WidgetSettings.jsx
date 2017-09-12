@@ -121,7 +121,7 @@ class WidgetSettings extends React.Component {
                   </code>
                 </li>
                 <li>
-                  And... That's it!
+                  {'And... That\'s it!'}
                 </li>
               </ol>
             </Tab>

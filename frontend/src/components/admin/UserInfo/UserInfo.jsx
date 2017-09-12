@@ -54,7 +54,6 @@ const UserInfo = (props) => {
   );
 };
 
-          // <ListItem primaryText="Signed up" secondaryText={statistic.signedUp} />
 UserInfo.propTypes = {
   statistic: propTypes.shape({
     userId: propTypes.any,
@@ -72,8 +71,8 @@ UserInfo.propTypes = {
     userAgent: propTypes.string,
     timeZone: propTypes.string,
     signedUpDate: propTypes.any,
-    sessionsCounts: propTypes.number
-  })
+    sessionsCounts: propTypes.number,
+  }),
 };
 
 export default UserInfo;

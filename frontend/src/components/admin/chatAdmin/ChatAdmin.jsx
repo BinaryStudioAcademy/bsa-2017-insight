@@ -252,12 +252,14 @@ Chat.propTypes = {
     open: propTypes.bool,
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
   }),
-  dispatch: propTypes.func,
   chosenTheme: propTypes.shape({
     borderRadius: propTypes.number,
     fontFamily: propTypes.string,
     palette: propTypes.object,
     spacing: propTypes.object,
+  }),
+  socketConnection: propTypes.shape({
+    emit: propTypes.func,
   }),
 };
 

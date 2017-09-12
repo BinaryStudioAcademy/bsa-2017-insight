@@ -9,7 +9,6 @@ import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
-import UserInfoTable from './Table/Table';
 import * as statisticActions from '../../actions/statisticActions';
 import Login from './AdminAuthentication/AdminLogin';
 import Registration from './AdminAuthentication/AdminRegistration';
@@ -17,8 +16,6 @@ import AppRegistration from './AdminAuthentication/AppRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 import Respond from './Respond/index';
 import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
-import StatisticsFilter from './StatisticsFilter/StatisticsFilter';
-import StatisticsCharts from './StatisticsCharts/StatisticsCharts';
 import getCurrentUser from '../../actions/getCurrentUserAction';
 import styles from './styles.scss';
 import Engage from './Engage/Engage';
@@ -67,12 +64,13 @@ class AdminPage extends React.Component {
 
       if (notification) {
         notification.onclick = () => {
-          this.props.navigateToConversation('unpicked', data.conversation._id)
+          this.props.navigateToConversation('unpicked', data.conversation._id);
           this.props.getStatisticById(data.conversation.participants[0].user);
           this.context.router.history.replace('/admin/messenger');
           notification.close();
         };
       }
+      return undefined;
     });
     this.props.getAllStatistic();
   }
@@ -90,8 +88,6 @@ class AdminPage extends React.Component {
   }
 
   toggleTheme() {
-    // console.log('Current theme:');
-    // console.log(this.state.chosenTheme);
     this.setState({
       chosenTheme: this.state.chosenTheme === lightBaseTheme ? darkBaseTheme : lightBaseTheme,
     }, () => {
@@ -130,7 +126,6 @@ class AdminPage extends React.Component {
                       chosenTheme={this.state.chosenTheme}
                       style={{ height: this.headerHeight }}
                     />
-                    {/*style={{ height: `calc(100vh - ${this.headerHeight + 8}px)`, overflowY: 'scroll' }}*/}
                     <div>
                       <Switch>
                         <Route
@@ -209,6 +204,7 @@ AdminPage.propTypes = {
   getAllConversations: PropTypes.func,
   getStatisticById: PropTypes.func,
   navigateToConversation: PropTypes.func,
+  dispatch: PropTypes.func,
 };
 
 AdminPage.contextTypes = {

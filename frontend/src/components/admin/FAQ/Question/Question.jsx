@@ -10,7 +10,7 @@ const Question = ({ question, setSelectedId }) => {
 
 Question.propTypes = {
   setSelectedId: React.PropTypes.func,
-  question: React.PropTypes.string
+  question: React.PropTypes.string,
 };
 
 export default Question;

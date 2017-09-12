@@ -1,7 +1,6 @@
 import React from 'react';
-// import { Tabs, Tab } from 'material-ui/Tabs';
+import PropTypes from 'prop-types';
 import EngageSelections from './EngageSelections/EngageSelections';
-// import EngageMessages from './EngageMessages/EngageMessages';
 
 class Engage extends React.Component {
   render() {
@@ -13,5 +12,10 @@ class Engage extends React.Component {
     );
   }
 }
+
+Engage.propTypes = {
+  headerHeight: PropTypes.number,
+  chosenTheme: PropTypes.shape({}),
+};
 
 export default Engage;

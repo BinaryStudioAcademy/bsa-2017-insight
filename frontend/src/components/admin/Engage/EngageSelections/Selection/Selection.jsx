@@ -65,7 +65,7 @@ class Selection extends React.Component {
             </CardActions>
             <CardText expandable>
               <List>
-                { this.props.chosenSelection.members.map(selection => {
+                { this.props.chosenSelection.members.map((selection) => {
                   return (<ListItem
                     key={selection.id}
                     primaryText={selection.email_address}
@@ -90,6 +90,14 @@ Selection.propTypes = {
     description: PropTypes.description,
     mailings: PropTypes.arrayOf(PropTypes.object),
     _id: PropTypes.string,
+    id: PropTypes.string,
+    members: PropTypes.shape({
+      map: PropTypes.func,
+    }),
+    stats: PropTypes.shape({
+      member_count: PropTypes.number,
+      campaign_count: PropTypes.number,
+    }),
   }),
   getSelectionList: PropTypes.func,
   deleteSelection: PropTypes.func,

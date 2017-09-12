@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
+import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import styles from './styles.scss';
 
@@ -48,37 +41,37 @@ class TableItself extends React.Component {
     const currPage = this.props.currentPage;
     const rowsPerPage = this.props.rowsPerPage;
     const numOfRows = this.props.statistics.length;
-    const numOfPages = Math.ceil(numOfRows/rowsPerPage);
-    if (numOfRows != 0){
-      const startId = (currPage-1)*rowsPerPage;
-      const endId = (currPage === numOfPages) ? numOfRows : (currPage*rowsPerPage);
+    const numOfPages = Math.ceil(numOfRows / rowsPerPage);
+    if (numOfRows !== 0) {
+      const startId = (currPage - 1) * rowsPerPage;
+      const endId = (currPage === numOfPages) ? numOfRows : (currPage * rowsPerPage);
       const rowsOnThisPage = this.props.statistics.slice(startId, endId);
-      return rowsOnThisPage.map((row, index) => (
-        <tr key={`row ${index}`} value={row} className={styles.rows}  style={{ borderBottom: '1px solid #E0F7FA' }}> {
+      return rowsOnThisPage.map(row => (
+        <tr key={`row ${row.userId._id}`} value={row} className={styles.rows} style={{ borderBottom: '1px solid #E0F7FA' }}> {
           this.props.options.map((elem) => {
             if (elem === 'username') {
               return (<td
-                key={`row ${index},column${elem}`}
+                key={`row ${row.userId._id},column${elem}`}
               >
                 <span>{row.userId.username}</span>
               </td>);
             }
             if (elem === 'firstname') {
               return (<td
-                key={`row ${index},column${elem}`}
+                key={`row ${row.userId._id},column${elem}`}
               >
                 <span>{row.userId.firstName}</span>
               </td>);
             }
             if (elem === 'lastname') {
               return (<td
-                key={`row ${index},column${elem}`}
+                key={`row ${row.userId._id},column${elem}`}
               >
                 <span>{row.userId.lastName}</span>
               </td>);
             }
             return (<td
-              key={`row ${index},column${elem}`}
+              key={`row ${row.userId._id},column${elem}`}
             >
               <span>{row[elem]}</span>
             </td>);
@@ -87,13 +80,13 @@ class TableItself extends React.Component {
         </tr>
       ));
     }
+    return undefined;
   }
 
   render() {
     const currPage = Number(this.props.currentPage);
     const numOfRows = this.props.statistics.length;
-    const numOfPages = Math.ceil(numOfRows/this.props.rowsPerPage);
-    console.log(this.props);
+    const numOfPages = Math.ceil(numOfRows / this.props.rowsPerPage);
     return (
       <div className={styles.table} >
         <div className={styles.tableItself}>
@@ -122,43 +115,50 @@ class TableItself extends React.Component {
               className={styles.raisedButton}
               label="Previous"
               onClick={this.props.changeCurrentPage}
-              value={currPage-1} />
+              value={currPage - 1}
+            />
             <RaisedButton
               label="<<"
               onClick={this.props.changeCurrentPage}
               value={1}
-              className={styles.raisedButton} />
-              {(currPage > 2) ? <p>...</p> : null}
-              {(currPage > 1 ) ?
-                <RaisedButton
-                label={currPage-1}
+              className={styles.raisedButton}
+            />
+            {(currPage > 2) ? <p>...</p> : null}
+            {(currPage > 1)
+              ? <RaisedButton
+                label={currPage - 1}
                 onClick={this.props.changeCurrentPage}
-                value={currPage-1}
-                className={styles.raisedButton} />
+                value={currPage - 1}
+                className={styles.raisedButton}
+              />
               : null}
+            <RaisedButton
+              primary
+              label={currPage}
+              onClick={this.props.changeCurrentPage}
+              value={currPage}
+              className={styles.raisedButton}
+            />
+            {(currPage < numOfPages) ?
               <RaisedButton
-                primary
-                label={currPage}
+                label={currPage + 1}
+                value={currPage + 1}
                 onClick={this.props.changeCurrentPage}
-                value={currPage}
-                className={styles.raisedButton} />
-              {(currPage < numOfPages) ?
-                <RaisedButton
-                  label={currPage+1}
-                  value={currPage+1}
-                  onClick={this.props.changeCurrentPage}
-                  className={styles.raisedButton} />
+                className={styles.raisedButton}
+              />
               : null}
-              {(currPage < numOfPages-1 ) ? <p>...</p> : null}
+            {(currPage < numOfPages - 1) ? <p>...</p> : null}
             <RaisedButton
               label=">>"
               onClick={this.props.changeCurrentPage}
               value={numOfPages}
-              className={styles.raisedButton} />
+              className={styles.raisedButton}
+            />
             <RaisedButton
               label="Next"
               onClick={this.props.changeCurrentPage}
-              value={currPage+1} />
+              value={currPage + 1}
+            />
           </div>
         </div>
       </div>
@@ -169,6 +169,9 @@ class TableItself extends React.Component {
 TableItself.propTypes = {
   options: React.PropTypes.arrayOf(React.PropTypes.string),
   statistics: React.PropTypes.arrayOf(React.PropTypes.object),
+  changeCurrentPage: PropTypes.func,
+  currentPage: PropTypes.number,
+  rowsPerPage: PropTypes.number,
 };
 
 export default TableItself;

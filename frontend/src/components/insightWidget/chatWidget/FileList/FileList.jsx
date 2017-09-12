@@ -34,7 +34,6 @@ FileList.propTypes = {
     type: propTypes.string,
     webkitRelativePath: propTypes.string,
   })),
-  onUnselectFileButtonClick: propTypes.func,
 };
 
 export default FileList;

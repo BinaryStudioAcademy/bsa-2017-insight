@@ -21,7 +21,6 @@ export function getConversationById(id) {
 }
 
 export function getConversationsByFilters(filters) {
-  console.log(window._injectedData);
   return fetch(`${window._injectedData.insightHost}/api/conversations/filter`, {
     headers: {
       'Content-Type': 'application/json',

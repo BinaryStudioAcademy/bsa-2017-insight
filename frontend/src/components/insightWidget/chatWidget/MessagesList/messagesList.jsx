@@ -119,6 +119,7 @@ MessagesList.propTypes = {
     primaryColor: propTypes.string,
     widgetPosition: propTypes.string,
   }),
+  socket: propTypes.shape({}),
 };
 
 export default MessagesList;

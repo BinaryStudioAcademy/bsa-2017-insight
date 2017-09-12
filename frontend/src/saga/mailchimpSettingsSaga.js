@@ -19,7 +19,6 @@ const fetchSettingsAPI = {
       body: JSON.stringify(body),
     })
       .then((res) => {
-        // console.log(res.body);
         return res.json();
       })
       .then(data => data)

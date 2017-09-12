@@ -241,6 +241,8 @@ ChatBody.propTypes = {
     primaryColor: propTypes.string,
     widgetPosition: propTypes.string,
   }),
+  isIntroduced: propTypes.bool,
+  socket: propTypes.shape({}),
 };
 
 export default ChatBody;

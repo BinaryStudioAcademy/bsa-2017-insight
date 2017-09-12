@@ -2,7 +2,6 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import isLength from 'validator/lib/isLength';
-import isURL from 'validator/lib/isURL';
 import equals from 'validator/lib/equals';
 import AvatarPreview from '../../landing/AvatarPreview/AvatarPreview';
 import styles from './styles.scss';

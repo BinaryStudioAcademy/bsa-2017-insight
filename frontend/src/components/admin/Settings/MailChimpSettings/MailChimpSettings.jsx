@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getMailchimpSettings, updateMailchimpSettings } from '../../../../actions/mailchimpSettingsActions';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import styles from './styles.scss';
+import { getMailchimpSettings, updateMailchimpSettings } from '../../../../actions/mailchimpSettingsActions';
 
 class MailChimpSettings extends React.Component {
   constructor(props) {
@@ -15,8 +15,6 @@ class MailChimpSettings extends React.Component {
   componentWillMount() {
     this.props.getMailchimpSettings();
   }
-
-  componentWillUpdate(nextProps, nextState) {}
 
   render() {
     return (
@@ -131,6 +129,26 @@ class MailChimpSettings extends React.Component {
 }
 
 MailChimpSettings.propTypes = {
+  getMailchimpSettings: PropTypes.func,
+  updateMailchimpSettings: PropTypes.func,
+  mailChimpSettings: PropTypes.shape({
+    campaign_defaults: PropTypes.shape({
+      from_email: PropTypes.string,
+      subject: PropTypes.string,
+      from_name: PropTypes.string,
+      language: PropTypes.string,
+    }),
+    contact: PropTypes.shape({
+      country: PropTypes.string,
+      zip: PropTypes.string,
+      state: PropTypes.string,
+      city: PropTypes.string,
+      address: PropTypes.string,
+      company: PropTypes.string,
+    }),
+    apiKey: PropTypes.string,
+    permission_reminder: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = (state) => {

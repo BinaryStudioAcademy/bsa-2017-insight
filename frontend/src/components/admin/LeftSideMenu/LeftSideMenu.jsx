@@ -92,6 +92,9 @@ LeftSideMenu.propTypes = {
       textColor: PropTypes.string,
     }),
   }),
+  currentUser: PropTypes.shape({
+    isServiceAdmin: PropTypes.func,
+  }),
 };
 
 export default LeftSideMenu;

@@ -1,6 +1,6 @@
 const initialState = {
   data: [],
-  currentQuestion: { question: '', answer: '', createdAt: '' }
+  currentQuestion: { question: '', answer: '', createdAt: '' },
 };
 
 const faqReducer = (state = initialState, action) => {

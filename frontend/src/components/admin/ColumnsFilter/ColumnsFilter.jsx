@@ -1,6 +1,5 @@
 import React from 'react';
-import { List } from 'material-ui/List';
-import styles from './styles.scss';
+import PropTypes from 'prop-types';
 import Filter from '../Filter/Filter';
 
 class ColumnsFilter extends React.Component {
@@ -12,21 +11,27 @@ class ColumnsFilter extends React.Component {
     this.expandList = this.expandList.bind(this);
   }
 
-  expandList(){
+  expandList() {
     this.setState({
-      opened: !this.state.opened
-    })
+      opened: !this.state.opened,
+    });
   }
 
   render() {
     return (
-	  <Filter
-	    selectedFields={this.props.selectedFields}
-	    statisticOptions={this.props.statisticOptions}
-	    updateFields={this.props.updateFields}
-	  />
+      <Filter
+        selectedFields={this.props.selectedFields}
+        statisticOptions={this.props.statisticOptions}
+        updateFields={this.props.updateFields}
+      />
     );
   }
 }
+
+ColumnsFilter.propTypes = {
+  selectedFields: PropTypes.arrayOf({}),
+  statisticOptions: PropTypes.arrayOf({}),
+  updateFields: PropTypes.arrayOf({}),
+};
 
 export default ColumnsFilter;

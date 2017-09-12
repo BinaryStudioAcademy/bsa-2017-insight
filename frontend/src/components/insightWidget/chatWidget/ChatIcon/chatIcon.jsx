@@ -35,4 +35,4 @@ ChatWidget.propTypes = {
 };
 
 export default ChatWidget;
-// {/* className={styles['chat-icon']} */}
+

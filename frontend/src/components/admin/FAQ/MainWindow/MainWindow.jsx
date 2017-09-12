@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import QuestionAndAnswer from '../QuestionAndAnswer/QuestionAndAnswer';
 import styles from './styles.scss';
@@ -9,7 +9,7 @@ class MainWindow extends Component {
     super(props);
 
     this.state = {
-      disabled: true
+      disabled: true,
     };
   }
 
@@ -43,14 +43,14 @@ class MainWindow extends Component {
 
   submit() {
     this.setState({
-      disabled: true
+      disabled: true,
     });
     const question = document.getElementById('question');
     const answer = document.getElementById('answer');
     const body = {
       question: question.value,
       answer: answer.value,
-      createdAt: new Date()
+      createdAt: new Date(),
     };
     if (this.props.action === 'add') {
       this.props.addQuestion(body);
@@ -65,26 +65,26 @@ class MainWindow extends Component {
     return (
       <div className={styles.mainWindow}>
         <div>
-          <RaisedButton 
-            onClick={() => this.props.handleAction('modify')} 
+          <RaisedButton
+            onClick={() => this.props.handleAction('modify')}
             label="Modify"
-            className={styles.raisedButton} 
+            className={styles.raisedButton}
           />
-          <RaisedButton 
-            onClick={() => this.copyToClipboard()} 
+          <RaisedButton
+            onClick={() => this.copyToClipboard()}
             label="Copy"
-            className={styles.raisedButton} 
+            className={styles.raisedButton}
           />
-          <RaisedButton 
-            onClick={() => this.deleteQuestion()} 
+          <RaisedButton
+            onClick={() => this.deleteQuestion()}
             label="Delete"
-            className={styles.raisedButton} 
+            className={styles.raisedButton}
           />
         </div>
         <div>
           {
-            (this.props.currentQuestion.question === '' && this.props.action !== 'add') ? <p>Choose the question</p> :
-            <QuestionAndAnswer faq={this.props.currentQuestion} action={this.props.action} />
+            (this.props.currentQuestion.question === '' && this.props.action !== 'add') ? <p>Choose the question</p>
+              : <QuestionAndAnswer faq={this.props.currentQuestion} action={this.props.action} />
           }
           {
             ((this.props.currentQuestion !== '' && this.props.action === 'modify') || this.props.action === 'add') ?
@@ -97,17 +97,16 @@ class MainWindow extends Component {
 }
 
 MainWindow.propTypes = {
-  addQuestion: propTypes.func,
-  modifyQuestion: propTypes.func,
-  deleteQuestion: propTypes.func,
-  setAction: propTypes.func,
-  action: propTypes.string,
-  faq: propTypes.shape({
-    _id: propTypes.string.isRequired,
-    answer: propTypes.string.isRequired,
-    question: propTypes.string.isRequired,
-    createdAt : propTypes.any.isRequired
-  })
+  addQuestion: PropTypes.func,
+  modifyQuestion: PropTypes.func,
+  deleteQuestion: PropTypes.func,
+  setAction: PropTypes.func,
+  action: PropTypes.string,
+  currentQuestion: PropTypes.shape({
+    question: PropTypes.string,
+    _id: PropTypes.string,
+  }),
+  handleAction: PropTypes.func,
 };
 
 export default MainWindow;

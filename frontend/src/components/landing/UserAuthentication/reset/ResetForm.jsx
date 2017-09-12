@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from '../styles.scss';
 
 class ResetForm extends React.Component {
@@ -41,7 +42,6 @@ class ResetForm extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className={styles['login-form']}>
         <h3>Enter a new password</h3>
@@ -59,5 +59,14 @@ class ResetForm extends React.Component {
     );
   }
 }
+
+ResetForm.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      token: PropTypes.string,
+      userType: PropTypes.string,
+    }),
+  }),
+};
 
 export default ResetForm;

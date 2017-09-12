@@ -20,7 +20,7 @@ class Greeting extends React.Component {
 }
 
 Greeting.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
 };
 
 export default Greeting;

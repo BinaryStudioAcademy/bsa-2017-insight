@@ -44,7 +44,6 @@ ForceMessagesTable.propTypes = {
     timer: propTypes.number,
     conditions: propTypes.object,
   })),
-  onDeleteButtonClick: propTypes.func,
 };
 
 export default ForceMessagesTable;

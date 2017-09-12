@@ -25,10 +25,12 @@ const notifications = {
       if ('Notification' in window) {
         if (Notification.permission === 'granted') {
           const notification = new Notification(notificaitonText);
+          console.log(notification);
         } else if (Notification.permission !== 'denied') {
           Notification.requestPermission((permission) => {
             if (permission === 'granted') {
               const notification = new Notification(notificaitonText);
+              console.log(notification);
             }
           });
         }

@@ -15,7 +15,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const flash = require('connect-flash');
 
-const port = 3000;
+const port = 3001;
 const socketConnectionHandler = require('./socketConnection');
 
 const app = express();
@@ -81,7 +81,7 @@ const viewRoutes = require('./routes/view/routes')(app);
 console.log(`app runs on port: ${port}`);
 console.log(`NODE_ENV=${process.env.NODE_ENV}`);
 
-global.insightHost = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://78.129.225.86';
+global.insightHost = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'http://78.129.225.86:3001';
 
 const server = app.listen(port);
 const io = require('socket.io').listen(server);

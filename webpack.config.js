@@ -28,6 +28,9 @@ module.exports = [{
     new UglifyJSPlugin({
       test: NODE_ENV !== 'development' ? /\.js$/i : /{}/,
     }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    }),
   ],
   module: {
     rules: [
@@ -94,6 +97,9 @@ module.exports = [{
     new webpack.EnvironmentPlugin(['NODE_ENV']),
     new UglifyJSPlugin({
       test: NODE_ENV !== 'development' ? /\.js$/i : /{}/,
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
     }),
   ],
   module: {

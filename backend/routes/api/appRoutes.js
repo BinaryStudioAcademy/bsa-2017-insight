@@ -32,6 +32,7 @@ module.exports = function (app) {
       isSuperUser: true,
       verified: true,
       moderator: true,
+      adminGroups: ['all'],
     };
     const appData = {
       name: req.body.appName,

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
+import Popover from 'material-ui/Popover';
 import styles from './styles.scss';
 import MessagesList from './MessagesList/MessagesList';
 // import notifications from '../../notifications/notifications';
 import EmojiContainer from '../../emojiRender/EmojiContainer';
+import Reassign from './Reassign';
 
 class Chat extends Component {
   constructor(props) {
@@ -28,6 +30,9 @@ class Chat extends Component {
     this.messageSubmit = this.messageSubmit.bind(this);
     this.onFileInputChange = this.onFileInputChange.bind(this);
     this.pickConversation = this.pickConversation.bind(this);
+    this.handlePopoverOpen = this.handlePopoverOpen.bind(this);
+    this.handlePopoverClose = this.handlePopoverClose.bind(this);
+    this.updateConversationParticipants = this.updateConversationParticipants.bind(this);
   }
 
   componentDidMount() {
@@ -44,10 +49,8 @@ class Chat extends Component {
     });
 
     this.setState({
-      isInputEnabled: isParticipant ? true : false,
+      isParticipant: isParticipant ? true : false,
       showPickBtn: conversation.participants.length === 1 ? true : false,
-    }, () => {
-      console.log(this.state);
     });
 
   }
@@ -65,13 +68,10 @@ class Chat extends Component {
     let isParticipant = newConversation.participants.find((participant) => {
       return participant.user._id === currentAdmin._id;
     });
-    console.log(newConversation, isParticipant);
     this.setState({
-      isInputEnabled: isParticipant ? true : false,
+      isParticipant: isParticipant ? true : false,
       showPickBtn: newConversation.participants.length === 1 ? true : false,
       info: '',
-    }, () => {
-      console.log(this.state);
     });
 
     // Notifications
@@ -215,7 +215,7 @@ class Chat extends Component {
       if(response.ok) {
         this.props.conversationToRender.participants.push({ user: { _id: window._injectedData._id } });
         this.setState({
-          isInputEnabled: true,
+          isParticipant: true,
           showPickBtn: false,
           info: 'Conversation has been picked',
         });
@@ -225,6 +225,35 @@ class Chat extends Component {
           info: response.message,
         });
       }
+    });
+  }
+
+  updateConversationParticipants(newParticipant) {
+    const admin = window._injectedData;
+    const adminIndex = this.props.conversationToRender.participants.findIndex((item) => {
+      return item === admin._id;
+    });
+    this.props.conversationToRender.participants.splice(adminIndex, 1, { userType: 'Admin', user: { _id: newParticipant } });
+
+    this.setState({
+      isPopoverOpened: false,
+    }, () => {
+      this.setState({
+        isParticipant: false,
+      })
+    });
+  }
+
+  handlePopoverOpen(e) {
+    this.setState({
+      isPopoverOpened: true,
+      anchorEl: e.currentTarget
+    });
+  }
+
+  handlePopoverClose() {
+    this.setState({
+      isPopoverOpened: false
     });
   }
 
@@ -239,6 +268,27 @@ class Chat extends Component {
       >
         <MessagesList messages={messages} chosenTheme={this.props.chosenTheme} />
         <div style={{ margin: '5px 10px' }}>
+          <RaisedButton
+            onClick={this.handlePopoverOpen}
+            label="Reassign"
+            style={{ width: '100px' }}
+            style={this.state.isParticipant ? { display: 'block', width: '100px' } : { display: 'none' }}
+          />
+          <Popover
+            open={this.state.isPopoverOpened}
+            onRequestClose={this.handlePopoverClose}
+            anchorEl={this.state.anchorEl}
+            animated={false}
+            style={{ overflow: 'hidden' }}
+          >
+            <div className={'reassign-popover'}>
+              <Reassign
+                conversationId={this.props.conversationToRender && this.props.conversationToRender._id}
+                socket={this.props.socketConnection}
+                updateConversationParticipants={this.updateConversationParticipants}
+              />
+            </div>
+          </Popover>
           <RaisedButton
             label={'Pick'}
             onClick={this.pickConversation}
@@ -269,7 +319,7 @@ class Chat extends Component {
               className={styles['file-input']}
               onChange={this.onFileInputChange}
               multiple
-              disabled={!this.state.isInputEnabled}
+              disabled={!this.state.isParticipant}
             />
           </RaisedButton>
           <input
@@ -280,7 +330,7 @@ class Chat extends Component {
             value={this.state.text}
             onBlur={e => this.blurFromInput(e)}
             id="input"
-            disabled={!this.state.isInputEnabled}
+            disabled={!this.state.isParticipant}
           />
           <span
             role="button"
@@ -292,11 +342,11 @@ class Chat extends Component {
           </span>
           <RaisedButton
             type="submit"
-            label="Submit"
+            label="Send"
             primary
             className={styles['submit-button']}
-            style={{ height: '39px' }}
-            disabled={!this.state.isInputEnabled}
+            style={{ height: '39px', width: '100px' }}
+            disabled={!this.state.isParticipant}
           />
         </form>
         {this.state.showEmojis ? <div

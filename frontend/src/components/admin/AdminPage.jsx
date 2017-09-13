@@ -50,27 +50,56 @@ class AdminPage extends React.Component {
 
   componentDidMount() {
     startSocketConnection.call(this, this.props.dispatch);
+
     this.socket.on('newConversationCreated', (data) => {
       let notification;
-      if (!("Notification" in window)) {
-        return console.log('Notifications are not supported');
-      } else if (Notification.permission === "granted") {
-          notification = new Notification('New unpicked conversation. Click to open');
-      } else if (Notification.permission !== 'denied') {
-          Notification.requestPermission(function (permission) { 
-            if (permission === "granted") {
-              notification = new Notification('New unpicked conversation. Click to open');
-            }
-          });
-      }
-
-      notification.onclick = () => {
+      const handler = () => {
         this.props.navigateToConversation('unpicked', data.conversation._id)
         this.props.getStatisticById(data.conversation.participants[0].user);
         this.context.router.history.replace('/admin/respond');
         notification.close();
       }
-    })
+      if (!("Notification" in window)) {
+        return console.log('Notifications are not supported');
+      } else if (Notification.permission === "granted") {
+          notification = new Notification('New unpicked conversation. Click to open');
+          notification.onclick = handler;
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission(function (permission) { 
+          if (permission === "granted") {
+            notification = new Notification('New unpicked conversation. Click to open');
+            notification.onclick = handler;
+          }
+        });
+      }
+    });
+
+    this.socket.on('reassigned conversation', (data) => {
+      console.log(Notification.permission);
+      if(data.to !== window._injectedData._id) return;
+      let notification;
+      const handler = () => {
+        this.props.getStatisticById(data.userId);
+        this.props.navigateToConversation('mine', data.conversationId)
+        this.context.router.history.replace('/admin/respond');
+        notification.close();
+      }
+      if (!("Notification" in window)) {
+        return console.log('Notifications are not supported');
+      } else if (Notification.permission === "granted") {
+          notification = new Notification('You have been assigned a new conversation. Click to open');
+          notification.onclick = handler;
+          
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission(function (permission) { 
+          if (permission === "granted") {
+            notification = new Notification('You have been assigned a new conversation. Click to open');
+            notification.onclick = handler;
+          }
+        });
+      }
+
+    });
     this.props.getAllStatistic();
   }
 

@@ -75,6 +75,7 @@ module.exports = function (app) {
       username: req.body.username,
       gender: req.body.gender,
       isAdmin: true,
+      adminGroups: req.body.adminGroups.split(','),
     };
     console.log(`data username ${data.username}`);
     // adminRepository.add(data, () => {
@@ -126,6 +127,15 @@ module.exports = function (app) {
         res.status(200).json(data);
       }
     });
+  });
+
+  app.post('/api/admins/search', (req, res, next) => {
+    adminRepository.findByConditions({ $and: [{ username: { $regex: new RegExp(`^${req.body.username}`) } }, { username: { $ne: req.user.username } }, { adminGroups: { $in: [req.body.adminGroups] } }], appId: req.user.appId }, (err, data) => {
+      if (err) {
+        return next(err);
+      }
+      return res.json(data);
+    })
   });
 
   app.post('/api/admins/', (req, res) => {

@@ -79,9 +79,63 @@ function pickConversation(conversationId, adminId, callback) {
   });
 }
 
+function reassignConversation(conversationId, currentUserId, newUser, callback) {
+  let updatedConversation;
+  async.series([
+    (done) => {
+      conversation: ConversationRepository.model.findOne({ 
+        _id: conversationId, 
+        'participants.user': newUser.user 
+      }, (err, data) => {
+        if(err) return done(err);
+        if(data) return done(new Error('User is already assigned'));
+        done();
+      });
+    },
+    (done) => {
+      ConversationRepository.model.findOneAndUpdate({ 
+        _id: conversationId,
+        'participants.user': currentUserId 
+      },
+      { 
+        $set: { 'participants.$': newUser }
+      }, {new: true}, (err, conversation) => {
+          if(err) return done(err);
+          updatedConversation = conversation;
+          done();
+      });
+    },
+    (done) => {
+      AdminRepository.model.update({
+        _id: currentUserId,
+      },
+      {
+        $pull: { conversations: conversationId }
+      },(err, data) => {
+        if(err) return done(err);
+        done();
+      });
+    },
+    (done) => {
+      AdminRepository.model.update({
+        _id: newUser.user,
+      },
+      {
+        $push: { conversations: conversationId }
+      },(err, data) => {
+        if(err) return done(err);
+        done(null);
+      });
+    }
+  ], (err, result) => {
+      callback(err, { ok: true, message: 'Conversation was reassigned', newParticipant: newUser.user, userId: updatedConversation.participants[0].user });
+  });
+};
+
 module.exports = {
   createConversationAndUpdateUser,
   checkIfAdminIsConversationParticipant,
   createForceConversation,
   pickConversation,
+  reassignConversation,
 };

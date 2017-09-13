@@ -1,8 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
+const NODE_ENV = process.env.NODE_ENV;
 
 module.exports = [{
-  devtool: 'eval-source-map',
+  devtool: (NODE_ENV === 'development' ? 'eval-source-map' : undefined),
   entry: ['whatwg-fetch', './src/main.jsx'],
   output: {
     path: `${__dirname}/dist`,
@@ -22,6 +25,9 @@ module.exports = [{
   },
   plugins: [
     new webpack.EnvironmentPlugin(['NODE_ENV']),
+    new UglifyJSPlugin({
+      test: NODE_ENV !== 'development' ? /\.js$/i : /{}/,
+    }),
   ],
   module: {
     rules: [
@@ -66,7 +72,7 @@ module.exports = [{
     ],
   },
 }, {
-  devtool: 'eval-source-map',
+  devtool: (NODE_ENV === 'development' ? 'eval-source-map' : undefined),
   entry: ['whatwg-fetch', './src/components/insightWidget/insightWidget.jsx'],
   output: {
     path: `${__dirname}/dist/resources/widget`,
@@ -86,6 +92,9 @@ module.exports = [{
   },
   plugins: [
     new webpack.EnvironmentPlugin(['NODE_ENV']),
+    new UglifyJSPlugin({
+      test: NODE_ENV !== 'development' ? /\.js$/i : /{}/,
+    }),
   ],
   module: {
     rules: [

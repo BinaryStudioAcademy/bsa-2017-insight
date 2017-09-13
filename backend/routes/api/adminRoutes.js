@@ -18,15 +18,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 module.exports = function (app) {
-  // app.post('/api/admins/login/', passport.authenticate('admin', {
-  //   successRedirect: '/admin',
-  //   failureRedirect: '/admin/registration',
-  //   failureFlash: true,
-  //   successFlash: 'Welcome!',
-  // }));
-  // app.post('/api/admins/registration', (req, res) => {
 
   app.post('/api/admin/login/', (req, res, next) => {
+    console.log('---------');
+    console.log('req.body');
+    console.log(req.body);
     if (req.user) return res.redirect('/');
     checkVerification(req, (data) => {
       if (data) {

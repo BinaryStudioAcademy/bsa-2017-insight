@@ -39,6 +39,7 @@ class Chat extends Component {
     const conversation = this.props.conversationToRender;
     const currentAdmin = window._injectedData;
 
+    this.props.socketConnection.emit('switchRoom', conversation._id);
     this.props.socketConnection.emit('adminConnectedToRoom', conversation._id);
     this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: conversation.messages });
     const input = document.getElementById('input');

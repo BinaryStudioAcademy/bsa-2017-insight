@@ -52,6 +52,7 @@ class AdminPage extends React.Component {
     startSocketConnection.call(this, this.props.dispatch);
 
     this.socket.on('newConversationCreated', (data) => {
+      console.log(data);
       let notification;
       const handler = () => {
         this.props.navigateToConversation('unpicked', data.conversation._id)

@@ -62,8 +62,12 @@ function connectionHandler(socket) {
         socket.emit('newMessage', messageToSend);
         socket.broadcast.to(room).emit('newMessage', messageToSend);
         ConversationRepository.model
-          .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) } })
-          .then();
+          .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) } }, { new: true }, (err, doc) => {
+            console.log('NEW MESSAGE', doc);
+            if(doc.messages.length === 1) {
+              socket.broadcast.emit('newConversationCreated', { conversation: doc });
+            }
+          });
       });
   });
 

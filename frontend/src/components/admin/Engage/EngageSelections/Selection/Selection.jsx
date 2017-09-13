@@ -91,9 +91,7 @@ Selection.propTypes = {
     mailings: PropTypes.arrayOf(PropTypes.object),
     _id: PropTypes.string,
     id: PropTypes.string,
-    members: PropTypes.shape({
-      map: PropTypes.func,
-    }),
+    members: PropTypes.arrayOf(PropTypes.shape()),
     stats: PropTypes.shape({
       member_count: PropTypes.number,
       campaign_count: PropTypes.number,

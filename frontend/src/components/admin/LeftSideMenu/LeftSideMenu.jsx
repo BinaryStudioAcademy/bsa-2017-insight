@@ -93,7 +93,7 @@ LeftSideMenu.propTypes = {
     }),
   }),
   currentUser: PropTypes.shape({
-    isServiceAdmin: PropTypes.func,
+    isServiceAdmin: PropTypes.bool,
   }),
 };
 

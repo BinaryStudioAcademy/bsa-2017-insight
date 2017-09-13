@@ -170,7 +170,7 @@ TableItself.propTypes = {
   options: React.PropTypes.arrayOf(React.PropTypes.string),
   statistics: React.PropTypes.arrayOf(React.PropTypes.object),
   changeCurrentPage: PropTypes.func,
-  currentPage: PropTypes.number,
+  currentPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   rowsPerPage: PropTypes.number,
 };
 

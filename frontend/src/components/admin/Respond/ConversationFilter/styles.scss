@@ -9,6 +9,7 @@
     text-decoration: none;
     border-bottom: 1px dotted #fb9a9a;
     color: #fb9a9a;
+    cursor: pointer;
   }
 
   .filter-panel-link {
@@ -41,7 +42,7 @@
   }
 }
 
-.conv-filter-dialog {
+:local(.conv-filter-dialog) {
   .dialog-btn {
     margin: 0 5px;
   }

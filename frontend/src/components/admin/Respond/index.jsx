@@ -210,7 +210,7 @@ Respond.propTypes = {
   chosenTheme: propTypes.shape({}),
   socketConnection: propTypes.shape({}),
   setConversationFilters: propTypes.func,
-  conversationFilters: propTypes.arrayOf(propTypes.shape({})),
+  conversationFilters: propTypes.shape({}),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Respond);

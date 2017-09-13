@@ -26,7 +26,8 @@ module.exports = {
     "no-useless-concat": 0,
     "no-else-return": 0,
     "global-require": 0,
-    'jsx-a11y/no-noninteractive-element-interactions': 0,
-    'jsx-a11y/no-noninteractive-tabindex': 0,
+    "react/no-did-mount-set-state": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "jsx-a11y/no-noninteractive-tabindex": 0,
   }
 };

@@ -8,6 +8,7 @@ import DatePicker from 'material-ui/DatePicker';
 import SelectField from 'material-ui/SelectField';
 import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
+import styles from './styles.scss';
 
 class ConversationFilter extends React.Component {
   constructor(props) {
@@ -162,11 +163,20 @@ class ConversationFilter extends React.Component {
           </IconButton>
           {
             this.state.filters.isFilterApplied &&
-            <a onClick={this.removeFilters} href={'#'} className={'remove-filter'}>remove filters</a>
+            <a
+              onClick={this.removeFilters}
+              className={'remove-filter'}
+              role="button"
+              tabIndex="0"
+            >
+              remove filters
+            </a>
           }
           <span style={{ margin: '0 5px' }}>|</span>
           <span>show conversations:</span>
           <a
+            role="button"
+            tabIndex="0"
             className={'filter-panel-link'}
             id={'all'}
             onClick={this.changeGroup}
@@ -176,6 +186,8 @@ class ConversationFilter extends React.Component {
             }}
           >all</a>
           <a
+            role="button"
+            tabIndex="0"
             className={'filter-panel-link'}
             id={'mine'}
             onClick={this.changeGroup}
@@ -185,6 +197,8 @@ class ConversationFilter extends React.Component {
             }}
           >mine</a>
           <a
+            role="button"
+            tabIndex="0"
             className={'filter-panel-link'}
             id={'unpicked'}
             onClick={this.changeGroup}
@@ -198,7 +212,7 @@ class ConversationFilter extends React.Component {
           actions={actions}
           modal={false}
           open={this.state.dialogOpen}
-          className={'conv-filter-dialog'}
+          className={styles['conv-filter-dialog']}
           bodyStyle={{ padding: '12px' }}
         >
           <div className={'conversation-filter'}>
@@ -326,7 +340,7 @@ class ConversationFilter extends React.Component {
 ConversationFilter.propTypes = {
   removeConversations: PropTypes.func,
   setConversationFilters: PropTypes.func,
-  filters: PropTypes.func,
+  filters: PropTypes.PropTypes.shape(),
 };
 
 export default ConversationFilter;

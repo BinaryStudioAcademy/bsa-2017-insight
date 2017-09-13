@@ -69,9 +69,9 @@ class Homepage extends React.Component {
 Homepage.propTypes = {
   statistics: PropTypes.arrayOf(PropTypes.shape({})),
   chosenTheme: PropTypes.shape({}),
-  fieldsToDisplay: PropTypes.arrayOf(PropTypes.shape({})),
-  statisticOptions: PropTypes.shape({}),
-  updateFields: PropTypes.arrayOf(PropTypes.shape({})),
+  fieldsToDisplay: PropTypes.arrayOf(PropTypes.string),
+  statisticOptions: PropTypes.arrayOf(PropTypes.string),
+  updateFields: PropTypes.func,
 };
 
 export default Homepage;

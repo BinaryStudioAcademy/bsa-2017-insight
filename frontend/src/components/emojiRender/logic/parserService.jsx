@@ -34,7 +34,9 @@ function get(stringToParse) {
   let result = null;
   const regExp = /:\S[^:]+:/g;
 
-  while (result = regExp.exec(stringToParse)) {
+  while (true) {
+    result = regExp.exec(stringToParse);
+    if (!result) break;
     indexes.push(result.index, regExp.lastIndex);
   }
 
@@ -48,7 +50,7 @@ function get(stringToParse) {
 
   indexes.reduce((prev, curr) => {
     itemsToRender.push(stringToParse.slice(prev, curr));
-    return prev = curr;
+    return prev;
   });
 
 

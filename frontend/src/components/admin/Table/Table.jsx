@@ -159,7 +159,7 @@ UserInfoTable.propTypes = {
 const mapDispatchToProps = (dispatch) => {
   return {
     addSelection: (name, users, cb) => {
-      const filteredUsersIds = users.filter(user => user.userId.email);
+      const filteredUsersIds = users.filter(user => user.userId && user.userId.email);
       const body = JSON.stringify({ name, users: filteredUsersIds, appId: window._injectedData.appId });
       return dispatch(addSelection(body, cb));
     },

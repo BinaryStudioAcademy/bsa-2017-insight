@@ -61,7 +61,7 @@ EngageSelections.propTypes = {
   selectionList: PropTypes.arrayOf(PropTypes.shape({})),
   deleteSelection: PropTypes.func,
   chosenSelection: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
   }),
 };
 

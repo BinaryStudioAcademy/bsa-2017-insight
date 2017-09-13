@@ -53,7 +53,6 @@ class StatisticsCharts extends React.Component {
     for (const stat in statValues) {
       statistics.statValues.push({ name: stat, value: statValues[stat] });
     }
-    // this.setState({ statisticsData: [...this.state.statisticsData, statistics] });
     return statistics;
   }
 
@@ -138,9 +137,7 @@ class StatisticsCharts extends React.Component {
 }
 
 StatisticsCharts.propTypes = {
-  statistics: PropTypes.shape({
-    forEach: PropTypes.func,
-  }),
+  statistics: PropTypes.arrayOf(PropTypes.shape()),
   selectedFields: PropTypes.arrayOf(PropTypes.string),
 };
 

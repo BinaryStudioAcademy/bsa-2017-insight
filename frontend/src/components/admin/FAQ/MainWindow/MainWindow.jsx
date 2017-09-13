@@ -54,8 +54,7 @@ class MainWindow extends Component {
     };
     if (this.props.action === 'add') {
       this.props.addQuestion(body);
-    }
-    else if (this.props.action === 'modify') {
+    } else if (this.props.action === 'modify') {
       this.props.modifyQuestion(this.props.currentQuestion._id, body);
     }
     this.props.setAction('');

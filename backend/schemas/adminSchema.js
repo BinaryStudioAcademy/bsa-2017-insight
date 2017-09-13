@@ -13,6 +13,7 @@ const adminSchema = new Schema({
   password: String,
   email: String,
   isAdmin: Boolean,
+  isServiceAdmin: Boolean,
   firstName: String,
   lastName: String,
   avatar: String,

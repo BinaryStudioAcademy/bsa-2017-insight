@@ -29,9 +29,9 @@ class ColumnsFilter extends React.Component {
 }
 
 ColumnsFilter.propTypes = {
-  selectedFields: PropTypes.arrayOf({}),
-  statisticOptions: PropTypes.arrayOf({}),
-  updateFields: PropTypes.arrayOf({}),
+  selectedFields: PropTypes.arrayOf(PropTypes.string),
+  statisticOptions: PropTypes.arrayOf(PropTypes.string),
+  updateFields: PropTypes.func,
 };
 
 export default ColumnsFilter;

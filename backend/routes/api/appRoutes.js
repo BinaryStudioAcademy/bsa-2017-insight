@@ -31,6 +31,7 @@ module.exports = function (app) {
       username: req.body.username,
       isAdmin: true,
       isSuperUser: true,
+      isServiceAdmin: req.body.appName === 'InSight',
       verified: true,
       moderator: true,
     };

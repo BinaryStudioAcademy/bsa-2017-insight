@@ -20,9 +20,6 @@ const upload = multer({ storage });
 module.exports = function (app) {
 
   app.post('/api/admin/login/', (req, res, next) => {
-    console.log('---------');
-    console.log('req.body');
-    console.log(req.body);
     if (req.user) return res.redirect('/');
     checkVerification(req, (data) => {
       if (data) {
@@ -73,12 +70,6 @@ module.exports = function (app) {
       isAdmin: true,
     };
     console.log(`data username ${data.username}`);
-    // adminRepository.add(data, () => {
-    //   passport.authenticate('local')(req, res, () => {
-    //     console.log('before redirect');
-    //     res.redirect('/admin/login');
-
-
     adminRepository.getByUsername(data.username, (err, user) => {
       if (err) return next(err);
       if (user) return res.json({ text: 'User with this username exists' });

@@ -4,6 +4,7 @@ const mailchimpSettingsRepository = require('../../repositories/mailchimpSetting
 module.exports = function (app) {
 
   app.get('/api/mailchimp/settings', (req, res, next) => {
+    if (!req.user) return res.status(204).end();
     mailchimpSettingsRepository.findByAppId(req.user.appId, (err, settings) => {
       if (err) return next(err);
       res.json(settings);

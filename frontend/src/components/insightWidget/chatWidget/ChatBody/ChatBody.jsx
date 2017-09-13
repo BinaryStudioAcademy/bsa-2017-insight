@@ -120,9 +120,9 @@ class ChatBody extends Component {
 
   render() {
     const operator = this.props.operator;
-    const avatar = operator && (operator.user.avatar === 'avatar.png' ?
-      'https://www.materialist.com/static/new_store/images/avatar_placeholder.svg' :
-      operator.user.avatar);
+    const avatar = operator && (operator.user.avatar === 'http://localhost:3000/uploads/avatars/avatar.png' ?
+      'http://localhost:3000/uploads/avatars/avatar.png' :
+      `http://localhost:3000/uploads/avatars/${operator.user.avatar}`);
     const operatorName = operator ? operator.user.username : 'Conversation hasn\'t been picked up';
     const headerStyles = { backgroundColor: this.props.widgetStyles.primaryColor };
     return (

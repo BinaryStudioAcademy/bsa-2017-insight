@@ -95,7 +95,7 @@ export default class ImageCropper extends React.Component {
 }
 
 ImageCropper.propTypes = {
-  image: PropTypes.shape({}),
+  image: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   save: PropTypes.func,
 };
 

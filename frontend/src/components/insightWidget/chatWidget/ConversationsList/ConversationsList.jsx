@@ -28,7 +28,11 @@ class ConversationsList extends Component {
           {conversations && conversations.map((conversation) => {
             const lastMessage = conversation.messages[conversation.messages.length - 1];
             const lastMessageDate = lastMessage && new Date(lastMessage.createdAt);
-            const passedTime = lastMessage && ((Date.now() - lastMessageDate.valueOf()) / 60000).toFixed();
+            let passedTime = lastMessage && (`${((Date.now() - lastMessageDate.valueOf()) / 60000).toFixed()}m ago`);
+            if (parseInt(passedTime, 10) > 60) {
+              passedTime = `${Math.round(parseInt(passedTime, 10) / 60)}h ago`;
+              if (parseInt(passedTime, 10) > 24) passedTime = `${Math.round(parseInt(passedTime, 10) / 24)}d ago`;
+            }
             const avatar = lastMessage && (lastMessage.author.item.avatar === 'avatar.png' ?
               'https://www.materialist.com/static/new_store/images/avatar_placeholder.svg' :
               lastMessage.author.item.avatar);
@@ -42,7 +46,7 @@ class ConversationsList extends Component {
                   <img className={styles['author-avatar']} src={avatar} alt="avatar" />
                   <div className={styles['author-name']}>
                     {lastMessage.author.item.username}
-                    <span className={styles['message-time']}>{`${passedTime}m ago`}</span>
+                    <span className={styles['message-time']}>{passedTime}</span>
                   </div>
                   <div className={styles['message-body']}>{typeof lastMessage.body === 'object' ?
                     `${lastMessage.body.fileName}.${lastMessage.body.fileType}` :

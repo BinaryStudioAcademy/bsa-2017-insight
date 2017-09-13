@@ -11,11 +11,13 @@ function getStatisticsByQuery(query) {
   };
   return fetch(url, requestOptions)
     .then((response) => {
-      return response.json();
+      if (response.status === 200) return response.json();
+      return undefined;
     })
     .then((info) => {
       return info;
-    });
+    })
+    .catch(err => console.log(err));
 }
 
 function getStatisticById(id) {

@@ -47,12 +47,16 @@ context.mongoStore = new MongoStore({
 
 const compiler = webpack(webpackConfig);
 
-app.use(webpackDevMiddleware(compiler, {
-  noInfo: true,
-  publicPath: webpackConfig[0].output.publicPath,
-}));
+if (process.env.NODE_ENV === 'development') {
+  app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: webpackConfig[0].output.publicPath,
+  }));
+}
 
-app.use(webpackHotMiddleware(compiler));
+if (process.env.NODE_ENV === 'development') {
+  app.use(webpackHotMiddleware(compiler));
+}
 
 const staticPath = path.resolve(`${__dirname}/../dist/`);
 const uploads = path.resolve(`${__dirname}/../uploads/`);

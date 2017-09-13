@@ -38,6 +38,7 @@ module.exports = function (app) {
       name: req.body.appName,
       url: req.body.appUrl,
       description: req.body.appDescription,
+      isActive: req.body.appName === 'InSight',
     };
 
     adminRepository.getByUsername(generalAdminData.username, (admin1Err, admin1Data) => {

@@ -40,6 +40,7 @@ class AdminLogin extends React.Component {
       body: JSON.stringify(loginData),
       credentials: 'include',
     }).then((response) => {
+      console.log(response);
       if (response.redirected) return window.location.replace(response.url);
       return response.json();
     }).then((response) => {

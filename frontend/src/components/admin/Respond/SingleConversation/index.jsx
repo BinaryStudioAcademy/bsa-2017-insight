@@ -15,7 +15,11 @@ const SingleConversation = (props) => {
   if (userAvatar.indexOf(window._injectedData.insightHost) === -1) {
     userAvatar = `${window._injectedData.insightHost}/uploads/avatars/${userAvatar}`;
   }
+
+  const admin = window._injectedData;
+  const conversation = props.conversation;
   const active = props.active ? 'conversation-item-active' : '';
+  const backgroundColor = conversation.isReassigned && conversation.participants[1].user._id === admin._id ? '#cceef3' : 'none';
   return (
     <div>
       {!messages.length ?
@@ -30,7 +34,7 @@ const SingleConversation = (props) => {
         />
         :
         <ListItem
-          style={{ padding: '0px' }}
+          style={{ padding: '0px', backgroundColor }}
           className={`${styles['conversation-item']} ${styles[active]}`}
           onClick={() => {
             props.handler();

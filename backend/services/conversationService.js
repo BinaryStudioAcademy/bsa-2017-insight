@@ -97,7 +97,7 @@ function reassignConversation(conversationId, currentUserId, newUser, callback) 
         'participants.user': currentUserId 
       },
       { 
-        $set: { 'participants.$': newUser }
+        $set: { 'participants.$': newUser, isReassigned: true }
       }, {new: true}, (err, conversation) => {
           if(err) return done(err);
           updatedConversation = conversation;
@@ -109,7 +109,7 @@ function reassignConversation(conversationId, currentUserId, newUser, callback) 
         _id: currentUserId,
       },
       {
-        $pull: { conversations: conversationId }
+        $pull: { conversations: conversationId },
       },(err, data) => {
         if(err) return done(err);
         done();
@@ -120,7 +120,7 @@ function reassignConversation(conversationId, currentUserId, newUser, callback) 
         _id: newUser.user,
       },
       {
-        $push: { conversations: conversationId }
+        $push: { conversations: conversationId, reassignedConversations: conversationId }
       },(err, data) => {
         if(err) return done(err);
         done(null);

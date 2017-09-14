@@ -5,6 +5,7 @@ const initialState = {
     date: {},
     activeGroup: 'all',
     activeDateFilter: 'range',
+    sort: 'new',
     isFilterApplied: false,
   },
 };
@@ -61,6 +62,15 @@ const conversationsReducer = (state = initialState, action) => {
         conversationToRenderId: action.payload.id,
         conversations: null,
       });
+    }
+    case 'SET_REASSIGN_TO_FALSE': {
+      const conversations = [...state.conversations];
+      conversations.forEach((conversation) => {
+        if(conversation._id === action.payload) {
+          conversation.isReassigned = false;
+        }
+      });
+      return Object.assign({}, state, { conversations });
     }
     default: {
       return state;

@@ -216,6 +216,9 @@ const mapDispatchToProps = (dispatch) => {
     navigateToConversation: (group, id) => {
       dispatch({ type: 'NAVIGATE_TO_CONVERSATION', payload: { group, id } });
     },
+    setReassignToFalse: (conversationId) => {
+      dispatch({ type: 'SET_REASSIGN_TO_FALSE', payload: conversationId });
+    },
     dispatch,
   };
 };

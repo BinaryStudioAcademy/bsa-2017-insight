@@ -56,7 +56,13 @@ function startSocketConnection(dispatch) {
   });
 
   this.socket.on('reassigned conversation', (data) => {
-    if (data.to !== window._injectedData._id) return;
+    const admin = window._injectedData;
+    if (data.to !== admin._id) return;
+    if(admin.reassignedConversations) {
+      admin.reassignedConversations.push(data.conversationId);
+    } else {
+      admin.reassignedConversations = [data.conversationId];
+    }
     let notification;
     const handler = () => {
       this.props.getStatisticById(data.userId);
@@ -77,6 +83,16 @@ function startSocketConnection(dispatch) {
       });
     }
   });
+
+  this.socket.on('reassignedConversationSeenOk', (conversationId) => {
+    const admin = window._injectedData;
+    const index = admin.reassignedConversations.findIndex((conversation) => {
+      return conversation === conversationId;
+    });
+    admin.reassignedConversations.splice(index, 1);
+    this.props.setReassignToFalse(conversationId);
+  });
+
   this.socket.on('newMessageToRespond', () => {
     this.props.getAllConversations();
   });

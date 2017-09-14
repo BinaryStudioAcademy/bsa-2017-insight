@@ -42,6 +42,19 @@ class Chat extends Component {
     this.props.socketConnection.emit('switchRoom', conversation._id);
     this.props.socketConnection.emit('adminConnectedToRoom', conversation._id);
     this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: conversation.messages });
+    
+    if(!currentAdmin.reassignedConversations || !currentAdmin.reassignedConversations.length) {
+      return;
+    }
+    currentAdmin.reassignedConversations.forEach((conversationId) => {
+      if(conversationId === conversation._id) {
+        this.props.socketConnection.emit('reassignedConversationSeen', {
+          conversationId: conversation._id,
+          adminId: currentAdmin._id,
+        });
+      }
+    });
+
     const input = document.getElementById('input');
     this.setState({ input });
 
@@ -62,6 +75,18 @@ class Chat extends Component {
 
     if (nextProps.conversationToRender._id !== oldConversationId) {
       if (nextProps.conversationToRender._id) this.props.socketConnection.emit('switchRoom', nextProps.conversationToRender._id);
+      if(!currentAdmin.reassignedConversations || !currentAdmin.reassignedConversations.length) {
+        return;
+      }
+      currentAdmin.reassignedConversations.forEach((conversationId) => {
+        if(conversationId === nextProps.conversationToRender._id) {
+          this.props.socketConnection.emit('reassignedConversationSeen', {
+            conversationId: nextProps.conversationToRender._id,
+            adminId: currentAdmin._id,
+          });
+        }
+      });
+
       this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
     }
 

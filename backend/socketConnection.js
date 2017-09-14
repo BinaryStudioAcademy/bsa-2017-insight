@@ -141,6 +141,16 @@ function connectionHandler(socket) {
       socket.broadcast.emit('reassigned conversation', { conversationId: data.conversationId, to: data.newUser.user, userId: result.userId });
     });
   });
+
+  socket.on('reassignedConversationSeen', (data) => {
+    ConversationRepository.model.update({ _id: data.conversationId }, { $set: { isReassigned: false } }, (err, result) => {
+      if(err) return;
+      AdminRepository.model.update({ _id: data.adminId }, { $pull: { reassignedConversations: data.conversationId } }, (err, result) => {
+        if(err) return;
+        socket.emit('reassignedConversationSeenOk', data.conversationId);
+      });
+    });
+  });
 }
 
 module.exports = connectionHandler;

@@ -15,7 +15,8 @@ const parseQuery = (query, callback) => {
           createdAt: 1,
           appId: 1,
           messagesCount: { $size: '$messages' },
-          participantsCount: { $size: '$participants' }
+          participantsCount: { $size: '$participants' },
+          isReassigned: 1,
         },
         $match: { messagesCount: { $gt: 0 }, appId: mongoose.Types.ObjectId(query.appId) }
       };

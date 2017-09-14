@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
+import Popover from 'material-ui/Popover';
 import styles from './styles.scss';
 import MessagesList from './MessagesList/MessagesList';
 // import notifications from '../../notifications/notifications';
 import EmojiContainer from '../../emojiRender/EmojiContainer';
+import Reassign from './Reassign';
 
 class Chat extends Component {
   constructor(props) {
@@ -27,36 +29,51 @@ class Chat extends Component {
     this.focusToInput = this.focusToInput.bind(this);
     this.messageSubmit = this.messageSubmit.bind(this);
     this.onFileInputChange = this.onFileInputChange.bind(this);
+    this.pickConversation = this.pickConversation.bind(this);
+    this.handlePopoverOpen = this.handlePopoverOpen.bind(this);
+    this.handlePopoverClose = this.handlePopoverClose.bind(this);
+    this.updateConversationParticipants = this.updateConversationParticipants.bind(this);
   }
 
   componentDidMount() {
     const conversation = this.props.conversationToRender;
+    const currentAdmin = window._injectedData;
+
+    this.props.socketConnection.emit('switchRoom', conversation._id);
     this.props.socketConnection.emit('adminConnectedToRoom', conversation._id);
     this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: conversation.messages });
     const input = document.getElementById('input');
     this.setState({ input });
+
+    let isParticipant = conversation.participants.find((participant) => {
+      return participant.user._id === currentAdmin._id;
+    });
+
+    this.setState({
+      isParticipant: isParticipant ? true : false,
+      showPickBtn: conversation.participants.length === 1 ? true : false,
+    });
+
   }
 
   componentWillReceiveProps(nextProps) {
     const oldConversationId = this.props.conversationToRender._id;
+    const newConversation = nextProps.conversationToRender;
+    const currentAdmin = window._injectedData;
+
     if (nextProps.conversationToRender._id !== oldConversationId) {
       if (nextProps.conversationToRender._id) this.props.socketConnection.emit('switchRoom', nextProps.conversationToRender._id);
       this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
     }
-    // Notifications
-    // const messageNumProps = nextProps.conversationToRender.messages.length;
-    // if (this.state.messageNum === 0) {
-    //   this.setState({ messageNum: messageNumProps });
-    // } else if (this.state.messageNum !== messageNumProps) {
-    //   const newMessage = nextProps.conversationToRender.messages[messageNumProps - 1];
-    //   const currentUser = window._injectedData.userId ?
-    //     window._injectedData.userId.username : window._injectedData.username;
-    //   this.setState({ messageNum: messageNumProps });
-    //   if (newMessage.author.item.username !== currentUser) {
-    //     notifications.api(newMessage);
-    //     notifications.title();
-    //   }
-    // }
+
+    let isParticipant = newConversation.participants.find((participant) => {
+      return participant.user._id === currentAdmin._id;
+    });
+    this.setState({
+      isParticipant: isParticipant ? true : false,
+      showPickBtn: newConversation.participants.length === 1 ? true : false,
+      info: '',
+    });
   }
 
   componentWillUnmount() {
@@ -172,6 +189,60 @@ class Chat extends Component {
     this.setState({ text: '' });
   }
 
+  pickConversation() {
+    fetch('/api/conversations/pick', {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({ id: this.props.conversationToRender._id }),
+    }).then(response => response.json()).then(response => {
+      if(response.ok) {
+        this.props.conversationToRender.participants.push({ user: { _id: window._injectedData._id } });
+        this.setState({
+          isParticipant: true,
+          showPickBtn: false,
+          info: 'Conversation has been picked',
+        });
+      } else {
+        this.setState({
+          showPickBtn: false,
+          info: response.message,
+        });
+      }
+    });
+  }
+
+  updateConversationParticipants(newParticipant) {
+    const admin = window._injectedData;
+    const adminIndex = this.props.conversationToRender.participants.findIndex((item) => {
+      return item === admin._id;
+    });
+    this.props.conversationToRender.participants.splice(adminIndex, 1, { userType: 'Admin', user: { _id: newParticipant } });
+
+    this.setState({
+      isPopoverOpened: false,
+    }, () => {
+      this.setState({
+        isParticipant: false,
+      })
+    });
+  }
+
+  handlePopoverOpen(e) {
+    this.setState({
+      isPopoverOpened: true,
+      anchorEl: e.currentTarget
+    });
+  }
+
+  handlePopoverClose() {
+    this.setState({
+      isPopoverOpened: false
+    });
+  }
+
   render() {
     const conversationToRender = this.props.conversationToRender;
     const messages = conversationToRender ? conversationToRender.messages : null;
@@ -182,6 +253,38 @@ class Chat extends Component {
         onClick={e => this.closeEmojiBlock(e)}
       >
         <MessagesList messages={messages} chosenTheme={this.props.chosenTheme} />
+        <div style={{ margin: '5px 10px' }}>
+          <RaisedButton
+            onClick={this.handlePopoverOpen}
+            label="Reassign"
+            style={{ width: '100px' }}
+            style={this.state.isParticipant ? { display: 'block', width: '100px' } : { display: 'none' }}
+          />
+          <Popover
+            open={this.state.isPopoverOpened}
+            onRequestClose={this.handlePopoverClose}
+            anchorEl={this.state.anchorEl}
+            animated={false}
+            style={{ overflow: 'hidden' }}
+          >
+            <div className={'reassign-popover'}>
+              <Reassign
+                conversationId={this.props.conversationToRender && this.props.conversationToRender._id}
+                socket={this.props.socketConnection}
+                updateConversationParticipants={this.updateConversationParticipants}
+              />
+            </div>
+          </Popover>
+          <RaisedButton
+            label={'Pick'}
+            onClick={this.pickConversation}
+            secondary
+            style={this.state.showPickBtn ? { display: 'block', width: '100px' } : { display: 'none' }}
+          />
+          {
+            this.state.info
+          }
+        </div>
         <form className={styles['sending-form']} onSubmit={this.messageSubmit}>
           <RaisedButton
             className={styles['selected-files-counter']}
@@ -202,6 +305,7 @@ class Chat extends Component {
               className={styles['file-input']}
               onChange={this.onFileInputChange}
               multiple
+              disabled={!this.state.isParticipant}
             />
           </RaisedButton>
           <input
@@ -212,6 +316,7 @@ class Chat extends Component {
             value={this.state.text}
             onBlur={e => this.blurFromInput(e)}
             id="input"
+            disabled={!this.state.isParticipant}
           />
           <span
             role="button"
@@ -223,10 +328,11 @@ class Chat extends Component {
           </span>
           <RaisedButton
             type="submit"
-            label="Submit"
+            label="Send"
             primary
             className={styles['submit-button']}
-            style={{ height: '39px' }}
+            style={{ height: '39px', width: '100px' }}
+            disabled={!this.state.isParticipant}
           />
         </form>
         {this.state.showEmojis ? <div

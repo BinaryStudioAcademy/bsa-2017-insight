@@ -34,6 +34,7 @@ module.exports = function (app) {
       isServiceAdmin: req.body.appName === 'InSight',
       verified: true,
       moderator: true,
+      adminGroups: ['all'],
     };
     const appData = {
       name: req.body.appName,

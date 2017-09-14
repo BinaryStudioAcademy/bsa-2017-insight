@@ -5,6 +5,8 @@ const AdminRepository = require('./repositories/adminRepository');
 const createConversationAndUpdateUser = require('./services/conversationService').createConversationAndUpdateUser;
 const createForceConversation = require('./services/conversationService').createForceConversation;
 const checkIfAdminIsConversationParticipant = require('./services/conversationService').checkIfAdminIsConversationParticipant;
+const reassignConversation = require('./services/conversationService').reassignConversation;
+
 const mongoose = require('mongoose');
 
 function connectionHandler(socket) {
@@ -61,8 +63,12 @@ function connectionHandler(socket) {
         socket.broadcast.emit('newMessageToRespond');
         socket.broadcast.to(room).emit('newMessage', messageToSend);
         ConversationRepository.model
-          .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) } })
-          .then();
+          .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) } }, { new: true }, (err, doc) => {
+            console.log('NEW MESSAGE', doc);
+            if(doc.messages.length === 1) {
+              socket.broadcast.emit('newConversationCreated', { conversation: doc });
+            }
+          });
       });
   });
 
@@ -125,6 +131,14 @@ function connectionHandler(socket) {
         socket.emit('introduced', dataToSendBack);
         socket.broadcast.emit('introduced', dataToSendBack);
       }
+    });
+  });
+
+  socket.on('reassign conversation', (data) => {
+    reassignConversation(data.conversationId, data.currentUserId, data.newUser, (err, result) => {
+      if(err) return socket.emit('reassign response', { ok: false, message: err.message });
+      socket.emit('reassign response', result);
+      socket.broadcast.emit('reassigned conversation', { conversationId: data.conversationId, to: data.newUser.user, userId: result.userId });
     });
   });
 }

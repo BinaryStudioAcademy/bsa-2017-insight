@@ -104,7 +104,6 @@ const parseQuery = (query, callback) => {
         parsed.$match["participants.user"] = query.admin._id;
       } else if(query.activeGroup === 'unpicked') {
         parsed.$match.participantsCount = 1;
-        delete parsed.$match['messagesCount'];
       }
       done(null, parsed);
     }

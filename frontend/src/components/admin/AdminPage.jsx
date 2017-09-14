@@ -47,31 +47,6 @@ class AdminPage extends React.Component {
 
   componentDidMount() {
     startSocketConnection.call(this, this.props.dispatch);
-    this.socket.on('newConversationCreated', (data) => {
-      let notification;
-      this.props.getAllConversations();
-      if (!('Notification' in window)) {
-        return console.log('Notifications are not supported');
-      } else if (Notification.permission === 'granted') {
-        notification = new Notification('New unpicked conversation. Click to open');
-      } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission((permission) => {
-          if (permission === 'granted') {
-            notification = new Notification('New unpicked conversation. Click to open');
-          }
-        });
-      }
-
-      if (notification) {
-        notification.onclick = () => {
-          this.props.navigateToConversation('unpicked', data.conversation._id);
-          this.props.getStatisticById(data.conversation.participants[0].user);
-          this.context.router.history.replace('/admin/messenger');
-          notification.close();
-        };
-      }
-      return undefined;
-    });
     this.props.getAllStatistic();
   }
 

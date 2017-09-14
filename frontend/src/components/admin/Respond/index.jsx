@@ -187,7 +187,7 @@ Respond.propTypes = {
   conversationToRenderId: propTypes.string,
   setConversation: propTypes.func.isRequired,
   removeConversations: propTypes.func.isRequired,
-  dispatch: propTypes.func.isRequired,
+  dispatch: propTypes.func,
   statisticById: propTypes.shape({
     userId: propTypes.any,
     currentUrl: propTypes.string,

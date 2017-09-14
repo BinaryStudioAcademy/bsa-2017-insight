@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import '../../../../common/styles/variables';
 
 .filter-panel {
   display: flex;
   align-items: center;
+  border-bottom: 1px solid $landing-lightgrey;
 
   .remove-filter {
     font-size: 12px;

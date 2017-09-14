@@ -3,6 +3,8 @@ import propTypes from 'prop-types';
 import Message from './../Message/Message';
 import styles from './styles.scss';
 
+let uniqueId = 0;
+
 class MessagesList extends React.Component {
   componentDidMount() {
     if (this.list) this.list.scrollTop = this.list.scrollHeight - this.list.clientHeight;
@@ -12,26 +14,51 @@ class MessagesList extends React.Component {
     if (this.list) this.list.scrollTop = this.list.scrollHeight - this.list.clientHeight;
   }
 
+  getChatElements() {
+    let previousDate = null;
+    const chatElements = [];
+    if (this.props.messages) {
+      this.props.messages.map((message) => {
+        const thisDate = new Date(message.createdAt).getDay();
+        if (thisDate !== previousDate) {
+          chatElements.push(
+            <p
+              className={styles['date-time'] + ' ' + 'dateTime'}
+              key={uniqueId++}
+            >
+              {this.props.convertDate(message.createdAt)}
+            </p>);
+        }
+        chatElements.push(
+          <Message
+            key={message._id}
+            body={message.body}
+            name={message.author.item.firstName || message.author.item.username}
+            createdAt={new Date(message.createdAt)}
+            type={message.author.userType}
+            isReceived={message.isReceived}
+            className="message"
+          />);
+        previousDate = new Date(message.createdAt).getDay();
+        return null;
+      });
+    }
+    return chatElements;
+  }
+
   render() {
+    const chatElements = this.getChatElements();
     return (
       <ul
         ref={(node) => {
           this.list = node;
         }}
+        id="messageList"
         className={styles['messages-list']}
         style={{ backgroundColor: this.props.chosenTheme.palette.canvasColor }}
+        onScroll={() => this.props.getMessageDate()}
       >
-        {this.props.messages && this.props.messages.map((message) => {
-          return (
-            <Message
-              key={message._id}
-              body={message.body}
-              name={message.author.item.firstName || message.author.item.username}
-              type={message.author.userType}
-              isReceived={message.isReceived}
-            />
-          );
-        })}
+        {chatElements}
       </ul>
     );
   }
@@ -59,6 +86,8 @@ MessagesList.propTypes = {
     palette: propTypes.object,
     spacing: propTypes.object,
   }),
+  convertDate: propTypes.func,
+  getMessageDate: propTypes.func,
 };
 
 export default MessagesList;

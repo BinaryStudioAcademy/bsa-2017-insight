@@ -37,7 +37,7 @@ const conversationsReducer = (state = initialState, action) => {
       return Object.assign({}, state, { conversations: action.payload });
     case 'GET_CONVERSATION_BY_ID_SUCCESS': {
       const { index } = findConversationById(action.payload.conversation._id, state.conversations);
-      console.log(index);
+      // console.log(index);
       const oldConversation = [...state.conversations];
       oldConversation.splice(index, 1, action.payload.conversation);
       const newConversations = [...oldConversation];

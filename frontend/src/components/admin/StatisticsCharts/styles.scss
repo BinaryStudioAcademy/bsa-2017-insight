@@ -1,15 +1,14 @@
 :local(.charts-container) {
   position: relative;
   box-sizing: border-box;
-  margin-top: 40px;
   width: 100%;
   padding-top: 30px;
   @media (min-width: 1000px) {
     float: right;
-    width: 75%;
+    width: 100%;
   }
   @media (min-width: 1400px) {
-    width: 78%;
+    width: 100%;
   }
 }
 

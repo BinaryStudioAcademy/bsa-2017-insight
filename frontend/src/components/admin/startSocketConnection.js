@@ -59,7 +59,7 @@ function startSocketConnection(dispatch) {
     const handler = () => {
       this.props.navigateToConversation('unpicked', data.conversation._id)
       this.props.getStatisticById(data.conversation.participants[0].user);
-      this.context.router.history.replace('/admin/respond');
+      this.context.router.history.replace('/admin/messenger');
       notification.close();
     }
     if (!("Notification" in window)) {
@@ -84,7 +84,7 @@ function startSocketConnection(dispatch) {
     const handler = () => {
       this.props.getStatisticById(data.userId);
       this.props.navigateToConversation('mine', data.conversationId)
-      this.context.router.history.replace('/admin/respond');
+      this.context.router.history.replace('/admin/messenger');
       notification.close();
     }
     if (!("Notification" in window)) {

@@ -29,10 +29,10 @@ class LeftSideMenu extends React.Component {
             </IconButton>
           </NavLink>
           <Divider />
-          <NavLink to={'/admin/messager'}>
+          <NavLink to={'/admin/messenger'}>
             <IconButton
               style={{ width: this.props.width }}
-              tooltip={'Messager'}
+              tooltip={'Messenger'}
               tooltipPosition={'bottom-right'}
               iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
             >
@@ -91,6 +91,9 @@ LeftSideMenu.propTypes = {
     palette: PropTypes.shape({
       textColor: PropTypes.string,
     }),
+  }),
+  currentUser: PropTypes.shape({
+    isServiceAdmin: PropTypes.bool,
   }),
 };
 

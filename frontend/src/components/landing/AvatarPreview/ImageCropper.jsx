@@ -5,7 +5,6 @@ import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import PropTypes from 'prop-types';
 import '../../../../../node_modules/cropperjs/dist/cropper.min.css';
-import styles from './styles.scss';
 
 export default class ImageCropper extends React.Component {
   constructor(props) {

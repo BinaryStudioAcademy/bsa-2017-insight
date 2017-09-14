@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./backend/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "NODE_ENV=development nodemon ./backend/server.js",
+    "build": "NODE_ENV=production node ./backend/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -54,6 +54,7 @@
     "redux-saga": "^0.15.6",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "validator": "^8.2.0",
     "webfontloader": "^1.6.28",
     "which-browser": "^0.2.2"

@@ -65,6 +65,9 @@ class IntroductionForm extends React.Component {
 IntroductionForm.propTypes = {
   id: propTypes.string,
   introductionIsClose: propTypes.func,
+  socket: propTypes.shape({
+    emit: propTypes.func,
+  }),
 };
 
 export default IntroductionForm;

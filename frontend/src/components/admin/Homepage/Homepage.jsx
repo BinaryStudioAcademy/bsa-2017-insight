@@ -1,5 +1,5 @@
 import React from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import UserInfoTable from '../Table/Table';
 import ColumnsFilter from '../ColumnsFilter/ColumnsFilter';
@@ -17,11 +17,11 @@ class Homepage extends React.Component {
     this.handleOpen = this.handleOpen.bind(this);
   }
 
-  handleOpen(){
+  handleOpen() {
     this.setState({
       statisticsFilterOpened: !this.state.statisticsFilterOpened,
       usersFilterOpened: !this.state.usersFilterOpened,
-    })
+    });
   }
 
 
@@ -33,18 +33,18 @@ class Homepage extends React.Component {
             className={styles['filter-title']}
             onClick={() => this.handleOpen()}
           >Users Filter</h4>
-          { (!this.state.statisticsFilterOpened) ? null :
-              <StatisticsFilter 
-                chosenTheme={this.props.chosenTheme}
-              />
-            }
+          { (!this.state.statisticsFilterOpened) ? null
+            : <StatisticsFilter
+              chosenTheme={this.props.chosenTheme}
+            />
+          }
 
           <h4
             className={styles['filter-title']}
             onClick={() => this.handleOpen()}
           >Columns Filter</h4>
-          { (!this.state.usersFilterOpened) ? null :
-            <ColumnsFilter
+          { (!this.state.usersFilterOpened) ? null
+            : <ColumnsFilter
               updateFields={this.props.updateFields}
               statisticOptions={this.props.statisticOptions}
               selectedFields={this.props.fieldsToDisplay}
@@ -65,5 +65,13 @@ class Homepage extends React.Component {
     );
   }
 }
+
+Homepage.propTypes = {
+  statistics: PropTypes.arrayOf(PropTypes.shape({})),
+  chosenTheme: PropTypes.shape({}),
+  fieldsToDisplay: PropTypes.arrayOf(PropTypes.string),
+  statisticOptions: PropTypes.arrayOf(PropTypes.string),
+  updateFields: PropTypes.func,
+};
 
 export default Homepage;

@@ -31,6 +31,7 @@ module.exports = function (app) {
       username: req.body.username,
       isAdmin: true,
       isSuperUser: true,
+      isServiceAdmin: req.body.appName === 'InSight',
       verified: true,
       moderator: true,
     };
@@ -38,6 +39,7 @@ module.exports = function (app) {
       name: req.body.appName,
       url: req.body.appUrl,
       description: req.body.appDescription,
+      isActive: req.body.appName === 'InSight',
     };
 
     adminRepository.getByUsername(generalAdminData.username, (admin1Err, admin1Data) => {

@@ -22,7 +22,7 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    this.socket = io('http://localhost:3000');
+    this.socket = io(window._injectedData.insightHost);
     const id = window._injectedData.anonymousId || window._injectedData.userId._id;
     this.socket.emit('getUserConversations', id);
     startSocketConnection.call(this, this.socket, this.props.messageBody);
@@ -101,7 +101,7 @@ class Chat extends Component {
           method: 'POST',
           body: formData,
         };
-        fetch('http://localhost:3000/api/uploads', options)
+        fetch(`${window._injectedData.insightHost}/api/uploads`, options)
           .then(resp => resp.json())
           .then((data) => {
             const regex = /(png|gif|jpeg|jpg|bmp|tiff|svg)$/i;

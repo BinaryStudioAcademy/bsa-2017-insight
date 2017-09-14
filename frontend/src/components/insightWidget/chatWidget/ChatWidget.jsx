@@ -3,7 +3,6 @@ import propTypes from 'prop-types';
 import ChatIcon from './ChatIcon/chatIcon';
 import Chat from './Chat/Chat';
 import Trigger from './Trigger';
-// import styles from './styles.scss';
 
 class ChatWidget extends React.Component {
   constructor(props) {
@@ -12,7 +11,7 @@ class ChatWidget extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:3000/api/widgets/${window._injectedData.currentAppId}`)
+    fetch(`${window._injectedData.insightHost}/api/widgets/${window._injectedData.currentAppId}`)
       .then(response => response.json())
       .then((data) => {
         this.setState({ widgetStyles: data.options });

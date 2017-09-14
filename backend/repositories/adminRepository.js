@@ -6,11 +6,11 @@ const bcrypt = require('bcrypt-nodejs');
 const AdminRepository = Object.create(Repository.prototype);
 AdminRepository.model = Admin;
 
-// AdminRepository.getAll = function (callback) {
-//   const model = this.model;
-//   const query = model.find();
-//   query.exec(callback);
-// };
+AdminRepository.getAll = function (callback) {
+  const model = this.model;
+  const query = model.find();
+  query.exec(callback);
+};
 
 AdminRepository.add = function (data, callback) {
   data.salt = bcrypt.genSaltSync(10);

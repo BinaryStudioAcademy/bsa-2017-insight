@@ -1,6 +1,5 @@
 const Mailchimp = require('mailchimp-api-v3');
 const mailchimpSettingsRepository = require('../repositories/mailchimpSettingsRepository');
-// const selectionRepository = require('../repositories/selectionRepository');
 
 function getSettings(appId, callback) {
   mailchimpSettingsRepository.findByConditions({ appId }, (err, settings) => {
@@ -11,8 +10,8 @@ function getSettings(appId, callback) {
 
 function getAllSelections(appId, callback) {
   getSettings(appId, (settings) => {
+    if (!settings) return callback(null, { noApiKey: true });
     if (!settings.apiKey) return callback(null, { noApiKey: true });
-    // settings = [{ apiKey: 'c117176003b911e12952879f7654b476-us16' }]
     const mailchimp = new Mailchimp(settings.apiKey);
     mailchimp.get('/lists')
       .then((data) => {
@@ -67,8 +66,6 @@ function addSelection (appId, selection, callback) {
     email_type_option: true,
   }, selection);
   getSettings(appId, (settings) => {
-    // console.log('settings');
-    // console.log(settings);
     console.log('selection');
     console.log(Object.assign(settings, selection));
     selection.name = `InSight-${selection.name}`;

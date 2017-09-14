@@ -12,7 +12,7 @@ class UserLogin extends React.Component {
 
   setInput(e) {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   }
 
@@ -21,23 +21,23 @@ class UserLogin extends React.Component {
 
     const loginData = {
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
     };
 
     if (!loginData.username || !loginData.password) {
       this.setState({
-        info: 'Enter a username/password'
+        info: 'Enter a username/password',
       });
       return;
     }
 
-    fetch('/api/user/login', {
+    fetch(`${window._injectedData.insightHost}/api/user/login`, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       method: 'POST',
       body: JSON.stringify(loginData),
-      credentials: 'include'
+      credentials: 'include',
     }).then((response) => {
       if (response.redirected) return window.location.replace(response.url);
       return response.json();
@@ -61,10 +61,6 @@ class UserLogin extends React.Component {
           <span>Password</span>
           <input type="password" name="password" onChange={this.setInput} />
         </div>
-        {/* <div className={styles['remember-me']}>
-          <input type="checkbox" id="rememberMe" />
-          <label htmlFor="rememberMe">Remember me</label><br />
-        </div> */}
         <button type="button" onClick={this.login}>Log in</button><br />
         <div className={styles['error-message']}>{this.state.info}</div>
         <div className={styles['auth-links']}>

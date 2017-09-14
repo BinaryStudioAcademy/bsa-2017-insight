@@ -28,7 +28,7 @@ class WidgetSettings extends React.Component {
   }
 
   getSettings() {
-    fetch(`/api/widgets/${window._injectedData.appId}`, { credentials: 'include', method: 'GET' })
+    fetch(`${window._injectedData.insightHost}/api/widgets/${window._injectedData.appId}`, { credentials: 'include', method: 'GET' })
       .then((response) => {
         return response.json();
       })
@@ -44,7 +44,7 @@ class WidgetSettings extends React.Component {
       appId: window._injectedData.appId,
       options: this.state.settings,
     };
-    fetch(`/api/widgets/${window._injectedData.appId}`, {
+    fetch(`${window._injectedData.insightHost}/api/widgets/${window._injectedData.appId}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -117,11 +117,11 @@ class WidgetSettings extends React.Component {
                 <li>To integrate chat to your app/website just add the following lines to your site code before the <code>{'</body>'}</code> tag
                   <code className={styles.code}>
                     {`<script>window._injectedData = { currentAppId: '${window._injectedData.appId}'}</script>`}<br />
-                    {'<script src="http://localhost:3000/resources/widget/insight-widget.js"></script>'}
+                    {`<script src="${window._injectedData.insightHost}/resources/widget/insight-widget.js"></script>`}
                   </code>
                 </li>
                 <li>
-                  And... That's it!
+                  {'And... That\'s it!'}
                 </li>
               </ol>
             </Tab>

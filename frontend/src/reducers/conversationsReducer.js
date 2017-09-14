@@ -6,7 +6,7 @@ const initialState = {
     activeGroup: 'all',
     activeDateFilter: 'range',
     isFilterApplied: false,
-  }
+  },
 };
 
 function findConversationById(id, conversations) {

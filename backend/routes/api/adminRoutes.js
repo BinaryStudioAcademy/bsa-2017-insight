@@ -18,13 +18,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 module.exports = function (app) {
-  // app.post('/api/admins/login/', passport.authenticate('admin', {
-  //   successRedirect: '/admin',
-  //   failureRedirect: '/admin/registration',
-  //   failureFlash: true,
-  //   successFlash: 'Welcome!',
-  // }));
-  // app.post('/api/admins/registration', (req, res) => {
 
   app.post('/api/admin/login/', (req, res, next) => {
     if (req.user) return res.redirect('/');
@@ -77,12 +70,6 @@ module.exports = function (app) {
       isAdmin: true,
     };
     console.log(`data username ${data.username}`);
-    // adminRepository.add(data, () => {
-    //   passport.authenticate('local')(req, res, () => {
-    //     console.log('before redirect');
-    //     res.redirect('/admin/login');
-
-
     adminRepository.getByUsername(data.username, (err, user) => {
       if (err) return next(err);
       if (user) return res.json({ text: 'User with this username exists' });
@@ -106,6 +93,7 @@ module.exports = function (app) {
   });
 
   app.get('/api/admins/', (req, res) => {
+    if (!req.user) return res.status(204).end();
     adminRepository.getAllAdmins(req.user.appId, (err, data) => {
       if (err) {
         console.log(err);

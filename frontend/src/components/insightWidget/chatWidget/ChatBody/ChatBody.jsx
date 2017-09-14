@@ -120,9 +120,9 @@ class ChatBody extends Component {
 
   render() {
     const operator = this.props.operator;
-    const avatar = operator && (operator.user.avatar === 'http://localhost:3000/uploads/avatars/avatar.png' ?
-      'http://localhost:3000/uploads/avatars/avatar.png' :
-      `http://localhost:3000/uploads/avatars/${operator.user.avatar}`);
+    const avatar = operator && (operator.user.avatar === `${window._injectedData.insightHost}/uploads/avatars/avatar.png` ?
+      `${window._injectedData.insightHost}/uploads/avatars/avatar.png` :
+      `${window._injectedData.insightHost}/uploads/avatars/${operator.user.avatar}`);
     const operatorName = operator ? operator.user.username : 'Conversation hasn\'t been picked up';
     const headerStyles = { backgroundColor: this.props.widgetStyles.primaryColor };
     return (
@@ -131,7 +131,7 @@ class ChatBody extends Component {
           <div className={styles['conversation-header']} style={headerStyles}>
             <img
               className={styles['return-button']}
-              src="http://localhost:3000/resources/widget/images/back.png"
+              src={`${window._injectedData.insightHost}/resources/widget/images/back.png`}
               alt="return-button"
               onClick={this.props.onReturnButtonClick}
             />
@@ -141,7 +141,7 @@ class ChatBody extends Component {
           <div className={styles['conversation-header']} style={headerStyles}>
             <img
               className={styles['return-button']}
-              src="http://localhost:3000/resources/widget/images/back.png"
+              src={`${window._injectedData.insightHost}/resources/widget/images/back.png`}
               alt="return-button"
               onClick={this.props.onReturnButtonClick}
             />
@@ -241,6 +241,8 @@ ChatBody.propTypes = {
     primaryColor: propTypes.string,
     widgetPosition: propTypes.string,
   }),
+  isIntroduced: propTypes.bool,
+  socket: propTypes.shape({}),
 };
 
 export default ChatBody;

@@ -16,7 +16,7 @@ const statisticReducer = (state = initialState, action) => {
     case 'GET_STATISTIC_BY_ID_SUCCESS':
       return Object.assign({}, state, { statisticById: action.payload });
     case 'UPDATE_FIELDS':
-      return Object.assign({}, state, { fieldsToDisplay: action.payload })
+      return Object.assign({}, state, { fieldsToDisplay: action.payload });
     default:
       return state;
   }

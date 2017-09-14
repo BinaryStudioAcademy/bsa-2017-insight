@@ -13,15 +13,19 @@ const ChatWidget = (props) => {
       bottom: '25px',
     };
   return (
-    <img
-      src="http://www.iconsfind.com/wp-content/uploads/2015/12/20151229_5682318d75553.png"
-      style={iconStyles}
-      alt=""
+    <div
       role="button"
       tabIndex="0"
       onClick={props.onChatIconClick}
       className={styles['chat-icon']}
-    />
+      style={iconStyles}
+    >
+      <img
+        src="http://www.iconsfind.com/wp-content/uploads/2015/12/20151229_5682318d75553.png"
+        className={styles['chat-icon']}
+        alt=""
+      />
+    </div>
   );
 };
 
@@ -35,4 +39,4 @@ ChatWidget.propTypes = {
 };
 
 export default ChatWidget;
-// {/* className={styles['chat-icon']} */}
+

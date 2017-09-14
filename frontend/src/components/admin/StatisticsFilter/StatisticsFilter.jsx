@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { List } from 'material-ui/List';
 import propTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import styles from './styles.scss';

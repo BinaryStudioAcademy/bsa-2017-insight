@@ -4,6 +4,7 @@ const selectionService = require('../../services/selectionService');
 module.exports = (app) => {
 
   app.get('/api/selections', (req, res, next) => {
+    if (!req.user) return res.status(204).end();
     selectionService.getAllSelections(req.user.appId, (err, data) => {
       if (err) return next(err);
       // selectionRepository.getAll(req.user.appId, (intErr, intData) => {

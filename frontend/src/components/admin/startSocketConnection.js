@@ -4,7 +4,7 @@ import { getStatisticById } from './../../actions/statisticActions';
 
 function startSocketConnection(dispatch) {
   const id = window._injectedData._id;
-  this.socket = io('http://localhost:3000/');
+  this.socket = io(window._injectedData.insightHost);
   const userObj = {
     type: 'Admin',
     id,

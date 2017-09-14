@@ -59,5 +59,6 @@ ChatLayout.propTypes = {
     backgroundImage: propTypes.string,
     primaryColor: propTypes.string,
     widgetPosition: propTypes.string,
+    forceMessage: propTypes.string,
   }),
 };

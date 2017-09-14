@@ -56,6 +56,13 @@ class EngageSelections extends React.Component {
 EngageSelections.propTypes = {
   headerHeight: PropTypes.number,
   chosenTheme: PropTypes.shape({}),
+  getSingleSelection: PropTypes.func,
+  getSelectionList: PropTypes.func,
+  selectionList: PropTypes.arrayOf(PropTypes.shape({})),
+  deleteSelection: PropTypes.func,
+  chosenSelection: PropTypes.shape({
+    id: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = (state) => {

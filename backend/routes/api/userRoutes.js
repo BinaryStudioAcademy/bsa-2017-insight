@@ -4,7 +4,7 @@ const getFilteredUsers = require('./../../services/filteredUserService');
 const createUserAndEmptyStatistics = require('./../../services/userService');
 const multer = require('multer');
 const mime = require('mime');
-const randomstring = require('randomstring')
+const randomstring = require('randomstring');
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -70,8 +70,9 @@ module.exports = (app) => {
   });
 
   app.get('/api/users/', (req, res) => {
+    if (!req.user) return res.status(204).end();
     if (Object.keys(req.query).length === 0) { // If query has no GET params
-      User.getAll((err, data) => {
+      User.getAll(req.user.appId, (err, data) => {
         if (err) {
           console.log(err);
           res.sendStatus(400);

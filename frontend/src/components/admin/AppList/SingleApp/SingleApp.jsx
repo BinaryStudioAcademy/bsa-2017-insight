@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
+import { Card, CardHeader, CardActions } from 'material-ui/Card';
 import Toggle from 'material-ui/Toggle';
 import { toggleApp, getSingleApp } from '../../../../actions/appActions';
 
@@ -15,10 +15,8 @@ class SingleApp extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.chosenApp !== this.state.chosenApp) {
-      // this.props.getSingleApp(nextProps.chosenApp);
       this.setState({ chosenApp: nextProps.chosenApp });
     }
-    console.log(this.props.chosenApp);
   }
 
   render() {
@@ -44,11 +42,11 @@ class SingleApp extends React.Component {
             />
             { this.props.chosenApp.generalAdmin &&
               <CardHeader
-                title={this.props.chosenApp.generalAdmin.firstName + ' '
-                + this.props.chosenApp.generalAdmin.lastName + ' @ '
-                + this.props.chosenApp.generalAdmin.username}
+                title={`${this.props.chosenApp.generalAdmin.firstName}
+                ${this.props.chosenApp.generalAdmin.lastName} @
+                ${this.props.chosenApp.generalAdmin.username}`}
                 subtitle={this.props.chosenApp.generalAdmin.email}
-                avatar={'http://localhost:3000/uploads/avatars/' + this.props.chosenApp.generalAdmin.avatar}
+                avatar={`${window._injectedData.insightHost}/uploads/avatars/${this.props.chosenApp.generalAdmin.avatar}`}
               />
             }
             <CardActions>
@@ -79,6 +77,13 @@ SingleApp.propTypes = {
     _id: PropTypes.string,
     isActive: PropTypes.bool,
     url: PropTypes.string,
+    generalAdmin: PropTypes.shape({
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      username: PropTypes.string,
+      email: PropTypes.email,
+      avatar: PropTypes.avatar,
+    }),
   }),
   toggleApp: PropTypes.func,
   chosenTheme: PropTypes.shape({

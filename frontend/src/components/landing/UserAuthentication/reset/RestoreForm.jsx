@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from '../styles.scss';
 
 class RestoreForm extends React.Component {
@@ -6,7 +7,7 @@ class RestoreForm extends React.Component {
     super(props);
     this.state = {
       info: '',
-      email: ''
+      email: '',
     };
     this.sendEmail = this.sendEmail.bind(this);
   }
@@ -16,10 +17,10 @@ class RestoreForm extends React.Component {
     const options = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: this.state.email, userType })
+      body: JSON.stringify({ email: this.state.email, userType }),
     };
 
-    fetch('/api/forgot', options)
+    fetch(`${window._injectedData.insightHost}/api/forgot`, options)
       .then((response) => {
         return response.json();
       })
@@ -32,7 +33,6 @@ class RestoreForm extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className={styles['login-form']}>
         <h3>Enter your email to proceed:</h3>
@@ -49,5 +49,16 @@ class RestoreForm extends React.Component {
     );
   }
 }
+
+RestoreForm.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      userType: PropTypes.string,
+    }),
+  }),
+};
 
 export default RestoreForm;

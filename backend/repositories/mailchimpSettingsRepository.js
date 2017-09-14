@@ -11,10 +11,6 @@ MailchimpSettingsRepository.findByAppId = function (appId, callback) {
 };
 
 MailchimpSettingsRepository.update = function (appId, fields, callback) {
-  // console.log('-------');
-  // console.log('INCOMING DATA');
-  // console.log(fields);
-  // console.log('-------');
   const update = {};
   for (const field in fields) {
     if (field.match(/from_email|from_name|language|subject/)) {
@@ -29,7 +25,6 @@ MailchimpSettingsRepository.update = function (appId, fields, callback) {
   }
   const model = this.model;
   const query = model.update({ appId }, update);
-  // console.log(update);
   query.exec(callback);
 };
 

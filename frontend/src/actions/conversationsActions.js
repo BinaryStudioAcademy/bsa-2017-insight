@@ -30,5 +30,5 @@ export {
   setConversation,
   fetchMessage,
   removeConversations,
-  updateConversations
+  updateConversations,
 };

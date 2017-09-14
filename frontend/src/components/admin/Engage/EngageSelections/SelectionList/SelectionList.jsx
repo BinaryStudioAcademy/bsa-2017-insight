@@ -36,7 +36,6 @@ SelectionList.propTypes = {
   getSingleSelection: PropTypes.func,
   selectionList: PropTypes.arrayOf(PropTypes.object),
   headerHeight: PropTypes.number,
-  getSelectionList: PropTypes.func,
 };
 
 export default SelectionList;

@@ -12,8 +12,8 @@ function* setConversation(action) {
 }
 
 function* setFilters(action) {
-	const result = yield fetchAPI.getConversationsByFilters(action.payload);
-	yield put({ type: 'FILTERS_SET_SUCCESS', payload: { conversationFilters: action.payload, conversations: result } });
+  const result = yield fetchAPI.getConversationsByFilters(action.payload);
+  yield put({ type: 'FILTERS_SET_SUCCESS', payload: { conversationFilters: action.payload, conversations: result } });
 }
 
 function* watchConversations() {

@@ -4,12 +4,10 @@ const options = {
   title: true,
 };
 
-const hostname = 'http://localhost:3000';
-
 const notifications = {
   email(message) {
     if (options.email) {
-      fetch(`${hostname}/api/notification/email`, {
+      fetch(`${window._injectedData.insightHost}/api/notification/email`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -27,10 +25,12 @@ const notifications = {
       if ('Notification' in window) {
         if (Notification.permission === 'granted') {
           const notification = new Notification(notificaitonText);
+          console.log(notification);
         } else if (Notification.permission !== 'denied') {
           Notification.requestPermission((permission) => {
             if (permission === 'granted') {
               const notification = new Notification(notificaitonText);
+              console.log(notification);
             }
           });
         }

@@ -43,7 +43,6 @@ const Message = ({ name, body, messageStyle, isReceived, type, avatar, userMessa
     >
       {senderAvatar}
       {message}
-      {/* {statusSpan} */}
     </li>);
   } else {
     result = <li className={`${styles[messageStyle]} ${styles['message-item']}`}>{message} </li>;

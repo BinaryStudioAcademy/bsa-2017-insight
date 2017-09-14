@@ -115,22 +115,33 @@
 }
 
 :local(.force-content-wrapper) {
+  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
-  margin-top: 35px;
-  padding-top: 35px;
 
   @media (min-width: 900px) {
-    flex-wrap: nowrap;
     justify-content: space-between;
+    padding:0 10px;
+    width: 130%;
+    margin-left: -15%;
+    flex-wrap: nowrap;
   }
 }
 
 :local(.force-message-form) {
-  margin-left: 30px;
-  margin-top: -35px;
+  width: 100%;
+  margin-top: 20px;
+
+  @media (min-width: 900px) {
+    margin-left: 20px;
+    width: 30%;
+  }
+
+  @media (min-width: 1400px) {
+    margin-left: 35px;
+  }
 }
 
 .wallpapers {
@@ -160,4 +171,106 @@
   border: 1px solid #ccc;
   display: block;
   line-height: 1.8em;
+}
+
+:local(.force-message-form-header) {
+  text-align: center;
+  font-size: 22px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+:local(.force-message-input) {
+  width: 100% !important;
+  margin-bottom: 15px;
+}
+
+:local(.conditions-header) {
+  text-align: center;
+}
+
+:local(.add-button-wrapper) {
+  width: 60%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+:local(.add-force-message-button) {
+  width: 80% !important;
+}
+
+:local(.force-messages-table) {
+  width: 100%;
+  margin-top: 20px;
+  box-sizing: border-box;
+  border-collapse: collapse;
+  border: 1px solid #cbcbcb;
+  border-spacing: 25px;
+  font-size: 14px;
+
+  @media (min-width: 900px) {
+    margin-left: -10px;
+    width: 70%;
+  }
+}
+
+:local(.force-messages-table-header) {
+  box-sizing: border-box;
+  border: 1px solid #cbcbcb;
+
+  th {
+    font-weight: normal;
+    color: #979797;
+    padding: 10px;
+  }
+
+  :local(.delete-button-th) {
+    padding: 0;
+    width: 25px;
+    height: 25px;
+  }
+}
+
+:local(.force-messages-table-body-row) {
+  box-sizing: border-box;
+  border: 1px solid #cbcbcb;
+}
+
+:local(.force-messages-table-cell) {
+  text-align: center;
+  padding: 10px;
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+
+  &:first-child {
+    overflow: auto;
+    white-space: pre-wrap;
+  }
+
+  &:nth-child(2) {
+    text-align: justify;
+    max-width: 290px;
+    overflow: auto;
+    white-space: pre-wrap;
+  }
+  &:nth-child(4) {
+    max-width: 290px;
+    overflow: auto;
+    white-space: pre-wrap;
+  }
+}
+
+:local(.force-messages-table-delete-cell) {
+  img {
+    margin-top: 5px;
+    width: 20px;
+    height: 20px;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+  }
 }

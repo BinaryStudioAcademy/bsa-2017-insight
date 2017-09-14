@@ -2,7 +2,6 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import isLength from 'validator/lib/isLength';
-import isURL from 'validator/lib/isURL';
 import equals from 'validator/lib/equals';
 import AvatarPreview from '../../landing/AvatarPreview/AvatarPreview';
 import styles from './styles.scss';
@@ -76,7 +75,7 @@ class AdminRegistration extends React.Component {
       if (this.state.info.length) return;
       const formData = new FormData(e.target);
       formData.set('avatar', this.state.image);
-      fetch('/api/apps/', {
+      fetch(`${window._injectedData.insightHost}/api/apps/`, {
         method: 'POST',
         body: formData,
         credentials: 'include',

@@ -1,42 +1,115 @@
 import React from 'react';
-import TextField from 'material-ui/TextField';
+import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import ForceMessagesTable from './forceMesagesTable';
 import styles from './styles.scss';
+import { fetchForceMessages, deleteForceMessage, createForceMessage } from './../../../../actions/forceMessagesActions';
 
-export default class ForceMessage extends React.Component {
+class ForceMessage extends React.Component {
   constructor(props) {
     super(props);
-    this.update = this.update.bind(this);
+    this.state = {
+      page: '',
+      body: 'How can I help you?',
+      timer: '10',
+    };
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onDeleteButtonClick = this.onDeleteButtonClick.bind(this);
   }
 
-  update(e) {
-    this.props.set(e.target.id, e.target.value);
+  componentDidMount() {
+    this.props.dispatch(fetchForceMessages());
+  }
+
+  onInputChange(event, property) {
+    this.setState({ [property]: event.target.value });
+  }
+
+  onFormSubmit(event) {
+    event.preventDefault();
+    const forceMessage = {
+      appId: window._injectedData.currentAppId,
+      page: this.state.page,
+      body: this.state.body,
+      timer: Number(this.state.timer) * 1000,
+    };
+    this.props.dispatch(createForceMessage(forceMessage));
+    this.setState({
+      page: '',
+      body: 'How can I help you?',
+      timer: '10',
+    });
+  }
+
+  onDeleteButtonClick(id) {
+    this.props.dispatch(deleteForceMessage(id));
   }
 
   render() {
     return (
-      <div className={styles['force-message-form']}>
-        <div>Force message:</div>
-        <TextField
-          hintText={'Force message'}
-          id={'forceMessage'}
-          onChange={this.update}
-          value={this.props.settings.forceMessage}
-          style={{ marginBottom: '15px' }}
+      <div className={styles['force-content-wrapper']}>
+        <ForceMessagesTable
+          forceMessages={this.props.forceMessages}
+          onDeleteButtonClick={this.onDeleteButtonClick}
         />
-        <div>Force message appears in</div>
-        <TextField
-          hintText={'Timeout seconds'}
-          id={'timeout'}
-          onChange={this.update}
-          value={this.props.settings.timeout}
-        />
+        <form className={styles['force-message-form']} onSubmit={this.onFormSubmit}>
+          <h2 className={styles['force-message-form-header']}>Create force message</h2>
+          <div>Target page:</div>
+          <TextField
+            className={styles['force-message-input']}
+            hintText="Select page/path"
+            id="page"
+            value={this.state.page}
+            onChange={e => this.onInputChange(e, 'page')}
+          />
+          <div>Message to appear:</div>
+          <TextField
+            className={styles['force-message-input']}
+            hintText="Message to pop up"
+            id="body"
+            value={this.state.body}
+            onChange={e => this.onInputChange(e, 'body')}
+            multiLine
+            rowsMax={4}
+          />
+          <div>Message timeout</div>
+          <TextField
+            type="number"
+            className={styles['force-message-input']}
+            hintText="Number of seconds"
+            id="timer"
+            value={this.state.timer}
+            onChange={e => this.onInputChange(e, 'timer')}
+          />
+          <div className={styles['add-button-wrapper']}>
+            <RaisedButton
+              type="submit"
+              className={styles['add-force-message-button']}
+              label="Create"
+              primary
+            />
+          </div>
+        </form>
       </div>
     );
   }
 }
 
 ForceMessage.propTypes = {
-  set: propTypes.func,
-  settings: propTypes.object,
+  forceMessages: propTypes.arrayOf(propTypes.shape({
+    _id: propTypes.string,
+    appId: propTypes.string,
+    page: propTypes.string,
+    body: propTypes.string,
+    timer: propTypes.number,
+    conditions: propTypes.object,
+  })),
+  dispatch: propTypes.func,
 };
+
+const mapDispatchToProps = state => ({ forceMessages: state.forceMessages.allForceMessages });
+
+export default connect(mapDispatchToProps)(ForceMessage);

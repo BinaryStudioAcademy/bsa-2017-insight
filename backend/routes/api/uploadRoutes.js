@@ -22,7 +22,7 @@ const upload = multer({ storage });
 module.exports = function (app) {
   app.post('/api/uploads', upload.single('codename'), (req, res) => {
     const resp = {
-      path: `http://localhost:3000/uploads/${req.finalName}`,
+      path: `${global.insightHost}/uploads/${req.finalName}`,
       fileType: req.fileType,
       fileName: req.fileName,
     };

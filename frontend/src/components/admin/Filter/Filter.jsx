@@ -13,12 +13,12 @@ class Filter extends React.Component {
       radioValue: {
         browser: 'emailValue',
         Name: 'nameValue',
-        'Last seen': 'last seen Value'
+        'Last seen': 'last seen Value',
       },
       initiallyOpen: {
         Email: false,
         Name: false,
-        'Last seen': false
+        'Last seen': false,
       },
       checkedCheckboxes: {
         browser: { status: false, alias: 'Browser' },
@@ -82,10 +82,10 @@ class Filter extends React.Component {
   }
 
   render() {
-    let nestedItems = Object.keys(this.state.checkedCheckboxes).map((elem) => {
-    return (<ListItem
+    const nestedItems = Object.keys(this.state.checkedCheckboxes).map((elem) => {
+      return (<ListItem
         style={{ fontSize: '14px' }}
-        innerDivStyle={{padding: '16px 0 16px 38px' }}
+        innerDivStyle={{ padding: '16px 0 16px 38px' }}
         leftCheckbox={
           <Checkbox
             onCheck={() => this.handleCheck(elem)}
@@ -110,7 +110,6 @@ class Filter extends React.Component {
 }
 
 Filter.propTypes = {
-  statisticOptions: React.PropTypes.arrayOf(React.PropTypes.string),
   selectedFields: React.PropTypes.arrayOf(React.PropTypes.string),
   updateFields: React.PropTypes.func,
 };

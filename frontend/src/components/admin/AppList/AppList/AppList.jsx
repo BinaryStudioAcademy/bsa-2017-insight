@@ -15,10 +15,6 @@ class AppList extends React.Component {
     this.props.getAppList();
   }
 
-  componentWillReceiveProps(nextProps) {
-    // console.log(nextProps);
-  }
-
   render() {
     return (
       <List

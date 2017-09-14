@@ -77,7 +77,7 @@ class AdminRegistration extends React.Component {
       const formData = new FormData(e.target);
       formData.set('adminGroups', this.state.adminGroups.join(','))
       formData.set('avatar', this.state.image);
-      fetch('/api/admin/registration/', {
+      fetch(`${window._injectedData.insightHost}/api/admin/registration/`, {
         method: 'POST',
         body: formData,
         credentials: 'include',

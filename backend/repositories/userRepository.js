@@ -7,6 +7,12 @@ const mongoose = require('mongoose');
 const userRepository = Object.create(Repository.prototype);
 userRepository.model = User;
 
+Repository.prototype.getAll = function (appId, callback) {
+  const model = this.model;
+  const query = model.find({ appId });
+  query.exec(callback);
+};
+
 userRepository.add = function (data, callback) {
   data.salt = bcrypt.genSaltSync(10);
   bcrypt.hash(data.password, data.salt, null, (err, hash) => {

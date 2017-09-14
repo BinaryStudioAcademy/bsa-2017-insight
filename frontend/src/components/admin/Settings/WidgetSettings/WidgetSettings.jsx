@@ -28,7 +28,7 @@ class WidgetSettings extends React.Component {
   }
 
   getSettings() {
-    fetch(`/api/widgets/${window._injectedData.appId}`, { credentials: 'include', method: 'GET' })
+    fetch(`${window._injectedData.insightHost}/api/widgets/${window._injectedData.appId}`, { credentials: 'include', method: 'GET' })
       .then((response) => {
         return response.json();
       })
@@ -44,7 +44,7 @@ class WidgetSettings extends React.Component {
       appId: window._injectedData.appId,
       options: this.state.settings,
     };
-    fetch(`/api/widgets/${window._injectedData.appId}`, {
+    fetch(`${window._injectedData.insightHost}/api/widgets/${window._injectedData.appId}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -71,19 +71,19 @@ class WidgetSettings extends React.Component {
     return (
       <div className={styles['settings-content-wrapper']}>
         <div className={styles['navigation-tabs-wrapper']}>
-          <div>
-            <RaisedButton
-              label="Save"
-              primary
-              onClick={this.save}
-              style={{ margin: '15px' }}
-            /> {this.state.info}
-          </div>
           <Tabs
             value={this.state.activeTab}
             onChange={this.handleChange}
           >
             <Tab label="Customize appearance" value="appearance">
+              <div>
+                <RaisedButton
+                  label="Save"
+                  primary
+                  onClick={this.save}
+                  style={{ margin: '15px' }}
+                /> {this.state.info}
+              </div>
               <div>
                 <h3 className={styles['customize-title']}>Customize appearance</h3>
                 <p className={styles['customize-text']}>Customize your Messenger’s color to suit your app or site, then choose a background wallpaper.</p>
@@ -105,9 +105,8 @@ class WidgetSettings extends React.Component {
               </div>
             </Tab>
             <Tab label="Force message" value="localize">
-              <div className={styles['force-content-wrapper']}>
-                <ForceMessage set={this.setSettings} settings={this.state.settings} />
-                <ChatLayout settings={this.state.settings} />
+              <div>
+                <ForceMessage settings={this.state.settings} />
               </div>
             </Tab>
             <Tab label="Install the Messenger" value="install">
@@ -118,11 +117,11 @@ class WidgetSettings extends React.Component {
                 <li>To integrate chat to your app/website just add the following lines to your site code before the <code>{'</body>'}</code> tag
                   <code className={styles.code}>
                     {`<script>window._injectedData = { currentAppId: '${window._injectedData.appId}'}</script>`}<br />
-                    {'<script src="http://localhost:3000/resources/widget/insight-widget.js"></script>'}
+                    {`<script src="${window._injectedData.insightHost}/resources/widget/insight-widget.js"></script>`}
                   </code>
                 </li>
                 <li>
-                  And... That's it!
+                  {'And... That\'s it!'}
                 </li>
               </ol>
             </Tab>

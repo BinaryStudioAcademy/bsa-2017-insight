@@ -2,19 +2,19 @@ import React from 'react';
 import isLength from 'validator/lib/isLength';
 import equals from 'validator/lib/equals';
 import isAfter from 'validator/lib/isAfter';
-import styles from './styles.scss';
-import AvatarPreview from '../AvatarPreview/AvatarPreview';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { red800 } from 'material-ui/styles/colors';
+import AvatarPreview from '../AvatarPreview/AvatarPreview';
+import styles from './styles.scss';
 
 const muiTheme = getMuiTheme({
   palette: {
-    textColor: red800
+    textColor: red800,
   },
   appBar: {
-    height: 50
-  }
+    height: 50,
+  },
 });
 
 class UserRegistration extends React.Component {
@@ -28,8 +28,8 @@ class UserRegistration extends React.Component {
         userName: '',
         password1: '',
         password2: '',
-        birstday: ''
-      }
+        birstday: '',
+      },
     };
 
     this.sendForm = this.sendForm.bind(this);
@@ -40,8 +40,8 @@ class UserRegistration extends React.Component {
   formValuesSaver(field, filledField) {
     this.setState({
       formValues: Object.assign(this.state.formValues, {
-        [field]: filledField.value.toString()
-      })
+        [field]: filledField.value.toString(),
+      }),
     });
   }
 
@@ -86,10 +86,10 @@ class UserRegistration extends React.Component {
       if (this.state.info.length) return;
       const formData = new FormData(e.target);
       formData.set('avatar', this.state.image);
-      fetch('/api/user/registration/', {
+      fetch(`${window._injectedData.insightHost}/api/user/registration/`, {
         method: 'POST',
         body: formData,
-        credentials: 'include'
+        credentials: 'include',
       }).then((response) => {
         if (response.redirected) return window.location.replace(response.url);
         return response.json();
@@ -156,15 +156,6 @@ class UserRegistration extends React.Component {
               placeholder="dd/mm/yyyy"
             />
           </div>
-          {/* <div className={styles['get-data']}>
-            <span>Gender</span>
-            <div>
-              <input type="radio" required name="gender" value="Male" id="male" />
-              <label htmlFor="male">Male</label>
-              <input type="radio" required name="gender" value="Female" id="female" />
-              <label htmlFor="female">Female</label>
-            </div>
-          </div> */}
           <div className={styles['get-data']}>
             <span>Email</span>
             <input type="email" name="email" required />
@@ -206,8 +197,8 @@ class UserRegistration extends React.Component {
         </form>
         <br />
         <div className={styles['error-message']}>
-          {this.state.info.map((err, i) => {
-            return (<span key={i}>{err}<br /></span>);
+          {this.state.info.map((err) => {
+            return (<span key={err}>{err}<br /></span>);
           })}
         </div>
       </div>

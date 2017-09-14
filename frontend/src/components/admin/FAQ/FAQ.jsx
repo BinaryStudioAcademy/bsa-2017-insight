@@ -13,7 +13,7 @@ class FAQ extends Component {
       selectedId: null,
       action: null, /* add, show or modify */
       searchedData: [],
-      disabled: true
+      disabled: true,
     };
 
     this.setSelectedId = this.setSelectedId.bind(this);
@@ -29,26 +29,26 @@ class FAQ extends Component {
     this.props.getFAQ();
   }
 
-  handleAction(action) {
-    this.setState({
-      disabled: false
-    });
-    this.setAction(action);
-  }
-
   setSelectedId(id) {
     const searchField = document.getElementById('search');
     searchField.value = '';
     this.setState({
-      action: "show"
-    })
+      action: 'show',
+    });
     this.props.setCurrentFAQ(id);
   }
 
   setAction(action) {
     this.setState({
-      action
+      action,
     });
+  }
+
+  handleAction(action) {
+    this.setState({
+      disabled: false,
+    });
+    this.setAction(action);
   }
 
   addQuestion(body) {
@@ -68,13 +68,13 @@ class FAQ extends Component {
     const results = [];
     const data = this.props.data;
     for (let i = 0; i < data.length; i++) {
-      if (data[i].question.toLowerCase().indexOf(searchField.value.toLowerCase()) !== -1) { 
-        results.push(data[i]); 
+      if (data[i].question.toLowerCase().indexOf(searchField.value.toLowerCase()) !== -1) {
+        results.push(data[i]);
       }
     }
     this.setState({
       searchedData: results,
-      action: 'search'
+      action: 'search',
     });
   }
 
@@ -110,7 +110,7 @@ class FAQ extends Component {
 const mapStateToProps = (state) => {
   return {
     data: state.faq.data,
-    currentQuestion: state.faq.currentQuestion
+    currentQuestion: state.faq.currentQuestion,
   };
 };
 
@@ -130,7 +130,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     setCurrentFAQ: (id) => {
       return dispatch(faqActions.setCurrentFAQ(id));
-    }
+    },
   };
 };
 
@@ -143,14 +143,15 @@ FAQ.propTypes = {
     _id: propTypes.string.isRequired,
     answer: propTypes.string.isRequired,
     question: propTypes.string.isRequired,
-    createdAt : propTypes.any.isRequired
+    createdAt: propTypes.any.isRequired,
   })),
   currentQuestion: propTypes.shape({
     _id: propTypes.string,
     answer: propTypes.string,
     question: propTypes.string,
-    createdAt : propTypes.any
-  })
+    createdAt: propTypes.any,
+  }),
+  setCurrentFAQ: propTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FAQ);

@@ -11,7 +11,10 @@ const SingleConversation = (props) => {
   const author = !!messages.length && messages[messages.length - 1].author ?
     messages[messages.length - 1].author : null;
   const userName = author ? (author.item.firstName || author.item.username) : null;
-  const userAvatar = author ? author.item.avatar : 'avatar.png';
+  let userAvatar = author ? author.item.avatar : 'avatar.png';
+  if (userAvatar.indexOf(window._injectedData.insightHost) === -1) {
+    userAvatar = `${window._injectedData.insightHost}/uploads/avatars/${userAvatar}`;
+  }
   const active = props.active ? 'conversation-item-active' : '';
   return (
     <div>
@@ -33,7 +36,7 @@ const SingleConversation = (props) => {
             props.handler();
             props.setStatistic(props.conversation);
           }}
-          leftAvatar={<Avatar src={`avatars/${userAvatar}`} />}
+          leftAvatar={<Avatar src={userAvatar} />}
           primaryText={typeof messages[messages.length - 1].body === 'object' ?
             `${messages[messages.length - 1].body.fileName}.${messages[messages.length - 1].body.fileType}` :
             <EmojiRender text={messages[messages.length - 1].body} />}

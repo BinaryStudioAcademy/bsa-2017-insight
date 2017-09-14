@@ -1,8 +1,8 @@
 function getFAQ() {
-  const url = 'http://localhost:3000/api/faq';
+  const url = `${window._injectedData.insightHost}/api/faq`;
   const requestOptions = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: null,
     method: 'GET',
@@ -18,10 +18,10 @@ function getFAQ() {
 }
 
 function getFAQById(id) {
-  const url = 'http://localhost:3000/api/faq/' + id;
+  const url = `${window._injectedData.insightHost}/api/faq/${id}`;
   const requestOptions = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: null,
     method: 'GET',
@@ -36,7 +36,7 @@ function getFAQById(id) {
 }
 
 function addFAQ(Body) {
-  const url = 'http://localhost:3000/api/faq';
+  const url = `${window._injectedData.insightHost}/api/faq`;
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',
@@ -54,12 +54,12 @@ function addFAQ(Body) {
 }
 
 function modifyFAQ(id, Body) {
-  const url = 'http://localhost:3000/api/faq/' + id;
+  const url = `${window._injectedData.insightHost}/api/faq/${id}`;
   const requestOptions = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    path: 'http://localhost:3000/api/faq/' + id,
+    path: `${window._injectedData.insightHost}/api/faq/${id}`,
     body: JSON.stringify(Body),
     method: 'PUT',
   };
@@ -70,10 +70,10 @@ function modifyFAQ(id, Body) {
 }
 
 function deleteFAQ(id) {
-  const url = 'http://localhost:3000/api/faq/' + id;
+  const url = `${window._injectedData.insightHost}/api/faq/${id}`;
   const requestOptions = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json'.anchor,
     },
     body: null,
     method: 'DELETE',

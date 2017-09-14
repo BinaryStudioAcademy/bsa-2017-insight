@@ -15,7 +15,7 @@ const FileList = (props) => {
             <img
               onClick={() => props.onUnselectFileButtonClick(file.name)}
               className={styles['close-button']}
-              src="http://localhost:3000/resources/widget/images/unselect-file-button.png"
+              src={`${window._injectedData.insightHost}/resources/widget/images/unselect-file-button.png`}
               alt="unselect-file"
             />
           </li>
@@ -34,7 +34,6 @@ FileList.propTypes = {
     type: propTypes.string,
     webkitRelativePath: propTypes.string,
   })),
-  onUnselectFileButtonClick: propTypes.func,
 };
 
 export default FileList;

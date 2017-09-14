@@ -43,7 +43,7 @@ module.exports = function (app) {
           subject: 'Reset Password',
           text: `
             To reset the password click on the following link:
-            http://localhost:3000/api/reset/${userType}/${token} 
+            ${global.insightHost}/api/reset/${userType}/${token}
           `,
         };
 

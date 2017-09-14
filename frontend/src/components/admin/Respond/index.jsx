@@ -21,7 +21,7 @@ class Respond extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.conversations) return;
+    if (nextProps.conversations) return;
     this.props.setConversationFilters(nextProps.conversationFilters);
   }
 
@@ -63,7 +63,6 @@ class Respond extends React.Component {
 
     const idToRender = this.props.conversationToRenderId || null;
     const convToChat = idToRender ? this.conversationToChat(idToRender) : null;
-    
     return (
       <div>
         {filters}
@@ -170,12 +169,10 @@ const mapDispatchToProps = (dispatch) => {
     setConversationFilters: (newFilters) => {
       dispatch({ type: 'SET_CONVERSATION_FILTERS', payload: newFilters });
     },
-    dispatch
   };
 };
 
 Respond.propTypes = {
-  getAllConversations: propTypes.func.isRequired,
   getStatisticById: propTypes.func.isRequired,
   conversations: propTypes.arrayOf(propTypes.shape({
     _id: propTypes.string.isRequired,
@@ -185,7 +182,7 @@ Respond.propTypes = {
     })).isRequired,
     messages: propTypes.arrayOf(propTypes.any).isRequired,
     open: propTypes.bool,
-    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string])
+    createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
   })),
   conversationToRenderId: propTypes.string,
   setConversation: propTypes.func.isRequired,
@@ -209,6 +206,11 @@ Respond.propTypes = {
     signedUpDate: propTypes.any,
     sessionsCounts: propTypes.number,
   }),
+  headerHeight: propTypes.number,
+  chosenTheme: propTypes.shape({}),
+  socketConnection: propTypes.shape({}),
+  setConversationFilters: propTypes.func,
+  conversationFilters: propTypes.shape({}),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Respond);

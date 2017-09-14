@@ -141,7 +141,7 @@ class Chat extends Component {
           method: 'POST',
           body: formData,
         };
-        fetch('http://localhost:3000/api/uploads', options)
+        fetch(`${window._injectedData.insightHost}/api/uploads`, options)
           .then(resp => resp.json())
           .then((data) => {
             const regex = /(png|gif|jpeg|jpg|bmp|tiff|svg)$/i;
@@ -358,12 +358,14 @@ Chat.propTypes = {
     open: propTypes.bool,
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
   }),
-  dispatch: propTypes.func,
   chosenTheme: propTypes.shape({
     borderRadius: propTypes.number,
     fontFamily: propTypes.string,
     palette: propTypes.object,
     spacing: propTypes.object,
+  }),
+  socketConnection: propTypes.shape({
+    emit: propTypes.func,
   }),
 };
 

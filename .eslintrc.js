@@ -24,6 +24,10 @@ module.exports = {
     "import/no-extraneous-dependencies": 0,
     "class-methods-use-this": 0,
     "no-useless-concat": 0,
-    'jsx-a11y/no-noninteractive-element-interactions': 0,
+    "no-else-return": 0,
+    "global-require": 0,
+    "react/no-did-mount-set-state": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "jsx-a11y/no-noninteractive-tabindex": 0,
   }
 };

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const insightHost = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'http://localhost:3001';
+const insightHost = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'http://78.129.225.86:3001';
 
 const widgetSchema = new Schema({
   appId: { type: Schema.Types.ObjectId, required: false }, // CHANGE TO "TRUE" LATER

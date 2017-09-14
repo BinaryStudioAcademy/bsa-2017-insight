@@ -28,77 +28,52 @@ function startSocketConnection(dispatch) {
     } else {
       dispatch(fetchMessage(message));
     }
-
-    // if(message.author.userType !== 'User') {
-    //   return;
-    // }
-    // let notification;
-    // const handler = () => {
-    //   this.props.navigateToConversation('mine', message.conversationId);
-    //   this.props.getStatisticById(message.author.item._id);
-    //   this.context.router.history.replace('/admin/respond');
-    //   notification.close();
-    // }
-    // if (!("Notification" in window)) {
-    //   return console.log('Notifications are not supported');
-    // } else if (Notification.permission === "granted") {
-    //     notification = new Notification(`${message.author.item.firstName || message.author.item.username } ${message.author.item.lastName || ''}: ${message.body}`);
-    //     notification.onclick = handler;
-    // } else if (Notification.permission !== 'denied') {
-    //   Notification.requestPermission(function (permission) { 
-    //     if (permission === "granted") {
-    //       notification = new Notification(`${message.author.item.firstName || message.author.item.username } ${message.author.item.lastName || ''}: ${message.body}`);
-    //       notification.onclick = handler;
-    //     }
-    //   });
-    // }
   });
 
   this.socket.on('newConversationCreated', (data) => {
     let notification;
     const handler = () => {
-      this.props.navigateToConversation('unpicked', data.conversation._id)
+      this.props.navigateToConversation('unpicked', data.conversation._id);
       this.props.getStatisticById(data.conversation.participants[0].user);
       this.context.router.history.replace('/admin/messenger');
       notification.close();
-    }
-    if (!("Notification" in window)) {
+    };
+    if (!('Notification' in window)) {
       return console.log('Notifications are not supported');
-    } else if (Notification.permission === "granted") {
-        notification = new Notification('New unpicked conversation. Click to open');
-        notification.onclick = handler;
+    } else if (Notification.permission === 'granted') {
+      notification = new Notification('New unpicked conversation. Click to open');
+      notification.onclick = handler;
     } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission(function (permission) { 
-        if (permission === "granted") {
+      Notification.requestPermission((permission) => {
+        if (permission === 'granted') {
           notification = new Notification('New unpicked conversation. Click to open');
           notification.onclick = handler;
         }
+        return permission;
       });
     }
+    return notification;
   });
 
   this.socket.on('reassigned conversation', (data) => {
-    console.log(Notification.permission);
-    if(data.to !== window._injectedData._id) return;
+    if (data.to !== window._injectedData._id) return;
     let notification;
     const handler = () => {
       this.props.getStatisticById(data.userId);
-      this.props.navigateToConversation('mine', data.conversationId)
+      this.props.navigateToConversation('mine', data.conversationId);
       this.context.router.history.replace('/admin/messenger');
       notification.close();
-    }
-    if (!("Notification" in window)) {
-      return console.log('Notifications are not supported');
-    } else if (Notification.permission === "granted") {
-        notification = new Notification('You have been assigned a new conversation. Click to open');
-        notification.onclick = handler;
-        
+    };
+    if (Notification.permission === 'granted') {
+      notification = new Notification('You have been assigned a new conversation. Click to open');
+      notification.onclick = handler;
     } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission(function (permission) { 
-        if (permission === "granted") {
+      Notification.requestPermission((permission) => {
+        if (permission === 'granted') {
           notification = new Notification('You have been assigned a new conversation. Click to open');
           notification.onclick = handler;
         }
+        return permission;
       });
     }
   });
@@ -108,4 +83,3 @@ function startSocketConnection(dispatch) {
 }
 
 export default startSocketConnection;
-

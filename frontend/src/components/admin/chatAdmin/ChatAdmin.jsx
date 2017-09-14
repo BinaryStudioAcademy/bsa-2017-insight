@@ -45,15 +45,14 @@ class Chat extends Component {
     const input = document.getElementById('input');
     this.setState({ input });
 
-    let isParticipant = conversation.participants.find((participant) => {
+    const isParticipant = conversation.participants.find((participant) => {
       return participant.user._id === currentAdmin._id;
     });
 
     this.setState({
-      isParticipant: isParticipant ? true : false,
-      showPickBtn: conversation.participants.length === 1 ? true : false,
+      isParticipant: isParticipant && true,
+      showPickBtn: conversation.participants.length === 1 && true,
     });
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,12 +65,12 @@ class Chat extends Component {
       this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
     }
 
-    let isParticipant = newConversation.participants.find((participant) => {
+    const isParticipant = newConversation.participants.find((participant) => {
       return participant.user._id === currentAdmin._id;
     });
     this.setState({
-      isParticipant: isParticipant ? true : false,
-      showPickBtn: newConversation.participants.length === 1 ? true : false,
+      isParticipant: isParticipant && true,
+      showPickBtn: newConversation.participants.length === 1 && true,
       info: '',
     });
   }
@@ -192,13 +191,13 @@ class Chat extends Component {
   pickConversation() {
     fetch('/api/conversations/pick', {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify({ id: this.props.conversationToRender._id }),
-    }).then(response => response.json()).then(response => {
-      if(response.ok) {
+    }).then(response => response.json()).then((response) => {
+      if (response.ok) {
         this.props.conversationToRender.participants.push({ user: { _id: window._injectedData._id } });
         this.setState({
           isParticipant: true,
@@ -226,20 +225,20 @@ class Chat extends Component {
     }, () => {
       this.setState({
         isParticipant: false,
-      })
+      });
     });
   }
 
   handlePopoverOpen(e) {
     this.setState({
       isPopoverOpened: true,
-      anchorEl: e.currentTarget
+      anchorEl: e.currentTarget,
     });
   }
 
   handlePopoverClose() {
     this.setState({
-      isPopoverOpened: false
+      isPopoverOpened: false,
     });
   }
 
@@ -257,7 +256,6 @@ class Chat extends Component {
           <RaisedButton
             onClick={this.handlePopoverOpen}
             label="Reassign"
-            style={{ width: '100px' }}
             style={this.state.isParticipant ? { display: 'block', width: '100px' } : { display: 'none' }}
           />
           <Popover

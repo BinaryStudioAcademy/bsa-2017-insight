@@ -176,9 +176,6 @@ AdminPage.propTypes = {
   fieldsToDisplay: PropTypes.arrayOf(PropTypes.string),
   updateFields: PropTypes.func,
   currentUser: PropTypes.shape(),
-  getAllConversations: PropTypes.func,
-  getStatisticById: PropTypes.func,
-  navigateToConversation: PropTypes.func,
   dispatch: PropTypes.func,
 };
 

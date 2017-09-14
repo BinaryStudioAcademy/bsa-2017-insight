@@ -63,7 +63,7 @@ class AdminRegistration extends React.Component {
         || !/\d/.test(this.state.formValues.password2)) {
       errors.push('Password should contain both letters and digits');
     }
-    if(!this.state.adminGroups.length) {
+    if (!this.state.adminGroups.length) {
       errors.push('Select at least one admin group');
     }
     return errors;
@@ -75,7 +75,7 @@ class AdminRegistration extends React.Component {
     this.setState({ info: this.formValidator() }, () => {
       if (this.state.info.length) return;
       const formData = new FormData(e.target);
-      formData.set('adminGroups', this.state.adminGroups.join(','))
+      formData.set('adminGroups', this.state.adminGroups.join(','));
       formData.set('avatar', this.state.image);
       fetch(`${window._injectedData.insightHost}/api/admin/registration/`, {
         method: 'POST',
@@ -101,7 +101,6 @@ class AdminRegistration extends React.Component {
   }
 
   changeadminGroups(event, index, values) {
-    console.log(values);
     this.setState({ adminGroups: values });
   }
   render() {
@@ -162,25 +161,25 @@ class AdminRegistration extends React.Component {
             onChange={e => this.formValuesSaver('password2', e.target)}
           /><br /><br />
           <SelectField
-            multiple={true}
+            multiple
             value={this.state.adminGroups}
             hintText="Select your group"
             onChange={this.changeadminGroups}
           >
             <MenuItem
-              insetChildren={true}
+              insetChildren
               checked={this.state.adminGroups.indexOf('general') > -1}
               value={'general'}
               primaryText={'General'}
             />
             <MenuItem
-              insetChildren={true}
+              insetChildren
               checked={this.state.adminGroups.indexOf('all') > -1}
               value={'all'}
               primaryText={'All'}
             />
             <MenuItem
-              insetChildren={true}
+              insetChildren
               checked={this.state.adminGroups.indexOf('technical') > -1}
               value={'technical'}
               primaryText={'Technical'}

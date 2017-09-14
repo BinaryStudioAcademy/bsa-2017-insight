@@ -19,7 +19,7 @@ const upload = multer({ storage });
 
 module.exports = function (app) {
 
-  app.post('/api/admin/login/', (req, res, next) => {
+  app.post('/api/admin/login', (req, res, next) => {
     if (req.user) return res.redirect('/');
     checkVerification(req, (data) => {
       if (data) {
@@ -47,7 +47,11 @@ module.exports = function (app) {
             }
             req.logIn(user, (err) => {
               if (err) return next(err);
-              res.redirect('/admin');
+              if (req.body.device === 'mobile') {
+                res.redirect('/mobile');
+              } else {
+                res.redirect('/admin');
+              }
             });
           });
         })(req, res, next);

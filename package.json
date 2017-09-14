@@ -26,6 +26,7 @@
     "crypto": "0.0.3",
     "express": "^4.15.3",
     "express-api-response": "^0.4.0",
+    "express-device": "^0.4.2",
     "express-session": "^1.15.5",
     "fast-deep-equal": "^1.0.0",
     "forwarded": "^0.1.1",

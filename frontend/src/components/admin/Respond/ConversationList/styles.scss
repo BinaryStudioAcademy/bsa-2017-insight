@@ -1,0 +1,10 @@
+@import '../../../../common/styles/variables';
+
+:local(.date-time) {
+  border-bottom: 2px solid $landing-middlegrey;
+  background-color: white; 
+  text-align: center;
+  margin: 20px auto 0px auto;
+  padding: 5px;
+  width: 210px;
+}

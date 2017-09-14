@@ -1,15 +1,34 @@
 :local(.messages-list) {
   margin: 0;
   width: 100%;
-  // height: 80vh;
-  // border-left: 1px solid #E0E0E0;
-  // border-right: 1px solid #E0E0E0;
   flex-grow: 2;
   overflow: auto;
   background-color: white;
   list-style: none;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  // padding: 20px;
   box-sizing: border-box;
+}
+
+// :local(.message-container) {
+//   margin: 0;
+//   width: 100%;
+//   flex-grow: 2;
+//   overflow: auto;
+//   background-color: white;
+//   list-style: none;
+//   display: flex;
+//   flex-direction: column;
+//   // padding: 20px;
+//   box-sizing: border-box;
+// }
+
+:local(.date-time) {
+  background-color: #d4f0fe; 
+  text-align: center;
+  width: 140px;
+  margin: 5px auto 10px auto;
+  padding: 5px;
+  border-radius: 10px;
 }

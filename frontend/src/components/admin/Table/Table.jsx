@@ -10,6 +10,7 @@ import styles from './styles.scss';
 import Filter from '../Filter/Filter';
 import TableItself from './TableItself';
 import { addSelection } from '../../../actions/selectionActions';
+import StatisticsCharts from '../StatisticsCharts/StatisticsCharts';
 
 class UserInfoTable extends React.Component {
   constructor() {
@@ -19,12 +20,14 @@ class UserInfoTable extends React.Component {
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
     this.updateFields = this.updateFields.bind(this);
+    this.switchChartsOrTable = this.switchChartsOrTable.bind(this);
 
     this.state = {
       open: false,
       selDialogOpen: false,
       rowsPerPage: 5,
       currentPage: 1,
+      showTable: true,
     };
   }
 
@@ -61,6 +64,10 @@ class UserInfoTable extends React.Component {
 
   updateFields(fields) {
     this.setState({ fieldsToUpdate: fields });
+  }
+
+  switchChartsOrTable() {
+    this.setState({ showTable: !this.state.showTable });
   }
 
   render() {
@@ -119,6 +126,21 @@ class UserInfoTable extends React.Component {
                 />
               </form>
             </Dialog>
+            {(this.state.showTable) ?
+            <RaisedButton
+              label="Show charts"
+              onClick={() => this.switchChartsOrTable()}
+              primary
+              id='switchTableChartsButton'
+              style={{ margin: '0 5px 10px 0' }}
+            /> :
+            <RaisedButton
+              label="Show table"
+              onClick={() => this.switchChartsOrTable()}
+              primary
+              id='switchTableChartsButton'
+              style={{ margin: '0 5px 10px 0' }}
+            />}
           </div>
           <div className={styles.rowsPerPage}>
             <p>Rows per page:</p>
@@ -134,13 +156,19 @@ class UserInfoTable extends React.Component {
             </SelectField>
           </div>
         </div>
+        {(this.state.showTable) ? 
         <TableItself
           statistics={this.props.statistics}
           options={this.props.options}
           rowsPerPage={this.state.rowsPerPage}
           currentPage={this.state.currentPage}
           changeCurrentPage={this.changeCurrentPage}
+        /> :
+        <StatisticsCharts
+          selectedFields={this.props.options}
+          statistics={this.props.statistics}
         />
+        }
       </div>
     );
   }

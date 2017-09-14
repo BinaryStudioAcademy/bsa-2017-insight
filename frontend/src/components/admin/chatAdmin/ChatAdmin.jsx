@@ -173,6 +173,46 @@ class Chat extends Component {
     this.setState({ text: '' });
   }
 
+  getMessageDate(){
+    const dayDividers = document.getElementsByClassName('dateTime');
+    const messageList = document.getElementById('messageList');
+    if (messageList !== null)
+      {
+        const chatCoordinates = messageList.getBoundingClientRect();
+        for (var i = dayDividers.length-1; i >= 0; i--)
+        {
+          const dayDividerCoordinates = dayDividers[i].getBoundingClientRect();
+          if (dayDividerCoordinates.top < chatCoordinates.top)
+            {
+              dayDividers[i].style.position = 'sticky';
+              dayDividers[i].style.top = '5px';
+              break;
+            }
+        }
+      }
+  }
+
+  convertDate(date){
+    var months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    var date = new Date(date);
+    var month = date.getMonth();
+    var text = months[month] + ' ' + date.getDate();
+    return text;
+  }
+
   render() {
     const conversationToRender = this.props.conversationToRender;
     const messages = conversationToRender ? conversationToRender.messages : null;
@@ -182,7 +222,11 @@ class Chat extends Component {
         role="presentation"
         onClick={e => this.closeEmojiBlock(e)}
       >
-        <MessagesList messages={messages} chosenTheme={this.props.chosenTheme} />
+        <MessagesList 
+          messages={messages} 
+          chosenTheme={this.props.chosenTheme} 
+          getMessageDate={this.getMessageDate}
+          convertDate={this.convertDate} />
         <form className={styles['sending-form']} onSubmit={this.messageSubmit}>
           <RaisedButton
             className={styles['selected-files-counter']}

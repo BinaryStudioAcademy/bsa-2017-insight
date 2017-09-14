@@ -4,7 +4,6 @@ import styles from './styles.scss';
 import UserInfoTable from '../Table/Table';
 import ColumnsFilter from '../ColumnsFilter/ColumnsFilter';
 import StatisticsFilter from '../StatisticsFilter/StatisticsFilter';
-import StatisticsCharts from '../StatisticsCharts/StatisticsCharts';
 
 class Homepage extends React.Component {
   constructor(props) {
@@ -56,10 +55,6 @@ class Homepage extends React.Component {
           options={this.props.fieldsToDisplay}
           statistics={this.props.statistics}
           chosenTheme={this.props.chosenTheme}
-        />
-        <StatisticsCharts
-          selectedFields={this.props.fieldsToDisplay}
-          statistics={this.props.statistics}
         />
       </div>
     );

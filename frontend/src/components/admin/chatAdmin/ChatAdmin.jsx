@@ -74,21 +74,6 @@ class Chat extends Component {
       showPickBtn: newConversation.participants.length === 1 ? true : false,
       info: '',
     });
-
-    // Notifications
-    // const messageNumProps = nextProps.conversationToRender.messages.length;
-    // if (this.state.messageNum === 0) {
-    //   this.setState({ messageNum: messageNumProps });
-    // } else if (this.state.messageNum !== messageNumProps) {
-    //   const newMessage = nextProps.conversationToRender.messages[messageNumProps - 1];
-    //   const currentUser = window._injectedData.userId ?
-    //     window._injectedData.userId.username : window._injectedData.username;
-    //   this.setState({ messageNum: messageNumProps });
-    //   if (newMessage.author.item.username !== currentUser) {
-    //     notifications.api(newMessage);
-    //     notifications.title();
-    //   }
-    // }
   }
 
   componentWillUnmount() {

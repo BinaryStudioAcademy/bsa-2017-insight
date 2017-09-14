@@ -14,6 +14,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const flash = require('connect-flash');
+const device = require('express-device');
 
 const port = 3001;
 const socketConnectionHandler = require('./socketConnection');
@@ -22,6 +23,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(device.capture());
 app.use(cookieParser(sessionSecret));
 
 app.use(session({

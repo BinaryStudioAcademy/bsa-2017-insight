@@ -5,15 +5,18 @@ import EmojiRender from '../../../emojiRender';
 
 const Message = ({ name, body, messageStyle, isReceived, type, avatar, userMessageColor }) => {
   const messageAuthor = messageStyle === 'force-message' ? null : name;
+  let avatarSrc = avatar;
   let status;
   if (type === 'User') {
     status = isReceived ? 'Seen' : 'Not seen';
   } else {
     status = '';
   }
-  const avatarSrc = avatar === 'avatar.png' ?
-    'https://www.materialist.com/static/new_store/images/avatar_placeholder.svg' :
-    avatar;
+  if (avatarSrc && avatarSrc.indexOf(window._injectedData.insightHost) === -1) {
+    avatarSrc = `${window._injectedData.insightHost}/uploads/avatars/${avatarSrc}`;
+  } else if (!avatarSrc) {
+    avatarSrc = 'https://www.materialist.com/static/new_store/images/avatar_placeholder.svg';
+  }
   const statusSpan = <span className={styles['message-status']}>{status}</span>;
   const senderAvatar = <img className={styles['sender-avatar']} src={avatarSrc} alt="sender-avatar" />;
   let message;

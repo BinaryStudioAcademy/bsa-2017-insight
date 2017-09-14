@@ -11,7 +11,7 @@ module.exports = function (req, res, obj, error) {
     if (req.user) {
       obj = req.user;
     }
-    if (req.device.type === 'phone' || req.device.type === 'tablet') {
+    if (req.params[0] === '/mobile') {
       res.status(200).json(req.user);
     } else {
       res.header = ('Content-Type', 'text/html');

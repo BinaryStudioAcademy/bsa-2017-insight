@@ -29,10 +29,10 @@
       color: #ffffff;
 
       &:before {
-        background-image: url("http://localhost:3000/resources/widget/images/two-left-arrows-white.png");
+        background-image: url("/resources/widget/images/two-left-arrows-white.png");
       }
     }
-    
+
     &:before {
       content: '';
       position: absolute;
@@ -40,7 +40,7 @@
       top: 10px;
       width: 25px;
       height: 25px;
-      background: url("http://localhost:3000/resources/widget/images/two-left-arrows.png") center no-repeat;
+      background: url("/resources/widget/images/two-left-arrows.png") center no-repeat;
       background-size: contain;
     }
 

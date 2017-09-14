@@ -24,10 +24,10 @@ const isIntroduced = {
   skipped: false,
 };
 
-function getForceMessage(conversation) {
+function getForceMessage(conversation, forceMessageBody) {
   const forceMessage = {
     _id: (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24),
-    body: 'How can I help you ?',
+    body: forceMessageBody,
     createdAt: Date.now(),
     forceMessage: true,
   };
@@ -56,10 +56,10 @@ function returnNewState(messages, conversationId, conversations) {
   return [...oldConversations, conversationItem];
 }
 
-function startSocketConnection(socket) {
+function startSocketConnection(socket, forceMessageBody) {
   const id = window._injectedData.anonymousId || window._injectedData.userId._id;
   socket.on('user connected', () => {
-    console.log('connected to the server succesfully');
+    console.log('connected to the server successfully');
   });
   const userObj = {
     type: 'User',
@@ -75,7 +75,7 @@ function startSocketConnection(socket) {
       this.onForceConversation();
     }
     if (window._injectedData.forceConvId && this.props.force) {
-      const convWithForceMessage = getForceMessage(conversations);
+      const convWithForceMessage = getForceMessage(conversations, forceMessageBody);
       this.socket.emit('switchRoom', window._injectedData.forceConvId);
       this.setState({ conversations: convWithForceMessage, activeChatId: window._injectedData.forceConvId });
     } else {
@@ -123,8 +123,7 @@ function startSocketConnection(socket) {
     });
   });
   socket.on('forceConversationCreated', (conversation) => {
-    const convWithForceMessage = getForceMessage(conversation);
-    console.log('convWithForceMessage:', convWithForceMessage);
+    const convWithForceMessage = getForceMessage(conversation, forceMessageBody);
     const newConversations = [...this.state.conversations, convWithForceMessage];
     window._injectedData.forceConvId = conversation._id;
     this.setState({

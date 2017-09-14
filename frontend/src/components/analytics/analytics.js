@@ -24,9 +24,9 @@
   function sendStatistics(id, method) {
     let url;
     if (method === 'POST') {
-      url = 'http://localhost:3000/api/statistics';
+      url = `${window._injectedData.insightHost}/api/statistics`;
     } else {
-      url = `http://localhost:3000/api/statistics/${id}`;
+      url = `${window._injectedData.insightHost}/api/statistics/${id}`;
     }
     const requestOptions = {
       headers: {
@@ -55,7 +55,7 @@
       body: JSON.stringify(userObject),
       method: 'POST',
     };
-    return fetch('http://localhost:3000/api/users', requestOptions);
+    return fetch(`${window._injectedData.insightHost}/api/users`, requestOptions);
   }
 
   function saveUrlHistory() {

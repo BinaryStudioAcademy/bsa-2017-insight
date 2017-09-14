@@ -1,8 +1,6 @@
 import React from 'react';
 import * as setups from '../settings';
 
-const categories = setCategory(setups.categories);
-
 function trim(string) {
   const stringToTrim = string;
   const lastIndex = stringToTrim.lastIndexOf(':');
@@ -21,7 +19,7 @@ function getParseString(res, handler) {
     if (/:\S[^:]+:/.test(e) || /:\S+:/.test(e)) {
       const key = (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24);
       if (handler) {
-        return <span onClick={(event) => handler(event)} role="presentation" data-name={e} key={`${trim(e)}${key}`} style={getStyles(e)} />
+        return <span onClick={event => handler(event)} role="presentation" data-name={e} key={`${trim(e)}${key}`} style={getStyles(e)} />;
       }
       return <span key={`${trim(e)}${key}`} data-name={e} style={getStyles(e)} />;
     }
@@ -36,7 +34,9 @@ function get(stringToParse) {
   let result = null;
   const regExp = /:\S[^:]+:/g;
 
-  while (result = regExp.exec(stringToParse)) {
+  while (true) {
+    result = regExp.exec(stringToParse);
+    if (!result) break;
     indexes.push(result.index, regExp.lastIndex);
   }
 
@@ -50,7 +50,7 @@ function get(stringToParse) {
 
   indexes.reduce((prev, curr) => {
     itemsToRender.push(stringToParse.slice(prev, curr));
-    return prev = curr;
+    return prev;
   });
 
 
@@ -68,12 +68,6 @@ function get(stringToParse) {
   return getParseString(newItemsToRender);
 }
 
-function category(categoryFromComp, handler) {
-  const cat = categoryFromComp.toLowerCase();
-  const categoryExist = categories[cat] ? categories[cat] : false;
-  return categoryExist ? getParseString(categoryExist, handler) : getParseString(Object.keys(setups.map), handler);
-}
-
 function setCategory(arr) {
   const localCat = {};
   arr.forEach((cat) => {
@@ -82,6 +76,14 @@ function setCategory(arr) {
     });
   });
   return localCat;
+}
+
+const categories = setCategory(setups.categories);
+
+function category(categoryFromComp, handler) {
+  const cat = categoryFromComp.toLowerCase();
+  const categoryExist = categories[cat] ? categories[cat] : false;
+  return categoryExist ? getParseString(categoryExist, handler) : getParseString(Object.keys(setups.map), handler);
 }
 
 export { get, category };

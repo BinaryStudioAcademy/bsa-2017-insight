@@ -34,7 +34,7 @@ class TopMenuItem extends React.Component {
 TopMenuItem.propTypes = {
   submenu: PropTypes.arrayOf(PropTypes.object),
   link: PropTypes.string,
-  name: PropTypes.string
+  name: PropTypes.string,
 };
 
 export default TopMenuItem;

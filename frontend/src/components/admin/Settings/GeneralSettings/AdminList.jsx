@@ -64,7 +64,7 @@ class AdminList extends React.Component {
 
   save() {
     const id = this.props._id;
-    fetch(`/api/admins/${id}`, {
+    fetch(`${window._injectedData.insightHost}/api/admins/${id}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -88,7 +88,7 @@ class AdminList extends React.Component {
         <CardHeader
           title={this.props.username}
           subtitle={usersProfile}
-          avatar={this.props.avatar}
+          avatar={`${window._injectedData.insightHost}/uploads/avatars/${this.props.avatar}`}
           actAsExpander
           showExpandableButton
         />

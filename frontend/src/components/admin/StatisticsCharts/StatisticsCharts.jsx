@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Toggle from 'material-ui/Toggle';
 import { BarChart, Bar, PieChart, Pie, XAxis, Tooltip, Legend, Cell } from 'recharts';
 import randomColor from 'random-material-color';
@@ -52,7 +53,6 @@ class StatisticsCharts extends React.Component {
     for (const stat in statValues) {
       statistics.statValues.push({ name: stat, value: statValues[stat] });
     }
-    // this.setState({ statisticsData: [...this.state.statisticsData, statistics] });
     return statistics;
   }
 
@@ -135,5 +135,10 @@ class StatisticsCharts extends React.Component {
     );
   }
 }
+
+StatisticsCharts.propTypes = {
+  statistics: PropTypes.arrayOf(PropTypes.shape()),
+  selectedFields: PropTypes.arrayOf(PropTypes.string),
+};
 
 export default StatisticsCharts;

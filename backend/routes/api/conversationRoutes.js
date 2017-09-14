@@ -2,9 +2,7 @@ const conversationRepository = require('../../repositories/conversationRepositor
 
 module.exports = (app) => {
   app.get('/api/conversations/', (req, res) => {
-    // console.log('--------');
-    // console.log('req.user');
-    // console.log(req.user);
+    if (!req.user) return res.status(204).end();
     conversationRepository.getAllConversations(req.user.appId, (err, data) => {
       if (err) {
         console.log(err);

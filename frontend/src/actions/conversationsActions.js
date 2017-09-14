@@ -18,9 +18,17 @@ const removeConversations = () => {
   };
 };
 
+const updateConversations = (conversations) => {
+  return {
+    type: 'UPDATE_CONVERSATIONS',
+    payload: conversations,
+  };
+};
+
 export {
   getAllConversations,
   setConversation,
   fetchMessage,
   removeConversations,
+  updateConversations,
 };

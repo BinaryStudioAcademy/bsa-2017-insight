@@ -1,6 +1,7 @@
 // const passport = require('passport');
 const adminRepository = require('../../repositories/adminRepository');
 const appRepository = require('../../repositories/appRepository');
+const mailchimpSettingsRepository = require('../../repositories/mailchimpSettingsRepository');
 const multer = require('multer');
 const mime = require('mime');
 
@@ -30,6 +31,7 @@ module.exports = function (app) {
       username: req.body.username,
       isAdmin: true,
       isSuperUser: true,
+      isServiceAdmin: req.body.appName === 'InSight',
       verified: true,
       moderator: true,
     };
@@ -37,6 +39,7 @@ module.exports = function (app) {
       name: req.body.appName,
       url: req.body.appUrl,
       description: req.body.appDescription,
+      isActive: req.body.appName === 'InSight',
     };
 
     adminRepository.getByUsername(generalAdminData.username, (admin1Err, admin1Data) => {
@@ -50,7 +53,10 @@ module.exports = function (app) {
           if (appErr) return next(appErr);
           adminRepository.update(admin2Data._id, { $set: { appId: createdAppData._id } }, (admin3Err, admin3Data) => {
             if (admin3Err) return next(admin3Err);
-            res.redirect('/admin/login');
+            mailchimpSettingsRepository.add({ appId: createdAppData._id }, (mailchimpErr, mailchimpData) => {
+              if (mailchimpErr) return next(mailchimpErr);
+              res.redirect('/admin/login');
+            });
           });
         });
       });

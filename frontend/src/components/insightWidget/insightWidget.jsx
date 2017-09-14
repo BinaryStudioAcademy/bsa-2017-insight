@@ -13,7 +13,9 @@ if (!window._injectedData) {
   window._injectedData = { text: 'injectedData' };
 }
 
-// window._injectedData.insightHost = 'http://localhost:3000';
+if (!window._injectedData) window._injectedData = { text: 'injectedData' };
+window._injectedData.insightHost = process.env.NODE_ENV === 'development' ?
+  'http://localhost:3001' : 'http://78.129.225.86:3001';
 
 WebFont.load({
   google: {
@@ -28,6 +30,7 @@ render(
     { !window._injectedData.isAdmin ?
       <Switch>
         <Route path={'/admin'} />
+        <Route path={'/app'} />
         <Route component={ChatWidget} />
       </Switch> : <div />
     }

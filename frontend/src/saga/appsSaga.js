@@ -2,19 +2,19 @@ import { takeEvery, put } from 'redux-saga/effects';
 
 const fetchSelectionAPI = {
   allApps: () => {
-    return fetch('/api/apps')
+    return fetch(`${window._injectedData.insightHost}/api/apps`)
       .then(res => res.json())
       .then(apps => apps)
       .catch(err => console.log(`Can't load a list of apps: ${err}`));
   },
   singleApp: (id) => {
-    return fetch(`/api/apps/${id}`)
+    return fetch(`${window._injectedData.insightHost}/api/apps/${id}`)
       .then(res => res.json())
       .then(app => app)
       .catch(err => console.log(`Can't load a single app: ${err}`));
   },
   toggleApp: (id) => {
-    return fetch(`/api/apps/${id}/toggle`, {
+    return fetch(`${window._injectedData.insightHost}/api/apps/${id}/toggle`, {
       method: 'put',
     })
       .then(res => res.json())

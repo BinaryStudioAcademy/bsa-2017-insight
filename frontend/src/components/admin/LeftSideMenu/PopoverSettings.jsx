@@ -43,7 +43,6 @@ class PopoverSettings extends React.Component {
   render() {
     return (
       <div>
-
         <NavLink to={'/admin/settings/general'}>
           <IconButton
             style={{ width: this.props.width }}
@@ -68,6 +67,9 @@ class PopoverSettings extends React.Component {
             </NavLink>
             <NavLink to={'/admin/settings/widget'}>
               <MenuItem onClick={this.handleRequestClose} primaryText="Widget" />
+            </NavLink>
+            <NavLink to={'/admin/settings/mailchimp'}>
+              <MenuItem onClick={this.handleRequestClose} primaryText="MailChimp" />
             </NavLink>
           </Menu>
         </Popover>

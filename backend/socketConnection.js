@@ -58,6 +58,7 @@ function connectionHandler(socket) {
         }
         const id = data._id;
         socket.emit('newMessage', messageToSend);
+        socket.broadcast.emit('newMessageToRespond');
         socket.broadcast.to(room).emit('newMessage', messageToSend);
         ConversationRepository.model
           .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) } })
@@ -81,6 +82,10 @@ function connectionHandler(socket) {
 
   socket.on('messagesReceived', (data) => {
     const room = socket.room;
+
+    if (!data.messages.length) {
+      return socket.broadcast.to(room).emit('messagesReceived', []);
+    }
 
     if (data.type === 'Admin') {
       const searchObj = {

@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.filter-panel {
+  display: flex;
+  align-items: center;
+
+  .remove-filter {
+    font-size: 12px;
+    text-decoration: none;
+    border-bottom: 1px dotted #fb9a9a;
+    color: #fb9a9a;
+    cursor: pointer;
+  }
+
+  .filter-panel-link {
+    text-decoration: none;
+    color: #00bcd4;
+    margin: 0 5px;
+    cursor: pointer;
+
+    &:hover, &.active {
+      color: #096b77;
+      border-bottom: 1px dotted #096b77;
+    }
+  }
+}
+
+.conversation-filter {
+  overflow: hidden;
+  .date-tab {
+    .date-type {
+      margin: 10px 0;
+    }
+  }
+  .tab-name {
+    width: 96%;
+    margin-top: 15px;
+    padding: 8px;
+    background-color: #eff0f1;
+    color: #084a8c;
+    border-radius: 5px;
+  }
+}
+
+:local(.conv-filter-dialog) {
+  .dialog-btn {
+    margin: 0 5px;
+  }
+}

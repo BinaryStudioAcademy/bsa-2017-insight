@@ -6,13 +6,14 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 const adminSchema = new Schema({
   globalId: Schema.Types.ObjectId,
-  appId: { type: Schema.Types.ObjectId, required: false }, // CHANGE TO "TRUE" LATER
+  appId: { type: Schema.Types.ObjectId },
   isSuperUser: { type: Boolean, default: false },
   moderator: { type: Boolean, default: false },
   username: { type: String, required: true, unique: true },
   password: String,
   email: String,
   isAdmin: Boolean,
+  isServiceAdmin: Boolean,
   firstName: String,
   lastName: String,
   avatar: String,

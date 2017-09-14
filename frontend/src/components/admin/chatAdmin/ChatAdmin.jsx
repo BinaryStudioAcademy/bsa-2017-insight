@@ -3,7 +3,6 @@ import propTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import styles from './styles.scss';
 import MessagesList from './MessagesList/MessagesList';
-import { startSocketConnection } from './logic';
 // import notifications from '../../notifications/notifications';
 import EmojiContainer from '../../emojiRender/EmojiContainer';
 
@@ -32,7 +31,8 @@ class Chat extends Component {
 
   componentDidMount() {
     const conversation = this.props.conversationToRender;
-    startSocketConnection.call(this, this.props.dispatch, conversation.messages, conversation._id);
+    this.props.socketConnection.emit('adminConnectedToRoom', conversation._id);
+    this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: conversation.messages });
     const input = document.getElementById('input');
     this.setState({ input });
   }
@@ -40,8 +40,8 @@ class Chat extends Component {
   componentWillReceiveProps(nextProps) {
     const oldConversationId = this.props.conversationToRender._id;
     if (nextProps.conversationToRender._id !== oldConversationId) {
-      if (nextProps.conversationToRender._id) this.socket.emit('switchRoom', nextProps.conversationToRender._id);
-      this.socket.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
+      if (nextProps.conversationToRender._id) this.props.socketConnection.emit('switchRoom', nextProps.conversationToRender._id);
+      this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
     }
     // Notifications
     // const messageNumProps = nextProps.conversationToRender.messages.length;
@@ -60,8 +60,7 @@ class Chat extends Component {
   }
 
   componentWillUnmount() {
-    this.socket.emit('switchRoom', '');
-    this.socket.close();
+    this.props.socketConnection.emit('switchRoom', '');
   }
 
   onFileInputChange() {
@@ -115,7 +114,7 @@ class Chat extends Component {
         },
         isReceived: false,
       };
-      this.socket.emit('newMessage', messageObj);
+      this.props.socketConnection.emit('newMessage', messageObj);
       // notifications.email(messageObj);
     } else if (files.length > 0 && message === '') {
       files.forEach((file) => {
@@ -125,7 +124,7 @@ class Chat extends Component {
           method: 'POST',
           body: formData,
         };
-        fetch('http://localhost:3000/api/uploads', options)
+        fetch(`${window._injectedData.insightHost}/api/uploads`, options)
           .then(resp => resp.json())
           .then((data) => {
             const regex = /(png|gif|jpeg|jpg|bmp|tiff|svg)$/i;
@@ -141,7 +140,7 @@ class Chat extends Component {
               },
               isReceived: false,
             };
-            this.socket.emit('newMessage', messageObj);
+            this.props.socketConnection.emit('newMessage', messageObj);
           });
       });
       eventCopy.target.reset();
@@ -253,12 +252,14 @@ Chat.propTypes = {
     open: propTypes.bool,
     createdAt: propTypes.oneOfType([propTypes.number, propTypes.string]),
   }),
-  dispatch: propTypes.func,
   chosenTheme: propTypes.shape({
     borderRadius: propTypes.number,
     fontFamily: propTypes.string,
     palette: propTypes.object,
     spacing: propTypes.object,
+  }),
+  socketConnection: propTypes.shape({
+    emit: propTypes.func,
   }),
 };
 

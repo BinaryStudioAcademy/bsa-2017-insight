@@ -55,7 +55,7 @@
 }
 
 :local(.table) {
-  margin-top: 10px; 
+  margin-top: 10px;
 }
 
 :local(.tableItself) {
@@ -68,7 +68,7 @@
 
   td {
     font-size: 14px !important;
-    border-top: 1px solid $landing-lightgrey !important; 
+    border-top: 1px solid $landing-lightgrey !important;
     padding: 15px;
     min-width: 80px !important;
   }
@@ -110,4 +110,17 @@
   @media (min-width: 900px) {
     margin: 0 5px;
   }
+}
+
+@keyframes sync-icon {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-180deg);
+  }
+}
+
+:local(.sync-icon) {
+  animation: sync-icon 1s ease-in-out infinite
 }

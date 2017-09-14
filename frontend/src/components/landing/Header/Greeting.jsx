@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 class Greeting extends React.Component {
   logout(e) {
     e.preventDefault();
-    fetch('/api/user/logout', { credentials: 'include' })
+    fetch(`${window._injectedData.insightHost}/api/user/logout`, { credentials: 'include' })
       .then(response => window.location.replace(response.url));
   }
 
@@ -20,7 +20,7 @@ class Greeting extends React.Component {
 }
 
 Greeting.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
 };
 
 export default Greeting;

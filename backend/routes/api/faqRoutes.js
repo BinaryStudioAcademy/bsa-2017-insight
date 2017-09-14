@@ -2,6 +2,7 @@ const faqRepository = require('../../repositories/faqRepository');
 
 module.exports = (app) => {
   app.get('/api/faq/', (req, res) => {
+    if (!req.user) return res.status(204).end();
     faqRepository.getAll(req.user.appId, (err, data) => {
       if (err) {
         console.log(err);

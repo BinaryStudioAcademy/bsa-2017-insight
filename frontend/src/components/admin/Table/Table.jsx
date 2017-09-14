@@ -6,8 +6,8 @@ import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 import { connect } from 'react-redux';
+import SyncIcon from 'material-ui/svg-icons/notification/sync';
 import styles from './styles.scss';
-import Filter from '../Filter/Filter';
 import TableItself from './TableItself';
 import { addSelection } from '../../../actions/selectionActions';
 
@@ -23,6 +23,7 @@ class UserInfoTable extends React.Component {
     this.state = {
       open: false,
       selDialogOpen: false,
+      selDialogPending: false,
       rowsPerPage: 5,
       currentPage: 1,
     };
@@ -64,13 +65,13 @@ class UserInfoTable extends React.Component {
   }
 
   render() {
-    const actions = [
-      <RaisedButton
-        label="Save"
-        primary
-        onClick={this.handleClose}
-      />,
-    ];
+    // const actions = [
+    //   <RaisedButton
+    //     label="Save"
+    //     primary
+    //     onClick={this.handleClose}
+    //   />,
+    // ];
     return (
       <div className={styles.container} style={{ width: '74vw' }}>
         <div className={styles.topPanel}>
@@ -94,9 +95,15 @@ class UserInfoTable extends React.Component {
                 onSubmit={(e) => {
                   e.preventDefault();
                   const name = document.getElementById('selection-name').value;
-                  const description = document.getElementById('selection-description').value;
-                  this.props.addSelection(name, description, this.props.statistics);
-                  this.toggleSelectionDialog(this.state.selDialogOpen);
+                  this.setState({ selDialogPending: true });
+                  this.props.addSelection(
+                    name,
+                    this.props.statistics,
+                    () => {
+                      this.toggleSelectionDialog(this.state.selDialogOpen);
+                      this.setState({ selDialogPending: false });
+                    },
+                  );
                 }}
               >
                 <TextField
@@ -104,18 +111,14 @@ class UserInfoTable extends React.Component {
                   required
                   id="selection-name"
                 /><br />
-                <TextField
-                  hintText="Description (optional)"
-                  id="selection-description"
-                  style={{ marginBottom: 30 }}
-                /><br />
                 <FlatButton
                   label="Cancel"
                   onClick={() => this.toggleSelectionDialog(this.state.selDialogOpen)}
                 />
                 <FlatButton
-                  label="Create"
-                  type="submit"
+                  type={this.state.selDialogPending ? 'button' : 'submit'}
+                  label={this.state.selDialogPending ? '' : 'Create'}
+                  icon={this.state.selDialogPending ? <SyncIcon className={styles['sync-icon']} /> : ''}
                 />
               </form>
             </Dialog>
@@ -125,7 +128,7 @@ class UserInfoTable extends React.Component {
             <SelectField
               value={this.state.rowsPerPage}
               onChange={this.handleChangeRowsPerPage}
-              style={{ width: '80px' }} 
+              style={{ width: '80px' }}
             >
               <MenuItem value={5} primaryText="5" />
               <MenuItem value={10} primaryText="10" />
@@ -149,18 +152,16 @@ class UserInfoTable extends React.Component {
 UserInfoTable.propTypes = {
   options: React.PropTypes.arrayOf(React.PropTypes.string),
   statistics: React.PropTypes.arrayOf(React.PropTypes.object),
-  statisticOptions: React.PropTypes.arrayOf(React.PropTypes.string),
-  selectedFields: React.PropTypes.arrayOf(React.PropTypes.string),
   updateFields: React.PropTypes.func,
   addSelection: React.PropTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addSelection: (name, description, users) => {
-      const filteredUsersIds = users.filter(user => user.userId.email).map(user => user.userId._id);
-      const body = JSON.stringify({ name, description, users: filteredUsersIds, appId: window._injectedData.appId });
-      return dispatch(addSelection(body));
+    addSelection: (name, users, cb) => {
+      const filteredUsersIds = users.filter(user => user.userId && user.userId.email);
+      const body = JSON.stringify({ name, users: filteredUsersIds, appId: window._injectedData.appId });
+      return dispatch(addSelection(body, cb));
     },
   };
 };

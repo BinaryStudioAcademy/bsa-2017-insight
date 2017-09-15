@@ -85,7 +85,6 @@ function startSocketConnection(socket, forceMessageBody) {
     }
   });
   socket.on('newMessage', (message) => {
-
     if (message.body && message.author.userType === 'Admin') {
       notifications.api('new message', message, () => window.focus());
     }

@@ -103,7 +103,6 @@ class Respond extends React.Component {
               style={{
                 height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
                 overflowY: 'scroll',
-                width: '22vw',
               }}
             >
               {filters}

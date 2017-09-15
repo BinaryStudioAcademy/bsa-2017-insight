@@ -6,7 +6,6 @@ function updateMessage(oldMessage, updateData) {
   const newMessage = { ...oldMessage };
   newMessage.body = updateData.body;
   newMessage.timer = updateData.timer;
-  newMessage.conditions.visitedURLS = updateData.conditions.visitedURLS;
   return newMessage;
 }
 

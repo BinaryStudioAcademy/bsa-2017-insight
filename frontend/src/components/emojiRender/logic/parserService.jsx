@@ -15,7 +15,6 @@ function getStyles(emojiName) {
 }
 
 function getParseString(res, handler) {
-  // console.log('getParseString');
   return res.map((e) => {
     if (/:\S[^:]+?:/.test(e) || /:\S+?:/.test(e)) {
       const key = (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24);
@@ -58,9 +57,6 @@ function get(stringToParse) {
 
 
   const newItemsToRender = itemsToRender.map((e) => {
-    console.log('itemsToRender');
-    console.log(itemsToRender);
-    // console.log('newItemsToRender');
     const search = e.trim();
     const firstCond = /:\S[^:]+?:/g.test(search);
     const secondCond = setups.map[search] ? setups.map[search].status : false;

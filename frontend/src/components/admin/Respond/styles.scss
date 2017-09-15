@@ -77,7 +77,9 @@
 }
 
 :local(.conversations) {
-  // flex-basis: 25%
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 :local(.chat) {

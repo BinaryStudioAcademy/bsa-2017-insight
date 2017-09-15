@@ -1,6 +1,7 @@
 import io from './../../../../node_modules/socket.io-client/dist/socket.io';
 import { fetchMessage, getAllConversations } from './../../actions/conversationsActions';
 import { getStatisticById } from './../../actions/statisticActions';
+import notifications from '../notifications/notifications';
 
 function startSocketConnection(dispatch) {
   const id = window._injectedData._id;
@@ -25,6 +26,7 @@ function startSocketConnection(dispatch) {
       messageCopy.isReceived = true;
       this.socket.emit('newMessageReceived', { type: 'Admin', id: message._id });
       dispatch(fetchMessage(messageCopy));
+      notifications.api('new message', message, () => window.focus());
     } else {
       dispatch(fetchMessage(message));
     }
@@ -37,22 +39,26 @@ function startSocketConnection(dispatch) {
       this.props.getStatisticById(data.conversation.participants[0].user);
       this.context.router.history.replace('/admin/messenger');
       notification.close();
+      window.focus();
     };
-    if (!('Notification' in window)) {
-      return console.log('Notifications are not supported');
-    } else if (Notification.permission === 'granted') {
-      notification = new Notification('New unpicked conversation. Click to open');
-      notification.onclick = handler;
-    } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission((permission) => {
-        if (permission === 'granted') {
-          notification = new Notification('New unpicked conversation. Click to open');
-          notification.onclick = handler;
-        }
-        return permission;
-      });
-    }
-    return notification;
+
+    notification = notifications.api('unpicked conversation', null, handler);
+
+    // if (!('Notification' in window)) {
+    //   return console.log('Notifications are not supported');
+    // } else if (Notification.permission === 'granted') {
+    //   notification = new Notification('New unpicked conversation. Click to open');
+    //   notification.onclick = handler;
+    // } else if (Notification.permission !== 'denied') {
+    //   Notification.requestPermission((permission) => {
+    //     if (permission === 'granted') {
+    //       notification = new Notification('New unpicked conversation. Click to open');
+    //       notification.onclick = handler;
+    //     }
+    //     return permission;
+    //   });
+    // }
+    // return notification;
   });
 
   this.socket.on('reassigned conversation', (data) => {
@@ -63,19 +69,22 @@ function startSocketConnection(dispatch) {
       this.props.navigateToConversation('mine', data.conversationId);
       this.context.router.history.replace('/admin/messenger');
       notification.close();
+      window.focus();
     };
-    if (Notification.permission === 'granted') {
-      notification = new Notification('You have been assigned a new conversation. Click to open');
-      notification.onclick = handler;
-    } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission((permission) => {
-        if (permission === 'granted') {
-          notification = new Notification('You have been assigned a new conversation. Click to open');
-          notification.onclick = handler;
-        }
-        return permission;
-      });
-    }
+
+    notification = notifications.api('reassigned conversation', null, handler);
+    // if (Notification.permission === 'granted') {
+    //   notification = new Notification('You have been assigned a new conversation. Click to open');
+    //   notification.onclick = handler;
+    // } else if (Notification.permission !== 'denied') {
+    //   Notification.requestPermission((permission) => {
+    //     if (permission === 'granted') {
+    //       notification = new Notification('You have been assigned a new conversation. Click to open');
+    //       notification.onclick = handler;
+    //     }
+    //     return permission;
+    //   });
+    // }
   });
   this.socket.on('newMessageToRespond', () => {
     this.props.getAllConversations();

@@ -3,6 +3,7 @@
 .filter-panel {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 
   .remove-filter {
     font-size: 12px;

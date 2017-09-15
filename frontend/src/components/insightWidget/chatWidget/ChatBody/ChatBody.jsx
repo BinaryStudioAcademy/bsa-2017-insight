@@ -44,7 +44,6 @@ class ChatBody extends Component {
       const currentUser = window._injectedData.userId ?
         window._injectedData.userId.username : window._injectedData.username;
       if (newMessage.author.item.username !== currentUser) {
-        notifications.api(newMessage);
         notifications.title();
       }
     }

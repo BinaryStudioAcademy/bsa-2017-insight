@@ -1,0 +1,11 @@
+@import '../../../../common/styles/variables';
+
+:local(.date-time) {
+  // border-bottom: 2px solid $landing-middlegrey;
+  background-color: $landing-lightgrey; 
+  text-align: center;
+  margin: 10px auto 5px auto;
+  padding: 5px;
+  width: 160px;
+  border-radius: 10px;
+}

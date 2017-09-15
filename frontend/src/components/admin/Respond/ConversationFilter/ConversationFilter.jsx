@@ -176,7 +176,7 @@ class ConversationFilter extends React.Component {
           }
           <span style={{ margin: '0 5px' }}>|</span>
           <span>show conversations:</span>
-          <div style={{ margin: '0 10px 5px' }}>
+          <div style={{ margin: '0 10px' }}>
             <a
               role="button"
               tabIndex="0"

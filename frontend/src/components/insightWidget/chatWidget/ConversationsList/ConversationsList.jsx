@@ -33,9 +33,9 @@ class ConversationsList extends Component {
               passedTime = `${Math.round(parseInt(passedTime, 10) / 60)}h ago`;
               if (parseInt(passedTime, 10) > 24) passedTime = `${Math.round(parseInt(passedTime, 10) / 24)}d ago`;
             }
-            const avatar = lastMessage && (lastMessage.author.item.avatar === 'avatar.png' ?
-              'https://www.materialist.com/static/new_store/images/avatar_placeholder.svg' :
-              lastMessage.author.item.avatar);
+            const avatar = lastMessage && (lastMessage.author.item.avatar === `${window._injectedData.insightHost}/uploads/avatars/avatar.png` ?
+              `${window._injectedData.insightHost}/uploads/avatars/avatar.png` :
+              `${window._injectedData.insightHost}/uploads/avatars/${lastMessage.author.item.avatar}`);
             return (
               lastMessage ?
                 <li

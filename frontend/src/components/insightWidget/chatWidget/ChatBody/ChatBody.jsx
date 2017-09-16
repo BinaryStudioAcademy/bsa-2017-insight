@@ -36,7 +36,6 @@ class ChatBody extends Component {
       const operatorAvatarImg = document.createElement('img');
       operatorAvatarImg.className = styles['operator-avatar'];
       operatorAvatarImg.src = `${window._injectedData.insightHost}/uploads/avatars/${admin.avatar}`;
-      debugger;
       if (this.operatorNameDiv) {
         this.operatorNameDiv.parentNode.insertBefore(operatorAvatarImg, this.operatorNameDiv);
         this.operatorNameDiv.innerHTML = admin.username;
@@ -262,6 +261,7 @@ ChatBody.propTypes = {
     connected: propTypes.bool,
     disconnected: propTypes.bool,
     id: propTypes.string,
+    on: propTypes.any,
   }),
 };
 

@@ -32,6 +32,16 @@ class ChatBody extends Component {
   componentDidMount() {
     const input = document.getElementById('input');
     this.setState({ input });
+    this.props.socket.on('conversationPicked', (admin) => {
+      const operatorAvatarImg = document.createElement('img');
+      operatorAvatarImg.className = styles['operator-avatar'];
+      operatorAvatarImg.src = `${window._injectedData.insightHost}/uploads/avatars/${admin.avatar}`;
+      debugger;
+      if (this.operatorNameDiv) {
+        this.operatorNameDiv.parentNode.insertBefore(operatorAvatarImg, this.operatorNameDiv);
+        this.operatorNameDiv.innerHTML = admin.username;
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -122,7 +132,7 @@ class ChatBody extends Component {
     const avatar = operator && (operator.user.avatar === `${window._injectedData.insightHost}/uploads/avatars/avatar.png` ?
       `${window._injectedData.insightHost}/uploads/avatars/avatar.png` :
       `${window._injectedData.insightHost}/uploads/avatars/${operator.user.avatar}`);
-    const operatorName = operator ? operator.user.username : 'Conversation hasn\'t been picked up';
+    const operatorName = operator ? operator.user.username : 'Wait a moment...';
     const headerStyles = { backgroundColor: this.props.widgetStyles.primaryColor };
     return (
       <div onClick={e => this.closeEmojiBlock(e)} role="presentation" className={styles.chat}>
@@ -144,7 +154,14 @@ class ChatBody extends Component {
               alt="return-button"
               onClick={this.props.onReturnButtonClick}
             />
-            <div className={styles['operator-name']}>{operatorName}</div>
+            <div
+              ref={(node) => {
+                this.operatorNameDiv = node;
+              }}
+              className={styles['operator-name']}
+            >
+              {operatorName}
+            </div>
           </div>
         }
         <MessagesList
@@ -241,7 +258,11 @@ ChatBody.propTypes = {
     widgetPosition: propTypes.string,
   }),
   isIntroduced: propTypes.bool,
-  socket: propTypes.shape({}),
+  socket: propTypes.shape({
+    connected: propTypes.bool,
+    disconnected: propTypes.bool,
+    id: propTypes.string,
+  }),
 };
 
 export default ChatBody;

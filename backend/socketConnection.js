@@ -141,6 +141,10 @@ function connectionHandler(socket) {
       socket.broadcast.emit('reassigned conversation', { conversationId: data.conversationId, to: data.newUser.user, userId: result.userId });
     });
   });
+
+  socket.on('conversationPicked', (admin) => {
+    socket.broadcast.emit('conversationPicked', admin);
+  });
 }
 
 module.exports = connectionHandler;

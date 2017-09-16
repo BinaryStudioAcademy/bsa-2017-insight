@@ -205,6 +205,11 @@ class Chat extends Component {
   }
 
   pickConversation() {
+    const adminObj = {
+      username: window._injectedData.username,
+      avatar: window._injectedData.avatar,
+    };
+    this.props.socketConnection.emit('conversationPicked', adminObj);
     fetch('/api/conversations/pick', {
       headers: {
         'Content-Type': 'application/json',

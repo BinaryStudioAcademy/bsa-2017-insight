@@ -37,6 +37,8 @@ class AdminPage extends React.Component {
     this.headerHeight = 65;
     this.state = {
       chosenTheme: lightBaseTheme,
+      reassignedConversations: this.props.reassignedConversations,
+      unreadMessages: this.props.unreadMessages,
     };
     this.toggleTheme = this.toggleTheme.bind(this);
   }
@@ -51,7 +53,11 @@ class AdminPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ currentUser: nextProps.currentUser });
+    this.setState({
+      currentUser: nextProps.currentUser,
+      reassignedConversations: nextProps.reassignedConversations,
+      unreadMessages: nextProps.unreadMessages,
+    });
   }
 
   getStatisticOptions(arr) {
@@ -93,6 +99,8 @@ class AdminPage extends React.Component {
                     width={this.leftMenuWidth}
                     chosenTheme={this.state.chosenTheme}
                     currentUser={this.props.currentUser}
+                    reassignedConversations={this.state.reassignedConversations}
+                    unreadMessages={this.state.unreadMessages}
                   />
                   <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: this.leftMenuWidth - 8 }}>
                     <Header
@@ -129,6 +137,7 @@ class AdminPage extends React.Component {
                               headerHeight={this.headerHeight}
                               chosenTheme={this.state.chosenTheme}
                               socketConnection={this.socket}
+                              updateUnreadMessages={this.props.updateUnreadMessages}
                             />)
                           }
                         />
@@ -190,6 +199,10 @@ const mapStateToProps = (state) => {
     fieldsToDisplay: state.statistics.fieldsToDisplay,
     currentUser: state.currentUser.currentUser,
     usersToRender: state.statistics.usersToRender,
+    conversationToRenderId: state.conversationsInfo.conversationToRenderId,
+    reassignedConversations: state.conversationsInfo.reassignedConversations,
+    unreadMessages: state.conversationsInfo.unreadMessages,
+    conversations: state.conversationsInfo.conversations,
   };
 };
 
@@ -218,6 +231,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     setReassignToFalse: (conversationId) => {
       dispatch({ type: 'SET_REASSIGN_TO_FALSE', payload: conversationId });
+    },
+    updateUnreadMessages: (newMessages) => {
+      dispatch({ type: 'UPDATE_UNREAD_MESSAGES', payload: newMessages });
+    },
+    updateReassignedConversations: (newConversations) => {
+      dispatch({ type: 'UPDATE_REASSIGNED_CONVERSATIONS', payload: newConversations });
     },
     dispatch,
   };

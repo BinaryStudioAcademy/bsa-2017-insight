@@ -125,6 +125,8 @@ class Respond extends React.Component {
                 chosenTheme={this.props.chosenTheme}
                 headerHeight={this.props.headerHeight}
                 socketConnection={this.props.socketConnection}
+                updateUnreadMessages={this.props.updateUnreadMessages}
+                setMessagesReceived={this.props.setMessagesReceived}
               />
             </div>
             <div
@@ -169,6 +171,9 @@ const mapDispatchToProps = (dispatch) => {
     setConversationFilters: (newFilters) => {
       dispatch({ type: 'SET_CONVERSATION_FILTERS', payload: newFilters });
     },
+    setMessagesReceived: (conversationId) => {
+      dispatch({ type: 'SET_MESSAGES_RECEIVED', payload: conversationId });
+    }
   };
 };
 

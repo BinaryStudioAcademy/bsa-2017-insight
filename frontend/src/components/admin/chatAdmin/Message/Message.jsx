@@ -3,9 +3,19 @@ import propTypes from 'prop-types';
 import styles from './styles.scss';
 import EmojiRender from '../../../emojiRender';
 
-const Message = ({ name, body, type }) => {
+const Message = ({ name, body, type, isReceived, conversation }) => {
   const messageAlign = type === 'Admin' ? 'message-item-left' : 'message-item-right';
   const bodyIsLink = typeof body === 'object';
+  let backgroundColor = '#D4F0FE';
+  if(!isReceived && type === 'User') {
+    const isParticipant = window._injectedData.conversations.find((item) => {
+      console.log(item === conversation);
+      return item === conversation;
+    });
+    if(isParticipant) {
+      backgroundColor = '#6aacef';
+    }
+  }
   let message;
   if (bodyIsLink) {
     if (body.isImage) {
@@ -20,7 +30,10 @@ const Message = ({ name, body, type }) => {
     message = <EmojiRender text={body} />;
   }
   return (
-    <li className={`${styles[messageAlign]} ${styles['message-item']}`}>
+    <li
+      className={`${styles[messageAlign]} ${styles['message-item']}`}
+      style={{ backgroundColor }}
+    >
       <span className={styles['message-body']}>{message}</span>
       <span className={styles['user-name']}>{name}</span>
     </li>
@@ -36,6 +49,7 @@ Message.propTypes = {
     isImage: propTypes.bool,
   })]),
   type: propTypes.string,
+  isReceived: propTypes.bool,
 };
 
 export default Message;

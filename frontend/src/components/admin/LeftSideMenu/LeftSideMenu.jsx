@@ -10,8 +10,11 @@ import EngageIcon from 'material-ui/svg-icons/social/group';
 import AppsIcon from 'material-ui/svg-icons/action/list';
 import FAQIcon from 'material-ui/svg-icons/action/question-answer';
 import PopoverSettings from './PopoverSettings';
+import './styles.scss';
+
 
 class LeftSideMenu extends React.Component {
+
   render() {
     return (
       <div>
@@ -30,14 +33,26 @@ class LeftSideMenu extends React.Component {
           </NavLink>
           <Divider />
           <NavLink to={'/admin/messenger'}>
-            <IconButton
-              style={{ width: this.props.width }}
-              tooltip={'Messenger'}
-              tooltipPosition={'bottom-right'}
-              iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
-            >
-              <RespondIcon />
-            </IconButton>
+            <div style={{ position: 'relative' }}>
+              <IconButton
+                style={{ width: this.props.width }}
+                tooltip={'Messenger'}
+                tooltipPosition={'bottom-right'}
+                iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
+              >
+                <RespondIcon />
+              </IconButton>
+              <span
+                className={'badge blue-badge'}
+              >
+                {this.props.reassignedConversations.length}
+              </span>
+              <span
+                className={'badge red-badge'}
+              >
+                {this.props.unreadMessages.length}
+              </span>
+            </div>
           </NavLink>
           <Divider />
           <NavLink to={'/admin/selections'}>

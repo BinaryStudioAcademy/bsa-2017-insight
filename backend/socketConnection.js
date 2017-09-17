@@ -48,11 +48,17 @@ function connectionHandler(socket) {
     const room = socket.room;
     MessageRepository.model.create(message)
       .then((data) => {
-        console.log('message added succesfully');
         const messageToSend = data;
 
         if (message.author.userType === 'Admin') {
           checkIfAdminIsConversationParticipant(message.conversationId, message.author.item);
+        } else {
+          AdminRepository.model.update({ conversations: message.conversationId }, { $push: { unreadMessages: mongoose.Types.ObjectId(message.conversationId) } }, (err, result) => {
+            if(!result.nModified) {
+              return;
+            }
+            socket.broadcast.emit('newMessageToRespond', data);
+          });
         }
 
         if (messageToSend.author.item.toString() === user._id.toString()) {
@@ -60,11 +66,9 @@ function connectionHandler(socket) {
         }
         const id = data._id;
         socket.emit('newMessage', messageToSend);
-        socket.broadcast.emit('newMessageToRespond');
         socket.broadcast.to(room).emit('newMessage', messageToSend);
         ConversationRepository.model
           .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) } }, { new: true }, (err, doc) => {
-            console.log('NEW MESSAGE', doc);
             if(doc.messages.length === 1) {
               socket.broadcast.emit('newConversationCreated', { conversation: doc });
             }
@@ -103,7 +107,14 @@ function connectionHandler(socket) {
           .populate('author.item')
           .exec()
           .then((updatedMessages) => {
-            socket.broadcast.to(room).emit('messagesReceived', updatedMessages);
+            AdminRepository.model.update({ conversations: data.messages[0].conversationId }, { $pullAll: { unreadMessages: [data.messages[0].conversationId] } })
+              .exec()
+              .then((result) => {
+                console.log(result);
+                socket.broadcast.to(room).emit('messagesReceived', updatedMessages);
+              }, (err) => {
+                console.log(err);
+              });
           });
       });
     }

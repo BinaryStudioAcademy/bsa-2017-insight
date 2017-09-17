@@ -4,6 +4,7 @@ import Message from './../Message/Message';
 import styles from './styles.scss';
 
 class MessagesList extends React.Component {
+
   componentDidMount() {
     if (this.list) this.list.scrollTop = this.list.scrollHeight - this.list.clientHeight;
   }
@@ -29,6 +30,7 @@ class MessagesList extends React.Component {
               name={message.author.item.firstName || message.author.item.username}
               type={message.author.userType}
               isReceived={message.isReceived}
+              conversation={message.conversationId}
             />
           );
         })}

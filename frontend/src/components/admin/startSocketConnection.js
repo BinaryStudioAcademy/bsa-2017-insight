@@ -20,7 +20,11 @@ function startSocketConnection(dispatch) {
   });
 
   this.socket.on('newMessage', (message) => {
-    if (message.author.userType === 'User') {
+    const admin = window._injectedData;
+    const isParticipant = admin.conversations.find((conversation) => {
+      return conversation === message.conversationId;
+    });
+    if (message.author.userType === 'User' && isParticipant) {
       const messageCopy = { ...message };
       messageCopy.isReceived = true;
       this.socket.emit('newMessageReceived', { type: 'Admin', id: message._id });
@@ -63,6 +67,7 @@ function startSocketConnection(dispatch) {
     } else {
       admin.reassignedConversations = [data.conversationId];
     }
+    this.props.updateReassignedConversations(window._injectedData.reassignedConversations);
     let notification;
     const handler = () => {
       this.props.getStatisticById(data.userId);
@@ -91,10 +96,51 @@ function startSocketConnection(dispatch) {
     });
     admin.reassignedConversations.splice(index, 1);
     this.props.setReassignToFalse(conversationId);
+    this.props.updateReassignedConversations(window._injectedData.reassignedConversations);
   });
 
-  this.socket.on('newMessageToRespond', () => {
-    this.props.getAllConversations();
+  this.socket.on('newMessageToRespond', (message) => {
+    if(this.props.conversationToRenderId === message.conversationId) {
+      return;
+    } else {
+      const admin = window._injectedData;
+      const isParticipant = admin.conversations.find((conversation) => {
+        return conversation === message.conversationId;
+      });
+      if(!isParticipant) {
+        return;
+      }
+      window._injectedData.unreadMessages.push(message.conversationId);
+
+      this.props.conversations.forEach((conversation) => {
+        if(conversation._id === message.conversationId) {
+          dispatch(fetchMessage(message));
+        }
+      });
+      
+      this.props.updateUnreadMessages(window._injectedData.unreadMessages);
+
+      let notification;
+      const handler = () => {
+        this.props.getStatisticById(message.author.item._id);
+        this.props.navigateToConversation('mine', message.conversationId);
+        // this.context.router.history.replace('/admin/messenger');
+        notification.close();
+      };
+      if (Notification.permission === 'granted') {
+        notification = new Notification(`${message.author.item.firstName} ${message.author.item.lastName || ''}: ${message.body}`);
+        notification.onclick = handler;
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission((permission) => {
+          if (permission === 'granted') {
+            notification = new Notification(`${message.author.item.firstName} ${message.author.item.lastName || ''}: ${message.body}`);
+            notification.onclick = handler;
+          }
+          return permission;
+        });
+      }
+
+    }
   });
 }
 

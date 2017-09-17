@@ -8,6 +8,8 @@ const initialState = {
     sort: 'new',
     isFilterApplied: false,
   },
+  unreadMessages: window._injectedData.unreadMessages,
+  reassignedConversations: window._injectedData.reassignedConversations,
 };
 
 function findConversationById(id, conversations) {
@@ -57,6 +59,7 @@ const conversationsReducer = (state = initialState, action) => {
     case 'NAVIGATE_TO_CONVERSATION': {
       const filters = { ...state.conversationFilters };
       filters.activeGroup = action.payload.group;
+
       return Object.assign({}, state, {
         conversationFilters: filters,
         conversationToRenderId: action.payload.id,
@@ -71,6 +74,25 @@ const conversationsReducer = (state = initialState, action) => {
         }
       });
       return Object.assign({}, state, { conversations });
+    }
+    case 'UPDATE_UNREAD_MESSAGES': {
+      return Object.assign({}, state, { unreadMessages: [...action.payload] });
+    }
+    case 'UPDATE_REASSIGNED_CONVERSATIONS': {
+      return Object.assign({}, state, { reassignedConversations: [...action.payload] });
+    }
+    case 'SET_MESSAGES_RECEIVED': {
+      const oldConversations = [...state.conversations];
+      const newConversations = oldConversations.map((conversation) => {
+        if(conversation._id !== action.payload) {
+          return conversation;
+        }
+        conversation.messages.forEach((message) => {
+          message.isReceived = true;
+        });
+        return conversation;
+      });
+      return Object.assign({}, state, { conversations: newConversations });
     }
     default: {
       return state;

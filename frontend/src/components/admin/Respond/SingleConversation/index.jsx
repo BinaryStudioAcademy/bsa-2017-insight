@@ -19,7 +19,18 @@ const SingleConversation = (props) => {
   const admin = window._injectedData;
   const conversation = props.conversation;
   const active = props.active ? 'conversation-item-active' : '';
-  const backgroundColor = conversation.isReassigned && conversation.participants[1].user._id === admin._id ? '#cceef3' : 'none';
+  const isUnread = admin.unreadMessages.find((item) => {
+    return item === conversation._id;
+  });
+  const isReassigned = conversation.isReassigned && conversation.participants[1].user._id === admin._id;
+  let backgroundColor = 'none';
+
+  if (isReassigned) {
+    backgroundColor = '#cceef3';
+  } else if(isUnread) {
+    backgroundColor = '#ffbdb3';
+  }
+
   return (
     <div>
       {!messages.length ?

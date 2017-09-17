@@ -6,6 +6,7 @@ import SingleConversation from '../SingleConversation';
 class ConversationList extends React.Component {
   componentDidMount() {
     if (this.anchor) this.anchor.scrollIntoView();
+    console.log(this.props.conversations);
   }
   render() {
     return (

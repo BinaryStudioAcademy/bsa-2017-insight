@@ -12,7 +12,7 @@ import SyncIcon from 'material-ui/svg-icons/notification/sync';
 import styles from './styles.scss';
 import TableItself from './TableItself';
 import { addSelection } from '../../../actions/selectionActions';
-import { getAllStatistics } from '../../../actions/statisticActions';
+import { getAllStatistics, setStatisticsFilter } from '../../../actions/statisticActions';
 import StatisticsCharts from '../StatisticsCharts/StatisticsCharts';
 
 class UserInfoTable extends React.Component {
@@ -50,10 +50,14 @@ class UserInfoTable extends React.Component {
 
   onMinDateInputChange(event, date) {
     this.setState({ minDate: date });
+    const maxDate = this.state.maxDate ? `*MAX*${Date.parse(this.state.maxDate)}` : '';
+    this.props.setStatisticsFilter({ firstVisitDate: `firstVisitDate=*MIN*${Date.parse(date)}${maxDate}` });
   }
 
   onMaxDateInputChange(event, date) {
     this.setState({ maxDate: date });
+    const minDate = this.state.minDate ? `*MIN*${Date.parse(this.state.minDate)}` : '';
+    this.props.setStatisticsFilter({ firstVisitDate: `firstVisitDate=${minDate}*MAX*${Date.parse(date)}` });
   }
 
   onDatePickerCancelButtonClick() {
@@ -63,7 +67,9 @@ class UserInfoTable extends React.Component {
       minDate: '',
       maxDate: '',
     });
+    this.props.setStatisticsFilter({ firstVisitDate: '' });
     const queryObj = this.props.activeFilters;
+    if (queryObj.firstVisitDate) delete queryObj.firstVisitDate;
     let queryString = '';
     Object.keys(queryObj).forEach((property, i, arr) => {
       if (queryObj[property] !== '') {
@@ -74,17 +80,13 @@ class UserInfoTable extends React.Component {
   }
 
   onDatePickerSubmitButtonClick() {
-    let dateQuery = '';
     let label = '';
     if (this.state.minDate === '' && this.state.maxDate === '') return;
     if (this.state.minDate !== '' && this.state.maxDate === '') {
-      dateQuery = `firstVisitDate=*MIN*${Date.parse(this.state.minDate)}`;
       label = `${(new Date(Date.parse(this.state.minDate))).toDateString()} - `;
     } else if (this.state.minDate === '' && this.state.maxDate !== '') {
-      dateQuery = `firstVisitDate=*MAX*${Date.parse(this.state.maxDate)}`;
       label = ` - ${(new Date(Date.parse(this.state.maxDate))).toDateString()}`;
     } else {
-      dateQuery = `firstVisitDate=*MIN*${Date.parse(this.state.minDate)}*MAX*${Date.parse(this.state.maxDate)}`;
       label = `${(new Date(Date.parse(this.state.minDate))).toDateString()} - ${(new Date(Date.parse(this.state.maxDate))).toDateString()}`;
     }
     const queryObj = this.props.activeFilters;
@@ -94,7 +96,6 @@ class UserInfoTable extends React.Component {
         queryString += `${property}=${queryObj[property]}${i !== arr.length - 1 ? '&' : ''}`;
       }
     });
-    queryString += `&${dateQuery}`;
     this.props.getAllStatistics(queryString);
     this.setState({
       dateButtonLabel: label,
@@ -250,12 +251,10 @@ class UserInfoTable extends React.Component {
         >
           <DatePicker
             hintText="from"
-            value={this.state.minDate}
             onChange={this.onMinDateInputChange}
           />
           <DatePicker
             hintText="to"
-            value={this.state.maxDate}
             onChange={this.onMaxDateInputChange}
           />
         </Dialog>
@@ -286,6 +285,7 @@ UserInfoTable.propTypes = {
   activeFilters: propTypes.shape({
     username: propTypes.string,
   }),
+  setStatisticsFilter: propTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -297,6 +297,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getAllStatistics: (query) => {
       return dispatch(getAllStatistics(query));
+    },
+    setStatisticsFilter: (obj) => {
+      return dispatch(setStatisticsFilter(obj));
     },
   };
 };

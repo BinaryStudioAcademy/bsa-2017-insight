@@ -32,9 +32,7 @@ class ConversationList extends React.Component {
   }
 
   render() {
-    if (this.props.conversations === null) {
-      return <h3 style={{ margin: '10px' }}>Loading...</h3>;
-    } else if (!this.props.conversations.length) {
+    if (!this.props.conversations.length) {
       return <h3 style={{ margin: '10px' }}>Conversations list is empty now</h3>;
     }
     let previousChatDate;

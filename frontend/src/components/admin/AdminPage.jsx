@@ -186,6 +186,9 @@ AdminPage.propTypes = {
   updateFields: PropTypes.func,
   currentUser: PropTypes.shape(),
   dispatch: PropTypes.func,
+  reassignedConversations: PropTypes.arrayOf(PropTypes.string),
+  unreadMessages: PropTypes.arrayOf(PropTypes.string),
+  updateUnreadMessages: PropTypes.func,
 };
 
 AdminPage.contextTypes = {

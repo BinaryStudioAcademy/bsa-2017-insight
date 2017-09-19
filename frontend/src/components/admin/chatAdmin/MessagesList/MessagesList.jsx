@@ -4,9 +4,7 @@ import Message from './../Message/Message';
 import styles from './styles.scss';
 
 let uniqueId = 0;
-
 class MessagesList extends React.Component {
-
   componentDidMount() {
     if (this.list) this.list.scrollTop = this.list.scrollHeight - this.list.clientHeight;
   }

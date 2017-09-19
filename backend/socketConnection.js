@@ -57,9 +57,6 @@ function connectionHandler(socket) {
           } else {
             socket.broadcast.emit('newMessageToRespond', data);
           }        
-          if (messageToSend.author.item.toString() === user._id.toString()) {
-            messageToSend._doc.author.item = user;
-          }
           const id = data._id;
           socket.emit('newMessage', messageToSend);
           socket.broadcast.to(room).emit('newMessage', messageToSend);

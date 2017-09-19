@@ -7,7 +7,6 @@ import EmojiRender from '../../../emojiRender';
 import styles from './styles.scss';
 
 const SingleConversation = (props) => {
-  console.log(props);
   const messages = props.conversation.messages;
   const author = !!messages.length && messages[messages.length - 1].author ?
     messages[messages.length - 1].author : null;
@@ -28,7 +27,7 @@ const SingleConversation = (props) => {
 
   if (isReassigned) {
     backgroundColor = '#cceef3';
-  } else if(isUnread) {
+  } else if (isUnread) {
     backgroundColor = '#ffbdb3';
   }
 

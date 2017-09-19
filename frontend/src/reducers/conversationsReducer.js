@@ -5,7 +5,6 @@ const initialState = {
     date: {},
     activeGroup: 'all',
     activeDateFilter: 'range',
-    sort: 'new',
     isFilterApplied: false,
   },
   unreadMessages: window._injectedData.unreadMessages,
@@ -56,7 +55,7 @@ const conversationsReducer = (state = initialState, action) => {
       });
     }
     case 'NAVIGATE_TO_CONVERSATION': {
-      if(action.payload.group) {
+      if (action.payload.group) {
         const filters = { ...state.conversationFilters };
         filters.activeGroup = action.payload.group;
         return Object.assign({}, state, {
@@ -69,13 +68,12 @@ const conversationsReducer = (state = initialState, action) => {
           conversationToRenderId: action.payload.id,
         });
       }
-      
     }
     case 'SET_REASSIGN_TO_FALSE': {
       const conversations = [...state.conversations];
-      conversations.forEach((conversation) => {
-        if(conversation._id === action.payload) {
-          conversation.isReassigned = false;
+      conversations.forEach((conversation, index) => {
+        if (conversation._id === action.payload) {
+          conversations[index].isReassigned = false;
         }
       });
       return Object.assign({}, state, { conversations });
@@ -89,11 +87,11 @@ const conversationsReducer = (state = initialState, action) => {
     case 'SET_MESSAGES_RECEIVED': {
       const oldConversations = [...state.conversations];
       const newConversations = oldConversations.map((conversation) => {
-        if(conversation._id !== action.payload) {
+        if (conversation._id !== action.payload) {
           return conversation;
         }
-        conversation.messages.forEach((message) => {
-          message.isReceived = true;
+        conversation.messages.forEach((message, index) => {
+          conversation.messages[index].isReceived = true;
         });
         return conversation;
       });

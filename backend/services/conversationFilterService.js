@@ -88,9 +88,11 @@ const parseQuery = (query, callback) => {
       done(null, parsed);
     },
     function(parsed, done) {
+      parsed.$sort = {};
       if(query.sort) {
-        parsed.$sort = {};
         parsed.$sort.createdAt = query.sort === "new" ? -1 : 1;
+      } else {
+        parsed.$sort.createdAt = -1;
       }
       done(null, parsed);
     },

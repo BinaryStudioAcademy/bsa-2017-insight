@@ -12,9 +12,7 @@ import FAQIcon from 'material-ui/svg-icons/action/question-answer';
 import PopoverSettings from './PopoverSettings';
 import './styles.scss';
 
-
 class LeftSideMenu extends React.Component {
-
   render() {
     return (
       <div>
@@ -110,6 +108,8 @@ LeftSideMenu.propTypes = {
   currentUser: PropTypes.shape({
     isServiceAdmin: PropTypes.bool,
   }),
+  reassignedConversations: PropTypes.arrayOf(PropTypes.string),
+  unreadMessages: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default LeftSideMenu;

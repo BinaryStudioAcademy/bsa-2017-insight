@@ -3,15 +3,15 @@ import propTypes from 'prop-types';
 import styles from './styles.scss';
 import EmojiRender from '../../../emojiRender';
 
-const Message = ({ name, body, type, isReceived, conversationб createdAt }) => {
+const Message = ({ name, body, type, isReceived, conversation, createdAt }) => {
   const messageAlign = type === 'Admin' ? 'message-item-left' : 'message-item-right';
   const bodyIsLink = typeof body === 'object';
   let backgroundColor = '#D4F0FE';
-  if(!isReceived && type === 'User') {
+  if (!isReceived && type === 'User') {
     const isParticipant = window._injectedData.conversations.find((item) => {
       return item === conversation;
     });
-    if(isParticipant) {
+    if (isParticipant) {
       backgroundColor = '#6aacef';
     }
   }
@@ -50,6 +50,7 @@ Message.propTypes = {
   type: propTypes.string,
   createdAt: propTypes.instanceOf(Date),
   isReceived: propTypes.bool,
+  conversation: propTypes.func,
 };
 
 export default Message;

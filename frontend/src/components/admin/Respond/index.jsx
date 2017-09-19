@@ -126,6 +126,7 @@ class Respond extends React.Component {
                 socketConnection={this.props.socketConnection}
                 updateUnreadMessages={this.props.updateUnreadMessages}
                 setMessagesReceived={this.props.setMessagesReceived}
+                removeConversations={this.props.removeConversations}
               />
             </div>
             <div
@@ -172,7 +173,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     setMessagesReceived: (conversationId) => {
       dispatch({ type: 'SET_MESSAGES_RECEIVED', payload: conversationId });
-    }
+    },
   };
 };
 
@@ -215,6 +216,8 @@ Respond.propTypes = {
   socketConnection: propTypes.shape({}),
   setConversationFilters: propTypes.func,
   conversationFilters: propTypes.shape({}),
+  updateUnreadMessages: propTypes.func,
+  setMessagesReceived: propTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Respond);

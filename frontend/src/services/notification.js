@@ -1,4 +1,4 @@
-export const create = (title, options) => {
+const create = (title, options) => {
   let notification;
   if (!('Notification' in window)) {
     return console.log('Notifications are not supported');
@@ -7,19 +7,19 @@ export const create = (title, options) => {
       body: options.body,
       icon: '/resources/insight.png',
     });
-    notification.onclick = function() {
+    notification.onclick = function () {
       options.handler();
       window.focus();
-      this.close()
-    }
+      this.close();
+    };
   } else if (Notification.permission !== 'denied') {
     Notification.requestPermission((permission) => {
       if (permission === 'granted') {
-      notification = new Notification(title, {
-        body: options.body,
-        icon: '/resources/insight.png',
-      });
-      notification.onclick = options.handler;
+        notification = new Notification(title, {
+          body: options.body,
+          icon: '/resources/insight.png',
+        });
+        notification.onclick = options.handler;
       }
       return permission;
     });
@@ -27,7 +27,7 @@ export const create = (title, options) => {
   const audio = new Audio('/resources/notification.mp3');
   audio.play();
   return notification;
-}
+};
 
 const notification = {
   create,

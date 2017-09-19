@@ -45,10 +45,10 @@ class Chat extends Component {
 
     this.props.socketConnection.emit('switchRoom', conversation._id);
     this.props.socketConnection.emit('adminConnectedToRoom', conversation._id);
-    
-    if(admin.reassignedConversations.length) {
+
+    if (admin.reassignedConversations.length) {
       admin.reassignedConversations.forEach((conversationId) => {
-        if(conversationId === conversation._id) {
+        if (conversationId === conversation._id) {
           this.props.socketConnection.emit('reassignedConversationSeen', {
             conversationId: conversation._id,
             adminId: admin._id,
@@ -57,7 +57,7 @@ class Chat extends Component {
       });
     }
 
-    if(isParticipant) {
+    if (isParticipant) {
       setTimeout(() => {
         const unreadMessages = admin.unreadMessages.filter((id) => {
           return id !== this.props.conversationToRender._id;
@@ -67,7 +67,7 @@ class Chat extends Component {
         this.props.setMessagesReceived(this.props.conversationToRender._id);
         this.props.socketConnection.emit('messagesReceived', {
           type: 'Admin',
-          messages: this.props.conversationToRender.messages
+          messages: this.props.conversationToRender.messages,
         });
       }, 1000);
     }
@@ -88,12 +88,12 @@ class Chat extends Component {
     });
 
     if (nextProps.conversationToRender._id !== oldConversationId) {
-      if (nextProps.conversationToRender._id){
+      if (nextProps.conversationToRender._id) {
         this.props.socketConnection.emit('switchRoom', nextProps.conversationToRender._id);
       }
 
       admin.reassignedConversations.forEach((conversationId) => {
-        if(conversationId === nextProps.conversationToRender._id) {
+        if (conversationId === nextProps.conversationToRender._id) {
           this.props.socketConnection.emit('reassignedConversationSeen', {
             conversationId: nextProps.conversationToRender._id,
             adminId: admin._id,
@@ -101,7 +101,7 @@ class Chat extends Component {
         }
       });
 
-      if(isParticipant) {
+      if (isParticipant) {
         setTimeout(() => {
           const unreadMessages = admin.unreadMessages.filter((id) => {
             return id !== nextProps.conversationToRender._id;
@@ -111,7 +111,7 @@ class Chat extends Component {
           this.props.setMessagesReceived(this.props.conversationToRender._id);
           this.props.socketConnection.emit('messagesReceived', {
             type: 'Admin',
-            messages: nextProps.conversationToRender.messages
+            messages: nextProps.conversationToRender.messages,
           });
         }, 1000);
       }
@@ -126,6 +126,7 @@ class Chat extends Component {
 
   componentWillUnmount() {
     this.props.socketConnection.emit('switchRoom', '');
+    this.props.removeConversations();
   }
 
   onFileInputChange() {
@@ -270,7 +271,7 @@ class Chat extends Component {
     }).then(response => response.json()).then((response) => {
       if (response.ok) {
         this.props.conversationToRender.participants.push({
-          user: { _id: window._injectedData._id }
+          user: { _id: window._injectedData._id },
         });
         window._injectedData.conversations.push(this.props.conversationToRender._id);
         this.setState({
@@ -293,7 +294,7 @@ class Chat extends Component {
       return item === admin._id;
     });
     admin.conversations.forEach((conversation, index) => {
-      if(conversation === this.props.conversationToRender._id) {
+      if (conversation === this.props.conversationToRender._id) {
         admin.conversations.splice(index, 1);
       }
     });
@@ -472,6 +473,9 @@ Chat.propTypes = {
   socketConnection: propTypes.shape({
     emit: propTypes.func,
   }),
+  updateUnreadMessages: propTypes.func,
+  setMessagesReceived: propTypes.func,
+  removeConversations: propTypes.func,
 };
 
 export default Chat;

@@ -1,7 +1,7 @@
 import io from './../../../../node_modules/socket.io-client/dist/socket.io';
 import { fetchMessage, getAllConversations, updateConversations } from './../../actions/conversationsActions';
 import { getStatisticById } from './../../actions/statisticActions';
-import notification from '../../services/notification.js';
+import notification from '../../services/notification';
 
 function startSocketConnection(dispatch) {
   const id = window._injectedData._id;
@@ -21,11 +21,12 @@ function startSocketConnection(dispatch) {
   });
 
   this.socket.on('newMessage', (message) => {
+    // console.log(message);
     const admin = window._injectedData;
     const isParticipant = admin.conversations.find((conversation) => {
       return conversation === message.conversationId;
     });
-    let messageCopy = { ...message };
+    const messageCopy = { ...message };
     if (message.author.userType === 'User' && isParticipant) {
       messageCopy.isReceived = true;
       this.socket.emit('newMessageReceived', { type: 'Admin', id: message._id });
@@ -41,10 +42,10 @@ function startSocketConnection(dispatch) {
   });
 
   this.socket.on('newConversationCreated', (conversation) => {
-    if(conversation.appId !== window._injectedData.appId) {
+    if (conversation.appId !== window._injectedData.appId) {
       return;
     }
-    if(this.context.router.route.location.pathname === '/admin/messenger' && this.props.conversationFilters.activeGroup === 'unpicked') {
+    if (this.context.router.route.location.pathname === '/admin/messenger' && this.props.conversationFilters.activeGroup === 'unpicked') {
       const newConversations = [...this.props.conversations, conversation];
       dispatch(updateConversations(newConversations));
     }
@@ -52,8 +53,8 @@ function startSocketConnection(dispatch) {
       this.props.getStatisticById(conversation.participants[0].user._id);
       this.socket.emit('switchRoom', conversation._id);
       this.socket.emit('adminConnectedToRoom', conversation._id);
-      if(this.context.router.route.location.pathname === '/admin/messenger') {
-        if(this.props.conversationFilters.activeGroup === 'unpicked') {
+      if (this.context.router.route.location.pathname === '/admin/messenger') {
+        if (this.props.conversationFilters.activeGroup === 'unpicked') {
           this.props.navigateToConversation(false, conversation._id);
         } else {
           this.props.navigateToConversation('unpicked', conversation._id);
@@ -72,7 +73,7 @@ function startSocketConnection(dispatch) {
 
   this.socket.on('reassigned conversation', (data) => {
     const admin = window._injectedData;
-    if(data.appId !== admin.appId || data.to !== admin._id) {
+    if (data.reassignedConversation.appId !== admin.appId || data.to !== admin._id) {
       return;
     }
 
@@ -83,10 +84,10 @@ function startSocketConnection(dispatch) {
       return conversation._id === data.conversationId;
     });
 
-    if(conversationIndex === -1) {
-      if(this.context.router.route.location.pathname === '/admin/messenger' &&
+    if (conversationIndex === -1) {
+      if (this.context.router.route.location.pathname === '/admin/messenger' &&
         (this.props.conversationFilters.activeGroup === 'mine' || this.props.conversationFilters.activeGroup === 'all')
-        ) {
+      ) {
         const newConversations = [...this.props.conversations, data.reassignedConversation];
         dispatch(updateConversations(newConversations));
       }
@@ -100,8 +101,8 @@ function startSocketConnection(dispatch) {
       this.props.getStatisticById(data.userId);
       this.socket.emit('switchRoom', data.conversationId);
       this.socket.emit('adminConnectedToRoom', data.conversationId);
-      if(this.context.router.route.location.pathname === '/admin/messenger') {
-        if(this.props.conversationFilters.activeGroup === 'mine' || this.props.conversationFilters.activeGroup === 'all') {
+      if (this.context.router.route.location.pathname === '/admin/messenger') {
+        if (this.props.conversationFilters.activeGroup === 'mine' || this.props.conversationFilters.activeGroup === 'all') {
           this.props.navigateToConversation(false, data.conversationId);
         } else {
           this.props.navigateToConversation('mine', data.conversationId);
@@ -129,21 +130,21 @@ function startSocketConnection(dispatch) {
 
   this.socket.on('newMessageToRespond', (message) => {
     const admin = window._injectedData;
-    if(message.appId !== admin.appId) {
+    if (message.appId !== admin.appId) {
       return;
     }
     const isParticipant = admin.conversations.find((conversation) => {
       return conversation === message.conversationId;
     });
-    if(isParticipant && this.props.conversationToRenderId !== message.conversationId) {
+    if (isParticipant && this.props.conversationToRenderId !== message.conversationId) {
       window._injectedData.unreadMessages.push(message.conversationId);
       this.props.updateUnreadMessages(window._injectedData.unreadMessages);
       const handler = () => {
         this.props.getStatisticById(message.author.item._id);
         this.socket.emit('switchRoom', message.conversationId);
         this.socket.emit('adminConnectedToRoom', message.conversationId);
-        if(this.context.router.route.location.pathname === '/admin/messenger') {
-          if(this.props.conversationFilters.activeGroup === 'mine' || this.props.conversationFilters.activeGroup === 'all') {
+        if (this.context.router.route.location.pathname === '/admin/messenger') {
+          if (this.props.conversationFilters.activeGroup === 'mine' || this.props.conversationFilters.activeGroup === 'all') {
             this.props.navigateToConversation(false, message.conversationId);
           } else {
             this.props.navigateToConversation('mine', message.conversationId);
@@ -162,7 +163,7 @@ function startSocketConnection(dispatch) {
     const conversationIndex = this.props.conversations.findIndex((conversation) => {
       return conversation._id === message.conversationId;
     });
-    if(conversationIndex !== -1 && this.props.conversationToRenderId !== message.conversationId) {
+    if (conversationIndex !== -1 && this.props.conversationToRenderId !== message.conversationId) {
       const conversationCopy = { ...this.props.conversations[conversationIndex] };
       conversationCopy.messages.push(message);
       const newConversations = [...this.props.conversations];

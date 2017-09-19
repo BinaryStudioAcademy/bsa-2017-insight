@@ -4,11 +4,13 @@ import { NavLink } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
-import HomeAdminIcon from 'material-ui/svg-icons/action/dashboard';
+import HomeAdminIcon from 'material-ui/svg-icons/editor/insert-chart';
 import RespondIcon from 'material-ui/svg-icons/communication/chat';
-import EngageIcon from 'material-ui/svg-icons/editor/insert-chart';
+import EngageIcon from 'material-ui/svg-icons/social/group';
+import AppsIcon from 'material-ui/svg-icons/action/list';
 import FAQIcon from 'material-ui/svg-icons/action/question-answer';
 import PopoverSettings from './PopoverSettings';
+import './styles.scss';
 
 class LeftSideMenu extends React.Component {
   render() {
@@ -28,21 +30,33 @@ class LeftSideMenu extends React.Component {
             </IconButton>
           </NavLink>
           <Divider />
-          <NavLink to={'/admin/respond'}>
-            <IconButton
-              style={{ width: this.props.width }}
-              tooltip={'Respond'}
-              tooltipPosition={'bottom-right'}
-              iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
-            >
-              <RespondIcon />
-            </IconButton>
+          <NavLink to={'/admin/messenger'}>
+            <div style={{ position: 'relative' }}>
+              <IconButton
+                style={{ width: this.props.width }}
+                tooltip={'Messenger'}
+                tooltipPosition={'bottom-right'}
+                iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
+              >
+                <RespondIcon />
+              </IconButton>
+              <span
+                className={'badge blue-badge'}
+              >
+                {this.props.reassignedConversations.length}
+              </span>
+              <span
+                className={'badge red-badge'}
+              >
+                {this.props.unreadMessages.length}
+              </span>
+            </div>
           </NavLink>
           <Divider />
-          <NavLink to={'/admin/engage'}>
+          <NavLink to={'/admin/selections'}>
             <IconButton
               style={{ width: this.props.width }}
-              tooltip={'Engage'}
+              tooltip={'Selections'}
               tooltipPosition={'bottom-right'}
               iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
             >
@@ -63,6 +77,21 @@ class LeftSideMenu extends React.Component {
           <Divider />
           <PopoverSettings width={this.props.width} chosenTheme={this.props.chosenTheme} />
           <Divider />
+          {this.props.currentUser.isServiceAdmin ?
+            <div>
+              <NavLink to={'/admin/apps'}>
+                <IconButton
+                  style={{ width: this.props.width }}
+                  tooltip={'Apps'}
+                  tooltipPosition={'bottom-right'}
+                  iconStyle={{ fill: this.props.chosenTheme.palette.textColor }}
+                >
+                  <AppsIcon />
+                </IconButton>
+              </NavLink>
+              <Divider />
+            </div> : ''
+          }
         </Drawer>
       </div>
     );
@@ -76,6 +105,11 @@ LeftSideMenu.propTypes = {
       textColor: PropTypes.string,
     }),
   }),
+  currentUser: PropTypes.shape({
+    isServiceAdmin: PropTypes.bool,
+  }),
+  reassignedConversations: PropTypes.arrayOf(PropTypes.string),
+  unreadMessages: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default LeftSideMenu;

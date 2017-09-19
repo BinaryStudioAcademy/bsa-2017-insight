@@ -1,11 +1,12 @@
 function getFAQ() {
-  const url = 'http://localhost:3000/api/faq';
+  const url = `${window._injectedData.insightHost}/api/faq`;
   const requestOptions = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: null,
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include',
   };
   return fetch(url, requestOptions)
     .then((response) => {
@@ -17,13 +18,13 @@ function getFAQ() {
 }
 
 function getFAQById(id) {
-  const url = 'http://localhost:3000/api/faq/' + id;
+  const url = `${window._injectedData.insightHost}/api/faq/${id}`;
   const requestOptions = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: null,
-    method: 'GET'
+    method: 'GET',
   };
   return fetch(url, requestOptions)
     .then((response) => {
@@ -35,13 +36,13 @@ function getFAQById(id) {
 }
 
 function addFAQ(Body) {
-  const url = 'http://localhost:3000/api/faq';
+  const url = `${window._injectedData.insightHost}/api/faq`;
   const requestOptions = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(Body),
-    method: 'POST'
+    body: JSON.stringify(Object.assign(Body, { appId: window._injectedData.appId })),
+    method: 'POST',
   };
   return fetch(url, requestOptions)
     .then((response) => {
@@ -53,14 +54,14 @@ function addFAQ(Body) {
 }
 
 function modifyFAQ(id, Body) {
-  const url = 'http://localhost:3000/api/faq/' + id;
+  const url = `${window._injectedData.insightHost}/api/faq/${id}`;
   const requestOptions = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    path: 'http://localhost:3000/api/faq/' + id,
+    path: `${window._injectedData.insightHost}/api/faq/${id}`,
     body: JSON.stringify(Body),
-    method: 'PUT'
+    method: 'PUT',
   };
   return fetch(url, requestOptions)
     .then((response) => {
@@ -69,13 +70,13 @@ function modifyFAQ(id, Body) {
 }
 
 function deleteFAQ(id) {
-  const url = 'http://localhost:3000/api/faq/' + id;
+  const url = `${window._injectedData.insightHost}/api/faq/${id}`;
   const requestOptions = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json'.anchor,
     },
     body: null,
-    method: 'DELETE'
+    method: 'DELETE',
   };
   return fetch(url, requestOptions)
     .then((response) => {

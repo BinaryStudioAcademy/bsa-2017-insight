@@ -3,14 +3,40 @@
 :local(.chat) {
   position: fixed;
   display: flex;
+  width: 100%;
+  min-height: 100vh;
   flex-direction: column;
   align-items: center;
-  width: 25%;
-  height: 50%;
-  border-radius: 10px;
   background-color: #fff;
-  padding-bottom: 85px;
   box-shadow: 0 0 34px -2px rgba(87,86,87,1);
-	font-family: 'Ubuntu', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
+  top: 0;
+  left: 0;
+
+  @media (min-width: 1000px) {
+    min-height: 470px;
+    border-radius: 10px;
+    width: 40%;
+    bottom: 25px;
+    top: auto;
+  }
+
+  @media (min-width: 1500px) {
+    width: 25%;
+  }
+}
+
+:local(.right-widget) {
+  @media (min-width: 1000px) {
+    right: 25px;
+    left: auto;
+  }
+}
+
+:local(.left-widget) {
+  @media (min-width: 1000px) {
+    left: 25px;
+    right: auto;
+  }
 }
 

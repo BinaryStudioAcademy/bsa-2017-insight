@@ -4,6 +4,8 @@ import MessagesList from '../MessagesList/messagesList';
 import styles from './styles.scss';
 import notifications from '../../../notifications/notifications';
 import EmojiContainer from '../../../emojiRender/EmojiContainer';
+import FileList from './../FileList/FileList';
+
 
 class ChatBody extends Component {
   constructor(props) {
@@ -24,11 +26,21 @@ class ChatBody extends Component {
     this.focusToInput = this.focusToInput.bind(this);
     this.messageSubmit = this.messageSubmit.bind(this);
     this.onFileInputChange = this.onFileInputChange.bind(this);
+    this.onUnselectFileButtonClick = this.onUnselectFileButtonClick.bind(this);
   }
 
   componentDidMount() {
     const input = document.getElementById('input');
     this.setState({ input });
+    this.props.socket.on('conversationPicked', (admin) => {
+      const operatorAvatarImg = document.createElement('img');
+      operatorAvatarImg.className = styles['operator-avatar'];
+      operatorAvatarImg.src = `${window._injectedData.insightHost}/uploads/avatars/${admin.avatar}`;
+      if (this.operatorNameDiv) {
+        this.operatorNameDiv.parentNode.insertBefore(operatorAvatarImg, this.operatorNameDiv);
+        this.operatorNameDiv.innerHTML = admin.username;
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,18 +53,27 @@ class ChatBody extends Component {
       const currentUser = window._injectedData.userId ?
         window._injectedData.userId.username : window._injectedData.username;
       if (newMessage.author.item.username !== currentUser) {
-        notifications.api(newMessage);
         notifications.title();
       }
     }
   }
 
-  onFileInputChange() {
-    if (this.fileInput.files.length > 0) {
-      this.filesCounter.innerHTML = this.fileInput.files.length;
+  onFileInputChange(event) {
+    const files = [...event.target.files];
+    if (files.length === 0) {
+      this.setState({ selectedFiles: null });
     } else {
-      this.filesCounter.innerHTML = '';
+      this.setState({ selectedFiles: files });
     }
+  }
+
+  onUnselectFileButtonClick(filename) {
+    this.setState((prevState) => {
+      const newFiles = prevState.selectedFiles.filter(file => file.name !== filename);
+      if (newFiles.length !== 0) return { selectedFiles: newFiles };
+      this.form.reset();
+      return { selectedFiles: null };
+    });
   }
 
   setTextIntoInput(e) {
@@ -99,18 +120,18 @@ class ChatBody extends Component {
     }
   }
 
-  messageSubmit(event) {
+  messageSubmit(event, files) {
     const text = this.state.text;
-    this.props.onFormSubmit(event, text);
+    this.props.onFormSubmit(event, text, files);
     this.setState({ text: '' });
   }
 
   render() {
     const operator = this.props.operator;
-    const avatar = operator && (operator.user.avatar === 'avatar.png' ?
-      'https://www.materialist.com/static/new_store/images/avatar_placeholder.svg' :
-      operator.user.avatar);
-    const operatorName = operator ? operator.user.username : 'Conversation hasn\'t been picked up';
+    const avatar = operator && (operator.user.avatar === `${window._injectedData.insightHost}/uploads/avatars/avatar.png` ?
+      `${window._injectedData.insightHost}/uploads/avatars/avatar.png` :
+      `${window._injectedData.insightHost}/uploads/avatars/${operator.user.avatar}`);
+    const operatorName = operator ? operator.user.username : 'Wait a moment...';
     const headerStyles = { backgroundColor: this.props.widgetStyles.primaryColor };
     return (
       <div onClick={e => this.closeEmojiBlock(e)} role="presentation" className={styles.chat}>
@@ -118,7 +139,7 @@ class ChatBody extends Component {
           <div className={styles['conversation-header']} style={headerStyles}>
             <img
               className={styles['return-button']}
-              src="http://localhost:3000/resources/widget/images/back.png"
+              src={`${window._injectedData.insightHost}/resources/widget/images/back.png`}
               alt="return-button"
               onClick={this.props.onReturnButtonClick}
             />
@@ -128,18 +149,34 @@ class ChatBody extends Component {
           <div className={styles['conversation-header']} style={headerStyles}>
             <img
               className={styles['return-button']}
-              src="http://localhost:3000/resources/widget/images/back.png"
+              src={`${window._injectedData.insightHost}/resources/widget/images/back.png`}
               alt="return-button"
               onClick={this.props.onReturnButtonClick}
             />
-            <div className={styles['operator-name']}>{operatorName}</div>
+            <div
+              ref={(node) => {
+                this.operatorNameDiv = node;
+              }}
+              className={styles['operator-name']}
+            >
+              {operatorName}
+            </div>
           </div>
         }
-        <MessagesList messages={this.props.messages} widgetStyles={this.props.widgetStyles} />
+        <MessagesList
+          socket={this.props.socket}
+          messages={this.props.messages}
+          isIntroduced={this.props.isIntroduced}
+          widgetStyles={this.props.widgetStyles}
+        />
         <form
           className={styles['sending-form']}
+          ref={(node) => {
+            this.form = node;
+          }}
           onSubmit={(event) => {
-            this.messageSubmit(event);
+            if (this.state.selectedFiles) this.setState({ selectedFiles: null });
+            this.messageSubmit(event, this.state.selectedFiles);
           }}
         >
           <input
@@ -153,32 +190,31 @@ class ChatBody extends Component {
             onChange={this.onFileInputChange}
             multiple
           />
-          <label htmlFor="file-input" className={styles['file-input-label']}>
-            <span
-              className={styles['selected-files-counter']}
-              ref={(node) => {
-                this.filesCounter = node;
+          <label htmlFor="file-input" className={styles['file-input-label']} />
+          {this.state.selectedFiles ?
+            <FileList files={this.state.selectedFiles} onUnselectFileButtonClick={this.onUnselectFileButtonClick} /> :
+            <input
+              type="text"
+              name="messageInput"
+              className={styles['message-input']}
+              onChange={(e) => {
+                this.setTextIntoInput(e);
               }}
+              value={this.state.text}
+              onBlur={e => this.blurFromInput(e)}
+              id="input"
             />
-          </label>
-          <input
-            type="text"
-            name="messageInput"
-            className={styles['message-input']}
-            onChange={(e) => {
-              this.setTextIntoInput(e);
-            }}
-            value={this.state.text}
-            onBlur={e => this.blurFromInput(e)}
-            id="input"
-          />
-          <span
-            role="presentation"
-            onClick={e => this.toggleEmojiBlock(e)}
-            className={styles['main_emo-menu']}
-          >
-            <i className={styles['emoji-block-icon']} />
-          </span>
+          }
+          {this.state.selectedFiles ?
+            null :
+            <span
+              role="presentation"
+              onClick={e => this.toggleEmojiBlock(e)}
+              className={styles['main_emo-menu']}
+            >
+              <i className={styles['emoji-block-icon']} />
+            </span>
+          }
           <button className={styles['submit-button']} type="submit" />
         </form>
         {this.state.showEmojis ? <div
@@ -219,6 +255,13 @@ ChatBody.propTypes = {
     backgroundImage: propTypes.string,
     primaryColor: propTypes.string,
     widgetPosition: propTypes.string,
+  }),
+  isIntroduced: propTypes.bool,
+  socket: propTypes.shape({
+    connected: propTypes.bool,
+    disconnected: propTypes.bool,
+    id: propTypes.string,
+    on: propTypes.any,
   }),
 };
 

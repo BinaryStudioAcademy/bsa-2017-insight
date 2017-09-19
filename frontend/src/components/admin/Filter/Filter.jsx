@@ -2,6 +2,7 @@ import React from 'react';
 import Checkbox from 'material-ui/Checkbox';
 import { ListItem } from 'material-ui/List';
 import EmptyPlace from './EmptyPlace';
+import styles from './styles.scss';
 
 let uniqueId = 0;
 
@@ -12,14 +13,15 @@ class Filter extends React.Component {
       radioValue: {
         browser: 'emailValue',
         Name: 'nameValue',
-        'Last seen': 'last seen Value'
+        'Last seen': 'last seen Value',
       },
       initiallyOpen: {
         Email: false,
         Name: false,
-        'Last seen': false
+        'Last seen': false,
       },
       checkedCheckboxes: {
+        firstVisitDate: { status: false, alias: 'First Visit' },
         browser: { status: false, alias: 'Browser' },
         browserLanguage: { status: false, alias: 'Browser Language' },
         browserVersion: { status: false, alias: 'Browser Version' },
@@ -28,8 +30,10 @@ class Filter extends React.Component {
         country: { status: false, alias: 'Country' },
         currentUrl: { status: false, alias: 'Current URL' },
         deviceType: { status: false, alias: 'Device Type' },
+        firstname: { status: false, alias: 'First name' },
         geoLocation: { status: false, alias: 'Geolocation' },
         _id: { status: false, alias: 'ID' },
+        lastname: { status: false, alias: 'Last name' },
         online: { status: false, alias: 'Online' },
         os: { status: false, alias: 'OS' },
         screenHeight: { status: false, alias: 'Screen Height' },
@@ -38,10 +42,8 @@ class Filter extends React.Component {
         userAgent: { status: false, alias: 'User Agent' },
         userId: { status: false, alias: 'User ID' },
         userIpAddress: { status: false, alias: 'IP Address' },
-        viewedUrls: { status: false, alias: 'Viewed URLs' },
         username: { status: false, alias: 'User name' },
-        firstname: { status: false, alias: 'First name' },
-        lastname: { status: false, alias: 'Last name' },
+        viewedUrls: { status: false, alias: 'Viewed URLs' },
       },
     };
     this.onChangeRadio = this.onChangeRadio.bind(this);
@@ -59,38 +61,6 @@ class Filter extends React.Component {
     newRadioValue[groupName] = value;
     this.setState({ radioValue: newRadioValue });
   }
-
-  // getNestedItems(obj, groupName) {
-  //   const nested = [];
-  //   for (const elem in obj) {
-  //     for (const elemKey in obj[elem]) {
-  //       nested.push(
-  //         <ListItem
-  //           style={{ fontSize: '14px' }}
-  //           key={elemKey}
-  //           primaryText={elemKey}
-  //           initiallyOpen={false}
-  //           primaryTogglesNestedList
-  //           rightIcon={<EmptyPlace />}
-  //           leftCheckbox={
-  //             <Checkbox
-  //               onCheck={() => this.onChangeRadio(elemKey, groupName)}
-  //               checked={this.state.radioValue[groupName] === elemKey}
-  //               checkedIcon={<RadioChecked />}
-  //               uncheckedIcon={<RadioUnchecked />}
-  //             />
-  //           }
-  //           nestedItems={[
-  //             <ListItem key={obj[elem][elemKey]}>
-  //               <input type="text" style={{ width: '70px', marginRight: '10px' }} />
-  //               <p style={{ fontSize: '14px', display: 'inline-block' }}>{obj[elem][elemKey]}</p>
-  //             </ListItem>
-  //           ]}
-  //         />);
-  //     }
-  //   }
-  //   return nested;
-  // }
 
   handleTap(groupName) {
     const newInitiallyOpen = this.state.initiallyOpen;
@@ -113,10 +83,10 @@ class Filter extends React.Component {
   }
 
   render() {
-    let nestedItems = Object.keys(this.state.checkedCheckboxes).map((elem) => {
-    return (<ListItem
-        style={{ fontSize: '14px', width: '160px' }}
-        innerDivStyle={{ width: '160px', padding: '16px 0 16px 38px' }}
+    const nestedItems = Object.keys(this.state.checkedCheckboxes).map((elem) => {
+      return (<ListItem
+        style={{ fontSize: '14px' }}
+        innerDivStyle={{ padding: '16px 0 16px 38px' }}
         leftCheckbox={
           <Checkbox
             onCheck={() => this.handleCheck(elem)}
@@ -129,12 +99,11 @@ class Filter extends React.Component {
         initiallyOpen={this.state.initiallyOpen[elem]}
         onClick={() => this.handleTap(elem)}
         primaryTogglesNestedList
-        // nestedItems={this.getNestedItems(statisticOptions[elem], elem)}
       />);
     });
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'space-between', height: '300px' }}>
+      <div className={styles['nested-items']}>
         {nestedItems}
       </div>
     );
@@ -142,7 +111,6 @@ class Filter extends React.Component {
 }
 
 Filter.propTypes = {
-  statisticOptions: React.PropTypes.arrayOf(React.PropTypes.string),
   selectedFields: React.PropTypes.arrayOf(React.PropTypes.string),
   updateFields: React.PropTypes.func,
 };

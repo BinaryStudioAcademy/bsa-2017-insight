@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField';
 import styles from './styles.scss';
 
 const QuestionAndAnswer = ({ faq, action }) => {
-  const disabled = !( (action === 'add') || (action === 'modify') );
+  const disabled = !((action === 'add') || (action === 'modify'));
   return (
     <div>
       <h3>Question</h3>
@@ -38,9 +38,9 @@ QuestionAndAnswer.propTypes = {
     _id: propTypes.string.isRequired,
     answer: propTypes.string.isRequired,
     question: propTypes.string.isRequired,
-    createdAt : propTypes.any.isRequired
+    createdAt: propTypes.any.isRequired,
   }),
-  action: propTypes.string
+  action: propTypes.string,
 };
 
 export default QuestionAndAnswer;

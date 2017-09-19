@@ -15,11 +15,7 @@ const selectionSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   }],
-  mailings: {
-    type: [Schema.Types.ObjectId],
-    default: [],
-    ref: 'Mailing',
-  },
+  appId: { type: Schema.Types.ObjectId, required: true },
 });
 
 module.exports = mongoose.model('Selection', selectionSchema);

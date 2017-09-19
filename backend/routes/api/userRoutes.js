@@ -4,6 +4,7 @@ const getFilteredUsers = require('./../../services/filteredUserService');
 const createUserAndEmptyStatistics = require('./../../services/userService');
 const multer = require('multer');
 const mime = require('mime');
+const randomstring = require('randomstring');
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -69,8 +70,9 @@ module.exports = (app) => {
   });
 
   app.get('/api/users/', (req, res) => {
+    if (!req.user) return res.status(204).end();
     if (Object.keys(req.query).length === 0) { // If query has no GET params
-      User.getAll((err, data) => {
+      User.getAll(req.user.appId, (err, data) => {
         if (err) {
           console.log(err);
           res.sendStatus(400);
@@ -79,7 +81,7 @@ module.exports = (app) => {
         }
       });
     } else {
-      getFilteredUsers(req.query, (err, data) => {
+      getFilteredUsers(req.user.appId, req.query, (err, data) => {
         if (err) {
           console.log(err);
           res.sendStatus(400);
@@ -103,6 +105,9 @@ module.exports = (app) => {
   });
 
   app.post('/api/users/', (req, res) => {
+  if (!req.body.username) {
+    req.body.username = `Anonymous#${randomstring.generate(6)}`
+  }
     User.add(req.body, (err, data) => {
       if (err) {
         console.log(err);

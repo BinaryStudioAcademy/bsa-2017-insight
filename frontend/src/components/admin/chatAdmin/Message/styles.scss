@@ -1,8 +1,9 @@
 :local(.message-item) {
-  min-width: 150px;
-  max-width: 300px;
+  max-width: 40%;
+  min-width: 20%;
+  width: auto;
   border-radius: 18px;
-  padding: 20px;
+  padding: 20px 20px 15px;
   word-wrap: break-word;
   margin-bottom: 10px;
 }
@@ -26,11 +27,23 @@
   font-size: 18px;
   color: #2D2D2D;
   display: block;
+  word-break: break-all;
+
+  div {
+    max-height: 22px;
+    display: flex;
+    align-items: center;
+  }
+
+  div > span {
+    margin-top: -5px;
+  }
 }
 
 :local(.user-name) {
+  display: block;
+  word-wrap: normal;
   color: #A5A5A5;
   font-size: 14px;
   margin-top: 7px;
-  display: block;
 }

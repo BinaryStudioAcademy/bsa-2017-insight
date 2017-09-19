@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import { deleteSelection, getAllSelections } from '../../../../../actions/selectionActions';
-// import Table from '../../../Table/TableItself';
+import { List, ListItem } from 'material-ui/List';
+import EmailIcon from 'material-ui/svg-icons/communication/email';
+import styles from './styles.scss';
 
 class Selection extends React.Component {
   constructor() {
     super();
     this.state = {
       chosenSelection: null,
+      membersExpanded: false,
     };
   }
 
@@ -29,8 +30,10 @@ class Selection extends React.Component {
         padding: '20px',
       }}
       >
+        <emailIcon />
         { this.state.chosenSelection ?
           <Card
+            expanded={this.state.membersExpanded}
             containerStyle={{
               backgroundColor: this.props.chosenTheme.palette.borderColor,
               padding: 10,
@@ -38,38 +41,40 @@ class Selection extends React.Component {
           >
             <CardHeader
               title={this.props.chosenSelection.name}
-              subtitle={`${this.props.chosenSelection.users.length} users, ${this.props.chosenSelection.mailings.length} mailings`}
+              subtitle={`${this.props.chosenSelection.stats.member_count} users, ${this.props.chosenSelection.stats.campaign_count} mailings`}
             />
-            <CardText>
-              {this.props.chosenSelection.description}
-            </CardText>
-            <CardText>
-              {this.props.chosenSelection.mailings}
-            </CardText>
-            <CardText expandable>
-              {/* <Table
-                options={this.props.fieldsToDisplay}
-                statistics={statistics}
-              />  */}
-            </CardText>
             <CardActions>
               <RaisedButton
+                className={styles['selection-button']}
                 label="User list"
-                onClick={() => alert('Click')}
+                onClick={() => this.setState({ membersExpanded: !this.state.membersExpanded })}
               />
               <RaisedButton
-                label="Apply mailing"
-                onClick={() => alert('Click')}
+                className={styles['selection-button']}
+                label="Go to MailChimp"
+                onClick={() => window.open('http://mailchimp.com')}
               />
               <RaisedButton
+                className={styles['selection-button']}
                 label="Delete selection"
                 onClick={() => {
-                  this.props.deleteSelection(this.props.chosenSelection._id);
+                  this.props.deleteSelection(this.props.chosenSelection.id, this.props.getSelectionList);
                   this.setState({ chosenSelection: null });
-                  this.props.getSelectionList();
                 }}
               />
             </CardActions>
+            <CardText expandable>
+              <List>
+                { this.props.chosenSelection.members.map((selection) => {
+                  return (<ListItem
+                    key={selection.id}
+                    primaryText={selection.email_address}
+                    leftIcon={<div><EmailIcon /></div>}
+                  />);
+                },
+                ) }
+              </List>
+            </CardText>
           </Card> :
           'Choose a selection first' }
       </div>
@@ -85,6 +90,12 @@ Selection.propTypes = {
     description: PropTypes.description,
     mailings: PropTypes.arrayOf(PropTypes.object),
     _id: PropTypes.string,
+    id: PropTypes.string,
+    members: PropTypes.arrayOf(PropTypes.shape()),
+    stats: PropTypes.shape({
+      member_count: PropTypes.number,
+      campaign_count: PropTypes.number,
+    }),
   }),
   getSelectionList: PropTypes.func,
   deleteSelection: PropTypes.func,
@@ -95,21 +106,4 @@ Selection.propTypes = {
   }),
 };
 
-const mapStateToProps = (state) => {
-  return {
-    chosenSelection: state.selection.chosenSelection,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteSelection: (id) => {
-      return dispatch(deleteSelection(id));
-    },
-    getSelectionList: () => {
-      return dispatch(getAllSelections());
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Selection);
+export default Selection;

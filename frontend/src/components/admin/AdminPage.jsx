@@ -9,61 +9,36 @@ import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import Header from './Header/Header';
 import LeftSideMenu from './LeftSideMenu/LeftSideMenu';
-import UserInfoTable from './Table/Table';
 import * as statisticActions from '../../actions/statisticActions';
 import Login from './AdminAuthentication/AdminLogin';
 import Registration from './AdminAuthentication/AdminRegistration';
+import AppRegistration from './AdminAuthentication/AppRegistration';
 import IncorrectRoute from '../incorrectRoute/IncorrectRoute';
 import Respond from './Respond/index';
 import EnsureAdmin from '../ensureAdmin/EnsureAdmin';
-import StatisticsFilter from './StatisticsFilter/StatisticsFilter';
-import StatisticsCharts from './StatisticsCharts/StatisticsCharts';
 import getCurrentUser from '../../actions/getCurrentUserAction';
 import styles from './styles.scss';
 import Engage from './Engage/Engage';
 import GeneralSettings from './Settings/GeneralSettings';
 import WidgetSettings from './Settings/WidgetSettings/WidgetSettings';
+import MailChimpSettings from './Settings/MailChimpSettings/MailChimpSettings';
 import FAQ from './FAQ/FAQ';
+import AppList from './AppList/Apps';
+import Homepage from './Homepage/Homepage';
+import startSocketConnection from './startSocketConnection';
+import { setConversation, getAllConversations } from '../../actions/conversationsActions';
 
 injectTapEventPlugin();
-
-// const statisticOptions = {
-//   items: ['Name', 'Email', 'Last seen'],
-//   Name: [
-//     {
-//       'Name 1': 'name-option1',
-//     },
-//     {
-//       'Name 2': 'name-option2',
-//     }],
-//   Email: [
-//     {
-//       'email 1': 'email-option1',
-//     },
-//     {
-//       'email 2': 'email-option2',
-//     },
-//   ],
-//   'Last seen': [
-//     {
-//       'more than': 'days ago',
-//     },
-//     {
-//       exactly: 'days ago',
-//     },
-//     {
-//       'less than': 'days ago',
-//     },
-//   ],
-// };
 
 class AdminPage extends React.Component {
   constructor(props) {
     super(props);
-    this.leftMenuWidth = 75;
+    this.leftMenuWidth = 80;
     this.headerHeight = 65;
     this.state = {
       chosenTheme: lightBaseTheme,
+      reassignedConversations: this.props.reassignedConversations,
+      unreadMessages: this.props.unreadMessages,
     };
     this.toggleTheme = this.toggleTheme.bind(this);
   }
@@ -73,11 +48,16 @@ class AdminPage extends React.Component {
   }
 
   componentDidMount() {
+    startSocketConnection.call(this, this.props.dispatch);
     this.props.getAllStatistic();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ currentUser: nextProps.currentUser });
+    this.setState({
+      currentUser: nextProps.currentUser,
+      reassignedConversations: nextProps.reassignedConversations,
+      unreadMessages: nextProps.unreadMessages,
+    });
   }
 
   getStatisticOptions(arr) {
@@ -89,8 +69,6 @@ class AdminPage extends React.Component {
   }
 
   toggleTheme() {
-    // console.log('Current theme:');
-    // console.log(this.state.chosenTheme);
     this.setState({
       chosenTheme: this.state.chosenTheme === lightBaseTheme ? darkBaseTheme : lightBaseTheme,
     }, () => {
@@ -104,7 +82,6 @@ class AdminPage extends React.Component {
         <div
           className={styles['admin-page']}
           style={{
-            minWidth: '700px',
             fontFamily: 'Roboto, sans-serif',
             backgroundColor: this.state.chosenTheme.palette.canvasColor,
             color: this.state.chosenTheme.palette.textColor,
@@ -114,12 +91,16 @@ class AdminPage extends React.Component {
           <Switch>
             <Route path={'/admin/login'} component={Login} />
             <Route path={'/admin/registration'} component={Registration} />
+            <Route path={'/app/registration'} component={AppRegistration} />
             <Route render={() => {
               return (
                 <EnsureAdmin currentUser={this.state.currentUser}>
                   <LeftSideMenu
                     width={this.leftMenuWidth}
                     chosenTheme={this.state.chosenTheme}
+                    currentUser={this.props.currentUser}
+                    reassignedConversations={this.state.reassignedConversations}
+                    unreadMessages={this.state.unreadMessages}
                   />
                   <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: this.leftMenuWidth - 8 }}>
                     <Header
@@ -128,7 +109,7 @@ class AdminPage extends React.Component {
                       chosenTheme={this.state.chosenTheme}
                       style={{ height: this.headerHeight }}
                     />
-                    <div style={{ height: `calc(100vh - ${this.headerHeight + 8}px)`, overflowY: 'scroll' }}>
+                    <div>
                       <Switch>
                         <Route
                           exact
@@ -137,35 +118,31 @@ class AdminPage extends React.Component {
                             const statistics = this.props.usersToRender;
                             const options = this.getStatisticOptions(this.props.usersToRender);
                             return (
-                              <div style={{ marginTop: '10px' }}>
-                                <StatisticsFilter chosenTheme={this.state.chosenTheme} />
-                                <UserInfoTable
-                                  options={this.props.fieldsToDisplay}
+                              <div className={styles['statistics-content-wrapper']}>
+                                <Homepage
+                                  chosenTheme={this.state.chosenTheme}
+                                  fieldsToDisplay={this.props.fieldsToDisplay}
                                   statistics={statistics}
-                                  selectedFields={this.props.fieldsToDisplay}
                                   statisticOptions={options}
                                   updateFields={this.props.updateFields}
-                                  chosenTheme={this.state.chosenTheme}
-                                />
-                                <StatisticsCharts
-                                  selectedFields={this.props.fieldsToDisplay}
-                                  statistics={statistics}
                                 />
                               </div>
                             );
                           }}
                         />
                         <Route
-                          path="/admin/respond"
+                          path="/admin/messenger"
                           render={() => (
                             <Respond
                               headerHeight={this.headerHeight}
                               chosenTheme={this.state.chosenTheme}
+                              socketConnection={this.socket}
+                              updateUnreadMessages={this.props.updateUnreadMessages}
                             />)
                           }
                         />
                         <Route
-                          path={'/admin/engage'}
+                          path={'/admin/selections'}
                           render={() => (
                             <Engage
                               headerHeight={this.headerHeight}
@@ -173,9 +150,19 @@ class AdminPage extends React.Component {
                             />
                           )}
                         />
-                        <Route path={'/admin/settings/general'} component={GeneralSettings} />
                         <Route path={'/admin/faq'} component={FAQ} />
+                        <Route path={'/admin/settings/general'} component={GeneralSettings} />
                         <Route path={'/admin/settings/widget'} component={WidgetSettings} />
+                        <Route path={'/admin/settings/mailchimp'} component={MailChimpSettings} />
+                        <Route
+                          path={'/admin/apps'}
+                          render={() => (
+                            <AppList
+                              headerHeight={this.headerHeight}
+                              chosenTheme={this.state.chosenTheme}
+                            />
+                          )}
+                        />
                         <Route component={IncorrectRoute} />
                       </Switch>
                     </div>
@@ -198,6 +185,16 @@ AdminPage.propTypes = {
   fieldsToDisplay: PropTypes.arrayOf(PropTypes.string),
   updateFields: PropTypes.func,
   currentUser: PropTypes.shape(),
+  dispatch: PropTypes.func,
+  reassignedConversations: PropTypes.arrayOf(PropTypes.string),
+  unreadMessages: PropTypes.arrayOf(PropTypes.string),
+  updateUnreadMessages: PropTypes.func,
+};
+
+AdminPage.contextTypes = {
+  router: React.PropTypes.shape({
+    history: React.PropTypes.object.isRequired,
+  }),
 };
 
 const mapStateToProps = (state) => {
@@ -205,11 +202,19 @@ const mapStateToProps = (state) => {
     fieldsToDisplay: state.statistics.fieldsToDisplay,
     currentUser: state.currentUser.currentUser,
     usersToRender: state.statistics.usersToRender,
+    conversationToRenderId: state.conversationsInfo.conversationToRenderId,
+    reassignedConversations: state.conversationsInfo.reassignedConversations,
+    unreadMessages: state.conversationsInfo.unreadMessages,
+    conversations: state.conversationsInfo.conversations,
+    conversationFilters: state.conversationsInfo.conversationFilters,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getAllConversations: () => {
+      dispatch(getAllConversations());
+    },
     getAllStatistic: () => {
       return dispatch(statisticActions.getAllStatistics());
     },
@@ -219,6 +224,25 @@ const mapDispatchToProps = (dispatch) => {
     updateFields: (newFields) => {
       return dispatch({ type: 'UPDATE_FIELDS', payload: newFields });
     },
+    setConversation: (id) => {
+      dispatch(setConversation(id));
+    },
+    getStatisticById: (id) => {
+      dispatch(statisticActions.getStatisticById(id));
+    },
+    navigateToConversation: (group, id) => {
+      dispatch({ type: 'NAVIGATE_TO_CONVERSATION', payload: { group, id } });
+    },
+    setReassignToFalse: (conversationId) => {
+      dispatch({ type: 'SET_REASSIGN_TO_FALSE', payload: conversationId });
+    },
+    updateUnreadMessages: (newMessages) => {
+      dispatch({ type: 'UPDATE_UNREAD_MESSAGES', payload: newMessages });
+    },
+    updateReassignedConversations: (newConversations) => {
+      dispatch({ type: 'UPDATE_REASSIGNED_CONVERSATIONS', payload: newConversations });
+    },
+    dispatch,
   };
 };
 

@@ -1,8 +1,10 @@
 const conversationRepository = require('../../repositories/conversationRepository');
+const conversationService = require('../../services/conversationService');
 
 module.exports = (app) => {
   app.get('/api/conversations/', (req, res) => {
-    conversationRepository.getAllConversations((err, data) => {
+    if (!req.user) return res.status(204).end();
+    conversationRepository.getAllConversations(req.user.appId, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -21,6 +23,15 @@ module.exports = (app) => {
       } else {
         res.status(200).json(data);
       }
+    });
+  });
+
+  app.post('/api/conversations/pick', (req, res) => {
+    conversationService.pickConversation(req.body.id, req.user._id, (err, result) => {
+      if(err) {
+        return res.json({ ok: false, message: err.message });
+      }
+      res.json({ ok: true });
     });
   });
 

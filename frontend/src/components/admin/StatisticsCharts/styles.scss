@@ -1,0 +1,19 @@
+:local(.charts-container) {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding-top: 30px;
+  @media (min-width: 1000px) {
+    float: right;
+    width: 100%;
+  }
+  @media (min-width: 1400px) {
+    width: 100%;
+  }
+}
+
+:local(.charts-toggle) {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

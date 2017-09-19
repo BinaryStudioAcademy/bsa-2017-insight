@@ -17,11 +17,17 @@ WebFont.load({
   },
 });
 
+
+if (!window._injectedData) window._injectedData = { text: 'injectedData' };
+window._injectedData.insightHost = process.env.NODE_ENV === 'development' ?
+  'http://localhost:3001' : 'http://78.129.225.86:3001';
+
 render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
         <Route path={'/admin'} component={AdminPage} />
+        <Route path={'/app'} component={AdminPage} />
         <Route component={Home} />
       </Switch>
     </BrowserRouter>

@@ -5,6 +5,8 @@ import GpsFixed from 'material-ui/svg-icons/device/gps-fixed';
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import Time from 'material-ui/svg-icons/device/access-time';
+import Drafts from 'material-ui/svg-icons/content/drafts';
+import Phone from 'material-ui/svg-icons/hardware/phone-iphone';
 import Subheader from 'material-ui/Subheader';
 import styles from './styles.scss';
 
@@ -21,9 +23,11 @@ const UserInfo = (props) => {
         className={styles['user-info']}
       >
         <List>
-          <ListItem primaryText={user.username} secondaryText={isOnline} leftAvatar={<Avatar src={`avatars/${user.avatar}`} />} />
+          <ListItem primaryText={user.username} secondaryText={isOnline} leftAvatar={<Avatar src={`${user.avatar}`} />} />
           <ListItem primaryText={statistic.country} secondaryText={statistic.city} leftIcon={<GpsFixed />} />
           <ListItem primaryText={statistic.timeZone} leftIcon={<Time />} />
+          {user.email && <ListItem primaryText={user.email} leftIcon={<Drafts />} />}
+          {user.phone && <ListItem primaryText={user.phone} leftIcon={<Phone />} />}
         </List>
 
         <Divider />
@@ -50,7 +54,6 @@ const UserInfo = (props) => {
   );
 };
 
-          // <ListItem primaryText="Signed up" secondaryText={statistic.signedUp} />
 UserInfo.propTypes = {
   statistic: propTypes.shape({
     userId: propTypes.any,
@@ -68,8 +71,8 @@ UserInfo.propTypes = {
     userAgent: propTypes.string,
     timeZone: propTypes.string,
     signedUpDate: propTypes.any,
-    sessionsCounts: propTypes.number
-  })
+    sessionsCounts: propTypes.number,
+  }),
 };
 
 export default UserInfo;

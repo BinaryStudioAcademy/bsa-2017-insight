@@ -3,19 +3,22 @@
 :local(.container) {
   width: 100%;
   display: flex;
+  padding-bottom: 85px;
   align-items: center;
   flex-direction: column;
 }
 
 :local(.title-wrapper) {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  height: 80px;
+  min-height: 80px;
   box-sizing: border-box;
   width: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
+  @media (min-width: 1000px) {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
 }
 
 :local(.close-button) {
@@ -45,11 +48,15 @@
 }
 
 :local(.conversations-list) {
+  box-sizing: border-box;
   overflow: auto;
   list-style: none;
   padding: 0;
   margin: 0;
   width: 100%;
+  @media (min-width: 1000px) {
+    height: 305px;
+  }
 }
 
 :local(.conversation-item) {
@@ -74,11 +81,13 @@
 :local(.author-avatar) {
   width: 50px;
   height: 50px;
+  border-radius: 50%;
   float: left;
   margin-right: 3%;
 }
 
 :local(.author-name) {
+  position: relative;
   color: #707070;
   font-weight: normal;
   margin-bottom: 10px;
@@ -87,8 +96,8 @@
 :local(.message-body) {
   color: #686868;
   font-weight: normal;
-  white-space:nowrap;
-  overflow:hidden;
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
@@ -96,14 +105,14 @@
   color: #707070;
   font-weight: normal;
   position: absolute;
-  top: 30px;
-  right: 30px;
+  top: 0;
+  right: 0;
 }
 
 :local(.create-conversation-button) {
   position: absolute;
   bottom: 25px;
-  width: 45%;
+  width: 50%;
   left: 50%;
   transform: translateX(-50%);
   font-size: 16px;
@@ -116,16 +125,19 @@
   &:hover {
     opacity: 0.7;
   }
+  span {
+    position: relative;
+  }
 
-  &:before {
+  span:before {
     content: '';
     display: block;
     position: absolute;
-    left: 15px;
-    top: 13px;
+    top: -3px;
+    left: -30px;
     width: 23px;
     height: 23px;
-    background: url("http://localhost:3000/resources/widget/images/chat.png") center no-repeat;
+    background: url("/resources/widget/images/chat.png") center no-repeat;
     background-size: cover;
   }
 }

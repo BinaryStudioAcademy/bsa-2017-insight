@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Toggle from 'material-ui/Toggle';
 import { BarChart, Bar, PieChart, Pie, XAxis, Tooltip, Legend, Cell } from 'recharts';
 import randomColor from 'random-material-color';
+import styles from './styles.scss';
 
 class StatisticsCharts extends React.Component {
   constructor() {
@@ -51,7 +53,6 @@ class StatisticsCharts extends React.Component {
     for (const stat in statValues) {
       statistics.statValues.push({ name: stat, value: statValues[stat] });
     }
-    // this.setState({ statisticsData: [...this.state.statisticsData, statistics] });
     return statistics;
   }
 
@@ -107,9 +108,10 @@ class StatisticsCharts extends React.Component {
 
   render() {
     return (
-      <div style={{ marginTop: 40, padding: '0 10px', float: 'right', width: '78%' }}>
+      <div className={styles['charts-container']}>
         {/* <h2 style={{ width: 400 }}>Charts</h2> */}
         <Toggle
+          className={styles['charts-toggle']}
           style={{ float: 'right', width: 190 }}
           label={`Switch to "${this.state.chartType === 'pie' ? 'bar' : 'pie'}" style`}
           onToggle={() => this.switchChartType(this.state)}
@@ -133,5 +135,10 @@ class StatisticsCharts extends React.Component {
     );
   }
 }
+
+StatisticsCharts.propTypes = {
+  statistics: PropTypes.arrayOf(PropTypes.shape()),
+  selectedFields: PropTypes.arrayOf(PropTypes.string),
+};
 
 export default StatisticsCharts;

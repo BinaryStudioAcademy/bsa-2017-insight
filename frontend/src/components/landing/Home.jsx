@@ -16,7 +16,6 @@ import Registration from './UserAuthentication/UserRegistration';
 import Forgot from './UserAuthentication/reset/Forgot';
 import ResetPassword from './UserAuthentication/reset/ResetPassword';
 import InvalidToken from './UserAuthentication/reset/InvalidToken';
-// import '../insightWidget/insightWidget';
 
 class Home extends React.Component {
   render() {

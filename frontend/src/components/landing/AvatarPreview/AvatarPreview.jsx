@@ -8,7 +8,7 @@ export default class AvatarPreview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.save = this.save.bind(this);
@@ -53,7 +53,7 @@ export default class AvatarPreview extends React.Component {
       <div>
         <img src={this.state.image} id={'avatarPreview'} alt={'Avatar'} />
         <Dialog
-          modal={true}
+          modal
           open={this.state.open}
           bodyStyle={{ margin: 0, padding: 0 }}
         >
@@ -66,6 +66,6 @@ export default class AvatarPreview extends React.Component {
 }
 
 AvatarPreview.propTypes = {
-  image: PropTypes.object,
-  update: PropTypes.func
+  image: PropTypes.shape({}),
+  update: PropTypes.func,
 };

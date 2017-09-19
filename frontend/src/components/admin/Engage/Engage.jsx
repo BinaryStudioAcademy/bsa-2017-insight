@@ -1,27 +1,21 @@
 import React from 'react';
-import { Tabs, Tab } from 'material-ui/Tabs';
+import PropTypes from 'prop-types';
 import EngageSelections from './EngageSelections/EngageSelections';
-import EngageMessages from './EngageMessages/EngageMessages';
 
 class Engage extends React.Component {
   render() {
     return (
-      <Tabs>
-        <Tab label="Selections">
-          <EngageSelections
-            headerHeight={this.props.headerHeight}
-            chosenTheme={this.props.chosenTheme}
-          />
-        </Tab>
-        <Tab label="Messages">
-          <EngageMessages
-            headerHeight={this.props.headerHeight}
-            chosenTheme={this.props.chosenTheme}
-          />
-        </Tab>
-      </Tabs>
+      <EngageSelections
+        headerHeight={this.props.headerHeight}
+        chosenTheme={this.props.chosenTheme}
+      />
     );
   }
 }
+
+Engage.propTypes = {
+  headerHeight: PropTypes.number,
+  chosenTheme: PropTypes.shape({}),
+};
 
 export default Engage;

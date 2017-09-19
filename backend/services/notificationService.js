@@ -22,10 +22,10 @@ notificationService.emailNotification = (info, cb) => {
         if (intData.email) {
           cb(emailService.send({
             to: intData.email,
-            subject: `You have a new message on InSight from ${intData.username || 'an anonimous user'}`,
+            subject: `You have a new message on InSight from ${intData.username || 'an anonymous user'}`,
             text: ' ',
             html: `<p><q>${info.body}</q></p>
-  <p>You can visit <a href="http://localhost:3000/${info.author.userType === 'Admin' ? '' : 'admin/respond/'}">InSight</a> to answer.</p>`
+  <p>You can visit <a href="${global.insightHost}/${info.author.userType === 'Admin' ? '' : 'admin/respond/'}">InSight</a> to answer.</p>`
           }));
         }
       });

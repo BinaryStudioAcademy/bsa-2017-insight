@@ -16,8 +16,8 @@
 
 :local(.sender-avatar) {
   box-sizing: border-box;
-  width: 8%;
-  height: 8%;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
 }
 
@@ -30,6 +30,7 @@
   border-radius: 10px;
   width: auto;
   max-width: 70%;
+  word-break:break-all;
 
   a {
     color: #ffffff;
@@ -40,9 +41,9 @@
   }
 
   div {
-    height: 20px;
     display: flex;
     align-items: center;
+    min-height: 20px;
   }
 
   div span {
@@ -78,6 +79,9 @@
 :local(.admin-message) {
   justify-content: flex-end;
   padding-right: 20px;
+   &:first-of-type{
+    padding-top: 15px;
+  }
 
   :local(.message-body-text) {
     background-color: #e6e9eb !important;
@@ -99,6 +103,9 @@
 
 :local(.user-message) {
   padding-left: 20px;
+  &:first-of-type{
+    padding-top: 15px;
+  }
 
   :local(.message-body-text) {
     color: #ffffff;

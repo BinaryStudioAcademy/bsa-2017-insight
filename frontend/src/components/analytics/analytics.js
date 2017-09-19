@@ -1,5 +1,16 @@
 (function () {
+  function checkFirstVisitDate() {
+    if (window._injectedData.firstVisit) {
+      return window._injectedData.firstVisit;
+    } else {
+      window._injectedData.firstVisit = Date.now();
+      return window._injectedData.firstVisit;
+    }
+  }
+
   const userStatistics = {
+    appId: window._injectedData.currentAppId,
+    firstVisitDate: checkFirstVisitDate(),
     userId: null,
     viewedUrls: null,
     currentUrl: location.href,
@@ -16,6 +27,7 @@
     timeZone: -((new Date()).getTimezoneOffset() / 60),
   };
 
+
   function getUserIp() {
     return fetch('https://ipinfo.io/json');
   }
@@ -23,9 +35,9 @@
   function sendStatistics(id, method) {
     let url;
     if (method === 'POST') {
-      url = 'http://localhost:3000/api/statistics';
+      url = `${window._injectedData.insightHost}/api/statistics`;
     } else {
-      url = `http://localhost:3000/api/statistics/${id}`;
+      url = `${window._injectedData.insightHost}/api/statistics/${id}`;
     }
     const requestOptions = {
       headers: {
@@ -40,9 +52,13 @@
   }
 
   function sendUser(id) {
-    const userObject = {
+    let userObject = {
       _id: id,
+      appId: window._injectedData.currentAppId,
     };
+    if (typeof window._injectedData.userId === 'object') {
+      userObject = Object.assign(userObject, window._injectedData.userId);
+    }
     const requestOptions = {
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +66,7 @@
       body: JSON.stringify(userObject),
       method: 'POST',
     };
-    return fetch('http://localhost:3000/api/users', requestOptions);
+    return fetch(`${window._injectedData.insightHost}/api/users`, requestOptions);
   }
 
   function saveUrlHistory() {
@@ -90,6 +106,8 @@
   function generateId() {
     return (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24);
   }
+
+  window.onload = () => document.documentElement.click(); // ???
 
   window.addEventListener('click', () => {
     const injectedData = window._injectedData;

@@ -13,6 +13,8 @@ const conversationSchema = new Schema({
   messages: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
   open: Boolean,
   createdAt: Date,
+  appId: { type: Schema.Types.ObjectId, required: false }, // CHANGE TO "TRUE" LATER
+  isReassigned: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model('Conversation', conversationSchema);

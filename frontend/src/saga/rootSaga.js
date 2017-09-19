@@ -4,7 +4,9 @@ import conversationsSaga from './conversationsSaga';
 import getCurrentUserSaga from './currentUserSaga';
 import selectionsSaga from './selectionsSaga';
 import faqSaga from './faqSaga';
-
+import appsSaga from './appsSaga';
+import mailchimpSettingsSaga from './mailchimpSettingsSaga';
+import forceMessagesSaga from './forceMessagesSaga';
 
 function* rootSaga() {
   yield [
@@ -12,7 +14,10 @@ function* rootSaga() {
     fork(conversationsSaga),
     fork(getCurrentUserSaga),
     fork(selectionsSaga),
-    fork(faqSaga)
+    fork(faqSaga),
+    fork(appsSaga),
+    fork(mailchimpSettingsSaga),
+    fork(forceMessagesSaga),
   ];
 }
 

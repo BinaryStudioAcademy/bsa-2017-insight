@@ -1,5 +1,6 @@
 const passport = require('passport');
 const adminRepository = require('../../repositories/adminRepository');
+const appRepository = require('../../repositories/appRepository');
 const checkVerification = require('../../services/adminService');
 const multer = require('multer');
 const mime = require('mime');
@@ -17,15 +18,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 module.exports = function (app) {
-  // app.post('/api/admins/login/', passport.authenticate('admin', {
-  //   successRedirect: '/admin',
-  //   failureRedirect: '/admin/registration',
-  //   failureFlash: true,
-  //   successFlash: 'Welcome!',
-  // }));
-  // app.post('/api/admins/registration', (req, res) => {
 
-  app.post('/api/admin/login/', (req, res, next) => {
+  app.post('/api/admin/login', (req, res, next) => {
     if (req.user) return res.redirect('/');
     checkVerification(req, (data) => {
       if (data) {
@@ -45,9 +39,20 @@ module.exports = function (app) {
           if (!user) {
             return res.json({ text: info });
           }
-          req.logIn(user, (err) => {
+          appRepository.getById(user.appId, (err, app) => {
             if (err) return next(err);
-            res.redirect('/admin');
+            if (app.isActive === false) {
+              return res.json({ text: 'Sorry, but your app is inactive. If you just added your app, please \
+              wait for a few hours for moderation. Otherwise, contact our support.' });
+            }
+            req.logIn(user, (err) => {
+              if (err) return next(err);
+              if (req.body.device === 'mobile') {
+                res.redirect('/mobile');
+              } else {
+                res.redirect('/admin');
+              }
+            });
           });
         })(req, res, next);
       }
@@ -58,6 +63,7 @@ module.exports = function (app) {
     if (req.user) return res.redirect('/');
 
     const data = {
+      appId: req.body.appId,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       password: req.body.secondPassword,
@@ -66,21 +72,22 @@ module.exports = function (app) {
       username: req.body.username,
       gender: req.body.gender,
       isAdmin: true,
+      adminGroups: req.body.adminGroups.split(','),
     };
     console.log(`data username ${data.username}`);
-    // adminRepository.add(data, () => {
-    //   passport.authenticate('local')(req, res, () => {
-    //     console.log('before redirect');
-    //     res.redirect('/admin/login');
-
-    
     adminRepository.getByUsername(data.username, (err, user) => {
       if (err) return next(err);
       if (user) return res.json({ text: 'User with this username exists' });
-      
-      adminRepository.add(data, (err) => {
+      appRepository.getById(data.appId, (err, app) => {
         if (err) return next(err);
-        res.redirect('/admin/login');
+        if (!app) {
+          return res.json({ text: 'App with such ID does not exist. \
+          Please, contact another admin of the app to be provided with the correct App ID' });
+        }
+        adminRepository.add(data, (err) => {
+          if (err) return next(err);
+          res.redirect('/admin/login');
+        });
       });
     });
   });
@@ -91,7 +98,8 @@ module.exports = function (app) {
   });
 
   app.get('/api/admins/', (req, res) => {
-    adminRepository.getAll((err, data) => {
+    if (!req.user) return res.status(204).end();
+    adminRepository.getAllAdmins(req.user.appId, (err, data) => {
       if (err) {
         console.log(err);
         res.sendStatus(400);
@@ -111,6 +119,15 @@ module.exports = function (app) {
         res.status(200).json(data);
       }
     });
+  });
+
+  app.post('/api/admins/search', (req, res, next) => {
+    adminRepository.findByConditions({ $and: [{ username: { $regex: new RegExp(`^${req.body.username}`) } }, { username: { $ne: req.user.username } }, { adminGroups: { $in: [req.body.adminGroups] } }], appId: req.user.appId }, (err, data) => {
+      if (err) {
+        return next(err);
+      }
+      return res.json(data);
+    })
   });
 
   app.post('/api/admins/', (req, res) => {

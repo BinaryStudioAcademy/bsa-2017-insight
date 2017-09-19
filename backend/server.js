@@ -15,7 +15,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const flash = require('connect-flash');
 
-const port = 3000;
+const port = 3001;
 const socketConnectionHandler = require('./socketConnection');
 
 const app = express();
@@ -47,12 +47,16 @@ context.mongoStore = new MongoStore({
 
 const compiler = webpack(webpackConfig);
 
-app.use(webpackDevMiddleware(compiler, {
-  noInfo: true,
-  publicPath: webpackConfig[0].output.publicPath,
-}));
+if (process.env.NODE_ENV === 'development') {
+  app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: webpackConfig[0].output.publicPath,
+  }));
+}
 
-app.use(webpackHotMiddleware(compiler));
+if (process.env.NODE_ENV === 'development') {
+  app.use(webpackHotMiddleware(compiler));
+}
 
 const staticPath = path.resolve(`${__dirname}/../dist/`);
 const uploads = path.resolve(`${__dirname}/../uploads/`);
@@ -79,6 +83,9 @@ const apiRoutes = require('./routes/api/routes')(app);
 const viewRoutes = require('./routes/view/routes')(app);
 
 console.log(`app runs on port: ${port}`);
+console.log(`NODE_ENV=${process.env.NODE_ENV}`);
+
+global.insightHost = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'http://78.129.225.86:3001';
 
 const server = app.listen(port);
 const io = require('socket.io').listen(server);

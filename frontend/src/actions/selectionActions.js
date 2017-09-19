@@ -11,17 +11,17 @@ const getSingleSelection = (id) => {
   };
 };
 
-const addSelection = (body) => {
+const addSelection = (body, cb) => {
   return {
     type: 'ADD_SELECTION',
-    payload: { body },
+    payload: { body, cb },
   };
 };
 
-const deleteSelection = (id) => {
+const deleteSelection = (id, cb) => {
   return {
     type: 'DELETE_SELECTION',
-    payload: { id },
+    payload: { id, cb },
   };
 };
 

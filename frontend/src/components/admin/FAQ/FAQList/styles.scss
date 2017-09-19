@@ -1,17 +1,35 @@
-:local(.FAQ-list) {
+$headerHeight: 73px;
+$searchFieldHeight: 48px;
+$addQuestionHeight: 66px;
+$padding: 20px;
+
+:local(.container) {                     
   margin: 10px 0 15px;
-  width: 20%;
-  height: 100vh;
-  overflow: auto;
+  width: 29%;
+  height: calc(100vh - #{$headerHeight});
   list-style: none;
-  padding: 20px;
+  padding: $padding;
   box-sizing: border-box;
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @media (min-width: 1000px) {
+    width: 20%;
+  }
+}
+
+:local(.search) {
+  width: 90% !important;
+
+  @media (min-width: 1000px) {
+    width: 90% !important;
+  }
 }
 
 :local(.ListItem-highlight-false) {
   p{
-    margin: 0px !important;
+    margin: 0 !important;
     padding: 25px 15px !important;
   }
 }
@@ -21,7 +39,18 @@
   background-color: #bcbcbc !important;
 
   p{
-    margin: 0px !important;
+    margin: 0 !important;
     padding: 25px 15px !important;
   }
+}
+
+:local(.list){
+  height: calc(100vh - #{$headerHeight} - #{$searchFieldHeight} - #{$addQuestionHeight} - #{$padding}*2) !important;
+  border-bottom: 1px solid #E0E0E0 !important;
+  overflow: auto;
+}
+
+:local(.addButton) {
+  padding: 20px 0px 10px 0px; 
+  margin: auto;
 }

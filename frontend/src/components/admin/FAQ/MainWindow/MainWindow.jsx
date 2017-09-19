@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
-import { List, ListItem } from 'material-ui/List';
 import QuestionAndAnswer from '../QuestionAndAnswer/QuestionAndAnswer';
 import styles from './styles.scss';
 
@@ -10,13 +9,11 @@ class MainWindow extends Component {
     super(props);
 
     this.state = {
-      disabled: true
+      disabled: true,
     };
   }
 
   deleteQuestion() {
-    console.log('delete');
-    console.log(this.props.currentQuestion._id);
     if (this.props.currentQuestion._id != null) {
       this.props.setAction('delete');
       this.props.deleteQuestion(this.props.currentQuestion._id);
@@ -44,28 +41,20 @@ class MainWindow extends Component {
     this.document.body.removeChild(div);
   }
 
-  handleAction(action) {
-    this.setState({
-      disabled: false
-    });
-    this.props.setAction(action);
-  }
-
   submit() {
     this.setState({
-      disabled: true
+      disabled: true,
     });
     const question = document.getElementById('question');
     const answer = document.getElementById('answer');
     const body = {
       question: question.value,
       answer: answer.value,
-      createdAt: new Date()
+      createdAt: new Date(),
     };
     if (this.props.action === 'add') {
       this.props.addQuestion(body);
-    }
-    else if (this.props.action === 'modify') {
+    } else if (this.props.action === 'modify') {
       this.props.modifyQuestion(this.props.currentQuestion._id, body);
     }
     this.props.setAction('');
@@ -73,21 +62,28 @@ class MainWindow extends Component {
 
   render() {
     return (
-      <div className={styles['main-window']}>
+      <div className={styles.mainWindow}>
         <div>
-          <List>
-            <ListItem open={this.state.open} disableKeyboardFocus>
-              <RaisedButton onClick={() => this.handleAction('modify')} label="Modify" style={{ margin: '10px' }} />
-              <RaisedButton onClick={() => this.copyToClipboard()} label="Copy" style={{ margin: '10px' }} />
-              <RaisedButton onClick={() => this.deleteQuestion()} label="Delete" style={{ margin: '10px' }} />
-              <RaisedButton onClick={() => this.handleAction('add')} label="Add question" style={{ marginLeft: '40%' }} />
-            </ListItem>
-          </List>
+          <RaisedButton
+            onClick={() => this.props.handleAction('modify')}
+            label="Modify"
+            className={styles.raisedButton}
+          />
+          <RaisedButton
+            onClick={() => this.copyToClipboard()}
+            label="Copy"
+            className={styles.raisedButton}
+          />
+          <RaisedButton
+            onClick={() => this.deleteQuestion()}
+            label="Delete"
+            className={styles.raisedButton}
+          />
         </div>
         <div>
           {
-            (this.props.currentQuestion.question === '' && this.props.action !== 'add') ? <p>Choose the question</p> :
-            <QuestionAndAnswer faq={this.props.currentQuestion} action={this.props.action} />
+            (this.props.currentQuestion.question === '' && this.props.action !== 'add') ? <p>Choose the question</p>
+              : <QuestionAndAnswer faq={this.props.currentQuestion} action={this.props.action} />
           }
           {
             ((this.props.currentQuestion !== '' && this.props.action === 'modify') || this.props.action === 'add') ?
@@ -100,18 +96,16 @@ class MainWindow extends Component {
 }
 
 MainWindow.propTypes = {
-  addQuestion: propTypes.func,
-  modifyQuestion: propTypes.func,
-  deleteQuestion: propTypes.func,
-  setAction: propTypes.func,
-  action: propTypes.string,
-  faq: propTypes.shape({
-    _id: propTypes.string.isRequired,
-    answer: propTypes.string.isRequired,
-    question: propTypes.string.isRequired,
-    createdAt : propTypes.any.isRequired
+  addQuestion: PropTypes.func,
+  modifyQuestion: PropTypes.func,
+  deleteQuestion: PropTypes.func,
+  setAction: PropTypes.func,
+  action: PropTypes.string,
+  currentQuestion: PropTypes.shape({
+    question: PropTypes.string,
+    _id: PropTypes.string,
   }),
-  selectedId: propTypes.string
+  handleAction: PropTypes.func,
 };
 
 export default MainWindow;

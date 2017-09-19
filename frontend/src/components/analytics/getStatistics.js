@@ -1,24 +1,27 @@
 function getStatisticsByQuery(query) {
-  let url = 'http://localhost:3000/api/statistics';
-  if (query && query !== '') url = `http://localhost:3000/api/users?${query}`;
+  let url = `${window._injectedData.insightHost}/api/statistics`;
+  if (query && query !== '') url = `${window._injectedData.insightHost}/api/users?${query}`;
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',
     },
     body: null,
     method: 'GET',
+    credentials: 'include',
   };
   return fetch(url, requestOptions)
     .then((response) => {
-      return response.json();
+      if (response.status === 200) return response.json();
+      return undefined;
     })
     .then((info) => {
       return info;
-    });
+    })
+    .catch(err => console.log(err));
 }
 
 function getStatisticById(id) {
-  return fetch(`http://localhost:3000/api/statistics/by-user/${id}`)
+  return fetch(`${window._injectedData.insightHost}/api/statistics/by-user/${id}`)
     .then(response => response.json())
     .then(statistic => statistic);
 }

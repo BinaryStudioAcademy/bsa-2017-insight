@@ -9,7 +9,7 @@ import Toggle from 'material-ui/Toggle';
 class Header extends React.Component {
   logout(e) {
     e.preventDefault();
-    fetch('/api/admin/logout', { credentials: 'include' })
+    fetch(`${window._injectedData.insightHost}/api/admin/logout`, { credentials: 'include' })
       .then(response => window.location.replace(response.url));
   }
 
@@ -42,18 +42,29 @@ class Header extends React.Component {
                   autoGenerateNestedIndicator={false}
                   primaryTogglesNestedList
                   style={{ color: this.props.chosenTheme.palette.alternateTextColor }}
-                  leftAvatar={<Avatar src={`/avatars/${user.avatar}`} />}
+                  leftAvatar={<Avatar src={`avatars/${user.avatar}`} />}
                   primaryText={this.props.currentUser.username}
                   nestedListStyle={{
                     position: 'absolute',
+                    right: 0,
                     border: `1px solid ${this.props.chosenTheme.palette.primary1Color}`,
                     backgroundColor: this.props.chosenTheme.palette.canvasColor,
-                    width: '157px',
                     padding: '0',
                     color: this.props.chosenTheme.palette.textColor,
                   }}
                   nestedItems={[
-                    <ListItem primaryText={'Log out'} innerDivStyle={{ padding: '7px' }} onClick={this.logout} />,
+                    <ListItem
+                      key={2}
+                      primaryText={'AppId'}
+                      secondaryText={window._injectedData.appId}
+                      innerDivStyle={{ padding: '7px' }}
+                    />,
+                    <ListItem
+                      key={1}
+                      primaryText={'Log out'}
+                      innerDivStyle={{ padding: '7px' }}
+                      onClick={this.logout}
+                    />,
                   ]}
                 />
               </ToolbarGroup>

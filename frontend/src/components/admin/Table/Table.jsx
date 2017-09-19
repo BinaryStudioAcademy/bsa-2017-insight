@@ -251,10 +251,12 @@ class UserInfoTable extends React.Component {
         >
           <DatePicker
             hintText="from"
+            value={this.state.minDate}
             onChange={this.onMinDateInputChange}
           />
           <DatePicker
             hintText="to"
+            value={this.state.maxDate}
             onChange={this.onMaxDateInputChange}
           />
         </Dialog>

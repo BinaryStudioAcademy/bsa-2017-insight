@@ -12,6 +12,7 @@ $smallTextFont: 16px;
 :local(.pricing) {
 	width: 80%;
 	margin: auto;
+	text-align: center;
 
 	h1{
 		font-size: $bigHeaderFont;
@@ -35,7 +36,7 @@ $smallTextFont: 16px;
 
 	div{
 		margin: 20px;
-		width: 40%;
+		width: 150px;
 		padding: 20px;
 		text-align: center;
 

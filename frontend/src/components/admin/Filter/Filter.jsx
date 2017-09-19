@@ -21,6 +21,7 @@ class Filter extends React.Component {
         'Last seen': false,
       },
       checkedCheckboxes: {
+        firstVisitDate: { status: false, alias: 'First Visit' },
         browser: { status: false, alias: 'Browser' },
         browserLanguage: { status: false, alias: 'Browser Language' },
         browserVersion: { status: false, alias: 'Browser Version' },

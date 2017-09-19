@@ -1,3 +1,5 @@
+import notifications from '../../../notifications/notifications';
+
 function findItemById(id, arrOfObjects) {
   if (!id || !arrOfObjects) return null;
   const item = arrOfObjects.find((obj) => {
@@ -83,6 +85,10 @@ function startSocketConnection(socket, forceMessageBody) {
     }
   });
   socket.on('newMessage', (message) => {
+    if (message.body && message.author.userType === 'Admin') {
+      notifications.api('new message', message, () => window.focus());
+    }
+
     this.setState((prevState) => {
       const conversations = returnNewState(message, message.conversationId, prevState.conversations);
       return {

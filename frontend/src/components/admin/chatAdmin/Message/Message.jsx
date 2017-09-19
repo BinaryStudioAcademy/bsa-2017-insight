@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import styles from './styles.scss';
 import EmojiRender from '../../../emojiRender';
 
-const Message = ({ name, body, type, isReceived, conversation }) => {
+const Message = ({ name, body, type, isReceived, conversationб createdAt }) => {
   const messageAlign = type === 'Admin' ? 'message-item-left' : 'message-item-right';
   const bodyIsLink = typeof body === 'object';
   let backgroundColor = '#D4F0FE';
@@ -34,7 +34,7 @@ const Message = ({ name, body, type, isReceived, conversation }) => {
       style={{ backgroundColor }}
     >
       <span className={styles['message-body']}>{message}</span>
-      <span className={styles['user-name']}>{name}</span>
+      <span className={styles['user-name']}>{name}, {createdAt.toLocaleTimeString()}</span>
     </li>
   );
 };
@@ -48,6 +48,7 @@ Message.propTypes = {
     isImage: propTypes.bool,
   })]),
   type: propTypes.string,
+  createdAt: propTypes.instanceOf(Date),
   isReceived: propTypes.bool,
 };
 

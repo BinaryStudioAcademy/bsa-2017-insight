@@ -16,7 +16,7 @@ function getStyles(emojiName) {
 
 function getParseString(res, handler) {
   return res.map((e) => {
-    if (/:\S[^:]+:/.test(e) || /:\S+:/.test(e)) {
+    if (/:\S[^:]+?:/.test(e) || /:\S+?:/.test(e)) {
       const key = (Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2)).slice(0, 24);
       if (handler) {
         return <span onClick={event => handler(event)} role="presentation" data-name={e} key={`${trim(e)}${key}`} style={getStyles(e)} />;
@@ -32,7 +32,7 @@ function get(stringToParse) {
   const indexes = [];
   const itemsToRender = [];
   let result = null;
-  const regExp = /:\S[^:]+:/g;
+  const regExp = /:\S[^:]+?:/g;
 
   while (true) {
     result = regExp.exec(stringToParse);
@@ -50,13 +50,15 @@ function get(stringToParse) {
 
   indexes.reduce((prev, curr) => {
     itemsToRender.push(stringToParse.slice(prev, curr));
-    return prev;
+    let previous = prev;
+    previous = curr;
+    return previous;
   });
 
 
   const newItemsToRender = itemsToRender.map((e) => {
     const search = e.trim();
-    const firstCond = /:\S[^:]+:/g.test(search);
+    const firstCond = /:\S[^:]+?:/g.test(search);
     const secondCond = setups.map[search] ? setups.map[search].status : false;
 
     if (firstCond && !secondCond) {

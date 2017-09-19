@@ -1,6 +1,8 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
+import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem';
@@ -10,6 +12,8 @@ import SyncIcon from 'material-ui/svg-icons/notification/sync';
 import styles from './styles.scss';
 import TableItself from './TableItself';
 import { addSelection } from '../../../actions/selectionActions';
+import { getAllStatistics, setStatisticsFilter } from '../../../actions/statisticActions';
+import StatisticsCharts from '../StatisticsCharts/StatisticsCharts';
 
 class UserInfoTable extends React.Component {
   constructor() {
@@ -19,6 +23,12 @@ class UserInfoTable extends React.Component {
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
     this.updateFields = this.updateFields.bind(this);
+    this.switchChartsOrTable = this.switchChartsOrTable.bind(this);
+    this.onDatePickerButtonClick = this.onDatePickerButtonClick.bind(this);
+    this.onMinDateInputChange = this.onMinDateInputChange.bind(this);
+    this.onMaxDateInputChange = this.onMaxDateInputChange.bind(this);
+    this.onDatePickerCancelButtonClick = this.onDatePickerCancelButtonClick.bind(this);
+    this.onDatePickerSubmitButtonClick = this.onDatePickerSubmitButtonClick.bind(this);
 
     this.state = {
       open: false,
@@ -26,7 +36,71 @@ class UserInfoTable extends React.Component {
       selDialogPending: false,
       rowsPerPage: 5,
       currentPage: 1,
+      showTable: true,
+      dateButtonLabel: 'Choose date range',
+      isDatePickerDialogOpen: false,
+      minDate: '',
+      maxDate: '',
     };
+  }
+
+  onDatePickerButtonClick() {
+    this.setState({ isDatePickerDialogOpen: true });
+  }
+
+  onMinDateInputChange(event, date) {
+    this.setState({ minDate: date });
+    const maxDate = this.state.maxDate ? `*MAX*${Date.parse(this.state.maxDate)}` : '';
+    this.props.setStatisticsFilter({ firstVisitDate: `firstVisitDate=*MIN*${Date.parse(date)}${maxDate}` });
+  }
+
+  onMaxDateInputChange(event, date) {
+    this.setState({ maxDate: date });
+    const minDate = this.state.minDate ? `*MIN*${Date.parse(this.state.minDate)}` : '';
+    this.props.setStatisticsFilter({ firstVisitDate: `firstVisitDate=${minDate}*MAX*${Date.parse(date)}` });
+  }
+
+  onDatePickerCancelButtonClick() {
+    this.setState({
+      dateButtonLabel: 'Choose date range',
+      isDatePickerDialogOpen: false,
+      minDate: '',
+      maxDate: '',
+    });
+    this.props.setStatisticsFilter({ firstVisitDate: '' });
+    const queryObj = this.props.activeFilters;
+    if (queryObj.firstVisitDate) delete queryObj.firstVisitDate;
+    let queryString = '';
+    Object.keys(queryObj).forEach((property, i, arr) => {
+      if (queryObj[property] !== '') {
+        queryString += `${property}=${queryObj[property]}${i !== arr.length - 1 ? '&' : ''}`;
+      }
+    });
+    this.props.getAllStatistics(queryString);
+  }
+
+  onDatePickerSubmitButtonClick() {
+    let label = '';
+    if (this.state.minDate === '' && this.state.maxDate === '') return;
+    if (this.state.minDate !== '' && this.state.maxDate === '') {
+      label = `${(new Date(Date.parse(this.state.minDate))).toDateString()} - `;
+    } else if (this.state.minDate === '' && this.state.maxDate !== '') {
+      label = ` - ${(new Date(Date.parse(this.state.maxDate))).toDateString()}`;
+    } else {
+      label = `${(new Date(Date.parse(this.state.minDate))).toDateString()} - ${(new Date(Date.parse(this.state.maxDate))).toDateString()}`;
+    }
+    const queryObj = this.props.activeFilters;
+    let queryString = '';
+    Object.keys(queryObj).forEach((property, i, arr) => {
+      if (queryObj[property] !== '') {
+        queryString += `${property}=${queryObj[property]}${i !== arr.length - 1 ? '&' : ''}`;
+      }
+    });
+    this.props.getAllStatistics(queryString);
+    this.setState({
+      dateButtonLabel: label,
+      isDatePickerDialogOpen: false,
+    });
   }
 
   handleOpen() {
@@ -64,14 +138,23 @@ class UserInfoTable extends React.Component {
     this.setState({ fieldsToUpdate: fields });
   }
 
+  switchChartsOrTable() {
+    this.setState({ showTable: !this.state.showTable });
+  }
+
   render() {
-    // const actions = [
-    //   <RaisedButton
-    //     label="Save"
-    //     primary
-    //     onClick={this.handleClose}
-    //   />,
-    // ];
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary
+        onClick={this.onDatePickerCancelButtonClick}
+      />,
+      <FlatButton
+        label="Submit"
+        primary
+        onClick={this.onDatePickerSubmitButtonClick}
+      />,
+    ];
     return (
       <div className={styles.container} style={{ width: '74vw' }}>
         <div className={styles.topPanel}>
@@ -122,8 +205,29 @@ class UserInfoTable extends React.Component {
                 />
               </form>
             </Dialog>
+            {(this.state.showTable) ?
+              <RaisedButton
+                label="Show charts"
+                onClick={() => this.switchChartsOrTable()}
+                primary
+                id="switchTableChartsButton"
+                style={{ margin: '0 5px 10px 0' }}
+              /> :
+              <RaisedButton
+                label="Show table"
+                onClick={() => this.switchChartsOrTable()}
+                primary
+                id="switchTableChartsButton"
+                style={{ margin: '0 5px 10px 0' }}
+              />}
           </div>
           <div className={styles.rowsPerPage}>
+            <RaisedButton
+              label={this.state.dateButtonLabel}
+              className={styles['table-date-button']}
+              onClick={this.onDatePickerButtonClick}
+              primary
+            />
             <p>Rows per page:</p>
             <SelectField
               value={this.state.rowsPerPage}
@@ -137,23 +241,51 @@ class UserInfoTable extends React.Component {
             </SelectField>
           </div>
         </div>
-        <TableItself
-          statistics={this.props.statistics}
-          options={this.props.options}
-          rowsPerPage={this.state.rowsPerPage}
-          currentPage={this.state.currentPage}
-          changeCurrentPage={this.changeCurrentPage}
-        />
+        <Dialog
+          title="Choose date range"
+          actions={actions}
+          modal
+          titleStyle={{ textAlign: 'center' }}
+          bodyStyle={{ display: 'flex', justifyContent: 'space-around' }}
+          open={this.state.isDatePickerDialogOpen}
+        >
+          <DatePicker
+            hintText="from"
+            onChange={this.onMinDateInputChange}
+          />
+          <DatePicker
+            hintText="to"
+            onChange={this.onMaxDateInputChange}
+          />
+        </Dialog>
+        {(this.state.showTable) ?
+          <TableItself
+            statistics={this.props.statistics}
+            options={this.props.options}
+            rowsPerPage={this.state.rowsPerPage}
+            currentPage={this.state.currentPage}
+            changeCurrentPage={this.changeCurrentPage}
+          /> :
+          <StatisticsCharts
+            selectedFields={this.props.options}
+            statistics={this.props.statistics}
+          />
+        }
       </div>
     );
   }
 }
 
 UserInfoTable.propTypes = {
-  options: React.PropTypes.arrayOf(React.PropTypes.string),
-  statistics: React.PropTypes.arrayOf(React.PropTypes.object),
-  updateFields: React.PropTypes.func,
-  addSelection: React.PropTypes.func,
+  options: propTypes.arrayOf(React.PropTypes.string),
+  statistics: propTypes.arrayOf(React.PropTypes.object),
+  updateFields: propTypes.func,
+  addSelection: propTypes.func,
+  getAllStatistics: propTypes.func,
+  activeFilters: propTypes.shape({
+    username: propTypes.string,
+  }),
+  setStatisticsFilter: propTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -163,7 +295,19 @@ const mapDispatchToProps = (dispatch) => {
       const body = JSON.stringify({ name, users: filteredUsersIds, appId: window._injectedData.appId });
       return dispatch(addSelection(body, cb));
     },
+    getAllStatistics: (query) => {
+      return dispatch(getAllStatistics(query));
+    },
+    setStatisticsFilter: (obj) => {
+      return dispatch(setStatisticsFilter(obj));
+    },
   };
 };
 
-export default connect(null, mapDispatchToProps)(UserInfoTable);
+const mapStateToProps = (state) => {
+  return {
+    activeFilters: state.statistics.activeStatisticsFilters,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserInfoTable);

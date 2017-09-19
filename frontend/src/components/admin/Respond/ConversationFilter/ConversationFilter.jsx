@@ -176,39 +176,41 @@ class ConversationFilter extends React.Component {
           }
           <span style={{ margin: '0 5px' }}>|</span>
           <span>show conversations:</span>
-          <a
-            role="button"
-            tabIndex="0"
-            className={'filter-panel-link'}
-            id={'all'}
-            onClick={this.changeGroup}
-            ref={(el) => {
-              this.all = el;
-              return undefined;
-            }}
-          >all</a>
-          <a
-            role="button"
-            tabIndex="0"
-            className={'filter-panel-link'}
-            id={'mine'}
-            onClick={this.changeGroup}
-            ref={(el) => {
-              this.mine = el;
-              return undefined;
-            }}
-          >mine</a>
-          <a
-            role="button"
-            tabIndex="0"
-            className={'filter-panel-link'}
-            id={'unpicked'}
-            onClick={this.changeGroup}
-            ref={(el) => {
-              this.unpicked = el;
-              return undefined;
-            }}
-          >unpicked</a>
+          <div style={{ margin: '0 10px' }}>
+            <a
+              role="button"
+              tabIndex="0"
+              className={'filter-panel-link'}
+              id={'all'}
+              onClick={this.changeGroup}
+              ref={(el) => {
+                this.all = el;
+                return undefined;
+              }}
+            >all</a>
+            <a
+              role="button"
+              tabIndex="0"
+              className={'filter-panel-link'}
+              id={'mine'}
+              onClick={this.changeGroup}
+              ref={(el) => {
+                this.mine = el;
+                return undefined;
+              }}
+            >mine</a>
+            <a
+              role="button"
+              tabIndex="0"
+              className={'filter-panel-link'}
+              id={'unpicked'}
+              onClick={this.changeGroup}
+              ref={(el) => {
+                this.unpicked = el;
+                return undefined;
+              }}
+            >unpicked</a>
+          </div>
         </div>
         <Dialog
           actions={actions}

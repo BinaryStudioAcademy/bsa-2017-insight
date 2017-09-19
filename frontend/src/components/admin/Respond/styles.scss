@@ -57,11 +57,18 @@
 
   :local(.conversations) {
     display: none;
+    width: 18vw;
     @media (min-width: 1100px) {
       display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-content: flex-start;
+    }
+    & > * {
+      flex-grow: 1;
     }
     & > div:first-child {
-      width: 100%;
+      // width: 100%;
     }
   }
 }
@@ -77,7 +84,9 @@
 }
 
 :local(.conversations) {
-  // flex-basis: 25%
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 :local(.chat) {

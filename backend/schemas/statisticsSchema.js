@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const statisticsSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
   appId: { type: Schema.Types.ObjectId, required: false }, // CHANGE TO "TRUE" LATER
+  firstVisitDate: Number,
   currentUrl: String,
   viewedUrls: [String],
   browserLanguage: String,

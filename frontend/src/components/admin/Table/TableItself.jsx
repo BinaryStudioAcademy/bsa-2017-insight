@@ -7,6 +7,7 @@ class TableItself extends React.Component {
   constructor() {
     super();
     this.state = {
+      firstVisitDate: 'First Visit',
       browser: 'Browser',
       browserLanguage: 'Browser Language',
       browserVersion: 'Browser Version',
@@ -68,6 +69,13 @@ class TableItself extends React.Component {
                 key={`row ${row.userId._id},column${elem}`}
               >
                 <span>{row.userId.lastName}</span>
+              </td>);
+            }
+            if (elem === 'firstVisitDate') {
+              return (<td
+                key={`row ${row.userId._id},column${elem}`}
+              >
+                <span>{(new Date(row.firstVisitDate)).toDateString()}</span>
               </td>);
             }
             return (<td

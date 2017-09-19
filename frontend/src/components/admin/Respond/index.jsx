@@ -65,8 +65,6 @@ class Respond extends React.Component {
     const convToChat = idToRender ? this.conversationToChat(idToRender) : null;
     return (
       <div>
-        {filters}
-
         {!idToRender ?
           <div
             className={styles['big-conversation-list']}
@@ -76,6 +74,7 @@ class Respond extends React.Component {
               width: '100%',
             }}
           >
+            {filters}
             <ConversationList
               setStatistic={this.getIdForStatistic}
               conversations={this.props.conversations}
@@ -104,9 +103,9 @@ class Respond extends React.Component {
               style={{
                 height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
                 overflowY: 'scroll',
-                width: '20vw',
               }}
             >
+              {filters}
               <ConversationList
                 setStatistic={this.getIdForStatistic}
                 conversations={this.props.conversations}
@@ -192,7 +191,7 @@ Respond.propTypes = {
   conversationToRenderId: propTypes.string,
   setConversation: propTypes.func.isRequired,
   removeConversations: propTypes.func.isRequired,
-  dispatch: propTypes.func.isRequired,
+  dispatch: propTypes.func,
   statisticById: propTypes.shape({
     userId: propTypes.any,
     currentUrl: propTypes.string,

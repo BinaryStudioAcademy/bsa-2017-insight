@@ -51,13 +51,21 @@ class IntroductionForm extends React.Component {
 
   render() {
     return (
-      <form className={style['introduce-form']} onSubmit={e => this.sendData(e)} >
-        <input placeholder="name" type="text" value={this.state.firstName} onChange={e => this.handleName(e)} />
-        <input placeholder="email" type="email" value={this.state.email} onChange={e => this.handleEmail(e)} />
-        <input placeholder="telephone number" type="tel" value={this.state.phone} onChange={e => this.handlePhone(e)} />
-        <button onClick={this.props.introductionIsClose}>Skip</button>
-        <button>Send</button>
-      </form>
+      <div className={style['introduce-form-wrapper']}>
+        <h4>Please introduce yourself</h4>
+        <form className={style['introduce-form']} onSubmit={e => this.sendData(e)}>
+          <input placeholder="name" type="text" value={this.state.firstName} onChange={e => this.handleName(e)} />
+          <input placeholder="email" type="email" value={this.state.email} onChange={e => this.handleEmail(e)} />
+          <input
+            placeholder="telephone number"
+            type="tel"
+            value={this.state.phone}
+            onChange={e => this.handlePhone(e)}
+          />
+          <button onClick={this.props.introductionIsClose}>Skip</button>
+          <button>Send</button>
+        </form>
+      </div>
     );
   }
 }

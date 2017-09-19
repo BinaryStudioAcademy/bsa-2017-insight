@@ -32,6 +32,8 @@ const SingleConversation = (props) => {
     backgroundColor = '#ffbdb3';
   }
 
+  const date = !!messages.length && messages[messages.length - 1].createdAt ?
+    new Date(messages[messages.length - 1].createdAt) : null;
   return (
     <div>
       {!messages.length ?
@@ -56,7 +58,11 @@ const SingleConversation = (props) => {
           primaryText={typeof messages[messages.length - 1].body === 'object' ?
             `${messages[messages.length - 1].body.fileName}.${messages[messages.length - 1].body.fileType}` :
             <EmojiRender text={messages[messages.length - 1].body} />}
-          secondaryText={userName}
+          secondaryText={
+            <p>
+              {date.toLocaleDateString() + ' ' + date.toLocaleTimeString()}<br />
+              {userName}
+            </p>}
           secondaryTextLines={2}
         />}
       <Divider inset />

@@ -168,6 +168,10 @@ function connectionHandler(socket) {
       });
     });
   });
+
+  socket.on('conversationPicked', (admin) => {
+    socket.broadcast.emit('conversationPicked', admin);
+  });
 }
 
 module.exports = connectionHandler;

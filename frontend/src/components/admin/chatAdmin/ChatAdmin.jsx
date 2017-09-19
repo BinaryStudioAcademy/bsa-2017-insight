@@ -159,6 +159,22 @@ class Chat extends Component {
     }
   }
 
+  getMessageDate() {
+    const dayDividers = document.getElementsByClassName('dateTime');
+    const messageList = document.getElementById('messageList');
+    if (messageList !== null) {
+      const chatCoordinates = messageList.getBoundingClientRect();
+      for (let i = dayDividers.length - 1; i >= 0; i--) {
+        const dayDividerCoordinates = dayDividers[i].getBoundingClientRect();
+        if (dayDividerCoordinates.top < chatCoordinates.top) {
+          dayDividers[i].style.position = 'sticky';
+          dayDividers[i].style.top = '5px';
+          break;
+        }
+      }
+    }
+  }
+
   blurFromInput(e) {
     this.setState({ input: e.target, selectionStart: e.target.selectionStart, selectionEnd: e.target.selectionEnd });
   }
@@ -239,6 +255,11 @@ class Chat extends Component {
   }
 
   pickConversation() {
+    const adminObj = {
+      username: window._injectedData.username,
+      avatar: window._injectedData.avatar,
+    };
+    this.props.socketConnection.emit('conversationPicked', adminObj);
     fetch('/api/conversations/pick', {
       headers: {
         'Content-Type': 'application/json',
@@ -302,6 +323,26 @@ class Chat extends Component {
     });
   }
 
+  convertDate(date) {
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    const month = new Date(date).getMonth();
+    const text = months[month] + ' ' + new Date(date).getDate();
+    return text;
+  }
+
   render() {
     const conversationToRender = this.props.conversationToRender;
     const messages = conversationToRender ? conversationToRender.messages : null;
@@ -311,7 +352,13 @@ class Chat extends Component {
         role="presentation"
         onClick={e => this.closeEmojiBlock(e)}
       >
-        <MessagesList messages={messages} chosenTheme={this.props.chosenTheme} socket={this.props.socketConnection}/>
+        <MessagesList
+          messages={messages}
+          chosenTheme={this.props.chosenTheme}
+          getMessageDate={this.getMessageDate}
+          socket={this.props.socketConnection}
+          convertDate={this.convertDate}
+        />
         <div style={{ margin: '5px 10px' }}>
           <RaisedButton
             onClick={this.handlePopoverOpen}

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
+import parseService from './parseService';
 import styles from './styles.scss';
 
 class TableItself extends React.Component {
@@ -48,7 +49,7 @@ class TableItself extends React.Component {
       const endId = (currPage === numOfPages) ? numOfRows : (currPage * rowsPerPage);
       const rowsOnThisPage = this.props.statistics.slice(startId, endId);
       return rowsOnThisPage.map(row => (
-        <tr key={`row ${row.userId._id}`} value={row} className={styles.rows} style={{ borderBottom: '1px solid #E0F7FA' }}> {
+        <tr key={`row ${row.userId._id}`} value={row} className={styles.rows} style={{ borderBottom: '1px solid #E0F7FA' }}>{
           this.props.options.map((elem) => {
             if (elem === 'username') {
               return (<td
@@ -71,11 +72,34 @@ class TableItself extends React.Component {
                 <span>{row.userId.lastName}</span>
               </td>);
             }
+
             if (elem === 'firstVisitDate') {
               return (<td
                 key={`row ${row.userId._id},column${elem}`}
               >
                 <span>{(new Date(row.firstVisitDate)).toDateString()}</span>
+              </td>);
+            }
+            if (elem === 'country') {
+              return (<td
+                key={`row ${row.userId._id},column${elem}`}
+              >
+                {parseService.flag(row[elem])}
+              </td>);
+            }
+            if (elem === 'browser') {
+              return (<td
+                key={`row ${row.userId._id},column${elem}`}
+              >
+                {parseService.browser(row[elem])}
+              </td>);
+            }
+            if (elem === 'os') {
+              return (<td
+                key={`row ${row.userId._id},column${elem}`}
+              >
+                {parseService.os(row[elem])}
+
               </td>);
             }
             return (<td

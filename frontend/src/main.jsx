@@ -22,6 +22,7 @@ if (!window._injectedData) window._injectedData = { text: 'injectedData' };
 window._injectedData.insightHost = process.env.NODE_ENV === 'development' ?
   'http://localhost:3001' : 'http://78.129.225.86:3001';
 
+
 render(
   <Provider store={store}>
     <BrowserRouter>

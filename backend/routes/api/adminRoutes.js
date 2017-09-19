@@ -19,7 +19,7 @@ const upload = multer({ storage });
 
 module.exports = function (app) {
 
-  app.post('/api/admin/login/', (req, res, next) => {
+  app.post('/api/admin/login', (req, res, next) => {
     if (req.user) return res.redirect('/');
     checkVerification(req, (data) => {
       if (data) {
@@ -47,7 +47,11 @@ module.exports = function (app) {
             }
             req.logIn(user, (err) => {
               if (err) return next(err);
-              res.redirect('/admin');
+              if (req.body.device === 'mobile') {
+                res.redirect('/mobile');
+              } else {
+                res.redirect('/admin');
+              }
             });
           });
         })(req, res, next);
@@ -68,6 +72,7 @@ module.exports = function (app) {
       username: req.body.username,
       gender: req.body.gender,
       isAdmin: true,
+      adminGroups: req.body.adminGroups.split(','),
     };
     console.log(`data username ${data.username}`);
     adminRepository.getByUsername(data.username, (err, user) => {
@@ -114,6 +119,15 @@ module.exports = function (app) {
         res.status(200).json(data);
       }
     });
+  });
+
+  app.post('/api/admins/search', (req, res, next) => {
+    adminRepository.findByConditions({ $and: [{ username: { $regex: new RegExp(`^${req.body.username}`) } }, { username: { $ne: req.user.username } }, { adminGroups: { $in: [req.body.adminGroups] } }], appId: req.user.appId }, (err, data) => {
+      if (err) {
+        return next(err);
+      }
+      return res.json(data);
+    })
   });
 
   app.post('/api/admins/', (req, res) => {

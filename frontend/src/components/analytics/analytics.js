@@ -1,6 +1,16 @@
 (function () {
+  function checkFirstVisitDate() {
+    if (window._injectedData.firstVisit) {
+      return window._injectedData.firstVisit;
+    } else {
+      window._injectedData.firstVisit = Date.now();
+      return window._injectedData.firstVisit;
+    }
+  }
+
   const userStatistics = {
     appId: window._injectedData.currentAppId,
+    firstVisitDate: checkFirstVisitDate(),
     userId: null,
     viewedUrls: null,
     currentUrl: location.href,
@@ -16,6 +26,7 @@
     userAgent: navigator.userAgent,
     timeZone: -((new Date()).getTimezoneOffset() / 60),
   };
+
 
   function getUserIp() {
     return fetch('https://ipinfo.io/json');

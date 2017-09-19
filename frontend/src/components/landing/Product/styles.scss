@@ -10,13 +10,13 @@ $textFont: 20px;
 $smallTextFont: 16px;
 
 :local(.container) {
-	width: 80%;
+	width: 95%;
 	margin: auto;
 }
 
 :local(.product) {
 	display: inline-flex;
-	
+
 	h1{
 		font-size: $bigHeaderFont;
 		color: $landing-orange;
@@ -25,7 +25,7 @@ $smallTextFont: 16px;
 	h2{
 		color: $landing-orange;
 		font-size: $headerFont;
-		text-align: center;
+		text-align: left;
 		margin-bottom: 10%;
 	}
 
@@ -38,11 +38,11 @@ $smallTextFont: 16px;
 		width: $pictureSize;
 		height: $pictureSize;
 		margin: 30px;
-	}	
+	}
 }
 
 :local(.description) {
-	width: 50%;
+	// width: 60%;
 	margin: 30px;
 	border-style: solid;
 	border-width: 1px;

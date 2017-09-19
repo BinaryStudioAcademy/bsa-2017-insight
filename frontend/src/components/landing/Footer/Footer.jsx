@@ -19,15 +19,14 @@ class Footer extends React.Component {
         />
         <FooterColumn
           textItems={[
-            { name: 'About us', link: '/about' },
             { name: 'Pricing', link: '/pricing' },
           ]}
         />
         <FooterColumn
           imageItems={[
-            { image: './resources/landing/images/icon_facebook.svg', link: '/' },
-            { image: './resources/landing/images/icon_github.svg', link: '/' },
-            { image: './resources/landing/images/icon_linkedin.svg', link: '/' },
+            { image: './resources/landing/images/icon_facebook.svg', link: 'https://www.facebook.com/BinaryStudioAcademy/' },
+            { image: './resources/landing/images/icon_github.svg', link: 'https://github.com/BinaryStudioAcademy/bsa-2017-insight/tree/dev' },
+            { image: './resources/landing/images/icon_linkedin.svg', link: 'https://www.linkedin.com/company/241166/' },
           ]}
         />
       </div>

@@ -15,7 +15,24 @@ const SingleConversation = (props) => {
   if (userAvatar.indexOf(window._injectedData.insightHost) === -1) {
     userAvatar = `${window._injectedData.insightHost}/uploads/avatars/${userAvatar}`;
   }
+
+  const admin = window._injectedData;
+  const conversation = props.conversation;
   const active = props.active ? 'conversation-item-active' : '';
+  const isUnread = admin.unreadMessages.find((item) => {
+    return item === conversation._id;
+  });
+  const isReassigned = conversation.isReassigned && conversation.participants[1].user._id === admin._id;
+  let backgroundColor = 'none';
+
+  if (isReassigned) {
+    backgroundColor = '#cceef3';
+  } else if (isUnread) {
+    backgroundColor = '#ffbdb3';
+  }
+
+  const date = !!messages.length && messages[messages.length - 1].createdAt ?
+    new Date(messages[messages.length - 1].createdAt) : null;
   return (
     <div>
       {!messages.length ?
@@ -30,7 +47,7 @@ const SingleConversation = (props) => {
         />
         :
         <ListItem
-          style={{ padding: '0px' }}
+          style={{ padding: '0px', backgroundColor }}
           className={`${styles['conversation-item']} ${styles[active]}`}
           onClick={() => {
             props.handler();
@@ -40,7 +57,11 @@ const SingleConversation = (props) => {
           primaryText={typeof messages[messages.length - 1].body === 'object' ?
             `${messages[messages.length - 1].body.fileName}.${messages[messages.length - 1].body.fileType}` :
             <EmojiRender text={messages[messages.length - 1].body} />}
-          secondaryText={userName}
+          secondaryText={
+            <p>
+              {date.toLocaleDateString() + ' ' + date.toLocaleTimeString()}<br />
+              {userName}
+            </p>}
           secondaryTextLines={2}
         />}
       <Divider inset />

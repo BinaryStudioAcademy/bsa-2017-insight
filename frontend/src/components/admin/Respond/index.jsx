@@ -21,7 +21,7 @@ class Respond extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.conversations) return;
+    if (nextProps.conversations.length) return;
     this.props.setConversationFilters(nextProps.conversationFilters);
   }
 
@@ -65,8 +65,6 @@ class Respond extends React.Component {
     const convToChat = idToRender ? this.conversationToChat(idToRender) : null;
     return (
       <div>
-        {filters}
-
         {!idToRender ?
           <div
             className={styles['big-conversation-list']}
@@ -76,6 +74,7 @@ class Respond extends React.Component {
               width: '100%',
             }}
           >
+            {filters}
             <ConversationList
               setStatistic={this.getIdForStatistic}
               conversations={this.props.conversations}
@@ -104,9 +103,9 @@ class Respond extends React.Component {
               style={{
                 height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
                 overflowY: 'scroll',
-                width: '20vw',
               }}
             >
+              {filters}
               <ConversationList
                 setStatistic={this.getIdForStatistic}
                 conversations={this.props.conversations}
@@ -125,6 +124,9 @@ class Respond extends React.Component {
                 chosenTheme={this.props.chosenTheme}
                 headerHeight={this.props.headerHeight}
                 socketConnection={this.props.socketConnection}
+                updateUnreadMessages={this.props.updateUnreadMessages}
+                setMessagesReceived={this.props.setMessagesReceived}
+                removeConversations={this.props.removeConversations}
               />
             </div>
             <div
@@ -169,6 +171,9 @@ const mapDispatchToProps = (dispatch) => {
     setConversationFilters: (newFilters) => {
       dispatch({ type: 'SET_CONVERSATION_FILTERS', payload: newFilters });
     },
+    setMessagesReceived: (conversationId) => {
+      dispatch({ type: 'SET_MESSAGES_RECEIVED', payload: conversationId });
+    },
   };
 };
 
@@ -187,7 +192,7 @@ Respond.propTypes = {
   conversationToRenderId: propTypes.string,
   setConversation: propTypes.func.isRequired,
   removeConversations: propTypes.func.isRequired,
-  dispatch: propTypes.func.isRequired,
+  dispatch: propTypes.func,
   statisticById: propTypes.shape({
     userId: propTypes.any,
     currentUrl: propTypes.string,
@@ -211,6 +216,8 @@ Respond.propTypes = {
   socketConnection: propTypes.shape({}),
   setConversationFilters: propTypes.func,
   conversationFilters: propTypes.shape({}),
+  updateUnreadMessages: propTypes.func,
+  setMessagesReceived: propTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Respond);

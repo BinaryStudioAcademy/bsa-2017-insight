@@ -3,6 +3,8 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import isLength from 'validator/lib/isLength';
 import equals from 'validator/lib/equals';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import AvatarPreview from '../../landing/AvatarPreview/AvatarPreview';
 import styles from './styles.scss';
 
@@ -18,10 +20,12 @@ class AdminRegistration extends React.Component {
         password1: '',
         password2: '',
       },
+      adminGroups: [],
     };
     this.sendForm = this.sendForm.bind(this);
     this.loadPreview = this.loadPreview.bind(this);
     this.updateImage = this.updateImage.bind(this);
+    this.changeadminGroups = this.changeadminGroups.bind(this);
   }
 
   formValuesSaver(field, filledField) {
@@ -59,6 +63,9 @@ class AdminRegistration extends React.Component {
         || !/\d/.test(this.state.formValues.password2)) {
       errors.push('Password should contain both letters and digits');
     }
+    if (!this.state.adminGroups.length) {
+      errors.push('Select at least one admin group');
+    }
     return errors;
   }
 
@@ -68,6 +75,7 @@ class AdminRegistration extends React.Component {
     this.setState({ info: this.formValidator() }, () => {
       if (this.state.info.length) return;
       const formData = new FormData(e.target);
+      formData.set('adminGroups', this.state.adminGroups.join(','));
       formData.set('avatar', this.state.image);
       fetch(`${window._injectedData.insightHost}/api/admin/registration/`, {
         method: 'POST',
@@ -92,6 +100,9 @@ class AdminRegistration extends React.Component {
     this.setState({ image: newImage });
   }
 
+  changeadminGroups(event, index, values) {
+    this.setState({ adminGroups: values });
+  }
   render() {
     return (
       <div
@@ -149,6 +160,32 @@ class AdminRegistration extends React.Component {
             hintText={'Confirm password'}
             onChange={e => this.formValuesSaver('password2', e.target)}
           /><br /><br />
+          <SelectField
+            multiple
+            value={this.state.adminGroups}
+            hintText="Select your group"
+            onChange={this.changeadminGroups}
+          >
+            <MenuItem
+              insetChildren
+              checked={this.state.adminGroups.indexOf('general') > -1}
+              value={'general'}
+              primaryText={'General'}
+            />
+            <MenuItem
+              insetChildren
+              checked={this.state.adminGroups.indexOf('all') > -1}
+              value={'all'}
+              primaryText={'All'}
+            />
+            <MenuItem
+              insetChildren
+              checked={this.state.adminGroups.indexOf('technical') > -1}
+              value={'technical'}
+              primaryText={'Technical'}
+            />
+          </SelectField>
+          <br /><br />
           <RaisedButton
             name={'avatar'}
             label={'Choose your avatar image'}

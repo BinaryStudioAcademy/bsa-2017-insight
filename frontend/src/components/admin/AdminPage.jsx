@@ -37,6 +37,8 @@ class AdminPage extends React.Component {
     this.headerHeight = 65;
     this.state = {
       chosenTheme: lightBaseTheme,
+      reassignedConversations: this.props.reassignedConversations,
+      unreadMessages: this.props.unreadMessages,
     };
     this.toggleTheme = this.toggleTheme.bind(this);
   }
@@ -47,36 +49,15 @@ class AdminPage extends React.Component {
 
   componentDidMount() {
     startSocketConnection.call(this, this.props.dispatch);
-    this.socket.on('newConversationCreated', (data) => {
-      let notification;
-      this.props.getAllConversations();
-      if (!('Notification' in window)) {
-        return console.log('Notifications are not supported');
-      } else if (Notification.permission === 'granted') {
-        notification = new Notification('New unpicked conversation. Click to open');
-      } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission((permission) => {
-          if (permission === 'granted') {
-            notification = new Notification('New unpicked conversation. Click to open');
-          }
-        });
-      }
-
-      if (notification) {
-        notification.onclick = () => {
-          this.props.navigateToConversation('unpicked', data.conversation._id);
-          this.props.getStatisticById(data.conversation.participants[0].user);
-          this.context.router.history.replace('/admin/messenger');
-          notification.close();
-        };
-      }
-      return undefined;
-    });
     this.props.getAllStatistic();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ currentUser: nextProps.currentUser });
+    this.setState({
+      currentUser: nextProps.currentUser,
+      reassignedConversations: nextProps.reassignedConversations,
+      unreadMessages: nextProps.unreadMessages,
+    });
   }
 
   getStatisticOptions(arr) {
@@ -118,6 +99,8 @@ class AdminPage extends React.Component {
                     width={this.leftMenuWidth}
                     chosenTheme={this.state.chosenTheme}
                     currentUser={this.props.currentUser}
+                    reassignedConversations={this.state.reassignedConversations}
+                    unreadMessages={this.state.unreadMessages}
                   />
                   <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: this.leftMenuWidth - 8 }}>
                     <Header
@@ -154,6 +137,7 @@ class AdminPage extends React.Component {
                               headerHeight={this.headerHeight}
                               chosenTheme={this.state.chosenTheme}
                               socketConnection={this.socket}
+                              updateUnreadMessages={this.props.updateUnreadMessages}
                             />)
                           }
                         />
@@ -201,10 +185,10 @@ AdminPage.propTypes = {
   fieldsToDisplay: PropTypes.arrayOf(PropTypes.string),
   updateFields: PropTypes.func,
   currentUser: PropTypes.shape(),
-  getAllConversations: PropTypes.func,
-  getStatisticById: PropTypes.func,
-  navigateToConversation: PropTypes.func,
   dispatch: PropTypes.func,
+  reassignedConversations: PropTypes.arrayOf(PropTypes.string),
+  unreadMessages: PropTypes.arrayOf(PropTypes.string),
+  updateUnreadMessages: PropTypes.func,
 };
 
 AdminPage.contextTypes = {
@@ -218,6 +202,11 @@ const mapStateToProps = (state) => {
     fieldsToDisplay: state.statistics.fieldsToDisplay,
     currentUser: state.currentUser.currentUser,
     usersToRender: state.statistics.usersToRender,
+    conversationToRenderId: state.conversationsInfo.conversationToRenderId,
+    reassignedConversations: state.conversationsInfo.reassignedConversations,
+    unreadMessages: state.conversationsInfo.unreadMessages,
+    conversations: state.conversationsInfo.conversations,
+    conversationFilters: state.conversationsInfo.conversationFilters,
   };
 };
 
@@ -243,6 +232,15 @@ const mapDispatchToProps = (dispatch) => {
     },
     navigateToConversation: (group, id) => {
       dispatch({ type: 'NAVIGATE_TO_CONVERSATION', payload: { group, id } });
+    },
+    setReassignToFalse: (conversationId) => {
+      dispatch({ type: 'SET_REASSIGN_TO_FALSE', payload: conversationId });
+    },
+    updateUnreadMessages: (newMessages) => {
+      dispatch({ type: 'UPDATE_UNREAD_MESSAGES', payload: newMessages });
+    },
+    updateReassignedConversations: (newConversations) => {
+      dispatch({ type: 'UPDATE_REASSIGNED_CONVERSATIONS', payload: newConversations });
     },
     dispatch,
   };

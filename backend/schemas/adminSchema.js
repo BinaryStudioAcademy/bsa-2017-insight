@@ -22,6 +22,9 @@ const adminSchema = new Schema({
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   conversations: [{ type: Schema.Types.ObjectId, ref: 'Conversation' }],
+  adminGroups: [String],
+  reassignedConversations: [{ type: Schema.Types.ObjectId, ref: 'Conversation' }],
+  unreadMessages: [{ type: Schema.Types.ObjectId, ref: 'Conversation' }],
 });
 
 adminSchema.methods.checkPassword = function (plainPassword, callback) {

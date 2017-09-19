@@ -79,6 +79,7 @@ class Chat extends Component {
       if (message === '') return;
       const messageObj = {
         conversationId: this.state.activeChatId,
+        appId: window._injectedData.appId || window._injectedData.currentAppId,
         body: message,
         createdAt: Date.now(),
         author: {

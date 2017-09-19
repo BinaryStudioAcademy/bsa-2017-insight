@@ -19,7 +19,6 @@ ForceMessageRepository.updateForceMessage = function (id, updateData) {
   const updateObj = {
     body: updateData.body,
     timer: updateData.timer,
-    'conditions.visitedURLS': updateData.conditions.visitedURLS,
   };
   return model.update({ _id: id }, { $set: updateObj }).exec();
 };

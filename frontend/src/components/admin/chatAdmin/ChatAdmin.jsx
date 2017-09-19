@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
+import Popover from 'material-ui/Popover';
 import styles from './styles.scss';
 import MessagesList from './MessagesList/MessagesList';
 // import notifications from '../../notifications/notifications';
 import EmojiContainer from '../../emojiRender/EmojiContainer';
+import Reassign from './Reassign';
 
 class Chat extends Component {
   constructor(props) {
@@ -27,40 +29,104 @@ class Chat extends Component {
     this.focusToInput = this.focusToInput.bind(this);
     this.messageSubmit = this.messageSubmit.bind(this);
     this.onFileInputChange = this.onFileInputChange.bind(this);
+    this.pickConversation = this.pickConversation.bind(this);
+    this.handlePopoverOpen = this.handlePopoverOpen.bind(this);
+    this.handlePopoverClose = this.handlePopoverClose.bind(this);
+    this.updateConversationParticipants = this.updateConversationParticipants.bind(this);
   }
 
   componentDidMount() {
     const conversation = this.props.conversationToRender;
-    this.props.socketConnection.emit('adminConnectedToRoom', conversation._id);
-    this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: conversation.messages });
+    const admin = window._injectedData;
     const input = document.getElementById('input');
-    this.setState({ input });
+    const isParticipant = conversation.participants.find((participant) => {
+      return participant.user._id === admin._id;
+    });
+
+    this.props.socketConnection.emit('switchRoom', conversation._id);
+    this.props.socketConnection.emit('adminConnectedToRoom', conversation._id);
+
+    if (admin.reassignedConversations.length) {
+      admin.reassignedConversations.forEach((conversationId) => {
+        if (conversationId === conversation._id) {
+          this.props.socketConnection.emit('reassignedConversationSeen', {
+            conversationId: conversation._id,
+            adminId: admin._id,
+          });
+        }
+      });
+    }
+
+    if (isParticipant) {
+      setTimeout(() => {
+        const unreadMessages = admin.unreadMessages.filter((id) => {
+          return id !== this.props.conversationToRender._id;
+        });
+        admin.unreadMessages = unreadMessages;
+        this.props.updateUnreadMessages(admin.unreadMessages);
+        this.props.setMessagesReceived(this.props.conversationToRender._id);
+        this.props.socketConnection.emit('messagesReceived', {
+          type: 'Admin',
+          messages: this.props.conversationToRender.messages,
+        });
+      }, 1000);
+    }
+
+    this.setState({
+      isParticipant: isParticipant && true,
+      showPickBtn: conversation.participants.length === 1,
+      input,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
     const oldConversationId = this.props.conversationToRender._id;
+    const newConversation = nextProps.conversationToRender;
+    const admin = window._injectedData;
+    const isParticipant = newConversation.participants.find((participant) => {
+      return participant.user._id === admin._id;
+    });
+
     if (nextProps.conversationToRender._id !== oldConversationId) {
-      if (nextProps.conversationToRender._id) this.props.socketConnection.emit('switchRoom', nextProps.conversationToRender._id);
-      this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
+      if (nextProps.conversationToRender._id) {
+        this.props.socketConnection.emit('switchRoom', nextProps.conversationToRender._id);
+      }
+
+      admin.reassignedConversations.forEach((conversationId) => {
+        if (conversationId === nextProps.conversationToRender._id) {
+          this.props.socketConnection.emit('reassignedConversationSeen', {
+            conversationId: nextProps.conversationToRender._id,
+            adminId: admin._id,
+          });
+        }
+      });
+
+      if (isParticipant) {
+        setTimeout(() => {
+          const unreadMessages = admin.unreadMessages.filter((id) => {
+            return id !== nextProps.conversationToRender._id;
+          });
+          admin.unreadMessages = unreadMessages;
+          this.props.updateUnreadMessages(admin.unreadMessages);
+          this.props.setMessagesReceived(this.props.conversationToRender._id);
+          this.props.socketConnection.emit('messagesReceived', {
+            type: 'Admin',
+            messages: nextProps.conversationToRender.messages,
+          });
+        }, 1000);
+      }
     }
-    // Notifications
-    // const messageNumProps = nextProps.conversationToRender.messages.length;
-    // if (this.state.messageNum === 0) {
-    //   this.setState({ messageNum: messageNumProps });
-    // } else if (this.state.messageNum !== messageNumProps) {
-    //   const newMessage = nextProps.conversationToRender.messages[messageNumProps - 1];
-    //   const currentUser = window._injectedData.userId ?
-    //     window._injectedData.userId.username : window._injectedData.username;
-    //   this.setState({ messageNum: messageNumProps });
-    //   if (newMessage.author.item.username !== currentUser) {
-    //     notifications.api(newMessage);
-    //     notifications.title();
-    //   }
-    // }
+
+    this.setState({
+      isParticipant: isParticipant && true,
+      showPickBtn: newConversation.participants.length === 1,
+      info: '',
+    });
   }
 
   componentWillUnmount() {
     this.props.socketConnection.emit('switchRoom', '');
+    this.props.removeConversations();
   }
 
   onFileInputChange() {
@@ -94,6 +160,22 @@ class Chat extends Component {
     }
   }
 
+  getMessageDate() {
+    const dayDividers = document.getElementsByClassName('dateTime');
+    const messageList = document.getElementById('messageList');
+    if (messageList !== null) {
+      const chatCoordinates = messageList.getBoundingClientRect();
+      for (let i = dayDividers.length - 1; i >= 0; i--) {
+        const dayDividerCoordinates = dayDividers[i].getBoundingClientRect();
+        if (dayDividerCoordinates.top < chatCoordinates.top) {
+          dayDividers[i].style.position = 'sticky';
+          dayDividers[i].style.top = '5px';
+          break;
+        }
+      }
+    }
+  }
+
   blurFromInput(e) {
     this.setState({ input: e.target, selectionStart: e.target.selectionStart, selectionEnd: e.target.selectionEnd });
   }
@@ -106,6 +188,7 @@ class Chat extends Component {
       if (message === '') return;
       const messageObj = {
         conversationId: this.props.conversationToRender._id,
+        appId: window._injectedData.appId,
         body: message,
         createdAt: Date.now(),
         author: {
@@ -172,6 +255,95 @@ class Chat extends Component {
     this.setState({ text: '' });
   }
 
+  pickConversation() {
+    const adminObj = {
+      username: window._injectedData.username,
+      avatar: window._injectedData.avatar,
+    };
+    this.props.socketConnection.emit('conversationPicked', adminObj);
+    fetch('/api/conversations/pick', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({ id: this.props.conversationToRender._id }),
+    }).then(response => response.json()).then((response) => {
+      if (response.ok) {
+        this.props.conversationToRender.participants.push({
+          user: { _id: window._injectedData._id },
+        });
+        window._injectedData.conversations.push(this.props.conversationToRender._id);
+        this.setState({
+          isParticipant: true,
+          showPickBtn: false,
+          info: 'Conversation has been picked',
+        });
+      } else {
+        this.setState({
+          showPickBtn: false,
+          info: response.message,
+        });
+      }
+    });
+  }
+
+  updateConversationParticipants(newParticipant) {
+    const admin = window._injectedData;
+    const adminIndex = this.props.conversationToRender.participants.findIndex((item) => {
+      return item === admin._id;
+    });
+    admin.conversations.forEach((conversation, index) => {
+      if (conversation === this.props.conversationToRender._id) {
+        admin.conversations.splice(index, 1);
+      }
+    });
+    this.props.conversationToRender.participants.splice(adminIndex, 1, {
+      userType: 'Admin', user: { _id: newParticipant },
+    });
+
+    this.setState({
+      isPopoverOpened: false,
+    }, () => {
+      this.setState({
+        isParticipant: false,
+      });
+    });
+  }
+
+  handlePopoverOpen(e) {
+    this.setState({
+      isPopoverOpened: true,
+      anchorEl: e.currentTarget,
+    });
+  }
+
+  handlePopoverClose() {
+    this.setState({
+      isPopoverOpened: false,
+    });
+  }
+
+  convertDate(date) {
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    const month = new Date(date).getMonth();
+    const text = months[month] + ' ' + new Date(date).getDate();
+    return text;
+  }
+
   render() {
     const conversationToRender = this.props.conversationToRender;
     const messages = conversationToRender ? conversationToRender.messages : null;
@@ -181,7 +353,44 @@ class Chat extends Component {
         role="presentation"
         onClick={e => this.closeEmojiBlock(e)}
       >
-        <MessagesList messages={messages} chosenTheme={this.props.chosenTheme} />
+        <MessagesList
+          messages={messages}
+          chosenTheme={this.props.chosenTheme}
+          getMessageDate={this.getMessageDate}
+          socket={this.props.socketConnection}
+          convertDate={this.convertDate}
+        />
+        <div style={{ margin: '5px 10px' }}>
+          <RaisedButton
+            onClick={this.handlePopoverOpen}
+            label="Reassign"
+            style={this.state.isParticipant ? { display: 'block', width: '100px' } : { display: 'none' }}
+          />
+          <Popover
+            open={this.state.isPopoverOpened}
+            onRequestClose={this.handlePopoverClose}
+            anchorEl={this.state.anchorEl}
+            animated={false}
+            style={{ overflow: 'hidden' }}
+          >
+            <div className={'reassign-popover'}>
+              <Reassign
+                conversationId={this.props.conversationToRender && this.props.conversationToRender._id}
+                socket={this.props.socketConnection}
+                updateConversationParticipants={this.updateConversationParticipants}
+              />
+            </div>
+          </Popover>
+          <RaisedButton
+            label={'Pick'}
+            onClick={this.pickConversation}
+            secondary
+            style={this.state.showPickBtn ? { display: 'block', width: '100px' } : { display: 'none' }}
+          />
+          {
+            this.state.info
+          }
+        </div>
         <form className={styles['sending-form']} onSubmit={this.messageSubmit}>
           <RaisedButton
             className={styles['selected-files-counter']}
@@ -202,6 +411,7 @@ class Chat extends Component {
               className={styles['file-input']}
               onChange={this.onFileInputChange}
               multiple
+              disabled={!this.state.isParticipant}
             />
           </RaisedButton>
           <input
@@ -212,6 +422,7 @@ class Chat extends Component {
             value={this.state.text}
             onBlur={e => this.blurFromInput(e)}
             id="input"
+            disabled={!this.state.isParticipant}
           />
           <span
             role="button"
@@ -223,10 +434,11 @@ class Chat extends Component {
           </span>
           <RaisedButton
             type="submit"
-            label="Submit"
+            label="Send"
             primary
             className={styles['submit-button']}
-            style={{ height: '39px' }}
+            style={{ height: '39px', width: '100px' }}
+            disabled={!this.state.isParticipant}
           />
         </form>
         {this.state.showEmojis ? <div
@@ -261,6 +473,9 @@ Chat.propTypes = {
   socketConnection: propTypes.shape({
     emit: propTypes.func,
   }),
+  updateUnreadMessages: propTypes.func,
+  setMessagesReceived: propTypes.func,
+  removeConversations: propTypes.func,
 };
 
 export default Chat;

@@ -30,9 +30,15 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   @media (min-width: 740px) {
-    width: 60%;
+    width: 55%;
     justify-content: flex-start;
+    padding: 7px 0;
+
+    & > div {
+      margin-bottom: 0 !important;
+    }
   }
 }
 
@@ -40,6 +46,7 @@
   display: inline-flex;
   width: 100%;
   justify-content: flex-end !important;
+  align-items: center;
 
   p {
     margin-right: 15px;
@@ -49,9 +56,13 @@
     width: 40%;
   }
   @media (min-width: 1000px) {
-    width: 30%;
+    width: 40%;
     margin-right: 40px;
   }
+}
+
+:local(.table-date-button) {
+  margin-right: 30px;
 }
 
 :local(.table) {

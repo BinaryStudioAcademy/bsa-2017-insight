@@ -21,7 +21,7 @@ class Respond extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.conversations) return;
+    if (nextProps.conversations.length) return;
     this.props.setConversationFilters(nextProps.conversationFilters);
   }
 

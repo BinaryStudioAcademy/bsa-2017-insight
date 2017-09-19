@@ -203,6 +203,7 @@ const mapStateToProps = (state) => {
     reassignedConversations: state.conversationsInfo.reassignedConversations,
     unreadMessages: state.conversationsInfo.unreadMessages,
     conversations: state.conversationsInfo.conversations,
+    conversationFilters: state.conversationsInfo.conversationFilters,
   };
 };
 

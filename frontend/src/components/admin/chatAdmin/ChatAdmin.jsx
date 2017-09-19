@@ -37,84 +37,89 @@ class Chat extends Component {
 
   componentDidMount() {
     const conversation = this.props.conversationToRender;
-    const currentAdmin = window._injectedData;
+    const admin = window._injectedData;
+    const input = document.getElementById('input');
     const isParticipant = conversation.participants.find((participant) => {
-      return participant.user._id === currentAdmin._id;
+      return participant.user._id === admin._id;
     });
+
     this.props.socketConnection.emit('switchRoom', conversation._id);
     this.props.socketConnection.emit('adminConnectedToRoom', conversation._id);
     
-    if(currentAdmin.reassignedConversations.length) {
-      currentAdmin.reassignedConversations.forEach((conversationId) => {
+    if(admin.reassignedConversations.length) {
+      admin.reassignedConversations.forEach((conversationId) => {
         if(conversationId === conversation._id) {
           this.props.socketConnection.emit('reassignedConversationSeen', {
             conversationId: conversation._id,
-            adminId: currentAdmin._id,
+            adminId: admin._id,
           });
         }
       });
     }
 
-    const input = document.getElementById('input');
-    this.setState({ input });
-
-    this.setState({
-      isParticipant: isParticipant && true,
-      showPickBtn: conversation.participants.length === 1 && true,
-    });
-
     if(isParticipant) {
       setTimeout(() => {
-        const admin = window._injectedData;
         const unreadMessages = admin.unreadMessages.filter((id) => {
           return id !== this.props.conversationToRender._id;
         });
         admin.unreadMessages = unreadMessages;
         this.props.updateUnreadMessages(admin.unreadMessages);
         this.props.setMessagesReceived(this.props.conversationToRender._id);
-        this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: this.props.conversationToRender.messages });
+        this.props.socketConnection.emit('messagesReceived', {
+          type: 'Admin',
+          messages: this.props.conversationToRender.messages
+        });
       }, 1000);
     }
+
+    this.setState({
+      isParticipant: isParticipant && true,
+      showPickBtn: conversation.participants.length === 1,
+      input,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
     const oldConversationId = this.props.conversationToRender._id;
     const newConversation = nextProps.conversationToRender;
-    const currentAdmin = window._injectedData;
-
+    const admin = window._injectedData;
     const isParticipant = newConversation.participants.find((participant) => {
-      return participant.user._id === currentAdmin._id;
+      return participant.user._id === admin._id;
     });
 
     if (nextProps.conversationToRender._id !== oldConversationId) {
-      if (nextProps.conversationToRender._id) this.props.socketConnection.emit('switchRoom', nextProps.conversationToRender._id);
+      if (nextProps.conversationToRender._id){
+        this.props.socketConnection.emit('switchRoom', nextProps.conversationToRender._id);
+      }
 
-      currentAdmin.reassignedConversations.forEach((conversationId) => {
+      admin.reassignedConversations.forEach((conversationId) => {
         if(conversationId === nextProps.conversationToRender._id) {
           this.props.socketConnection.emit('reassignedConversationSeen', {
             conversationId: nextProps.conversationToRender._id,
-            adminId: currentAdmin._id,
+            adminId: admin._id,
           });
         }
       });
 
       if(isParticipant) {
         setTimeout(() => {
-          const admin = window._injectedData;
           const unreadMessages = admin.unreadMessages.filter((id) => {
             return id !== nextProps.conversationToRender._id;
           });
           admin.unreadMessages = unreadMessages;
           this.props.updateUnreadMessages(admin.unreadMessages);
           this.props.setMessagesReceived(this.props.conversationToRender._id);
-          this.props.socketConnection.emit('messagesReceived', { type: 'Admin', messages: nextProps.conversationToRender.messages });
+          this.props.socketConnection.emit('messagesReceived', {
+            type: 'Admin',
+            messages: nextProps.conversationToRender.messages
+          });
         }, 1000);
       }
     }
 
     this.setState({
       isParticipant: isParticipant && true,
-      showPickBtn: newConversation.participants.length === 1 && true,
+      showPickBtn: newConversation.participants.length === 1,
       info: '',
     });
   }
@@ -166,6 +171,7 @@ class Chat extends Component {
       if (message === '') return;
       const messageObj = {
         conversationId: this.props.conversationToRender._id,
+        appId: window._injectedData.appId,
         body: message,
         createdAt: Date.now(),
         author: {
@@ -242,7 +248,9 @@ class Chat extends Component {
       body: JSON.stringify({ id: this.props.conversationToRender._id }),
     }).then(response => response.json()).then((response) => {
       if (response.ok) {
-        this.props.conversationToRender.participants.push({ user: { _id: window._injectedData._id } });
+        this.props.conversationToRender.participants.push({
+          user: { _id: window._injectedData._id }
+        });
         window._injectedData.conversations.push(this.props.conversationToRender._id);
         this.setState({
           isParticipant: true,
@@ -268,7 +276,9 @@ class Chat extends Component {
         admin.conversations.splice(index, 1);
       }
     });
-    this.props.conversationToRender.participants.splice(adminIndex, 1, { userType: 'Admin', user: { _id: newParticipant } });
+    this.props.conversationToRender.participants.splice(adminIndex, 1, {
+      userType: 'Admin', user: { _id: newParticipant },
+    });
 
     this.setState({
       isPopoverOpened: false,

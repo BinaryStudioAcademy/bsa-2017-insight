@@ -1,5 +1,5 @@
 const initialState = {
-  conversations: null,
+  conversations: [],
   conversationToRenderId: null,
   conversationFilters: {
     date: {},
@@ -57,14 +57,20 @@ const conversationsReducer = (state = initialState, action) => {
       });
     }
     case 'NAVIGATE_TO_CONVERSATION': {
-      const filters = { ...state.conversationFilters };
-      filters.activeGroup = action.payload.group;
-
-      return Object.assign({}, state, {
-        conversationFilters: filters,
-        conversationToRenderId: action.payload.id,
-        conversations: null,
-      });
+      if(action.payload.group) {
+        const filters = { ...state.conversationFilters };
+        filters.activeGroup = action.payload.group;
+        return Object.assign({}, state, {
+          conversationFilters: filters,
+          conversationToRenderId: action.payload.id,
+          conversations: [],
+        });
+      } else {
+        return Object.assign({}, state, {
+          conversationToRenderId: action.payload.id,
+        });
+      }
+      
     }
     case 'SET_REASSIGN_TO_FALSE': {
       const conversations = [...state.conversations];

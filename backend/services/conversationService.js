@@ -100,9 +100,12 @@ function reassignConversation(conversationId, currentUserId, newUser, callback) 
         $set: { 'participants.$': newUser, isReassigned: true }
       }, {new: true}, (err, conversation) => {
           if(err) return done(err);
-          updatedConversation = conversation;
-          done();
-      });
+          ConversationRepository.findOneAndPopulate(conversation._id, (err, populatedConversation) => {
+            if(err) return done(err);
+            updatedConversation = populatedConversation;
+            done();
+          })
+      })
     },
     (done) => {
       AdminRepository.model.update({
@@ -127,7 +130,13 @@ function reassignConversation(conversationId, currentUserId, newUser, callback) 
       });
     }
   ], (err, result) => {
-      callback(err, { ok: true, message: 'Conversation was reassigned', newParticipant: newUser.user, userId: updatedConversation.participants[0].user });
+      callback(err, {
+        ok: true,
+        message: 'Conversation was reassigned',
+        newParticipant: newUser.user,
+        userId: updatedConversation.participants[0].user._id,
+        reassignedConversation: updatedConversation,
+      });
   });
 };
 

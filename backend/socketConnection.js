@@ -47,33 +47,35 @@ function connectionHandler(socket) {
   socket.on('newMessage', (message) => {
     const room = socket.room;
     MessageRepository.model.create(message)
-      .then((data) => {
-        const messageToSend = data;
-
-        if (message.author.userType === 'Admin') {
-          checkIfAdminIsConversationParticipant(message.conversationId, message.author.item);
-        } else {
-          AdminRepository.model.update({ conversations: message.conversationId }, { $push: { unreadMessages: mongoose.Types.ObjectId(message.conversationId) } }, (err, result) => {
-            if(!result.nModified) {
-              return;
-            }
+      .then((createdMessage) => {
+        createdMessage.populate('author.item', (err, data) => {
+          const messageToSend = data;
+          if(message.author.userType === 'User') {
+            AdminRepository.model.update({ conversations: message.conversationId }, { $push: { unreadMessages: mongoose.Types.ObjectId(message.conversationId) } }, (err, result) => {
+              socket.broadcast.emit('newMessageToRespond', data);
+            });
+          } else {
             socket.broadcast.emit('newMessageToRespond', data);
-          });
-        }
-
-        if (messageToSend.author.item.toString() === user._id.toString()) {
-          messageToSend._doc.author.item = user;
-        }
-        const id = data._id;
-        socket.emit('newMessage', messageToSend);
-        socket.broadcast.to(room).emit('newMessage', messageToSend);
-        ConversationRepository.model
-          .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) } }, { new: true }, (err, doc) => {
-            if(doc.messages.length === 1) {
-              socket.broadcast.emit('newConversationCreated', { conversation: doc });
+          }        
+          if (messageToSend.author.item.toString() === user._id.toString()) {
+            messageToSend._doc.author.item = user;
+          }
+          const id = data._id;
+          socket.emit('newMessage', messageToSend);
+          socket.broadcast.to(room).emit('newMessage', messageToSend);
+          ConversationRepository.model
+            .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) } }, { new: true })
+            .populate('participants.user')
+            .populate({
+            path: 'messages',
+            populate: { path: 'author.item' },
+          }).exec((err, conversation) => {
+            if(conversation.messages.length === 1) {
+              socket.broadcast.emit('newConversationCreated', conversation);
             }
           });
-      });
+        });
+      })
   });
 
   socket.on('createNewConversation', (conversationData, creatorId) => {
@@ -110,7 +112,6 @@ function connectionHandler(socket) {
             AdminRepository.model.update({ conversations: data.messages[0].conversationId }, { $pullAll: { unreadMessages: [data.messages[0].conversationId] } })
               .exec()
               .then((result) => {
-                console.log(result);
                 socket.broadcast.to(room).emit('messagesReceived', updatedMessages);
               }, (err) => {
                 console.log(err);
@@ -149,7 +150,12 @@ function connectionHandler(socket) {
     reassignConversation(data.conversationId, data.currentUserId, data.newUser, (err, result) => {
       if(err) return socket.emit('reassign response', { ok: false, message: err.message });
       socket.emit('reassign response', result);
-      socket.broadcast.emit('reassigned conversation', { conversationId: data.conversationId, to: data.newUser.user, userId: result.userId });
+      socket.broadcast.emit('reassigned conversation', {
+        conversationId: data.conversationId,
+        to: data.newUser.user,
+        userId: result.userId,
+        reassignedConversation: result.reassignedConversation,
+      });
     });
   });
 

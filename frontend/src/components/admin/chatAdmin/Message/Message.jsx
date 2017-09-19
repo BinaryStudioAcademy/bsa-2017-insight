@@ -9,7 +9,6 @@ const Message = ({ name, body, type, isReceived, conversation }) => {
   let backgroundColor = '#D4F0FE';
   if(!isReceived && type === 'User') {
     const isParticipant = window._injectedData.conversations.find((item) => {
-      console.log(item === conversation);
       return item === conversation;
     });
     if(isParticipant) {

@@ -293,12 +293,8 @@ class Chat extends Component {
           getMessageDate={this.getMessageDate}
           convertDate={this.convertDate}
         />
-        <form 
-        className={styles['sending-form']} 
-        style={{ margin: '5px 10px', backgroundColor:'white' }} 
-        onSubmit={this.messageSubmit}>
         <div>
-          <div style={{ margin: '5px 10px' }}>
+          <div className={styles['reassign-popover-container']} style={{ margin: '5px 10px' }}>
             <RaisedButton
               onClick={this.handlePopoverOpen}
               label="Reassign"
@@ -329,7 +325,7 @@ class Chat extends Component {
               this.state.info
             }
           </div>
-          
+          <form className={styles['sending-form']} onSubmit={this.messageSubmit}>
             <RaisedButton
               className={styles['selected-files-counter']}
               label={this.state.filesCounter}
@@ -352,7 +348,6 @@ class Chat extends Component {
                 disabled={!this.state.isParticipant}
               />
             </RaisedButton>
-            </div>
             <input
               type="text"
               name="messageInput"
@@ -387,6 +382,7 @@ class Chat extends Component {
           >
             <EmojiContainer setEmojiToInput={this.setEmojiToInput} />
           </div> : null }
+        </div>
       </div>
     );
   }

@@ -3,16 +3,19 @@
   width: 100%;
   flex-grow: 2;
   overflow: auto;
-  background-color: #e3e3e3;
   list-style: none;
   display: flex;
   flex-direction: column;
   // padding: 20px;
   box-sizing: border-box;
+  background-color: #f3f4f8 !important;
+  padding-right: 40px;
 }
 
 :local(.date-time) {
-  background-color: #d4f0fe; 
+  // background-color: #d4f0fe;
+  background-color: #00bcd4;
+  color: white; 
   text-align: center;
   width: 160px;
   margin: 5px auto 10px auto;

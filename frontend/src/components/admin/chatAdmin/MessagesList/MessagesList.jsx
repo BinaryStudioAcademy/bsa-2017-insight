@@ -55,6 +55,7 @@ class MessagesList extends React.Component {
         }}
         id="messageList"
         className={styles['messages-list']}
+        style={{ backgroundColor: this.props.chosenTheme.palette.canvasColor }}
         onScroll={() => this.props.getMessageDate()}
       >
         {chatElements}

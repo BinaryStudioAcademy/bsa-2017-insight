@@ -5,24 +5,6 @@ import UserInfoTable from '../Table/Table';
 import StatisticsFilter from '../StatisticsFilter/StatisticsFilter';
 
 class Homepage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      statisticsFilterOpened: true,
-      usersFilterOpened: false,
-
-    };
-    this.handleOpen = this.handleOpen.bind(this);
-  }
-
-  handleOpen() {
-    this.setState({
-      statisticsFilterOpened: !this.state.statisticsFilterOpened,
-      usersFilterOpened: !this.state.usersFilterOpened,
-    });
-  }
-
-
   render() {
     return (
       <div>
@@ -31,11 +13,9 @@ class Homepage extends React.Component {
             className={styles['filter-title']}
             onClick={() => this.handleOpen()}
           >Users Filter</h4>
-          { (!this.state.statisticsFilterOpened) ? null
-            : <StatisticsFilter
-              chosenTheme={this.props.chosenTheme}
-            />
-          }
+          <StatisticsFilter
+            chosenTheme={this.props.chosenTheme}
+          />
         </div>
         <UserInfoTable
           options={this.props.fieldsToDisplay}

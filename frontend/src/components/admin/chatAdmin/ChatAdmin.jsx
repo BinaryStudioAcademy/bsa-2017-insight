@@ -369,7 +369,7 @@ class Chat extends Component {
             <RaisedButton
               onClick={this.handlePopoverOpen}
               label="Reassign"
-              style={this.state.isParticipant ? { display: 'block', width: '100px' } : { display: 'none' }}
+              style={this.state.isParticipant ? { display: 'inline-block', width: '100px' } : { display: 'none' }}
             />
             <Popover
               open={this.state.isPopoverOpened}
@@ -390,11 +390,9 @@ class Chat extends Component {
               label={'Pick'}
               onClick={this.pickConversation}
               secondary
-              style={this.state.showPickBtn ? { display: 'block', width: '100px' } : { display: 'none' }}
+              style={this.state.showPickBtn ? { display: 'inline-block', width: '100px' } : { display: 'none' }}
             />
-            {
-              this.state.info
-            }
+            <span style={{ marginLeft: '10px' }}>{this.state.info}</span>
           </div>
           <form className={styles['sending-form']} onSubmit={this.messageSubmit}>
             <RaisedButton

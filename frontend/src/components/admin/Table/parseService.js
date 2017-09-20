@@ -40,18 +40,27 @@ const parseService = {
       case 'windows':
         osImageStyle.backgroundImage = `url(${window._injectedData.insightHost}/resources/os/${imgName.join('-')}.png)`;
         return this.parse(osImageStyle, imgName.join('-'));
+      case 'linux':
+        osImageStyle.backgroundImage = `url(${window._injectedData.insightHost}/resources/os/linux.png)`;
+        return this.parse(osImageStyle, 'linux');
       case 'ubuntu':
         osImageStyle.backgroundImage = `url(${window._injectedData.insightHost}/resources/os/ubuntu.png)`;
         return this.parse(osImageStyle, 'ubuntu');
       case 'debian':
         osImageStyle.backgroundImage = `url(${window._injectedData.insightHost}/resources/os/debian.png)`;
         return this.parse(osImageStyle, 'debian');
-      case 'macOS':
+      case 'macos':
         osImageStyle.backgroundImage = `url(${window._injectedData.insightHost}/resources/os/mac-os.png)`;
         return this.parse(osImageStyle, 'mac-os');
-      case 'OS':
+      case 'os':
         osImageStyle.backgroundImage = `url(${window._injectedData.insightHost}/resources/os/mac-os.png)`;
         return this.parse(osImageStyle, 'mac-os');
+      case 'ios':
+        osImageStyle.backgroundImage = `url(${window._injectedData.insightHost}/resources/os/mac-os.png)`;
+        return this.parse(osImageStyle, 'mac-os');
+      case 'android':
+        osImageStyle.backgroundImage = `url(${window._injectedData.insightHost}/resources/os/android.png)`;
+        return this.parse(osImageStyle, 'android');
       default:
         return osname;
     }

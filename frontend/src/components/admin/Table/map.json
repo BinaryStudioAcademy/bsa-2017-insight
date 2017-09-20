@@ -259,5 +259,7 @@
 "windows-10": true,
 "ubuntu": true,
 "debian": true,
-"mac-os": true
+"mac-os": true,
+"android": true,
+"linux": true
 }

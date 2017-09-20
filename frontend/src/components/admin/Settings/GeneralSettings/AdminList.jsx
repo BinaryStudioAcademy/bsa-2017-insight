@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Toggle from 'material-ui/Toggle';
+import styles from './styles.scss'
 
 class AdminList extends React.Component {
   constructor(props) {
@@ -93,29 +94,28 @@ class AdminList extends React.Component {
           showExpandableButton
         />
         <CardText expandable>
-          <div>First Name {this.props.firstName}</div>
-          <div>Last Name {this.props.lastName}</div>
-          <div>Email {this.props.email}</div>
-          {this.props.access && window._injectedData.isSuperUser ? <div>{
+          <div className={styles.admininfo}>First Name: <span>{this.props.firstName}</span></div>
+          <div className={styles.admininfo}>Last Name: <span>{this.props.lastName}</span> </div>
+          <div className={styles.admininfo}>Email: <span>{this.props.email}</span></div>
+          {this.props.access && window._injectedData.isSuperUser ? <div className={styles.controlls}>Can moderate{
             <Toggle
-              label="Can moderate"
-              labelPosition="right"
+            
+           
               disabled={this.props.isSuperUser || !this.props.access || usersProfile}
               defaultToggled={!!this.props.isSuperUser || !!this.state.canModerate}
               style={{ maxWidth: 250 }}
               onClick={e => this.handleModerate(e.target)}
             />
           }</div> : null}
-          <div>
+          <div className={styles.controlls}> Verified
             <Toggle
-              label="Verified"
-              labelPosition="right"
+              
               disabled={this.props.isSuperUser || usersProfile || !this.props.access}
               defaultToggled={!!this.state.verified}
               style={{ maxWidth: 250 }}
               onClick={e => this.handleVerify(e.target)}
             />
-            <span>{this.state.responseStatus === true ? 'changes saved' : null}</span>
+      
           </div>
         </CardText>
         <CardActions expandable>
@@ -128,6 +128,7 @@ class AdminList extends React.Component {
             /> : null
           }
         </CardActions>
+        <span className={styles.success}>{this.state.responseStatus === true ? 'Changes has been saved successfully' : null}</span>
       </Card>
     );
   }

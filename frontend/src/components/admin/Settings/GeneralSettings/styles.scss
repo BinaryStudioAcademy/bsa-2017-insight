@@ -1,0 +1,26 @@
+:local(.admininfo){
+    font-size: 18px;
+    margin-bottom: 25px;
+    color: #8E8C8C;
+    span{
+        font-size: 21px;
+        margin-left: 25px;
+        color: #222
+    }
+}
+
+:local(.controlls){
+    font-size: 18px;
+    margin-bottom: 25px;
+    color: #8E8C8C;
+    display: flex;
+  
+}
+
+:local(.success){
+    display: block;
+    color: #10C10D;
+    text-align: center;
+    font-size: 22px;
+    padding: 8px;
+}

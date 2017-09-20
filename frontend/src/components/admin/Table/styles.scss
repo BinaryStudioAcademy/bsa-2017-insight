@@ -35,7 +35,6 @@
     width: 55%;
     justify-content: flex-start;
     padding: 7px 0;
-
     & > div {
       margin-bottom: 0 !important;
     }
@@ -76,12 +75,14 @@
 }
 
 :local(.rows){
-
   td {
     font-size: 14px !important;
     border-top: 1px solid $landing-lightgrey !important;
     padding: 15px;
     min-width: 60px !important;
+    &:local(.text-center){
+      text-align: center !important;
+    }
   }
 }
 
@@ -93,6 +94,9 @@
     text-align: left !important;
     padding: 15px;
     min-width: 60px !important;
+    &:local(.text-center){
+      text-align: center !important;
+    }
   }
 }
 
@@ -119,6 +123,7 @@
     justify-content: flex-start;
   }
 }
+
 
 :local(.raisedButton) {
   width: 40px !important;

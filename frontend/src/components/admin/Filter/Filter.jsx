@@ -1,6 +1,9 @@
 import React from 'react';
 import Checkbox from 'material-ui/Checkbox';
 import { ListItem } from 'material-ui/List';
+import Dialog from 'material-ui/Dialog';
+import RaisedButton from 'material-ui/RaisedButton';
+import FilterIcon from 'material-ui/svg-icons/content/filter-list';
 import EmptyPlace from './EmptyPlace';
 import styles from './styles.scss';
 
@@ -10,6 +13,7 @@ class Filter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      columnsFilterOpen: false,
       radioValue: {
         browser: 'emailValue',
         Name: 'nameValue',
@@ -70,19 +74,30 @@ class Filter extends React.Component {
   handleCheck(checkBoxName) {
     const checkedFields = this.state.checkedCheckboxes;
     checkedFields[checkBoxName].status = (!checkedFields[checkBoxName].status);
-    this.setState({ checkedCheckboxes: checkedFields }, () => {
-      const newFields = [];
-      Object.keys(this.state.checkedCheckboxes).forEach((item) => {
-        if (this.state.checkedCheckboxes[item].status === true) {
-          newFields.push(item);
-        }
-      });
-      this.props.updateFields(newFields);
+    this.setState({ checkedCheckboxes: checkedFields });
+  }
+
+  handleColumnsFilter() {
+    this.setState({
+      columnsFilterOpen: !this.state.columnsFilterOpen,
     });
   }
 
+  handleSaveResults() {
+    const newFields = [];
+    Object.keys(this.state.checkedCheckboxes).forEach((item) => {
+      if (this.state.checkedCheckboxes[item].status === true) {
+        newFields.push(item);
+      }
+    });
+    this.setState({
+      columnsFilterOpen: !this.state.columnsFilterOpen,
+    });
+    this.props.updateFields(newFields);
+  }
+
   render() {
-    const nestedItems = Object.keys(this.state.checkedCheckboxes).map((elem) => {
+  const nestedItems = Object.keys(this.state.checkedCheckboxes).map((elem) => {
       return (<ListItem
         style={{ fontSize: '14px' }}
         innerDivStyle={{ padding: '16px 0 16px 38px' }}
@@ -96,14 +111,39 @@ class Filter extends React.Component {
         key={uniqueId++}
         rightIcon={<EmptyPlace />}
         initiallyOpen={this.state.initiallyOpen[elem]}
-        onClick={() => this.handleTap(elem)}
         primaryTogglesNestedList
       />);
     });
-
+    const actions = [
+      <RaisedButton
+        label="Save"
+        primary={true}
+        onClick={() => this.handleSaveResults()}
+        style={{marginRight: '10px'}}
+      />,
+      <RaisedButton
+        label="Cancel"
+        primary={true}
+        onClick={() => this.handleColumnsFilter()}
+      />,
+    ];
     return (
-      <div className={styles['nested-items']}>
-        {nestedItems}
+      <div>
+        <FilterIcon
+          onClick={()=> this.handleColumnsFilter()}
+          className={styles['columns-filter-icon']}
+        />
+        <Dialog
+          title="Choose the columns"
+          actions={actions}
+          modal={true}
+          open={this.state.columnsFilterOpen}
+          onRequestClose={() => this.handleColumnsFilter()}
+        >
+          <div className={styles['nested-items']}>
+            {nestedItems}
+          </div>
+        </Dialog>
       </div>
     );
   }

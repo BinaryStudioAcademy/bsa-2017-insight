@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import styles from './styles.scss';
+import Filter from '../Filter/Filter';
 
 class TableItself extends React.Component {
   constructor() {
@@ -30,7 +32,9 @@ class TableItself extends React.Component {
       firstname: 'First name',
       lastname: 'Last name',
       currentPage: 1,
+      columnsFilterOpen: false,
     };
+    this.handleColumnsFilter = this.handleColumnsFilter.bind(this);
   }
 
   hoverRow(e) {
@@ -46,8 +50,15 @@ class TableItself extends React.Component {
       const startId = (currPage - 1) * rowsPerPage;
       const endId = (currPage === numOfPages) ? numOfRows : (currPage * rowsPerPage);
       const rowsOnThisPage = this.props.statistics.slice(startId, endId);
-      return rowsOnThisPage.map(row => (
-        <tr key={`row ${row.userId._id}`} value={row} className={styles.rows} style={{ borderBottom: '1px solid #E0F7FA' }}> {
+      return rowsOnThisPage.map((row, index) => (
+        <tr key={`row ${row.userId._id}`} value={row} className={styles.rows} style={{ borderBottom: '1px solid #E0F7FA' }}> 
+          <td
+            key={`row number ${row.userId._id}`}
+            style={{textAlign: 'center'}}
+          >
+            <span>{index+1}</span>
+          </td>
+        {
           this.props.options.map((elem) => {
             if (elem === 'username') {
               return (<td
@@ -83,6 +94,12 @@ class TableItself extends React.Component {
     return undefined;
   }
 
+  handleColumnsFilter() {
+    this.setState({
+      columnsFilterOpen: !this.state.columnsFilterOpen,
+    })
+  }
+
   render() {
     const currPage = Number(this.props.currentPage);
     const numOfRows = this.props.statistics.length;
@@ -93,6 +110,13 @@ class TableItself extends React.Component {
           <table>
             <thead className={styles.tableHeader}>
               <tr>
+                <th style={{padding: '0px'}}>
+                  <Filter
+                    selectedFields={this.props.options}
+                    statisticOptions={this.props.statisticOptions}
+                    updateFields={this.props.updateFields}
+                  />
+                </th>
                 {this.props.options.map((elem) => {
                   return (<th
                     key={elem}
@@ -102,7 +126,7 @@ class TableItself extends React.Component {
                 })}
               </tr>
             </thead>
-            <tbody>
+            <tbody className={styles.tableBody}>
               {
                 this.generateRows()
               }

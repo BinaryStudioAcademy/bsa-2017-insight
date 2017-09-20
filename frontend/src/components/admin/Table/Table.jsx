@@ -15,11 +15,11 @@ import StatisticsCharts from '../StatisticsCharts/StatisticsCharts';
 class UserInfoTable extends React.Component {
   constructor() {
     super();
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    // this.handleOpen = this.handleOpen.bind(this);
+    // this.handleClose = this.handleClose.bind(this);
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
-    this.updateFields = this.updateFields.bind(this);
+    // this.updateFields = this.updateFields.bind(this);
     this.switchChartsOrTable = this.switchChartsOrTable.bind(this);
 
     this.state = {
@@ -32,14 +32,14 @@ class UserInfoTable extends React.Component {
     };
   }
 
-  handleOpen() {
-    this.setState({ open: true });
-  }
+  // handleOpen() {
+  //   this.setState({ open: true });
+  // }
 
-  handleClose() {
-    this.setState({ open: false });
-    this.props.updateFields(this.state.fieldsToUpdate);
-  }
+  // handleClose() {
+  //   this.setState({ open: false });
+  //   this.props.updateFields(this.state.fieldsToUpdate);
+  // }
 
   handleChangeRowsPerPage(event, index, value) {
     this.setState({
@@ -63,9 +63,9 @@ class UserInfoTable extends React.Component {
     this.setState({ selDialogOpen: !this.state.selDialogOpen });
   }
 
-  updateFields(fields) {
-    this.setState({ fieldsToUpdate: fields });
-  }
+  // updateFields(fields) {
+  //   this.setState({ fieldsToUpdate: fields });
+  // }
 
   switchChartsOrTable() {
     this.setState({ showTable: !this.state.showTable });
@@ -166,6 +166,8 @@ class UserInfoTable extends React.Component {
             rowsPerPage={this.state.rowsPerPage}
             currentPage={this.state.currentPage}
             changeCurrentPage={this.changeCurrentPage}
+            statisticOptions={this.props.statisticOptions}
+            updateFields={this.props.updateFields}
           /> :
           <StatisticsCharts
             selectedFields={this.props.options}

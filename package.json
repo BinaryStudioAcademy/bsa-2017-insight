@@ -58,6 +58,7 @@
     "validator": "^8.2.0",
     "webfontloader": "^1.6.28",
     "which-browser": "^0.2.2"
+
   },
   "devDependencies": {
     "autoprefixer": "^6.5.3",

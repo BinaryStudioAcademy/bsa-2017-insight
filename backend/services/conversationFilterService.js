@@ -51,14 +51,22 @@ const parseQuery = (query, callback) => {
     },
     function(parsed, done) {
       if(query.date) {
-        if(query.date.from) {
+        debugger;
+        if (query.date.from && !query.date.to) {
           parsed.$match.createdAt = {
             $gte: new Date(query.date.from),
-            $lte: new Date(query.date.to)
-          }
+          };
+        } else if (!query.date.from && query.date.to) {
+          parsed.$match.createdAt = {
+            $lte: new Date(query.date.to),
+          };
+        } else if (query.date.from && query.date.to) {
+          parsed.$match.createdAt = {
+            $gte: new Date(query.date.from),
+            $lte: new Date(query.date.to),
+          };
         } else if (query.date.exact) {
           const date = new Date(query.date.exact);
-          
           parsed.$project.month = { $month: "$createdAt" };
           parsed.$project.year = { $year: "$createdAt" };
           parsed.$project.day = { $dayOfMonth: "$createdAt" };

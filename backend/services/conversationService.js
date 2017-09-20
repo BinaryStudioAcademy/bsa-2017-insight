@@ -140,10 +140,89 @@ function reassignConversation(conversationId, currentUserId, newUser, callback) 
   });
 };
 
+function countConversationsByGroups(user, callback) {
+
+  async.series({
+    all: (done) => {
+      ConversationRepository.model.aggregate([
+        {$project: {
+          messagesCount: { $size: '$messages' },
+          appId: 1,
+        }},
+        {$match: {
+          messagesCount: { $gt: 0 },
+          appId: mongoose.Types.ObjectId(user.appId)
+        }},
+        {$group: {
+          _id : null, 
+          count : {$sum : 1}
+        }}
+      ], (err, result) => {
+        if(result.length) {
+          done(null, result[0].count)
+        } else {
+          done(null, 0);
+        }
+      });
+    },
+    mine: (done) => {
+      ConversationRepository.model.aggregate([
+        {$project: {
+          participants: 1,
+          appId: 1,
+        }},
+        {$match: {
+          'participants.user': user.id,
+          appId: mongoose.Types.ObjectId(user.appId)
+        }},
+        {$group: {
+          _id : null, 
+          count : {$sum : 1}
+        }}
+      ], (err, result) => {
+        if(result.length) {
+          done(null, result[0].count)
+        } else {
+          done(null, 0);
+        }
+      });
+    },
+    unpicked: (done) => {
+      ConversationRepository.model.aggregate([
+        {$project: {
+          participants: 1,
+          participantsCount: { $size: '$participants' },
+          appId: 1,
+        }},
+        {$match: {
+          appId: mongoose.Types.ObjectId(user.appId),
+          participantsCount: 1,
+        }},
+        {$group: {
+          _id : null, 
+          count : {$sum : 1}
+        }}
+      ], (err, result) => {
+        if(result.length) {
+          done(null, result[0].count)
+        } else {
+          done(null, 0);
+        }
+      });
+    }
+  }, (err, result) => {
+    console.log(result);
+    if(err) {
+      return callback(err);
+    }
+    callback(null, { all: result.all, mine: result.mine, unpicked: result.unpicked });
+  });
+}
 module.exports = {
   createConversationAndUpdateUser,
   checkIfAdminIsConversationParticipant,
   createForceConversation,
   pickConversation,
   reassignConversation,
+  countConversationsByGroups,
 };

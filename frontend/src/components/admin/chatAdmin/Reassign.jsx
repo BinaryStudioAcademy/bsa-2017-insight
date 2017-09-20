@@ -21,6 +21,9 @@ export default class Reassign extends React.Component {
     document.getElementById('userInput').focus();
     const reassignHandler = (response) => {
       if (response.ok) {
+        const newCount = Object.assign({}, this.props.conversationGroupsCount);
+        newCount.mine--;
+        this.props.updateConversationGroupsCount(newCount);
         return this.props.updateConversationParticipants(response.newParticipant);
       }
       return this.setState({
@@ -161,4 +164,6 @@ Reassign.propTypes = {
   }),
   updateConversationParticipants: propTypes.func,
   conversationId: propTypes.string,
+  conversationGroupsCount: propTypes.shape({}),
+  updateConversationGroupsCount: propTypes.func,
 };

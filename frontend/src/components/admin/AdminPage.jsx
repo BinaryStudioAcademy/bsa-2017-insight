@@ -139,6 +139,8 @@ class AdminPage extends React.Component {
                               socketConnection={this.socket}
                               updateUnreadMessages={this.props.updateUnreadMessages}
                               getConversationsByFilters={this.props.getConversationsByFilters}
+                              conversationGroupsCount={this.props.conversationGroupsCount}
+                              updateConversationGroupsCount={this.props.updateConversationGroupsCount}
                             />)
                           }
                         />
@@ -191,6 +193,8 @@ AdminPage.propTypes = {
   unreadMessages: PropTypes.arrayOf(PropTypes.string),
   updateUnreadMessages: PropTypes.func,
   getConversationsByFilters: PropTypes.func,
+  conversationGroupsCount: PropTypes.shape({}),
+  updateConversationGroupsCount: PropTypes.func,
 };
 
 AdminPage.contextTypes = {
@@ -209,6 +213,7 @@ const mapStateToProps = (state) => {
     unreadMessages: state.conversationsInfo.unreadMessages,
     conversations: state.conversationsInfo.conversations,
     conversationFilters: state.conversationsInfo.conversationFilters,
+    conversationGroupsCount: state.conversationsInfo.conversationGroupsCount,
   };
 };
 
@@ -246,6 +251,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getConversationsByFilters: (filters) => {
       dispatch({ type: 'GET_CONVERSATIONS_BY_FILTERS', payload: filters });
+    },
+    updateConversationGroupsCount: (newCount) => {
+      dispatch({ type: 'UPDATE_CONVERSATION_GROUPS_COUNT', payload: newCount });
     },
     dispatch,
   };

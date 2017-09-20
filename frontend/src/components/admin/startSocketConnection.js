@@ -46,10 +46,16 @@ function startSocketConnection(dispatch) {
     if (conversation.appId !== window._injectedData.appId) {
       return;
     }
+
     if (this.context.router.route.location.pathname === '/admin/messenger' &&
       (this.props.conversationFilters.activeGroup === 'unpicked' || this.props.conversationFilters.activeGroup === 'all')) {
       const newConversations = [conversation, ...this.props.conversations];
       dispatch(updateConversations(newConversations));
+
+      const newCount = Object.assign({}, this.props.conversationGroupsCount);
+      newCount.unpicked++;
+      newCount.all++;
+      this.props.updateConversationGroupsCount(newCount);
     }
     const handler = () => {
       this.props.getStatisticById(conversation.participants[0].user._id);
@@ -84,11 +90,15 @@ function startSocketConnection(dispatch) {
     admin.reassignedConversations.push(data.conversationId);
     admin.conversations.push(data.conversationId);
 
+    const newCount = Object.assign({}, this.props.conversationGroupsCount);
+    newCount.mine++;
+
     const conversationIndex = this.props.conversations.findIndex((conversation) => {
       return conversation._id === data.conversationId;
     });
 
     if (conversationIndex === -1) {
+      newCount.all++;
       if (this.context.router.route.location.pathname === '/admin/messenger' &&
         (this.props.conversationFilters.activeGroup === 'mine' || this.props.conversationFilters.activeGroup === 'all')
       ) {
@@ -101,6 +111,7 @@ function startSocketConnection(dispatch) {
       newConversations.unshift(data.reassignedConversation);
       dispatch(updateConversations(newConversations));
     }
+    this.props.updateConversationGroupsCount(newCount);
     this.props.updateReassignedConversations(window._injectedData.reassignedConversations);
     const handler = () => {
       this.props.getStatisticById(data.userId);
@@ -180,6 +191,22 @@ function startSocketConnection(dispatch) {
       newConversations.unshift(conversationCopy);
       dispatch(updateConversations(newConversations));
     }
+  });
+
+  this.socket.on('newConversationPicked', (conversationId) => {
+    if (this.context.router.route.location.pathname === '/admin/messenger' && this.props.conversationFilters.activeGroup === 'unpicked') {
+      const conversationIndex = this.props.conversations.findIndex((conversation) => {
+        return conversation._id === conversationId;
+      });
+      if (conversationIndex !== -1) {
+        const newConversations = [...this.props.conversations];
+        newConversations.splice(conversationIndex, 1);
+        dispatch(updateConversations(newConversations));
+      }
+    }
+    const newCount = Object.assign({}, this.props.conversationGroupsCount);
+    newCount.unpicked--;
+    this.props.updateConversationGroupsCount(newCount);
   });
 }
 

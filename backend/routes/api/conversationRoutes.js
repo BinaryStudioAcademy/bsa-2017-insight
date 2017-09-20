@@ -14,6 +14,15 @@ module.exports = (app) => {
     });
   });
 
+  app.get('/api/conversations/count', (req, res, next) => {
+    conversationService.countConversationsByGroups({ id: req.user._id, appId: req.user.appId }, (err, result) => {
+      if(err) {
+        return next(err);
+      }
+      res.json(result);
+    });
+  });
+
   app.get('/api/conversations/:id', (req, res) => {
     const id = req.params.id;
     conversationRepository.findOneAndPopulate(id, (err, data) => {

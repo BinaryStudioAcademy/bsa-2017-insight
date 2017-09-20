@@ -169,6 +169,10 @@ function connectionHandler(socket) {
   socket.on('conversationPicked', (admin) => {
     socket.broadcast.emit('conversationPicked', admin);
   });
+
+  socket.on('newConversationPicked', (conversationId) => {
+    socket.broadcast.emit('newConversationPicked', conversationId);
+  });
 }
 
 module.exports = connectionHandler;

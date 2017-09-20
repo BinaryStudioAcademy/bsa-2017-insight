@@ -204,7 +204,7 @@ class ConversationFilter extends React.Component {
                 this.all = el;
                 return undefined;
               }}
-            >all</a>
+            >all({this.props.conversationGroupsCount.all})</a>
             <a
               role="button"
               tabIndex="0"
@@ -215,7 +215,7 @@ class ConversationFilter extends React.Component {
                 this.mine = el;
                 return undefined;
               }}
-            >mine</a>
+            >mine({this.props.conversationGroupsCount.mine})</a>
             <a
               role="button"
               tabIndex="0"
@@ -226,7 +226,7 @@ class ConversationFilter extends React.Component {
                 this.unpicked = el;
                 return undefined;
               }}
-            >unpicked</a>
+            >unpicked({this.props.conversationGroupsCount.unpicked})</a>
           </div>
         </div>
         <Dialog
@@ -356,6 +356,11 @@ ConversationFilter.propTypes = {
   setConversationFilters: PropTypes.func,
   getConversationsByFilters: PropTypes.func,
   filters: PropTypes.PropTypes.shape(),
+  conversationGroupsCount: PropTypes.shape({
+    all: PropTypes.number,
+    mine: PropTypes.number,
+    unpicked: PropTypes.number,
+  }),
 };
 
 export default ConversationFilter;

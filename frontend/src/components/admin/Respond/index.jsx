@@ -14,14 +14,25 @@ class Respond extends React.Component {
     super();
     this.conversationToChat = this.conversationToChat.bind(this);
     this.getIdForStatistic = this.getIdForStatistic.bind(this);
+    this.getConversationGroupsCount = this.getConversationGroupsCount.bind(this);
   }
 
   componentWillMount() {
     this.props.getConversationsByFilters(this.props.conversationFilters);
+    this.getConversationGroupsCount();
   }
 
   componentWillUnmount() {
     this.props.removeConversations();
+  }
+
+  getConversationGroupsCount() {
+    fetch('/api/conversations/count', {
+      method: 'GET',
+      credentials: 'include',
+    }).then(response => response.json()).then((response) => {
+      this.props.updateConversationGroupsCount(response);
+    });
   }
 
   getIdForStatistic(conversation) {
@@ -30,6 +41,7 @@ class Respond extends React.Component {
     });
     this.props.getStatisticById(userObj.user._id);
   }
+
   conversationToChat(id) {
     return this.props.conversations.find((e) => {
       return e._id === id;
@@ -43,6 +55,7 @@ class Respond extends React.Component {
         setConversationFilters={this.props.setConversationFilters}
         getConversationsByFilters={this.props.getConversationsByFilters}
         removeConversations={this.props.removeConversations}
+        conversationGroupsCount={this.props.conversationGroupsCount}
       />
     );
     if (this.props.conversations === null) {
@@ -127,6 +140,8 @@ class Respond extends React.Component {
                 updateUnreadMessages={this.props.updateUnreadMessages}
                 setMessagesReceived={this.props.setMessagesReceived}
                 removeConversations={this.props.removeConversations}
+                conversationGroupsCount={this.props.conversationGroupsCount}
+                updateConversationGroupsCount={this.props.updateConversationGroupsCount}
               />
             </div>
             <div
@@ -219,6 +234,8 @@ Respond.propTypes = {
   conversationFilters: propTypes.shape({}),
   updateUnreadMessages: propTypes.func,
   setMessagesReceived: propTypes.func,
+  conversationGroupsCount: propTypes.shape({}),
+  updateConversationGroupsCount: propTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Respond);

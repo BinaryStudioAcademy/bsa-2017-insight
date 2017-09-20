@@ -277,6 +277,11 @@ class Chat extends Component {
           type: 'Admin',
           messages: this.props.conversationToRender.messages,
         });
+        this.props.socketConnection.emit('newConversationPicked', this.props.conversationToRender._id);
+        const newCount = Object.assign({}, this.props.conversationGroupsCount);
+        newCount.unpicked--;
+        newCount.mine++;
+        this.props.updateConversationGroupsCount(newCount);
         this.props.setMessagesReceived(this.props.conversationToRender._id);
         this.setState({
           isParticipant: true,
@@ -382,6 +387,8 @@ class Chat extends Component {
                 conversationId={this.props.conversationToRender && this.props.conversationToRender._id}
                 socket={this.props.socketConnection}
                 updateConversationParticipants={this.updateConversationParticipants}
+                conversationGroupsCount={this.props.conversationGroupsCount}
+                updateConversationGroupsCount={this.props.updateConversationGroupsCount}
               />
             </div>
           </Popover>
@@ -479,6 +486,8 @@ Chat.propTypes = {
   }),
   updateUnreadMessages: propTypes.func,
   setMessagesReceived: propTypes.func,
+  conversationGroupsCount: propTypes.shape({}),
+  updateConversationGroupsCount: propTypes.func,
 };
 
 export default Chat;

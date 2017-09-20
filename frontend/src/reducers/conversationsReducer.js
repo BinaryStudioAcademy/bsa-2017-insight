@@ -9,6 +9,11 @@ const initialState = {
   },
   unreadMessages: window._injectedData.unreadMessages,
   reassignedConversations: window._injectedData.reassignedConversations,
+  conversationGroupsCount: {
+    all: 0,
+    mine: 0,
+    unpicked: 0,
+  },
 };
 
 function findConversationById(id, conversations) {
@@ -96,6 +101,9 @@ const conversationsReducer = (state = initialState, action) => {
         return conversation;
       });
       return Object.assign({}, state, { conversations: newConversations });
+    }
+    case 'UPDATE_CONVERSATION_GROUPS_COUNT': {
+      return Object.assign({}, state, { conversationGroupsCount: action.payload });
     }
     default: {
       return state;

@@ -10,7 +10,7 @@ const imageStyles = {
 const parseService = {
   parse(style, name) {
     if (map[name]) {
-      return <span style={style} />;
+      return <span title={name} style={style} />;
     }
     return name;
   },

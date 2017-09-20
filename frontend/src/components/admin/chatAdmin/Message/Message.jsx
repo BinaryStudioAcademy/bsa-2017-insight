@@ -50,7 +50,7 @@ Message.propTypes = {
   type: propTypes.string,
   createdAt: propTypes.instanceOf(Date),
   isReceived: propTypes.bool,
-  conversation: propTypes.func,
+  conversation: propTypes.string,
 };
 
 export default Message;

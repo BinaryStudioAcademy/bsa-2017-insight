@@ -11,6 +11,7 @@ function* conversationsSaga() {
 //   yield put({ type: 'GET_CONVERSATION_BY_ID_SUCCESS', payload: { id: action.payload, conversation: result } });
 // }
 
+
 function* getConversationsByFilters(action) {
   const conversations = yield fetchAPI.getConversationsByFilters(action.payload);
   yield put({ type: 'UPDATE_CONVERSATIONS', payload: conversations });

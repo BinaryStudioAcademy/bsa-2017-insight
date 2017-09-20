@@ -5,14 +5,23 @@
     position: absolute;
     top: 0;
     right: 1%;
-    display: inline-block;
     vertical-align: top;
 }
 
 :local(.nested-items) {
 	display: flex;
 	flex-direction: column;
-    justify-content: space-between;
-    height: calc(100vh - 80px - 48px - 58px) !important;
+    flex-wrap: wrap;
+    height: 300px !important;
     overflow: auto;
+}
+
+:local(.columns-filter-icon) {
+  min-width: 50px !important;
+  margin: 0px 20px;
+
+  & > button > div > div > svg {
+    width: 40px !important;
+    height: 40px !important;
+  }
 }

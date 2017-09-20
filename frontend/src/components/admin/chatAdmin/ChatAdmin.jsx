@@ -369,96 +369,96 @@ class Chat extends Component {
           socket={this.props.socketConnection}
           convertDate={this.convertDate}
         />
-        <div style={{ margin: '5px 10px' }}>
-          <RaisedButton
-            onClick={this.handlePopoverOpen}
-            label="Reassign"
-            style={this.state.isParticipant ? { display: 'block', width: '100px' } : { display: 'none' }}
-          />
-          <Popover
-            open={this.state.isPopoverOpened}
-            onRequestClose={this.handlePopoverClose}
-            anchorEl={this.state.anchorEl}
-            animated={false}
-            style={{ overflow: 'hidden' }}
-          >
-            <div className={'reassign-popover'}>
-              <Reassign
-                conversationId={this.props.conversationToRender && this.props.conversationToRender._id}
-                socket={this.props.socketConnection}
-                updateConversationParticipants={this.updateConversationParticipants}
-                conversationGroupsCount={this.props.conversationGroupsCount}
-                updateConversationGroupsCount={this.props.updateConversationGroupsCount}
-              />
-            </div>
-          </Popover>
-          <RaisedButton
-            label={'Pick'}
-            onClick={this.pickConversation}
-            secondary
-            style={this.state.showPickBtn ? { display: 'block', width: '100px' } : { display: 'none' }}
-          />
-          {
-            this.state.info
-          }
-        </div>
-        <form className={styles['sending-form']} onSubmit={this.messageSubmit}>
-          <RaisedButton
-            className={styles['selected-files-counter']}
-            label={this.state.filesCounter}
-            primary
-            ref={(node) => {
-              this.filesCounter = node;
-            }}
-            style={{ height: '39px' }}
-          >
-            <input
-              id="file-input"
-              name="fileInput"
-              type="file"
+        <div>
+          <div className={styles['reassign-popover-container']} style={{ margin: '5px 10px' }}>
+            <RaisedButton
+              onClick={this.handlePopoverOpen}
+              label="Reassign"
+              style={this.state.isParticipant ? { display: 'inline-block', width: '100px' } : { display: 'none' }}
+            />
+            <Popover
+              open={this.state.isPopoverOpened}
+              onRequestClose={this.handlePopoverClose}
+              anchorEl={this.state.anchorEl}
+              animated={false}
+              style={{ overflow: 'hidden' }}
+            >
+              <div className={'reassign-popover'}>
+                <Reassign
+                  conversationId={this.props.conversationToRender && this.props.conversationToRender._id}
+                  socket={this.props.socketConnection}
+                  updateConversationParticipants={this.updateConversationParticipants}
+                  conversationGroupsCount={this.props.conversationGroupsCount}
+                  updateConversationGroupsCount={this.props.updateConversationGroupsCount}
+                />
+              </div>
+            </Popover>
+            <RaisedButton
+              label={'Pick'}
+              onClick={this.pickConversation}
+              secondary
+              style={this.state.showPickBtn ? { display: 'inline-block', width: '100px' } : { display: 'none' }}
+            />
+            <span style={{ marginLeft: '10px' }}>{this.state.info}</span>
+          </div>
+          <form className={styles['sending-form']} onSubmit={this.messageSubmit}>
+            <RaisedButton
+              className={styles['selected-files-counter']}
+              label={this.state.filesCounter}
+              primary
               ref={(node) => {
-                this.fileInput = node;
+                this.filesCounter = node;
               }}
-              className={styles['file-input']}
-              onChange={this.onFileInputChange}
-              multiple
+              style={{ height: '39px' }}
+            >
+              <input
+                id="file-input"
+                name="fileInput"
+                type="file"
+                ref={(node) => {
+                  this.fileInput = node;
+                }}
+                className={styles['file-input']}
+                onChange={this.onFileInputChange}
+                multiple
+                disabled={!this.state.isParticipant}
+              />
+            </RaisedButton>
+            <input
+              type="text"
+              name="messageInput"
+              className={styles['message-input']}
+              onChange={(e) => { this.setTextIntoInput(e); }}
+              value={this.state.text}
+              onBlur={e => this.blurFromInput(e)}
+              id="input"
               disabled={!this.state.isParticipant}
             />
-          </RaisedButton>
-          <input
-            type="text"
-            name="messageInput"
-            className={styles['message-input']}
-            onChange={(e) => { this.setTextIntoInput(e); }}
-            value={this.state.text}
-            onBlur={e => this.blurFromInput(e)}
-            id="input"
-            disabled={!this.state.isParticipant}
-          />
-          <span
-            role="button"
-            tabIndex="0"
-            onClick={e => this.toggleEmojiBlock(e)}
-            className={styles['main_emo-menu']}
+            <span
+              role="button"
+              tabIndex="0"
+              onClick={e => this.toggleEmojiBlock(e)}
+              className={styles['main_emo-menu']}
+            >
+              <i className={styles['emoji-block-icon']} />
+            </span>
+            <RaisedButton
+              type="submit"
+              label="Send"
+              primary
+              className={styles['submit-button']}
+              style={{ height: '39px', width: '100px' }}
+              disabled={!this.state.isParticipant}
+            />
+          </form>
+          {this.state.showEmojis ? <div
+            tabIndex={0}
+            onBlur={this.closeEmojiBlock}
+            className={styles['emoji-block']}
           >
-            <i className={styles['emoji-block-icon']} />
-          </span>
-          <RaisedButton
-            type="submit"
-            label="Send"
-            primary
-            className={styles['submit-button']}
-            style={{ height: '39px', width: '100px' }}
-            disabled={!this.state.isParticipant}
-          />
-        </form>
-        {this.state.showEmojis ? <div
-          tabIndex={0}
-          onBlur={this.closeEmojiBlock}
-          className={styles['emoji-block']}
-        >
-          <EmojiContainer setEmojiToInput={this.setEmojiToInput} />
-        </div> : null }
+            <EmojiContainer setEmojiToInput={this.setEmojiToInput} />
+          </div> : null }
+        </div>
       </div>
     );
   }

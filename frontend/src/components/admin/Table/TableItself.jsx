@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import parseService from './parseService';
 import styles from './styles.scss';
+import Filter from '../Filter/Filter';
 
 class TableItself extends React.Component {
   constructor() {
@@ -32,7 +33,9 @@ class TableItself extends React.Component {
       firstname: 'First name',
       lastname: 'Last name',
       currentPage: 1,
+      columnsFilterOpen: false,
     };
+    this.handleColumnsFilter = this.handleColumnsFilter.bind(this);
   }
 
   hoverRow(e) {
@@ -48,71 +51,84 @@ class TableItself extends React.Component {
       const startId = (currPage - 1) * rowsPerPage;
       const endId = (currPage === numOfPages) ? numOfRows : (currPage * rowsPerPage);
       const rowsOnThisPage = this.props.statistics.slice(startId, endId);
-      return rowsOnThisPage.map(row => (
-        <tr key={`row ${row.userId._id}`} value={row} className={styles.rows} style={{ borderBottom: '1px solid #E0F7FA' }}>{
-          this.props.options.map((elem) => {
-            if (elem === 'username') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                <span>{row.userId.username}</span>
-              </td>);
-            }
-            if (elem === 'firstname') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                <span>{row.userId.firstName}</span>
-              </td>);
-            }
-            if (elem === 'lastname') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                <span>{row.userId.lastName}</span>
-              </td>);
-            }
+      return rowsOnThisPage.map((row, index) => (
+        <tr key={`row ${row.userId._id}`} value={row} className={styles.rows} style={{ borderBottom: '1px solid #E0F7FA' }}>
+          <td
+            key={`row number ${row.userId._id}`}
+            style={{ textAlign: 'center' }}
+          >
+            <span>{index + 1}</span>
+          </td>
+          {
+            this.props.options.map((elem) => {
+              if (elem === 'username') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  <span>{row.userId.username}</span>
+                </td>);
+              }
+              if (elem === 'firstname') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  <span>{row.userId.firstName}</span>
+                </td>);
+              }
+              if (elem === 'lastname') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  <span>{row.userId.lastName}</span>
+                </td>);
+              }
 
-            if (elem === 'firstVisitDate') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                <span>{(new Date(row.firstVisitDate)).toDateString()}</span>
-              </td>);
-            }
-            if (elem === 'country') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                {parseService.flag(row[elem])}
-              </td>);
-            }
-            if (elem === 'browser') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                {parseService.browser(row[elem])}
-              </td>);
-            }
-            if (elem === 'os') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                {parseService.os(row[elem])}
+              if (elem === 'firstVisitDate') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  <span>{(new Date(row.firstVisitDate)).toDateString()}</span>
+                </td>);
+              }
+              if (elem === 'country') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  {parseService.flag(row[elem])}
+                </td>);
+              }
+              if (elem === 'browser') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  {parseService.browser(row[elem])}
+                </td>);
+              }
+              if (elem === 'os') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  {parseService.os(row[elem])}
 
+                </td>);
+              }
+              return (<td
+                key={`row ${row.userId._id},column${elem}`}
+              >
+                <span>{row[elem]}</span>
               </td>);
-            }
-            return (<td
-              key={`row ${row.userId._id},column${elem}`}
-            >
-              <span>{row[elem]}</span>
-            </td>);
-          })
-        }
+            })
+          }
         </tr>
       ));
     }
     return undefined;
+  }
+
+  handleColumnsFilter() {
+    this.setState({
+      columnsFilterOpen: !this.state.columnsFilterOpen,
+    });
   }
 
   render() {
@@ -125,6 +141,12 @@ class TableItself extends React.Component {
           <table>
             <thead className={styles.tableHeader}>
               <tr>
+                <th style={{ padding: '0px' }}>
+                  <Filter
+                    selectedFields={this.props.options}
+                    updateFields={this.props.updateFields}
+                  />
+                </th>
                 {this.props.options.map((elem) => {
                   return (<th
                     key={elem}
@@ -134,7 +156,7 @@ class TableItself extends React.Component {
                 })}
               </tr>
             </thead>
-            <tbody>
+            <tbody className={styles.tableBody}>
               {
                 this.generateRows()
               }
@@ -204,6 +226,7 @@ TableItself.propTypes = {
   changeCurrentPage: PropTypes.func,
   currentPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   rowsPerPage: PropTypes.number,
+  updateFields: PropTypes.func,
 };
 
 export default TableItself;

@@ -12,6 +12,7 @@ import ConversationFilter from './ConversationFilter/ConversationFilter';
 class Respond extends React.Component {
   constructor() {
     super();
+    this.filterHeight = 50;
     this.conversationToChat = this.conversationToChat.bind(this);
     this.getIdForStatistic = this.getIdForStatistic.bind(this);
     this.getConversationGroupsCount = this.getConversationGroupsCount.bind(this);
@@ -78,16 +79,16 @@ class Respond extends React.Component {
     const convToChat = idToRender ? this.conversationToChat(idToRender) : null;
     return (
       <div>
+        {filters}
         {!idToRender ?
           <div
             className={styles['big-conversation-list']}
             style={{
-              height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
+              height: `calc(100vh - ${this.props.headerHeight}px - ${this.filterHeight}px - 8px)`,
               overflowY: 'scroll',
               width: '100%',
             }}
           >
-            {filters}
             <ConversationList
               setStatistic={this.getIdForStatistic}
               conversations={this.props.conversations}
@@ -98,8 +99,7 @@ class Respond extends React.Component {
           <div
             className={styles['small-conversation-list']}
             style={{
-              height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
-              overflowY: 'hidden',
+              height: `calc(100vh - ${this.props.headerHeight}px - ${this.filterHeight}px - 8px)`,
               display: 'flex',
               flexWrap: 'nowrap',
               width: '100%',
@@ -114,11 +114,9 @@ class Respond extends React.Component {
             <div
               className={styles.conversations}
               style={{
-                height: `calc(100vh - ${this.props.headerHeight}px - 8px)`,
                 overflowY: 'scroll',
               }}
             >
-              {filters}
               <ConversationList
                 setStatistic={this.getIdForStatistic}
                 conversations={this.props.conversations}
@@ -146,7 +144,6 @@ class Respond extends React.Component {
             </div>
             <div
               className={styles['info-wrapper']}
-              style={{ height: `calc(60vh - ${this.props.headerHeight})` }}
             >
               <UserInfo statistic={this.props.statisticById} />
             </div>
@@ -163,6 +160,7 @@ const mapStateToProps = (state) => {
     conversationToRenderId: state.conversationsInfo.conversationToRenderId,
     statisticById: state.statistics.statisticById,
     conversationFilters: state.conversationsInfo.conversationFilters,
+    conversationsNumber: state.conversationsInfo.conversationsNumber,
   };
 };
 

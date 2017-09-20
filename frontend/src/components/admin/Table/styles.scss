@@ -81,7 +81,7 @@
     font-size: 14px !important;
     border-top: 1px solid $landing-lightgrey !important;
     padding: 15px;
-    min-width: 80px !important;
+    min-width: 60px !important;
   }
 }
 
@@ -92,9 +92,14 @@
     color: $landing-middlegrey !important;
     text-align: left !important;
     padding: 15px;
-    min-width: 80px !important;
+    min-width: 60px !important;
   }
 }
+
+// :local(.tableBody) {
+//   height: 100px;
+//   overflow: auto !important;
+// }
 
 :local(.pagination) {
   margin: 10px 0px;

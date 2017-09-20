@@ -9,6 +9,11 @@ const initialState = {
   },
   unreadMessages: window._injectedData.unreadMessages,
   reassignedConversations: window._injectedData.reassignedConversations,
+  conversationsNumber: {
+    all: null,
+    mine: null,
+    unpicked: null,
+  },
 };
 
 function findConversationById(id, conversations) {
@@ -47,7 +52,13 @@ const conversationsReducer = (state = initialState, action) => {
     case 'REMOVE_CONVERSATION':
       return Object.assign({}, state, { conversationToRenderId: null });
     case 'UPDATE_CONVERSATIONS':
-      return Object.assign({}, state, { conversations: action.payload });
+      return Object.assign({}, state, { conversations: action.payload.conversations, conversationsNumber: action.payload.conversationsNumber, });
+
+
+
+
+
+
     case 'SET_CONVERSATION_FILTERS': {
       return Object.assign({}, state, { conversationFilters: action.payload });
     }

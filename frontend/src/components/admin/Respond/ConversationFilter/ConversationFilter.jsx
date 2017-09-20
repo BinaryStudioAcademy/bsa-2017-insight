@@ -168,6 +168,11 @@ class ConversationFilter extends React.Component {
         className={'dialog-btn'}
       />,
     ];
+    const conversationsNumber = {
+      all: (this.props.conversationsNumber.all !== null) ? this.props.conversationsNumber.all : 0,
+      mine: (this.props.conversationsNumber.mine !== null) ? this.props.conversationsNumber.mine : 0,
+      unpicked: (this.props.conversationsNumber.unpicked !== null) ? this.props.conversationsNumber.unpicked : 0,
+    }
     return (
       <div>
         <div className={'filter-panel'}>
@@ -193,41 +198,39 @@ class ConversationFilter extends React.Component {
           }
           <span style={{ margin: '0 5px' }}>|</span>
           <span>show conversations:</span>
-          <div style={{ margin: '0 10px' }}>
-            <a
-              role="button"
-              tabIndex="0"
-              className={'filter-panel-link'}
-              id={'all'}
-              onClick={this.changeGroup}
-              ref={(el) => {
-                this.all = el;
-                return undefined;
-              }}
-            >all</a>
-            <a
-              role="button"
-              tabIndex="0"
-              className={'filter-panel-link'}
-              id={'mine'}
-              onClick={this.changeGroup}
-              ref={(el) => {
-                this.mine = el;
-                return undefined;
-              }}
-            >mine</a>
-            <a
-              role="button"
-              tabIndex="0"
-              className={'filter-panel-link'}
-              id={'unpicked'}
-              onClick={this.changeGroup}
-              ref={(el) => {
-                this.unpicked = el;
-                return undefined;
-              }}
-            >unpicked</a>
-          </div>
+          <a
+            role="button"
+            tabIndex="0"
+            className={'filter-panel-link'}
+            id={'all'}
+            onClick={this.changeGroup}
+            ref={(el) => {
+              this.all = el;
+              return undefined;
+            }}
+          >all ({this.props.conversationsNumber.all})</a>
+          <a
+            role="button"
+            tabIndex="0"
+            className={'filter-panel-link'}
+            id={'mine'}
+            onClick={this.changeGroup}
+            ref={(el) => {
+              this.mine = el;
+              return undefined;
+            }}
+          >mine ({this.props.conversationsNumber.mine})</a>
+          <a
+            role="button"
+            tabIndex="0"
+            className={'filter-panel-link'}
+            id={'unpicked'}
+            onClick={this.changeGroup}
+            ref={(el) => {
+              this.unpicked = el;
+              return undefined;
+            }}
+          >unpicked ({this.props.conversationsNumber.unpicked})</a>
         </div>
         <Dialog
           actions={actions}

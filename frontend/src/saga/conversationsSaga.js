@@ -11,9 +11,15 @@ function* conversationsSaga() {
 //   yield put({ type: 'GET_CONVERSATION_BY_ID_SUCCESS', payload: { id: action.payload, conversation: result } });
 // }
 
+
 function* getConversationsByFilters(action) {
-  const conversations = yield fetchAPI.getConversationsByFilters(action.payload);
-  yield put({ type: 'UPDATE_CONVERSATIONS', payload: conversations });
+  const result = yield fetchAPI.getConversationsByFilters(action.payload);
+  const convNum = {
+    all: (yield fetchAPI.getConversationsByFilters(Object.assign({}, action.payload, { activeGroup: 'all' }))).length,
+    mine: (yield fetchAPI.getConversationsByFilters(Object.assign({}, action.payload, { activeGroup: 'mine' }))).length,
+    unpicked: (yield fetchAPI.getConversationsByFilters(Object.assign({}, action.payload, { activeGroup: 'unpicked' }))).length,
+  };
+  yield put({ type: 'UPDATE_CONVERSATIONS', payload: { conversations: result, conversationsNumber: convNum } });
 }
 
 function* watchConversations() {

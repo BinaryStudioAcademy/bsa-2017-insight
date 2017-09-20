@@ -47,15 +47,15 @@ function startSocketConnection(dispatch) {
       return;
     }
 
+    const newCount = Object.assign({}, this.props.conversationGroupsCount);
+    newCount.unpicked++;
+    newCount.all++;
+    this.props.updateConversationGroupsCount(newCount);
+
     if (this.context.router.route.location.pathname === '/admin/messenger' &&
       (this.props.conversationFilters.activeGroup === 'unpicked' || this.props.conversationFilters.activeGroup === 'all')) {
       const newConversations = [conversation, ...this.props.conversations];
       dispatch(updateConversations(newConversations));
-
-      const newCount = Object.assign({}, this.props.conversationGroupsCount);
-      newCount.unpicked++;
-      newCount.all++;
-      this.props.updateConversationGroupsCount(newCount);
     }
     const handler = () => {
       this.props.getStatisticById(conversation.participants[0].user._id);

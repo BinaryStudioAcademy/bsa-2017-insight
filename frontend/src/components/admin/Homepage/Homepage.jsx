@@ -37,24 +37,13 @@ class Homepage extends React.Component {
               chosenTheme={this.props.chosenTheme}
             />
           }
-
-          <h4
-            className={styles['filter-title']}
-            onClick={() => this.handleOpen()}
-          >Columns Filter</h4>
-          { (!this.state.usersFilterOpened) ? null
-            : <ColumnsFilter
-              updateFields={this.props.updateFields}
-              statisticOptions={this.props.statisticOptions}
-              selectedFields={this.props.fieldsToDisplay}
-              chosenTheme={this.props.chosenTheme}
-            />
-          }
         </div>
         <UserInfoTable
           options={this.props.fieldsToDisplay}
           statistics={this.props.statistics}
           chosenTheme={this.props.chosenTheme}
+          statisticOptions={this.props.statisticOptions}
+          updateFields={this.props.updateFields}
         />
       </div>
     );
@@ -62,7 +51,7 @@ class Homepage extends React.Component {
 }
 
 Homepage.propTypes = {
-  statistics: PropTypes.arrayOf(PropTypes.shape({})),
+  statistics: PropTypes.arrayOf(PropTypes.object),
   chosenTheme: PropTypes.shape({}),
   fieldsToDisplay: PropTypes.arrayOf(PropTypes.string),
   statisticOptions: PropTypes.arrayOf(PropTypes.string),

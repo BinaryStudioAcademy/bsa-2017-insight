@@ -98,7 +98,7 @@ class Filter extends React.Component {
   }
 
   render() {
-  const nestedItems = Object.keys(this.state.checkedCheckboxes).map((elem) => {
+    const nestedItems = Object.keys(this.state.checkedCheckboxes).map((elem) => {
       return (<ListItem
         style={{ fontSize: '14px' }}
         innerDivStyle={{ padding: '16px 0 16px 38px' }}
@@ -118,26 +118,26 @@ class Filter extends React.Component {
     const actions = [
       <RaisedButton
         label="Save"
-        primary={true}
+        primary
         onClick={() => this.handleSaveResults()}
-        style={{marginRight: '10px'}}
+        style={{ marginRight: '10px' }}
       />,
       <RaisedButton
         label="Cancel"
-        primary={true}
+        primary
         onClick={() => this.handleColumnsFilter()}
       />,
     ];
     return (
       <div>
         <FilterIcon
-          onClick={()=> this.handleColumnsFilter()}
+          onClick={() => this.handleColumnsFilter()}
           className={styles['columns-filter-icon']}
         />
         <Dialog
           title="Choose the columns"
           actions={actions}
-          modal={true}
+          modal
           open={this.state.columnsFilterOpen}
           onRequestClose={() => this.handleColumnsFilter()}
         >

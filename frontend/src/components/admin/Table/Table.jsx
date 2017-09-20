@@ -271,7 +271,6 @@ class UserInfoTable extends React.Component {
             rowsPerPage={this.state.rowsPerPage}
             currentPage={this.state.currentPage}
             changeCurrentPage={this.changeCurrentPage}
-            statisticOptions={this.props.statisticOptions}
             updateFields={this.props.updateFields}
           /> :
           <StatisticsCharts

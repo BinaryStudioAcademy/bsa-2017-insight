@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import parseService from './parseService';
 import styles from './styles.scss';
@@ -53,73 +52,73 @@ class TableItself extends React.Component {
       const endId = (currPage === numOfPages) ? numOfRows : (currPage * rowsPerPage);
       const rowsOnThisPage = this.props.statistics.slice(startId, endId);
       return rowsOnThisPage.map((row, index) => (
-        <tr key={`row ${row.userId._id}`} value={row} className={styles.rows} style={{ borderBottom: '1px solid #E0F7FA' }}> 
+        <tr key={`row ${row.userId._id}`} value={row} className={styles.rows} style={{ borderBottom: '1px solid #E0F7FA' }}>
           <td
             key={`row number ${row.userId._id}`}
-            style={{textAlign: 'center'}}
+            style={{ textAlign: 'center' }}
           >
-            <span>{index+1}</span>
+            <span>{index + 1}</span>
           </td>
-        {
-          this.props.options.map((elem) => {
-            if (elem === 'username') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                <span>{row.userId.username}</span>
-              </td>);
-            }
-            if (elem === 'firstname') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                <span>{row.userId.firstName}</span>
-              </td>);
-            }
-            if (elem === 'lastname') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                <span>{row.userId.lastName}</span>
-              </td>);
-            }
+          {
+            this.props.options.map((elem) => {
+              if (elem === 'username') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  <span>{row.userId.username}</span>
+                </td>);
+              }
+              if (elem === 'firstname') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  <span>{row.userId.firstName}</span>
+                </td>);
+              }
+              if (elem === 'lastname') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  <span>{row.userId.lastName}</span>
+                </td>);
+              }
 
-            if (elem === 'firstVisitDate') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                <span>{(new Date(row.firstVisitDate)).toDateString()}</span>
-              </td>);
-            }
-            if (elem === 'country') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                {parseService.flag(row[elem])}
-              </td>);
-            }
-            if (elem === 'browser') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                {parseService.browser(row[elem])}
-              </td>);
-            }
-            if (elem === 'os') {
-              return (<td
-                key={`row ${row.userId._id},column${elem}`}
-              >
-                {parseService.os(row[elem])}
+              if (elem === 'firstVisitDate') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  <span>{(new Date(row.firstVisitDate)).toDateString()}</span>
+                </td>);
+              }
+              if (elem === 'country') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  {parseService.flag(row[elem])}
+                </td>);
+              }
+              if (elem === 'browser') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  {parseService.browser(row[elem])}
+                </td>);
+              }
+              if (elem === 'os') {
+                return (<td
+                  key={`row ${row.userId._id},column${elem}`}
+                >
+                  {parseService.os(row[elem])}
 
+                </td>);
+              }
+              return (<td
+                key={`row ${row.userId._id},column${elem}`}
+              >
+                <span>{row[elem]}</span>
               </td>);
-            }
-            return (<td
-              key={`row ${row.userId._id},column${elem}`}
-            >
-              <span>{row[elem]}</span>
-            </td>);
-          })
-        }
+            })
+          }
         </tr>
       ));
     }
@@ -129,7 +128,7 @@ class TableItself extends React.Component {
   handleColumnsFilter() {
     this.setState({
       columnsFilterOpen: !this.state.columnsFilterOpen,
-    })
+    });
   }
 
   render() {
@@ -142,10 +141,9 @@ class TableItself extends React.Component {
           <table>
             <thead className={styles.tableHeader}>
               <tr>
-                <th style={{padding: '0px'}}>
+                <th style={{ padding: '0px' }}>
                   <Filter
                     selectedFields={this.props.options}
-                    statisticOptions={this.props.statisticOptions}
                     updateFields={this.props.updateFields}
                   />
                 </th>
@@ -228,6 +226,7 @@ TableItself.propTypes = {
   changeCurrentPage: PropTypes.func,
   currentPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   rowsPerPage: PropTypes.number,
+  updateFields: PropTypes.func,
 };
 
 export default TableItself;

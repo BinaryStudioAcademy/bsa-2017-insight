@@ -169,10 +169,10 @@ class ConversationFilter extends React.Component {
       />,
     ];
     const conversationsNumber = {
-      all: (this.props.conversationsNumber.all !== null) ? this.props.conversationsNumber.all : 0,
-      mine: (this.props.conversationsNumber.mine !== null) ? this.props.conversationsNumber.mine : 0,
-      unpicked: (this.props.conversationsNumber.unpicked !== null) ? this.props.conversationsNumber.unpicked : 0,
-    }
+      all: (this.props.conversationsNumber.all !== null) ? this.props.conversationsNumber.all : null,
+      mine: (this.props.conversationsNumber.mine !== null) ? this.props.conversationsNumber.mine : null,
+      unpicked: (this.props.conversationsNumber.unpicked !== null) ? this.props.conversationsNumber.unpicked : null,
+    };
     return (
       <div>
         <div className={'filter-panel'}>
@@ -208,7 +208,7 @@ class ConversationFilter extends React.Component {
               this.all = el;
               return undefined;
             }}
-          >all ({this.props.conversationsNumber.all})</a>
+          >all ({conversationsNumber.all})</a>
           <a
             role="button"
             tabIndex="0"
@@ -219,7 +219,7 @@ class ConversationFilter extends React.Component {
               this.mine = el;
               return undefined;
             }}
-          >mine ({this.props.conversationsNumber.mine})</a>
+          >mine ({conversationsNumber.mine})</a>
           <a
             role="button"
             tabIndex="0"
@@ -230,7 +230,7 @@ class ConversationFilter extends React.Component {
               this.unpicked = el;
               return undefined;
             }}
-          >unpicked ({this.props.conversationsNumber.unpicked})</a>
+          >unpicked ({conversationsNumber.unpicked})</a>
         </div>
         <Dialog
           actions={actions}
@@ -359,6 +359,11 @@ ConversationFilter.propTypes = {
   setConversationFilters: PropTypes.func,
   getConversationsByFilters: PropTypes.func,
   filters: PropTypes.PropTypes.shape(),
+  conversationsNumber: PropTypes.PropTypes.shape({
+    all: PropTypes.number,
+    mine: PropTypes.number,
+    unpicked: PropTypes.number,
+  }),
 };
 
 export default ConversationFilter;

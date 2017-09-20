@@ -221,6 +221,7 @@ Respond.propTypes = {
   conversationFilters: propTypes.shape({}),
   updateUnreadMessages: propTypes.func,
   setMessagesReceived: propTypes.func,
+  conversationsNumber: propTypes.shape({}),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Respond);

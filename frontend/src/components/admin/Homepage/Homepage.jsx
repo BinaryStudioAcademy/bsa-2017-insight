@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import UserInfoTable from '../Table/Table';
-import ColumnsFilter from '../ColumnsFilter/ColumnsFilter';
 import StatisticsFilter from '../StatisticsFilter/StatisticsFilter';
 
 class Homepage extends React.Component {

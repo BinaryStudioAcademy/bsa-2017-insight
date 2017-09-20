@@ -20,23 +20,3 @@ module.exports = (app) => {
     });
   });
 }
-
-// {
-//   date: {
-//     from: "2016-08-17",
-//     to: "2016-08-18",
-//     exact: "2017-08-17",
-//     greater: "2017-08-17",
-//     less: "2017-08-18"
-//   },
-//   username: "Anonymous",
-//   email: "user@insight.com",
-//   name: {
-//     first: "FIRSTNAME",
-//     last: "LASTNAME"
-//   },
-//   userType: "User",
-//   open: true,
-//   sort: "new",
-//   limit: 10
-// }

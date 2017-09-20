@@ -48,11 +48,11 @@ const conversationsReducer = (state = initialState, action) => {
       return Object.assign({}, state, { conversationToRenderId: null });
     case 'UPDATE_CONVERSATIONS':
       return Object.assign({}, state, { conversations: action.payload });
-    case 'FILTERS_SET_SUCCESS': {
-      return Object.assign({}, state, {
-        conversationFilters: action.payload.conversationFilters,
-        conversations: action.payload.conversations,
-      });
+    case 'SET_CONVERSATION_FILTERS': {
+      return Object.assign({}, state, { conversationFilters: action.payload });
+    }
+    case 'SET_CONVERSATION': {
+      return Object.assign({}, state, { conversationToRenderId: action.payload });
     }
     case 'NAVIGATE_TO_CONVERSATION': {
       if (action.payload.group) {

@@ -61,7 +61,7 @@ function connectionHandler(socket) {
           socket.emit('newMessage', messageToSend);
           socket.broadcast.to(room).emit('newMessage', messageToSend);
           ConversationRepository.model
-            .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) } }, { new: true })
+            .findOneAndUpdate({ _id: message.conversationId }, { $push: { messages: mongoose.Types.ObjectId(id) }, $set: { updatedAt: new Date() } }, { new: true })
             .populate('participants.user')
             .populate({
             path: 'messages',

@@ -17,12 +17,11 @@ class Respond extends React.Component {
   }
 
   componentWillMount() {
-    this.props.setConversationFilters(this.props.conversationFilters);
+    this.props.getConversationsByFilters(this.props.conversationFilters);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.conversations.length) return;
-    this.props.setConversationFilters(nextProps.conversationFilters);
+  componentWillUnmount() {
+    this.props.removeConversations();
   }
 
   getIdForStatistic(conversation) {
@@ -42,6 +41,7 @@ class Respond extends React.Component {
       <ConversationFilter
         filters={this.props.conversationFilters}
         setConversationFilters={this.props.setConversationFilters}
+        getConversationsByFilters={this.props.getConversationsByFilters}
         removeConversations={this.props.removeConversations}
       />
     );
@@ -215,6 +215,7 @@ Respond.propTypes = {
   chosenTheme: propTypes.shape({}),
   socketConnection: propTypes.shape({}),
   setConversationFilters: propTypes.func,
+  getConversationsByFilters: propTypes.func,
   conversationFilters: propTypes.shape({}),
   updateUnreadMessages: propTypes.func,
   setMessagesReceived: propTypes.func,

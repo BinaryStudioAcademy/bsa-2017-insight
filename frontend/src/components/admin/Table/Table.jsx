@@ -18,17 +18,15 @@ import StatisticsCharts from '../StatisticsCharts/StatisticsCharts';
 class UserInfoTable extends React.Component {
   constructor() {
     super();
-    // this.handleOpen = this.handleOpen.bind(this);
-    // this.handleClose = this.handleClose.bind(this);
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
-    // this.updateFields = this.updateFields.bind(this);
     this.switchChartsOrTable = this.switchChartsOrTable.bind(this);
     this.onDatePickerButtonClick = this.onDatePickerButtonClick.bind(this);
     this.onMinDateInputChange = this.onMinDateInputChange.bind(this);
     this.onMaxDateInputChange = this.onMaxDateInputChange.bind(this);
-    this.onDatePickerCancelButtonClick = this.onDatePickerCancelButtonClick.bind(this);
+    this.onDatePickerClearButtonClick = this.onDatePickerClearButtonClick.bind(this);
     this.onDatePickerSubmitButtonClick = this.onDatePickerSubmitButtonClick.bind(this);
+    this.onDatePickerCloseButtonClick = this.onDatePickerCloseButtonClick.bind(this);
 
     this.state = {
       open: false,
@@ -41,6 +39,8 @@ class UserInfoTable extends React.Component {
       isDatePickerDialogOpen: false,
       minDate: '',
       maxDate: '',
+      previousMinDate: '',
+      previousMaxDate: '',
     };
   }
 
@@ -60,29 +60,36 @@ class UserInfoTable extends React.Component {
     this.props.setStatisticsFilter({ firstVisitDate: `firstVisitDate=${minDate}*MAX*${Date.parse(date)}` });
   }
 
-  onDatePickerCancelButtonClick() {
+  onDatePickerClearButtonClick() {
     this.setState({
-      dateButtonLabel: 'Choose date range',
-      isDatePickerDialogOpen: false,
       minDate: '',
       maxDate: '',
     });
-    this.props.setStatisticsFilter({ firstVisitDate: '' });
-    const queryObj = this.props.activeFilters;
-    if (queryObj.firstVisitDate) delete queryObj.firstVisitDate;
-    let queryString = '';
-    Object.keys(queryObj).forEach((property, i, arr) => {
-      if (queryObj[property] !== '') {
-        queryString += `${property}=${queryObj[property]}${i !== arr.length - 1 ? '&' : ''}`;
-      }
+  }
+
+  onDatePickerCloseButtonClick() {
+    this.setState({
+      isDatePickerDialogOpen: false,
+      minDate: this.state.previousMinDate,
+      maxDate: this.state.previousMaxDate,
     });
-    this.props.getAllStatistics(queryString);
   }
 
   onDatePickerSubmitButtonClick() {
     let label = '';
-    if (this.state.minDate === '' && this.state.maxDate === '') return;
-    if (this.state.minDate !== '' && this.state.maxDate === '') {
+    if (this.state.minDate === '' && this.state.maxDate === '') {
+      this.props.setStatisticsFilter({ firstVisitDate: '' });
+      const queryObj = this.props.activeFilters;
+      if (queryObj.firstVisitDate) delete queryObj.firstVisitDate;
+      let queryString = '';
+      Object.keys(queryObj).forEach((property, i, arr) => {
+        if (queryObj[property] !== '') {
+          queryString += `${property}=${queryObj[property]}${i !== arr.length - 1 ? '&' : ''}`;
+        }
+      });
+      this.props.getAllStatistics(queryString);
+      label = 'Choose date range';
+    } else if (this.state.minDate !== '' && this.state.maxDate === '') {
       label = `${(new Date(Date.parse(this.state.minDate))).toDateString()} - `;
     } else if (this.state.minDate === '' && this.state.maxDate !== '') {
       label = ` - ${(new Date(Date.parse(this.state.maxDate))).toDateString()}`;
@@ -98,6 +105,8 @@ class UserInfoTable extends React.Component {
     });
     this.props.getAllStatistics(queryString);
     this.setState({
+      previousMinDate: this.state.minDate,
+      previousMaxDate: this.state.maxDate,
       dateButtonLabel: label,
       isDatePickerDialogOpen: false,
     });
@@ -106,15 +115,6 @@ class UserInfoTable extends React.Component {
   handleOpen() {
     this.setState({ open: true });
   }
-
-  // handleOpen() {
-  //   this.setState({ open: true });
-  // }
-
-  // handleClose() {
-  //   this.setState({ open: false });
-  //   this.props.updateFields(this.state.fieldsToUpdate);
-  // }
 
   handleChangeRowsPerPage(event, index, value) {
     this.setState({
@@ -138,10 +138,6 @@ class UserInfoTable extends React.Component {
     this.setState({ selDialogOpen: !this.state.selDialogOpen });
   }
 
-  // updateFields(fields) {
-  //   this.setState({ fieldsToUpdate: fields });
-  // }
-
   switchChartsOrTable() {
     this.setState({ showTable: !this.state.showTable });
   }
@@ -149,14 +145,19 @@ class UserInfoTable extends React.Component {
   render() {
     const actions = [
       <FlatButton
-        label="Cancel"
+        label="Clear"
         primary
-        onClick={this.onDatePickerCancelButtonClick}
+        onClick={this.onDatePickerClearButtonClick}
       />,
       <FlatButton
         label="Submit"
         primary
         onClick={this.onDatePickerSubmitButtonClick}
+      />,
+      <FlatButton
+        label="Close"
+        primary
+        onClick={this.onDatePickerCloseButtonClick}
       />,
     ];
     return (
@@ -254,11 +255,13 @@ class UserInfoTable extends React.Component {
           open={this.state.isDatePickerDialogOpen}
         >
           <DatePicker
+            autoOk
             hintText="from"
             value={this.state.minDate !== '' ? this.state.minDate : null}
             onChange={this.onMinDateInputChange}
           />
           <DatePicker
+            autoOk
             hintText="to"
             value={this.state.maxDate !== '' ? this.state.maxDate : null}
             onChange={this.onMaxDateInputChange}

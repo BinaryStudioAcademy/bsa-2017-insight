@@ -127,8 +127,9 @@ class AdminList extends React.Component {
               primary
             /> : null
           }
+          <span className={styles.success}>{this.state.responseStatus === true ? 'Changes have been saved successfully!' : null}</span>
         </CardActions>
-        <span className={styles.success}>{this.state.responseStatus === true ? 'Changes has been saved successfully' : null}</span>
+       
       </Card>
     );
   }

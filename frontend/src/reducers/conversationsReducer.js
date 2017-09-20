@@ -7,6 +7,11 @@ const initialState = {
     activeDateFilter: 'range',
     isFilterApplied: false,
   },
+  conversationsNumber: {
+    all: null,
+    mine: null,
+    unpicked: null,
+  },
 };
 
 function findConversationById(id, conversations) {
@@ -51,6 +56,7 @@ const conversationsReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         conversationFilters: action.payload.conversationFilters,
         conversations: action.payload.conversations,
+        conversationsNumber: action.payload.conversationsNumber,
       });
     }
     case 'NAVIGATE_TO_CONVERSATION': {
@@ -60,6 +66,7 @@ const conversationsReducer = (state = initialState, action) => {
         conversationFilters: filters,
         conversationToRenderId: action.payload.id,
         conversations: null,
+        conversationsNumber: action.payload.conversationsNumber,
       });
     }
     default: {

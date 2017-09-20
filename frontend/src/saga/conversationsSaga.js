@@ -13,7 +13,18 @@ function* setConversation(action) {
 
 function* setFilters(action) {
   const result = yield fetchAPI.getConversationsByFilters(action.payload);
-  yield put({ type: 'FILTERS_SET_SUCCESS', payload: { conversationFilters: action.payload, conversations: result } });
+  const convNum = {
+    all: (yield fetchAPI.getConversationsByFilters(Object.assign({}, action.payload, { activeGroup: 'all' }))).length,
+    mine: (yield fetchAPI.getConversationsByFilters(Object.assign({}, action.payload, { activeGroup: 'mine' }))).length,
+    unpicked: (yield fetchAPI.getConversationsByFilters(Object.assign({}, action.payload, { activeGroup: 'unpicked' }))).length,
+  };
+  yield put({ type: 'FILTERS_SET_SUCCESS', 
+  	payload: { 
+  	  conversationFilters: action.payload, 
+  	  conversations: result, 
+  	  conversationsNumber: convNum,
+  	} 
+  });
 }
 
 function* watchConversations() {

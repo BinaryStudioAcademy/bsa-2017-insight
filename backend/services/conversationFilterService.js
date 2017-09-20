@@ -17,6 +17,7 @@ const parseQuery = (query, callback) => {
           messagesCount: { $size: '$messages' },
           participantsCount: { $size: '$participants' },
           isReassigned: 1,
+          updatedAt: 1,
         },
         $match: { messagesCount: { $gt: 0 }, appId: mongoose.Types.ObjectId(query.appId) }
       };
@@ -100,7 +101,7 @@ const parseQuery = (query, callback) => {
       if(query.sort) {
         parsed.$sort.createdAt = query.sort === "new" ? -1 : 1;
       } else {
-        parsed.$sort.createdAt = -1;
+        parsed.$sort.updatedAt = -1;
       }
       done(null, parsed);
     },

@@ -126,7 +126,6 @@ class Chat extends Component {
 
   componentWillUnmount() {
     this.props.socketConnection.emit('switchRoom', '');
-    this.props.removeConversations();
   }
 
   onFileInputChange() {
@@ -274,6 +273,11 @@ class Chat extends Component {
           user: { _id: window._injectedData._id },
         });
         window._injectedData.conversations.push(this.props.conversationToRender._id);
+        this.props.socketConnection.emit('messagesReceived', {
+          type: 'Admin',
+          messages: this.props.conversationToRender.messages,
+        });
+        this.props.setMessagesReceived(this.props.conversationToRender._id);
         this.setState({
           isParticipant: true,
           showPickBtn: false,
@@ -475,7 +479,6 @@ Chat.propTypes = {
   }),
   updateUnreadMessages: propTypes.func,
   setMessagesReceived: propTypes.func,
-  removeConversations: propTypes.func,
 };
 
 export default Chat;

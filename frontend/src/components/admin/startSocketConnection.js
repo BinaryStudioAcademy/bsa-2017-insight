@@ -37,7 +37,8 @@ function startSocketConnection(dispatch) {
     const conversationCopy = { ...this.props.conversations[conversationIndex] };
     conversationCopy.messages.push(messageCopy);
     const newConversations = [...this.props.conversations];
-    newConversations.splice(conversationIndex, 1, conversationCopy);
+    newConversations.splice(conversationIndex, 1);
+    newConversations.unshift(conversationCopy);
     dispatch(updateConversations(newConversations));
   });
 
@@ -45,8 +46,9 @@ function startSocketConnection(dispatch) {
     if (conversation.appId !== window._injectedData.appId) {
       return;
     }
-    if (this.context.router.route.location.pathname === '/admin/messenger' && this.props.conversationFilters.activeGroup === 'unpicked') {
-      const newConversations = [...this.props.conversations, conversation];
+    if (this.context.router.route.location.pathname === '/admin/messenger' &&
+      (this.props.conversationFilters.activeGroup === 'unpicked' || this.props.conversationFilters.activeGroup === 'all')) {
+      const newConversations = [conversation, ...this.props.conversations];
       dispatch(updateConversations(newConversations));
     }
     const handler = () => {
@@ -54,13 +56,15 @@ function startSocketConnection(dispatch) {
       this.socket.emit('switchRoom', conversation._id);
       this.socket.emit('adminConnectedToRoom', conversation._id);
       if (this.context.router.route.location.pathname === '/admin/messenger') {
-        if (this.props.conversationFilters.activeGroup === 'unpicked') {
+        if (this.props.conversationFilters.activeGroup === 'unpicked' || this.props.conversationFilters.activeGroup === 'all') {
           this.props.navigateToConversation(false, conversation._id);
         } else {
           this.props.navigateToConversation('unpicked', conversation._id);
+          this.props.getConversationsByFilters(this.props.conversationFilters);
         }
       } else {
         this.props.navigateToConversation('unpicked', conversation._id);
+        this.props.getConversationsByFilters(this.props.conversationFilters);
         this.context.router.history.replace('/admin/messenger');
       }
     };
@@ -88,12 +92,13 @@ function startSocketConnection(dispatch) {
       if (this.context.router.route.location.pathname === '/admin/messenger' &&
         (this.props.conversationFilters.activeGroup === 'mine' || this.props.conversationFilters.activeGroup === 'all')
       ) {
-        const newConversations = [...this.props.conversations, data.reassignedConversation];
+        const newConversations = [data.reassignedConversation, ...this.props.conversations];
         dispatch(updateConversations(newConversations));
       }
     } else {
       const newConversations = [...this.props.conversations];
-      newConversations.splice(conversationIndex, 1, data.reassignedConversation);
+      newConversations.splice(conversationIndex, 1);
+      newConversations.unshift(data.reassignedConversation);
       dispatch(updateConversations(newConversations));
     }
     this.props.updateReassignedConversations(window._injectedData.reassignedConversations);
@@ -106,9 +111,11 @@ function startSocketConnection(dispatch) {
           this.props.navigateToConversation(false, data.conversationId);
         } else {
           this.props.navigateToConversation('mine', data.conversationId);
+          this.props.getConversationsByFilters(this.props.conversationFilters);
         }
       } else {
         this.props.navigateToConversation('mine', data.conversationId);
+        this.props.getConversationsByFilters(this.props.conversationFilters);
         this.context.router.history.replace('/admin/messenger');
       }
     };
@@ -148,9 +155,11 @@ function startSocketConnection(dispatch) {
             this.props.navigateToConversation(false, message.conversationId);
           } else {
             this.props.navigateToConversation('mine', message.conversationId);
+            this.props.getConversationsByFilters(this.props.conversationFilters);
           }
         } else {
           this.props.navigateToConversation('mine', message.conversationId);
+          this.props.getConversationsByFilters(this.props.conversationFilters);
           this.context.router.history.replace('/admin/messenger');
         }
       };
@@ -167,7 +176,8 @@ function startSocketConnection(dispatch) {
       const conversationCopy = { ...this.props.conversations[conversationIndex] };
       conversationCopy.messages.push(message);
       const newConversations = [...this.props.conversations];
-      newConversations.splice(conversationIndex, 1, conversationCopy);
+      newConversations.splice(conversationIndex, 1);
+      newConversations.unshift(conversationCopy);
       dispatch(updateConversations(newConversations));
     }
   });

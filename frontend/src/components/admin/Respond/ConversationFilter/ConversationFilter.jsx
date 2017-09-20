@@ -70,27 +70,41 @@ class ConversationFilter extends React.Component {
     newFilters.activeDateFilter = value;
     this.setState({
       filters: newFilters,
+      dateError: '',
     });
   }
 
   applyFilters() {
+    if (this.state.filters.activeDateFilter === 'range') {
+      if ((this.state.filters.date.from && !this.state.filters.date.to) ||
+        (this.state.filters.date.to && !this.state.filters.date.from)
+      ) {
+        return this.setState({
+          dateError: 'Incorrect date range',
+        });
+      }
+    }
     const newFilters = { ...this.state.filters };
     newFilters.isFilterApplied = true;
 
-    this.setState({
+    return this.setState({
       dialogOpen: false,
       filters: newFilters,
+      dateError: '',
     }, () => {
+      this.props.removeConversations();
       this.props.setConversationFilters(this.state.filters);
+      this.props.getConversationsByFilters(this.state.filters);
     });
   }
 
   resetForms() {
     this.setState({
+      dateError: '',
       filters: {
         date: {},
         isFilterApplied: this.state.filters.isFilterApplied,
-
+        activeDateFilter: 'range',
         activeGroup: this.state.filters.activeGroup,
       },
     });
@@ -106,6 +120,7 @@ class ConversationFilter extends React.Component {
     e.preventDefault();
     this.setState({
       isFilterApplied: false,
+      dateError: '',
       filters: {
         date: {},
         activeGroup: this.state.filters.activeGroup,
@@ -113,6 +128,7 @@ class ConversationFilter extends React.Component {
       },
     }, () => {
       this.props.setConversationFilters(this.state.filters);
+      this.props.getConversationsByFilters(this.state.filters);
     });
   }
 
@@ -127,6 +143,7 @@ class ConversationFilter extends React.Component {
       this[this.state.filters.activeGroup].classList.add('active');
       this.props.removeConversations();
       this.props.setConversationFilters(this.state.filters);
+      this.props.getConversationsByFilters(this.state.filters);
     });
   }
 
@@ -249,6 +266,9 @@ class ConversationFilter extends React.Component {
                     style={{ width: '150px', display: 'inline-block' }}
                   />
                 </RadioButtonGroup>
+                <span style={{ fontSize: '12px', color: '#f00' }}>
+                  {this.state.dateError}
+                </span>
               </div>
               <div className={'content-body'}>
                 {
@@ -322,16 +342,6 @@ class ConversationFilter extends React.Component {
                   <MenuItem value={'new'} primaryText="New" />
                   <MenuItem value={'old'} primaryText="Old" />
                 </SelectField>
-                <SelectField
-                  onChange={(e, i, value) => this.setSelectValue('open', value)}
-                  id={'open'}
-                  value={this.state.filters.open}
-                  floatingLabelText="Conversation status"
-                  style={{ width: '190px', marginRight: '20px' }}
-                >
-                  <MenuItem value={'true'} primaryText="Opened" />
-                  <MenuItem value={'false'} primaryText="Closed" />
-                </SelectField>
               </div>
             </div>
           </div>
@@ -344,6 +354,7 @@ class ConversationFilter extends React.Component {
 ConversationFilter.propTypes = {
   removeConversations: PropTypes.func,
   setConversationFilters: PropTypes.func,
+  getConversationsByFilters: PropTypes.func,
   filters: PropTypes.PropTypes.shape(),
 };
 

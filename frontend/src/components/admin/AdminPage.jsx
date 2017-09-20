@@ -138,6 +138,7 @@ class AdminPage extends React.Component {
                               chosenTheme={this.state.chosenTheme}
                               socketConnection={this.socket}
                               updateUnreadMessages={this.props.updateUnreadMessages}
+                              getConversationsByFilters={this.props.getConversationsByFilters}
                             />)
                           }
                         />
@@ -189,6 +190,7 @@ AdminPage.propTypes = {
   reassignedConversations: PropTypes.arrayOf(PropTypes.string),
   unreadMessages: PropTypes.arrayOf(PropTypes.string),
   updateUnreadMessages: PropTypes.func,
+  getConversationsByFilters: PropTypes.func,
 };
 
 AdminPage.contextTypes = {
@@ -241,6 +243,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateReassignedConversations: (newConversations) => {
       dispatch({ type: 'UPDATE_REASSIGNED_CONVERSATIONS', payload: newConversations });
+    },
+    getConversationsByFilters: (filters) => {
+      dispatch({ type: 'GET_CONVERSATIONS_BY_FILTERS', payload: filters });
     },
     dispatch,
   };

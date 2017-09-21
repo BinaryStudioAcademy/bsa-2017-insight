@@ -112,7 +112,7 @@ class StatisticsCharts extends React.Component {
         {/* <h2 style={{ width: 400 }}>Charts</h2> */}
         <Toggle
           className={styles['charts-toggle']}
-          style={{ float: 'right', width: 190 }}
+          style={{ float: 'left', width: 190, marginLeft: '60px' }}
           label={`Switch to "${this.state.chartType === 'pie' ? 'bar' : 'pie'}" style`}
           onToggle={() => this.switchChartType(this.state)}
         />

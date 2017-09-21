@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Toggle from 'material-ui/Toggle';
-import styles from './styles.scss'
+import styles from './styles.scss';
 
 class AdminList extends React.Component {
   constructor(props) {

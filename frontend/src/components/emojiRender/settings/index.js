@@ -11,6 +11,7 @@ const categories = [
 ];
 
 const styles = {
+  verticalAlign: 'middle',
   width: '35px',
   height: '35px',
   display: 'inline-block',

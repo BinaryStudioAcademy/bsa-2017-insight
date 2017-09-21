@@ -36,8 +36,8 @@ class EmojiContainer extends React.Component {
               setCategory={this.setCategory}
             />);
           })}
-          <EmojiRender category={this.state.activeCategory} handler={e => this.clickOnSmile(e)} />
         </div>
+        <EmojiRender category={this.state.activeCategory} handler={e => this.clickOnSmile(e)} />
       </div>
     );
   }

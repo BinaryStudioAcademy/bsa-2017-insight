@@ -60,11 +60,13 @@
   }
 
   @media (min-width: 1100px) {
-    width: 65%;
+    width: 72%;
+    // width: 65%;
   }
 
   @media (min-width: 1400px) {
-    width: 45%;
+    width: 55%;
+    // width: 45%;
   }
 }
 
@@ -124,8 +126,9 @@
   @media (min-width: 900px) {
     justify-content: space-between;
     padding:0 10px;
-    width: 130%;
-    margin-left: -15%;
+    // width: 130%;
+    // margin-left: -15%;
+    width: 100%;
     flex-wrap: nowrap;
   }
 }
@@ -216,6 +219,7 @@
 }
 
 :local(.force-messages-table-header) {
+  text-align: left;
   box-sizing: border-box;
   border: 1px solid #cbcbcb;
 
@@ -238,7 +242,7 @@
 }
 
 :local(.force-messages-table-cell) {
-  text-align: center;
+  text-align: left;
   padding: 10px;
   max-width: 140px;
   white-space: nowrap;

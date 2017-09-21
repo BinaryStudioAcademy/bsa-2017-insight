@@ -77,14 +77,6 @@ class WidgetSettings extends React.Component {
           >
             <Tab label="Customize appearance" value="appearance">
               <div>
-                <RaisedButton
-                  label="Save"
-                  primary
-                  onClick={this.save}
-                  style={{ margin: '15px' }}
-                /> {this.state.info}
-              </div>
-              <div>
                 <h3 className={styles['customize-title']}>Customize appearance</h3>
                 <p className={styles['customize-text']}>Customize your Messenger’s color to suit your app or site, then choose a background wallpaper.</p>
                 <div className={styles['settings-wrapper']}>
@@ -103,6 +95,14 @@ class WidgetSettings extends React.Component {
                   <ChatLayout settings={this.state.settings} />
                 </div>
               </div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <RaisedButton
+                  label="Save"
+                  primary
+                  onClick={this.save}
+                  style={{ margin: '15px' }}
+                /> {this.state.info}
+              </div>
             </Tab>
             <Tab label="Force message" value="localize">
               <div>
@@ -110,20 +110,22 @@ class WidgetSettings extends React.Component {
               </div>
             </Tab>
             <Tab label="Install the Messenger" value="install">
-              <h2>Install the Messenger</h2>
-              <p>You’ll need to add a bit of code or configure an integration to see the
-              InSight Messenger appear on your website or app. Just a little bit...</p>
-              <ol>
-                <li>To integrate chat to your app/website just add the following lines to your site code before the <code>{'</body>'}</code> tag
-                  <code className={styles.code}>
-                    {`<script>window._injectedData = { currentAppId: '${window._injectedData.appId}'}</script>`}<br />
-                    {`<script src="${window._injectedData.insightHost}/resources/widget/insight-widget.js"></script>`}
-                  </code>
-                </li>
-                <li>
-                  {'And... That\'s it!'}
-                </li>
-              </ol>
+              <div style={{ padding: '10px' }}>
+                <h2>Install the Messenger</h2>
+                <p>You’ll need to add a bit of code or configure an integration to see the
+                InSight Messenger appear on your website or app. Just a little bit...</p>
+                <ol>
+                  <li>To integrate chat to your app/website just add the following lines to your site code before the <code>{'</body>'}</code> tag
+                    <code className={styles.code}>
+                      {`<script>window._injectedData = { currentAppId: '${window._injectedData.appId}'}</script>`}<br />
+                      {`<script src="${window._injectedData.insightHost}/resources/widget/insight-widget.js"></script>`}
+                    </code>
+                  </li>
+                  <li>
+                    {'And... That\'s it!'}
+                  </li>
+                </ol>
+              </div>
             </Tab>
           </Tabs>
         </div>

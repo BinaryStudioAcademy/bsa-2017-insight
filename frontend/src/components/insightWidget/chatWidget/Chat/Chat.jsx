@@ -38,6 +38,7 @@ class Chat extends Component {
       messages: [],
       open: true,
       createdAt: Date.now(),
+      appId: window._injectedData.currentAppId,
     };
     this.socket.emit('createForceConversation', conversation, userId);
   }

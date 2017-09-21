@@ -4,7 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import Avatar from 'material-ui/Avatar';
 import { ListItem } from 'material-ui/List';
-import Toggle from 'material-ui/Toggle';
+// import Toggle from 'material-ui/Toggle';
 
 class Header extends React.Component {
   logout(e) {
@@ -90,7 +90,6 @@ Header.propTypes = {
       primary3Color: PropTypes.string,
     }),
   }),
-  toggleTheme: PropTypes.func,
 };
 
 export default Header;

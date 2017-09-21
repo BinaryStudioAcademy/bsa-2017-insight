@@ -17,8 +17,10 @@
 }
 
 :local(.columns-filter-icon) {
-  min-width: 50px !important;
-  margin: 0px 20px;
+  // min-width: 50px !important;
+  min-width: 100% !important;
+  // margin: 0 auto;
+  cursor: pointer;
 
   & > button > div > div > svg {
     width: 40px !important;

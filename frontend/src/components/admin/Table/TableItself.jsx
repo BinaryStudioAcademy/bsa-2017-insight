@@ -144,7 +144,7 @@ class TableItself extends React.Component {
           <table>
             <thead className={styles.tableHeader}>
               <tr>
-                <th style={{ padding: '0px' }}>
+                <th style={{ padding: '0px', textAlign: 'center' }}>
                   <Filter
                     selectedFields={this.props.options}
                     updateFields={this.props.updateFields}

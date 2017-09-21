@@ -7,7 +7,11 @@ import StatisticsFilter from '../StatisticsFilter/StatisticsFilter';
 class Homepage extends React.Component {
   render() {
     return (
-      <div>
+      <div style={{
+        height: `calc(100vh - ${this.props.headerHeight + 18}px)`,
+        overflowY: 'scroll',
+      }}
+      >
         <div className={styles.accordion}>
           <h4
             className={styles['filter-title']}

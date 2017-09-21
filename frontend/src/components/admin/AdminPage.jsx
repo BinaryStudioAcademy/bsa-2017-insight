@@ -102,7 +102,11 @@ class AdminPage extends React.Component {
                     reassignedConversations={this.state.reassignedConversations}
                     unreadMessages={this.state.unreadMessages}
                   />
-                  <div style={{ margin: '-8px -8px 0px 0px', paddingLeft: this.leftMenuWidth - 8 }}>
+                  <div style={{
+                    margin: '-8px -8px 0px 0px',
+                    paddingLeft: this.leftMenuWidth - 8,
+                  }}
+                  >
                     <Header
                       currentUser={this.state.currentUser}
                       toggleTheme={this.toggleTheme}
@@ -120,6 +124,7 @@ class AdminPage extends React.Component {
                             return (
                               <div className={styles['statistics-content-wrapper']}>
                                 <Homepage
+                                  headerHeight={this.headerHeight}
                                   chosenTheme={this.state.chosenTheme}
                                   fieldsToDisplay={this.props.fieldsToDisplay}
                                   statistics={statistics}

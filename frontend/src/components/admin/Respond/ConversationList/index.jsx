@@ -38,7 +38,7 @@ class ConversationList extends React.Component {
     let previousChatDate;
     let nextPreviousChatDate = null;
     return (
-      <List style={{ padding: '0px' }}>
+      <List style={{ padding: '0px', overflowX: 'hidden' }}>
         {this.props.conversations.map((e) => {
           const activeConv = this.props.nowActive ? this.props.nowActive : null;
           const handler = activeConv === e._id ?

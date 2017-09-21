@@ -66,6 +66,10 @@
 
 :local(.table) {
   margin-top: 10px;
+
+  table {
+    min-width: 100%;
+  }
 }
 
 :local(.tableItself) {

@@ -30,14 +30,14 @@ class Header extends React.Component {
               <ToolbarGroup
                 lastChild
               >
-                <Toggle
+                {/* <Toggle
                   onToggle={this.props.toggleTheme}
                   style={{ width: 170, marginRight: 30 }}
                   labelStyle={{ color: this.props.chosenTheme.palette.alternateTextColor }}
                   thumbStyle={{ background: this.props.chosenTheme.palette.accent3Color }}
                   trackStyle={{ background: this.props.chosenTheme.palette.primary3Color }}
                   label={`Turn ${this.props.chosenTheme.palette.canvasColor === '#ffffff' ? 'off' : 'on'} the light`}
-                />
+                /> */}
                 <ListItem
                   autoGenerateNestedIndicator={false}
                   primaryTogglesNestedList

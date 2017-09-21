@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import DatePicker from 'material-ui/DatePicker';
 import SelectField from 'material-ui/SelectField';
-import IconButton from 'material-ui/IconButton';
+import FilterIcon from 'material-ui/svg-icons/content/filter-list';
 import Dialog from 'material-ui/Dialog';
 import styles from './styles.scss';
 
@@ -171,15 +171,10 @@ class ConversationFilter extends React.Component {
     return (
       <div>
         <div className={'filter-panel'}>
-          <IconButton
-            iconClassName="material-icons"
+          <FilterIcon
             onClick={() => this.setState({ dialogOpen: true })}
-            label={'Filter'}
-            tooltip="Filters"
-            iconStyle={this.state.filters.isFilterApplied ? { color: '#fbc110' } : {}}
-          >
-            filter_list
-          </IconButton>
+            style={this.state.filters.isFilterApplied ? { color: '#fbc110', margin: '12px' } : { margin: '12px' }}
+          />
           {
             this.state.filters.isFilterApplied &&
             <a
@@ -191,7 +186,7 @@ class ConversationFilter extends React.Component {
               remove filters
             </a>
           }
-          <span style={{ margin: '0 5px' }}>|</span>
+          <span style={{ margin: '0 5px 0 0' }}>|</span>
           <span>show conversations:</span>
           <div style={{ margin: '0 10px' }}>
             <a

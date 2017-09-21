@@ -21,8 +21,9 @@
   display: flex;
   flex-wrap: wrap;
   padding-bottom: 10px;
-  height: calc(100vh - 80px - 48px - 48px) !important;
+  height: calc(100vh - 64px - 20px - 48px) !important;
   overflow: auto;
+  box-sizing: border-box;
 
   & > div {
     width: 50%;
@@ -45,7 +46,10 @@
 
 :local(.submit-button) {
   width: 35%;
-  margin: 10px auto 5px;
+
+  & > button {
+    margin: 10px 0 !important;
+  }
 
   @media (min-width: 1000px) {
     width: 60%;

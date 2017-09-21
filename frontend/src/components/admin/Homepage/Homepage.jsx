@@ -11,8 +11,8 @@ class Homepage extends React.Component {
         <div className={styles.accordion}>
           <h4
             className={styles['filter-title']}
-            onClick={() => this.handleOpen()}
-          >Users Filter</h4>
+          >Statistics Filter
+          </h4>
           <StatisticsFilter
             chosenTheme={this.props.chosenTheme}
           />

@@ -40,16 +40,14 @@ class LeftSideMenu extends React.Component {
               >
                 <RespondIcon />
               </IconButton>
-              <span
-                className={'badge blue-badge'}
-              >
-                {this.props.reassignedConversations.length}
-              </span>
-              <span
-                className={'badge red-badge'}
-              >
-                {this.props.unreadMessages.length}
-              </span>
+              { (this.props.unreadMessages.length > 0) ?
+                <span className={'badge red-badge'}>{this.props.unreadMessages.length}</span> :
+                null
+              }
+              { (this.props.reassignedConversations.length > 0) ?
+                <span className={'badge blue-badge'}>{this.props.reassignedConversations.length}</span> :
+                null
+              }
             </div>
           </NavLink>
           <Divider />

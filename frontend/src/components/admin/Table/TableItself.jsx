@@ -151,13 +151,13 @@ class TableItself extends React.Component {
                   />
                 </th>
                 {this.props.options.map((elem) => {
-                  if( elem === 'browser' || elem === 'country' || elem === 'os') {
-                    return (<th
-                    key={elem}
-                    className={styles['text-center']}
-                  >
-                    {this.state[elem]}
-                  </th>);
+                    if (elem === 'browser' || elem === 'country' || elem === 'os') {
+                      return (<th
+                      key={elem}
+                      className={styles['text-center']}
+                    >
+                      {this.state[elem]}
+                    </th>);
                   }
                   return (<th
                     key={elem}

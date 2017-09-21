@@ -96,7 +96,8 @@ const conversationsReducer = (state = initialState, action) => {
           return conversation;
         }
         conversation.messages.forEach((message, index) => {
-          conversation.messages[index].isReceived = true;
+          const selectedMessage = conversation.messages[index];
+          selectedMessage.isReceived = true;
         });
         return conversation;
       });

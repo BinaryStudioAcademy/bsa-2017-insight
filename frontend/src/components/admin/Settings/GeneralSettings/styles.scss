@@ -1,16 +1,16 @@
 :local(.admininfo){
-    font-size: 18px;
+    font-size: 15px;
     margin-bottom: 25px;
     color: #8E8C8C;
     span{
-        font-size: 21px;
+        font-size: 15px;
         margin-left: 25px;
         color: #222
     }
 }
 
 :local(.controlls){
-    font-size: 18px;
+    font-size: 15px;
     margin-bottom: 25px;
     color: #8E8C8C;
     display: flex;
@@ -21,6 +21,6 @@
     display: block;
     color: #10C10D;
     text-align: center;
-    font-size: 22px;
+    font-size: 15px;
     padding: 8px;
 }

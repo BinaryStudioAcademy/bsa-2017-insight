@@ -18,11 +18,8 @@ import StatisticsCharts from '../StatisticsCharts/StatisticsCharts';
 class UserInfoTable extends React.Component {
   constructor() {
     super();
-    // this.handleOpen = this.handleOpen.bind(this);
-    // this.handleClose = this.handleClose.bind(this);
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
-    // this.updateFields = this.updateFields.bind(this);
     this.switchChartsOrTable = this.switchChartsOrTable.bind(this);
     this.onDatePickerButtonClick = this.onDatePickerButtonClick.bind(this);
     this.onMinDateInputChange = this.onMinDateInputChange.bind(this);
@@ -83,11 +80,13 @@ class UserInfoTable extends React.Component {
     let label = '';
     if (this.state.minDate === '' && this.state.maxDate === '') return;
     if (this.state.minDate !== '' && this.state.maxDate === '') {
-      label = `${(new Date(Date.parse(this.state.minDate))).toDateString()} - `;
+      label = `${(new Date(this.state.minDate)).toLocaleDateString()} - `;
     } else if (this.state.minDate === '' && this.state.maxDate !== '') {
-      label = ` - ${(new Date(Date.parse(this.state.maxDate))).toDateString()}`;
+      label = ` - ${(new Date(this.state.maxDate)).toLocaleDateString()}`;
     } else {
-      label = `${(new Date(Date.parse(this.state.minDate))).toDateString()} - ${(new Date(Date.parse(this.state.maxDate))).toDateString()}`;
+      const minDateLabel = `${(new Date(this.state.minDate)).toLocaleDateString()}`;
+      const maxDateLabel = `${(new Date(this.state.maxDate)).toLocaleDateString()}`;
+      label = `${minDateLabel} - ${maxDateLabel}`;
     }
     const queryObj = this.props.activeFilters;
     let queryString = '';
@@ -102,19 +101,6 @@ class UserInfoTable extends React.Component {
       isDatePickerDialogOpen: false,
     });
   }
-
-  handleOpen() {
-    this.setState({ open: true });
-  }
-
-  // handleOpen() {
-  //   this.setState({ open: true });
-  // }
-
-  // handleClose() {
-  //   this.setState({ open: false });
-  //   this.props.updateFields(this.state.fieldsToUpdate);
-  // }
 
   handleChangeRowsPerPage(event, index, value) {
     this.setState({
@@ -137,10 +123,6 @@ class UserInfoTable extends React.Component {
   toggleSelectionDialog() {
     this.setState({ selDialogOpen: !this.state.selDialogOpen });
   }
-
-  // updateFields(fields) {
-  //   this.setState({ fieldsToUpdate: fields });
-  // }
 
   switchChartsOrTable() {
     this.setState({ showTable: !this.state.showTable });
@@ -224,14 +206,14 @@ class UserInfoTable extends React.Component {
                 id="switchTableChartsButton"
                 style={{ margin: '0 5px 10px 0' }}
               />}
-          </div>
-          <div className={styles.rowsPerPage}>
             <RaisedButton
               label={this.state.dateButtonLabel}
               className={styles['table-date-button']}
               onClick={this.onDatePickerButtonClick}
               primary
             />
+          </div>
+          <div className={styles.rowsPerPage}>
             <p>Rows per page:</p>
             <SelectField
               value={this.state.rowsPerPage}

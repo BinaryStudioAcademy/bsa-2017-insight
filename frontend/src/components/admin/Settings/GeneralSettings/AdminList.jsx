@@ -99,8 +99,6 @@ class AdminList extends React.Component {
           <div className={styles.admininfo}>Email: <span>{this.props.email}</span></div>
           {this.props.access && window._injectedData.isSuperUser ? <div className={styles.controlls}>Can moderate{
             <Toggle
-            
-           
               disabled={this.props.isSuperUser || !this.props.access || usersProfile}
               defaultToggled={!!this.props.isSuperUser || !!this.state.canModerate}
               style={{ maxWidth: 250 }}
@@ -109,13 +107,11 @@ class AdminList extends React.Component {
           }</div> : null}
           <div className={styles.controlls}> Verified
             <Toggle
-              
               disabled={this.props.isSuperUser || usersProfile || !this.props.access}
               defaultToggled={!!this.state.verified}
               style={{ maxWidth: 250 }}
               onClick={e => this.handleVerify(e.target)}
             />
-      
           </div>
         </CardText>
         <CardActions expandable>
@@ -129,7 +125,6 @@ class AdminList extends React.Component {
           }
           <span className={styles.success}>{this.state.responseStatus === true ? 'Changes have been saved successfully!' : null}</span>
         </CardActions>
-       
       </Card>
     );
   }

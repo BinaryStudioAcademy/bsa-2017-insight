@@ -154,7 +154,8 @@ class TableItself extends React.Component {
                   if (elem === 'browser' || elem === 'country' || elem === 'os') {
                     return (<th
                       key={elem}
-                      className={styles['text-center']}>
+                      className={styles['text-center']}
+                    >
                       {this.state[elem]}
                     </th>);
                   }

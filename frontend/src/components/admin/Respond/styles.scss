@@ -4,6 +4,7 @@
 
 :local(.small-conversation-list) {
   position: relative;
+  min-width: 50% !important;
 
   :local(.return-to-conversations-button) {
     box-sizing: border-box;
@@ -29,7 +30,7 @@
       color: #ffffff;
 
       &:before {
-        background-image: url("/resources/widget/images/two-left-arrows-white.png");
+        background-image: url("http://78.129.225.86:3001/resources/widget/images/two-left-arrows-white.png");
       }
     }
 
@@ -40,7 +41,7 @@
       top: 10px;
       width: 25px;
       height: 25px;
-      background: url("/resources/widget/images/two-left-arrows.png") center no-repeat;
+      background: url("http://78.129.225.86:3001/resources/widget/images/two-left-arrows.png") center no-repeat;
       background-size: contain;
     }
 
@@ -88,10 +89,12 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  flex-basis: 18%;
+  flex-shrink: 0;
 }
 
 :local(.chat) {
-  // flex-basis: 55%
+  // flex-basis: 55%;
 }
 
 :local(.info-wrapper) {

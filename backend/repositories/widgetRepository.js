@@ -21,7 +21,7 @@ widgetRepository.findByAppId = function (appId, callback) {
       const obj = {
         options: {
           primaryColor: '#D91111',
-          backgroundImage: 'resources/wallpapers/w1',
+          backgroundImage: `${window._injectedData.insightHost}/resources/wallpapers/w1`,
           widgetPosition: 'right',
         },
       };

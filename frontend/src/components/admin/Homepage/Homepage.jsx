@@ -39,7 +39,7 @@ Homepage.propTypes = {
   fieldsToDisplay: PropTypes.arrayOf(PropTypes.string),
   statisticOptions: PropTypes.arrayOf(PropTypes.string),
   updateFields: PropTypes.func,
-  headerHeight: PropTypes.any
+  headerHeight: PropTypes.number,
 };
 
 export default Homepage;
